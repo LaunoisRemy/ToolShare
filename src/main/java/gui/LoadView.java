@@ -9,7 +9,7 @@ import java.net.URL;
 
 public class LoadView {
     public static Parent load(String nameFxml) throws IOException {
-        URL urlPath = LoadView.class.getClassLoader().getResource("view/"+nameFxml);
+        URL urlPath = LoadView.class.getClassLoader().getResource("view/"+nameFxml+".fxml");
         if(urlPath == null){
             throw new IOException("Problem of path for fxml");
         }
