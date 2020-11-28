@@ -10,14 +10,18 @@ package dao {
 }
 
 package business{
-    class UserFacade
+    class UserFacade{
+        +login(mail : String, password : String) : Void
+    }
     class User
 }
 
 package gui{
-    package login{
-        class LoginView
-        class LoginControlloer
+    class LoadView
+    package controller{
+        class LoginController{
+            + handleLogin(mail : String, password : String) : void
+        }
     }
 }
 
