@@ -1,11 +1,23 @@
 @startuml
 
 package dao {
-    abstract FactoryDao
-    class FactoryUserDao
-    interface UserDao
+    abstract FactoryDao{
+        + getFactory(type : String) : FactoryDao
+        + getUserDao() : UserDAO
+    }
+
+    class FactoryDaoSQL{
+    }
+
+    interface UserDao{
+        getUserByID(idUser : int): User
+        getUserByEmail(mail : String): User
+        User connectUser(mail : String,password : String )
+        void registerUser(firstName : String, lastName : String, mail : String, password: String)
+        boolean userExists(mail : String)
+    }
     class UserDaoMySQL
-    FactoryDao <|-- FactoryUserDao
+    FactoryDao <|-- FactoryDaoSQL
     UserDao <|-- UserDaoMySQL
 }
 
@@ -13,7 +25,22 @@ package business{
     class UserFacade{
         +login(mail : String, password : String) : Void
     }
-    class User
+    class User{
+        -firstName : String
+        -lastName : String
+        -email : String
+        -password : String
+        +getFirstName() : String
+        +getLastName() : String
+        +getEmail() : String
+        +getPassword() : String
+        +setFirstName(name : String)
+        +setLastName(lastName : String)
+        +setEmail(email : String)
+        +setPassword(password : String)
+    }
+    FactoryDao <--- UserFacade
+    User <--- UserFacade
 }
 
 package gui{
@@ -22,6 +49,7 @@ package gui{
         class LoginController{
             + handleLogin(mail : String, password : String) : void
         }
+        UserFacade <-- LoginController
     }
 }
 

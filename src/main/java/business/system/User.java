@@ -1,11 +1,6 @@
 package business.system;
 
 public class User {
-    /**
-     * Default constructor
-     */
-    public User() {
-    }
 
     /**
      *
@@ -27,6 +22,9 @@ public class User {
      */
     private String password;
 
+    /**
+     * Default constructor
+     */
     public User(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;

@@ -1,6 +1,7 @@
 package db.setup;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 /**
  * Class to test the connection to the database
