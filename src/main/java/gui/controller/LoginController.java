@@ -1,4 +1,4 @@
-package gui.login;
+package gui.controller;
 
 
 import business.system.User;

@@ -1,0 +1,26 @@
+@startuml
+
+package dao {
+    abstract FactoryDao
+    class FactoryUserDao
+    interface UserDao
+    class UserDaoMySQL
+    FactoryDao <|-- FactoryUserDao
+    UserDao <|-- UserDaoMySQL
+}
+
+package business{
+    class UserFacade
+    class User
+}
+
+package gui{
+    package login{
+        class LoginView
+        class LoginControlloer
+    }
+}
+
+
+
+@enduml
