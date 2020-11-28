@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.net.URL;
 
 public class LoadView {
-    public LoadView() {
-    }
 
     public Parent load(String nameFxml) throws IOException {
         URL urlPath = LoadView.class.getClassLoader().getResource("view/"+nameFxml+".fxml");

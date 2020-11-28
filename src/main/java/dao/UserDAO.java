@@ -5,11 +5,12 @@ import business.system.User;
 import java.sql.SQLException;
 
 public interface UserDAO {
-    User getUserByID(int idUser) throws SQLException;
-    User getUserByEmail(String mail) throws SQLException;
+    User getUserByID(int idUser);
+    User getUserByEmail(String mail);
+    User connectUser(String mail,String password);
 
-    void registerUser(String firstName, String lastName,String mail, String password) throws SQLException;
+    void registerUser(String firstName, String lastName,String mail, String password);
 
-    boolean userExists(String mail) throws SQLException;
+    boolean userExists(String mail);
 
 }
