@@ -1,0 +1,92 @@
+@startuml
+title Login Diagram
+
+actor User
+participant LoginView
+participant LoginController
+participant UserFacade
+participant FactoryDAOMySQL
+participant UserDAOMySQL
+participant JConnectorMySQL
+participant JConnection
+participant Statement
+database DB
+
+LoginView-->User: Display login view
+
+activate User
+activate DB
+activate LoginView
+
+User->LoginView:Enter his credentials (mail : String, password : String)
+
+LoginView->LoginController: handleLogin(mail : String, password : String)
+
+activate LoginController
+
+LoginController->UserFacade:login(mail : String, password : String)
+
+deactivate LoginController
+
+activate UserFacade
+
+UserFacade->FactoryDAOMySQL:createUserDAO()
+
+activate FactoryDAOMySQL
+
+FactoryDAOMySQL-->UserDAOMySQL **:Create
+
+activate UserDAOMySQL
+
+FactoryDAOMySQL-->UserFacade:UserDAOMySQL
+
+deactivate FactoryDAOMySQL
+
+UserDAOMySQL->JConnectorMySQL: getConnection(url : String, user : String, password : String)
+
+activate JConnectorMySQL
+
+JConnectorMySQL--> JConnection **: Create
+
+activate JConnection
+
+JConnectorMySQL-->UserDAOMySQL: JConnection
+
+deactivate JConnectorMySQL
+
+UserDAOMySQL->JConnection: createStatement()
+
+JConnection-->Statement **: Create
+
+activate Statement
+
+JConnection-->UserDAOMySQL: Statement
+
+deactivate JConnection
+
+UserFacade->UserDAOMySQL: getUserByCreds(mail : String, password : String)
+
+UserDAOMySQL->Statement:executeQuery(Statement)
+
+Statement->DB: SQL Query
+
+DB->Statement:Result
+
+Statement-->UserDAOMySQL: ResultSet
+
+deactivate Statement
+
+UserDAOMySQL-->UserFacade: User | Null
+
+deactivate UserDAOMySQL
+
+UserFacade-->LoginView: User | Null
+
+deactivate UserFacade
+
+LoginView-->User: Display home view | Display login view with error
+deactivate LoginView
+deactivate DB
+deactivate User
+
+@enduml
