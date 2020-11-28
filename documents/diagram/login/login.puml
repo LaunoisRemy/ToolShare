@@ -80,11 +80,14 @@ UserDAOMySQL-->UserFacade: User | Null
 
 deactivate UserDAOMySQL
 
-UserFacade-->LoginView: User | Null
-
+activate LoginController
+UserFacade-->LoginController: User | Null
 deactivate UserFacade
+LoginController-->LoginView: Display home view | Display login view with error
 
-LoginView-->User: Display home view | Display login view with error
+deactivate LoginController
+
+LoginView-->User: Display corresponding View
 deactivate LoginView
 deactivate DB
 deactivate User

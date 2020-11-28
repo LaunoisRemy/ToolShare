@@ -26,7 +26,7 @@ public class Main extends Application {
             e.printStackTrace();
         }
         primaryStage.setTitle("Tool Share");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 1280, 900));
         primaryStage.show();
     }
 
