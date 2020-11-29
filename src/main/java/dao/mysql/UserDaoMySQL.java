@@ -13,6 +13,7 @@ public class UserDaoMySQL implements UserDAO {
     private final String LAST_NAME_COL = "lastname";
     private final String FIRST_NAME_COL = "firstname";
     private final String EMAIL_COL = "email";
+    private final String PASSWORD_COL = "password";
 
     /**
      * Method which communicate with DB for retrieve an User with one id
@@ -31,7 +32,7 @@ public class UserDaoMySQL implements UserDAO {
 
             if(rs.next()){
                 if(rs.getInt(1) == (idUser)){
-                    user = new User(rs.getString(FIRST_NAME_COL),rs.getString(LAST_NAME_COL),rs.getString(EMAIL_COL));
+                    user = new User(rs.getString(FIRST_NAME_COL),rs.getString(LAST_NAME_COL),rs.getString(EMAIL_COL),rs.getString(PASSWORD_COL));
                 }
             }
         } catch (SQLException throwables) {
@@ -58,11 +59,6 @@ public class UserDaoMySQL implements UserDAO {
             throwables.printStackTrace();
         }
         return user;
-    }
-
-    @Override
-    public User connectUser(String mail, String password) {
-        return null;
     }
 
     @Override

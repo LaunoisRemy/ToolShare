@@ -22,7 +22,7 @@ public class ConnectionDBMySQL implements ConnectionDB{
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            this.connection = DriverManager.getConnection(DataConnect.getUrl());
+            this.connection = DriverManager.getConnection(DataConnect.URL,DataConnect.USER,DataConnect.PASSWORD);
 
         }
         catch(Exception e)

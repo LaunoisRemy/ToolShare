@@ -11,7 +11,7 @@ public class TestConnection {
         try{
         Class.forName("com.mysql.cj.jdbc.Driver");
 
-        Connection connection = DriverManager.getConnection(DataConnect.getUrl());
+        Connection connection = DriverManager.getConnection(DataConnect.URL,DataConnect.USER,DataConnect.PASSWORD);
 
         Statement statement = connection.createStatement();
         ResultSet rs = statement.executeQuery("SELECT *  FROM user");
