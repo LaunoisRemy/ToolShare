@@ -62,6 +62,17 @@ public class User {
         this.password = password;
     }
 
+    public User(String firstName, String lastName, String email, String password, String userCity, String phoneNumber, boolean isAdmin, boolean isBanned) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.userCity = userCity;
+        this.phoneNumber = phoneNumber;
+        this.isAdmin = isAdmin;
+        this.isBanned = isBanned;
+    }
+
     /**
      * getter of first name
      * @return
@@ -184,5 +195,19 @@ public class User {
 
     public void setBanned(boolean banned) {
         isBanned = banned;
+    }
+
+    @Override
+    public String toString() {
+        return "User : " +
+                "user_id = " + user_id +
+                ", firstName = '" + firstName + '\'' +
+                ", lastName = '" + lastName + '\'' +
+                ", email = '" + email + '\'' +
+                ", password = '" + password + '\'' +
+                ", userCity = '" + userCity + '\'' +
+                ", phoneNumber = '" + phoneNumber + '\'' +
+                ", isAdmin = " + isAdmin +
+                ", isBanned = " + isBanned ;
     }
 }

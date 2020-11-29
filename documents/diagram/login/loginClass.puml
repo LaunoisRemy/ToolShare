@@ -42,7 +42,6 @@ package business{
     }
     FactoryDao <--- UserFacade
     User <--Right- UserFacade
-    UserDaoMySQL --> User
 }
 
 package gui{

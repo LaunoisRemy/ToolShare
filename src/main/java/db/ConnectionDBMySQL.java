@@ -2,6 +2,7 @@ package db;
 
 import db.setup.DataConnect;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -28,6 +29,7 @@ public class ConnectionDBMySQL implements ConnectionDB{
         catch(Exception e)
         {
             //TODO comment on fait les erreurs ?
+            JOptionPane.showMessageDialog(null, e);
         }
     }
 

@@ -3,6 +3,7 @@ package gui.controller;
 
 import business.system.User;
 import com.jfoenix.controls.JFXTextField;
+import dao.mysql.UserDaoMySQL;
 import gui.LoadView;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
