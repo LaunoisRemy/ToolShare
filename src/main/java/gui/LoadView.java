@@ -7,9 +7,9 @@ import javafx.scene.Parent;
 import java.io.IOException;
 import java.net.URL;
 
-public class LoadView {
+public class LoadView  extends Parent{
 
-    public Parent load(String nameFxml) throws IOException {
+    public static Parent load(String nameFxml) throws IOException {
         URL urlPath = LoadView.class.getClassLoader().getResource("view/"+nameFxml+".fxml");
         if(urlPath == null){
             throw new IOException("Problem of path for fxml");

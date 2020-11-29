@@ -15,7 +15,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("Tool Share");
-        primaryStage.setScene(new Scene(new LoadView().load("login"), 1280, 900));
+        primaryStage.setScene(new Scene(LoadView.load("login"), 1280, 900));
         primaryStage.show();
     }
 
