@@ -50,40 +50,40 @@ public class User {
      * Default constructor
      */
     public User(String firstName, String lastName, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setEmail(email);
     }
 
     public User(String firstName, String lastName, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setEmail(email);
+        this.setPassword(password);
     }
 
     public User(String firstName, String lastName, String email, String password, String userCity, String phoneNumber, boolean isAdmin, boolean isBanned) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.userCity = userCity;
-        this.phoneNumber = phoneNumber;
-        this.isAdmin = isAdmin;
-        this.isBanned = isBanned;
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setEmail(email);
+        this.setPassword(password);
+        this.setUserCity(userCity);
+        this.setPhoneNumber(phoneNumber);
+        this.setAdmin(isAdmin);
+        this.setBanned(isBanned);
     }
 
     /**
      * getter of first name
-     * @return
+     * @return firstName
      */
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
     /**
      * setter of first name
-     * @param firstName
+     * @param firstName the first name of the user as a String
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -91,15 +91,15 @@ public class User {
 
     /**
      * getter of lastname
-     * @return
+     * @return lastName
      */
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
     /**
      * setter of LastName
-     * @param lastName
+     * @param lastName the last name of the user as a String
      */
     public void setLastName(String lastName) {
         this.lastName = lastName;
@@ -107,15 +107,15 @@ public class User {
 
     /**
      * getter of email
-     * @return
+     * @return email
      */
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     /**
      * setter of email
-     * @param email
+     * @param email the email of the user as a String
      */
     public void setEmail(String email) {
         this.email = email;
@@ -123,51 +123,57 @@ public class User {
 
     /**
      * getter of password
-     * @return
+     * @return password
      */
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     /**
      * setter of password
-     * @param password
+     * @param password the password of the user as a String
      */
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public int getUser_id() {
-        return user_id;
-    }
+    /**
+     * getter of user_id
+     * @return user_id
+     */
+    public int getUser_id() { return this.user_id; }
 
     /**
      * setter of id user
-     * @param password
+     * @param user_id the id of the user as an int
      */
     public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
 
-    public String getUserCity() {
-        return userCity;
-    }
+    /**
+     * getter of userCity
+     * @return userCity
+     */
+    public String getUserCity() { return this.userCity; }
 
     /**
      * setter of user city
-     * @param userCity
+     * @param userCity the city of the user as a String
      */
     public void setUserCity(String userCity) {
         this.userCity = userCity;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+    /**
+     * getter of phoneNumber
+     * @return phoneNumber
+     */
+    public String getPhoneNumber() { return this.phoneNumber; }
 
     /**
      * setter of phone number of user
-     * @param phoneNumber
+     * @param phoneNumber the phone number of the user as a String
      */
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
@@ -175,39 +181,43 @@ public class User {
 
     /**
      * if the user is admin
-     * @return true if admin
+     * @return true if admin, else false
      */
     public boolean isAdmin() {
-        return isAdmin;
+        return this.isAdmin;
     }
 
     /**
-     * setter of boolean Admin
-     * @param admin
+     * setter of boolean isAdmin
+     * @param admin true is the user is an admin, else false
      */
     public void setAdmin(boolean admin) {
-        isAdmin = admin;
+        this.isAdmin = admin;
     }
 
-    public boolean isBanned() {
-        return isBanned;
-    }
+    /**
+     * if the user is banned
+     * @return true if banned, else false
+     */
+    public boolean isBanned() { return this.isBanned; }
 
-    public void setBanned(boolean banned) {
-        isBanned = banned;
-    }
+    /**
+     * setter of boolean isBanned
+     * @param banned true if the user is banned, else false
+     */
+    public void setBanned(boolean banned) { this.isBanned = banned; }
 
     @Override
     public String toString() {
         return "User : " +
-                "user_id = " + user_id +
-                ", firstName = '" + firstName + '\'' +
-                ", lastName = '" + lastName + '\'' +
-                ", email = '" + email + '\'' +
-                ", password = '" + password + '\'' +
-                ", userCity = '" + userCity + '\'' +
-                ", phoneNumber = '" + phoneNumber + '\'' +
-                ", isAdmin = " + isAdmin +
-                ", isBanned = " + isBanned ;
+                "user_id = " + this.getUser_id() +
+                ", firstName = '" + this.getFirstName() + '\'' +
+                ", lastName = '" + this.getLastName() + '\'' +
+                ", email = '" + this.getEmail() + '\'' +
+                ", password = '" + this.getPassword() + '\'' +
+                ", userCity = '" + this.getUserCity() + '\'' +
+                ", phoneNumber = '" + this.getPhoneNumber() + '\'' +
+                ", isAdmin = " + this.isAdmin() +
+                ", isBanned = " + this.isBanned() ;
     }
 }
