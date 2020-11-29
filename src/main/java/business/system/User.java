@@ -220,4 +220,13 @@ public class User {
                 ", isAdmin = " + this.isAdmin() +
                 ", isBanned = " + this.isBanned() ;
     }
+
+    @Override
+    public boolean equals(Object user) {
+        if(!(user instanceof User)) {
+            return false;
+        } else {
+            return this.getUser_id() == ((User) user).getUser_id();
+        }
+    }
 }

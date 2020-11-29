@@ -4,6 +4,8 @@ import business.system.User;
 
 public class UserFacade {
 
+    private User user;
+
     public UserFacade(){
 
     }
