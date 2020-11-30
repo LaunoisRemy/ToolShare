@@ -14,6 +14,6 @@ public abstract class AbstractFactoryDAO {
         AbstractFactoryDAO.instance = instance;
     }
 
-    public abstract UserDAO getUserUserDAO();
+    public abstract UserDAO getUserDAO();
 
 }
