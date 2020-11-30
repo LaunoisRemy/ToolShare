@@ -12,7 +12,7 @@ public class UserFacade {
 
     }
 
-    public User login(String mail, String password) throws SQLException {
+    public User login(String mail, String password) {
 
         UserDAO userDAO = AbstractFactoryDAO.getInstance().getUserDAO();
 
