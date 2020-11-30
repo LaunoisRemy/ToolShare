@@ -5,7 +5,8 @@ import dao.structure.UserDAO;
 
 public abstract class AbstractFactoryDAO {
     private static AbstractFactoryDAO instance = null;
-    public AbstractFactoryDAO getInstance(String type){
+
+    public static AbstractFactoryDAO getInstance(){
         return instance;
     }
 
