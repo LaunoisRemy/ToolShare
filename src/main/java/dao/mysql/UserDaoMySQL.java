@@ -1,10 +1,8 @@
 package dao.mysql;
 
-import business.system.User;
-import dao.structure.DAO;
+import business.system.user.User;
 import dao.structure.UserDAO;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -58,12 +58,12 @@
                         </Label>
                         <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="75.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../img/user_32.png" />
+                              <Image url="@../img/user_32.png" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="75.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../img/password_32.png" />
+                              <Image url="@../img/password_32.png" />
                            </image>
                         </ImageView>
                         <Label fx:id="banned_msg" alignment="CENTER" layoutX="3.0" layoutY="242.0" prefHeight="37.0" prefWidth="400.0" text="Banned Account. Please contact the support" textAlignment="CENTER" textFill="RED" visible="false">

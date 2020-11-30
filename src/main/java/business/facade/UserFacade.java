@@ -1,7 +1,7 @@
 package business.facade;
 
 import business.system.Session;
-import business.system.User;
+import business.system.user.User;
 import dao.factory.AbstractFactoryDAO;
 import dao.factory.TypeDB;
 import dao.structure.UserDAO;

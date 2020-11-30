@@ -1,8 +1,6 @@
 package dao.structure;
 
-import business.system.User;
-
-import java.sql.SQLException;
+import business.system.user.User;
 
 public abstract class UserDAO extends DAO<User> {
     public abstract User getUserByEmail(String email);

@@ -1,4 +1,4 @@
-package business.system;
+package business.system.user;
 
 public class User {
     /**
@@ -45,6 +45,11 @@ public class User {
      * True if the user isBanned, else false
      */
     private boolean isBanned;
+
+    /**
+     * The role of an user, ordinary or admin
+     */
+    private Role role;
 
     /**
      * Default constructor
@@ -218,6 +223,14 @@ public class User {
      * @param banned true if the user is banned, else false
      */
     public void setBanned(boolean banned) { this.isBanned = banned; }
+
+    /**
+     * Getter of the role
+     * @return Admin or OrdinaryUser
+     */
+    public Role getRole() {
+        return role;
+    }
 
     @Override
     public String toString() {

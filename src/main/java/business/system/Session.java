@@ -1,8 +1,6 @@
 package business.system;
 
-import db.ConnectionDBMySQL;
-
-import java.sql.Connection;
+import business.system.user.User;
 
 public class Session {
     private User user;

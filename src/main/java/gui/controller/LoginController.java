@@ -1,20 +1,13 @@
 package gui.controller;
 
 
-import business.system.User;
+import business.system.user.User;
 import com.jfoenix.controls.JFXTextField;
-import dao.mysql.UserDaoMySQL;
 import gui.LoadView;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import business.facade.UserFacade;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 
 
 public class LoginController {
