@@ -51,9 +51,9 @@
                                     <Font name="System Bold" size="13.0" />
                                 </font>
                             </JFXButton>
-                        <Label fx:id="error_msg" alignment="CENTER" layoutX="53.0" layoutY="238.0" prefHeight="37.0" prefWidth="310.0" text="Error with Email or Password" textAlignment="CENTER" textFill="RED" visible="false" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="46.0">
+                        <Label fx:id="error_msg" alignment="CENTER" layoutX="53.0" layoutY="242.0" prefHeight="37.0" prefWidth="310.0" text="Error with Email or Password" textAlignment="CENTER" textFill="RED" visible="false" AnchorPane.leftAnchor="53.0" AnchorPane.rightAnchor="46.0">
                            <font>
-                              <Font name="Tahoma Bold" size="18.0" />
+                              <Font name="Tahoma Bold" size="16.0" />
                            </font>
                         </Label>
                         <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="75.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
@@ -66,6 +66,11 @@
                               <Image url="@../../img/password_32.png" />
                            </image>
                         </ImageView>
+                        <Label fx:id="banned_msg" alignment="CENTER" layoutX="3.0" layoutY="242.0" prefHeight="37.0" prefWidth="400.0" text="Banned Account. Please contact the support" textAlignment="CENTER" textFill="RED" visible="false">
+                           <font>
+                              <Font name="Tahoma Bold" size="16.0" />
+                           </font>
+                        </Label>
                      </children>
                   </AnchorPane>
                </children>

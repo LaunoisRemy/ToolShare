@@ -26,15 +26,22 @@ public class LoginController {
     private JFXTextField password;
     @FXML
     private Label error_msg;
+    @FXML
+    private Label banned_msg;
 
     public void handleLogin(ActionEvent actionEvent){
         System.out.println(mail.getText());
         System.out.println(password.getText());
         User user=facade.login(mail.getText(),password.getText());
         if (user == null) {
+            banned_msg.setVisible(false);
             error_msg.setVisible(true);
         }
         else{
+            if(user.isBanned()){
+                error_msg.setVisible(false);
+                banned_msg.setVisible(true);
+            }
             LoadView.changeScreen(actionEvent,"offers");
             System.out.println("OK");
         }
