@@ -73,6 +73,18 @@ public class User {
         this.setBanned(isBanned);
     }
 
+    public User(int id, String firstName, String lastName, String email, String password, String userCity, String phoneNumber, boolean isAdmin, boolean isBanned) {
+        this.setUser_id(id);
+        this.setFirstName(firstName);
+        this.setLastName(lastName);
+        this.setEmail(email);
+        this.setPassword(password);
+        this.setUserCity(userCity);
+        this.setPhoneNumber(phoneNumber);
+        this.setAdmin(isAdmin);
+        this.setBanned(isBanned);
+    }
+
     /**
      * getter of first name
      * @return firstName
