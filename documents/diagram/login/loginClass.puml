@@ -3,34 +3,63 @@
 package dao {
 
 
-    interface UserDao{
-        getUserByID(idUser : int): User
+    abstract UserDao{
         getUserByEmail(mail : String): User
-        User connectUser(mail : String,password : String )
-        void registerUser(firstName : String, lastName : String, mail : String, password: String)
-        boolean userExists(mail : String)
+        userExists(email : String) : boolean
     }
     class UserDaoMySQL
-    FactoryDao <|-- FactoryDaoSQL
+    AbstractFactoryDao <|-- FactoryDaoSQL
     UserDao <|-- UserDaoMySQL
 
-    abstract FactoryDao{
-            + getFactory(type : String) : FactoryDao
+    abstract DAO<T>{
+        find(id : int) : T
+        create(T obj) : boolean
+        update(T obj) : boolean
+        delete(T obj) : boolean
+    }
+
+    abstract AbstractFactoryDao{
+            + {static} getFactory(type : TypeDB) : AbstractFactoryDao
             + getUserDao() : UserDAO
     }
 
     class FactoryDaoSQL{
     }
+
+    enum TypeDB{
+        MySQL
+        PostgreSQL
+    }
+
+    DAO <|-- UserDao
+}
+package db{
+    class ConnectionDBMySQL{
+        - connection : Connection
+        - ConnectionDBMySQL()
+        + {static} getInstance() : ConnectionDBMySQL
+        + getDb() : Connection
+    }
+    class LazyHolderDB{
+        + {static} final INSTANCE : ConnectionDBMySQL
+    }
+    interface ConnectionDB
+    ConnectionDBMySQL -Left-> LazyHolderDB
+    ConnectionDBMySQL .up.|> ConnectionDB
+
+    ConnectionDB <-- DAO
 }
 package business{
     class UserFacade{
-        +login(mail : String, password : String) : Void
+        + UserFacade()
+        + login(mail : String, password : String) : Void
     }
     class User{
         -firstName : String
         -lastName : String
         -email : String
         -password : String
+        + User()
         +getFirstName() : String
         +getLastName() : String
         +getEmail() : String
@@ -39,13 +68,32 @@ package business{
         +setLastName(lastName : String)
         +setEmail(email : String)
         +setPassword(password : String)
+        +checkPassword(password : String)
     }
-    FactoryDao <--- UserFacade
-    User <--Right- UserFacade
+
+
+    class Session{
+        -user : User
+        - Session()
+        + {static} getInstance() : Session
+        + getUser() : User
+        + setUser(user : User) : User
+    }
+    class LazyHolderSession{
+        + {static} final INSTANCE : Session
+    }
+    Session -Left-> LazyHolderSession
+    Session --> User : -user
+
 }
 
 package gui{
-    class LoadView
+
+    class LoadView{
+        + {static} load(nameFxml : Parent) : Parent
+        + {static} changeScreen(actionEvent : ActionEvent, view : String) : void
+    }
+
     package controller{
         class LoginController{
             + handleLogin(mail : String, password : String) : void
