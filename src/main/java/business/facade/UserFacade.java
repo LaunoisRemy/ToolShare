@@ -14,12 +14,12 @@ public class UserFacade {
 
     public User login(String mail, String password) throws SQLException {
 
-        UserDAO userDAO = AbstractFactoryDAO.getInstance().getUserUserDAO();
+        UserDAO userDAO = AbstractFactoryDAO.getInstance().getUserDAO();
 
         User user = userDAO.getUserByEmail(mail);
 
         if (user.getPassword().equals(password)) {
-            Session session = new Session();
+            Session session = Session.getInstance();
             session.setUser(user);
             return user;
         } else {

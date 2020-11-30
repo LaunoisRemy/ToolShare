@@ -7,6 +7,10 @@ import java.sql.Connection;
 public class Session {
     private User user;
 
+    private Session() {
+
+    }
+
     /**
      * The static class definition LazyHolder within it is not initialized until the JVM determines that LazyHolder must be executed
      */
