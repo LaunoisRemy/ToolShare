@@ -67,15 +67,15 @@ public class User {
         this.setPassword(password);
     }
 
-    public User(String firstName, String lastName, String email, String password, String userCity, String phoneNumber, boolean isAdmin, boolean isBanned) {
+    public User(String firstName, String lastName, String email, String password, String userCity, String phoneNumber) {
         this.setFirstName(firstName);
         this.setLastName(lastName);
         this.setEmail(email);
         this.setPassword(password);
         this.setUserCity(userCity);
         this.setPhoneNumber(phoneNumber);
-        this.setAdmin(isAdmin);
-        this.setBanned(isBanned);
+        this.setAdmin(false);
+        this.setBanned(false);
     }
 
     public User(int id, String firstName, String lastName, String email, String password, String userCity, String phoneNumber, boolean isAdmin, boolean isBanned) {

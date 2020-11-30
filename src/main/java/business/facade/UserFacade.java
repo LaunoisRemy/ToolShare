@@ -5,6 +5,9 @@ import business.system.user.User;
 import dao.factory.AbstractFactoryDAO;
 import dao.factory.TypeDB;
 import dao.structure.UserDAO;
+import util.Cryptor;
+
+import java.security.spec.InvalidKeySpecException;
 
 public class UserFacade {
 
@@ -27,8 +30,25 @@ public class UserFacade {
 
     }
 
-    public User register(String mail, String firstName, String lastName, String city, String password) {
+    public User register(String email, String firstName, String lastName, String city, String phoneNumber, String password) {
 
-        return null;
+        UserDAO userDAO = AbstractFactoryDAO.getFactory(TypeDB.MySQL).getUserDAO();
+
+        String salt = Cryptor.getSaltRandom();
+        String hashedPassword = null;
+        try {
+            hashedPassword = Cryptor.generateHash(password, salt);
+        } catch (InvalidKeySpecException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+
+        User registeredUser = new User(firstName, lastName, email, hashedPassword, city, phoneNumber);
+
+        if(userDAO.create(registeredUser)) {
+            return login(email, hashedPassword);
+        } else {
+            return null;
+        }
     }
 }
