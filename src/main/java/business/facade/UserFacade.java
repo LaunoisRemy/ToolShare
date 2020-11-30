@@ -17,8 +17,7 @@ public class UserFacade {
         UserDAO userDAO = AbstractFactoryDAO.getFactory(TypeDB.MySQL).getUserDAO();
 
         User user = userDAO.getUserByEmail(mail);
-
-        if (user.getPassword().equals(password)) {
+        if (user != null && user.getPassword().equals(password)) {
             Session session = Session.getInstance();
             session.setUser(user);
             return session.getUser();
