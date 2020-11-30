@@ -20,7 +20,7 @@ public class UserDaoMySQL extends UserDAO {
 
 
     /**
-     * Method which communicate with DB for retrieve an User with id
+     * Method which communicate with DB to retrieve an User with id
      * @param id id of the user the system wants
      * @return a User if he exist in the DB, else return null
      */
@@ -80,7 +80,7 @@ public class UserDaoMySQL extends UserDAO {
     }
 
     /**
-     * Method which communicate with DB for retrieve an User with email
+     * Method which communicate with DB to retrieve an User with email
      * @param email email of the user the system wants
      * @return a User if he exist in the DB, else return null
      */
@@ -103,6 +103,29 @@ public class UserDaoMySQL extends UserDAO {
         }
         return user;
     }
+
+    /**
+     * Method which communicate with the DB to retrieve an User's salt thanks to his email
+     * @param email email of the user the system wants the salt
+     * @return the salt of the given user's email if it exists, else return null
+     */
+    @Override
+    public String getSalt(String email) {
+        String salt = null;
+        try {
+            String sql = "SELECT salt FROM user WHERE email =?";
+            PreparedStatement prep = this.connection.prepareStatement(sql);
+            prep.setString(1,email);
+            ResultSet rs = prep.executeQuery();
+            salt = rs.getString(1);
+            return salt;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return "";
+    }
+
     private User createUser(ResultSet rs) throws SQLException {
         return new User(rs.getInt(ID_COL),rs.getString(FIRST_NAME_COL),rs.getString(LAST_NAME_COL),rs.getString(EMAIL_COL),rs.getString(PASSWORD_COL),rs.getString(USERCITY_COL),rs.getString(PHONENUMBER_COL),rs.getBoolean(ISADMIN),rs.getBoolean(ISBANNED));
     }
