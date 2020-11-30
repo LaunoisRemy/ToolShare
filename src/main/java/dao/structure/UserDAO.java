@@ -4,8 +4,7 @@ import business.system.User;
 
 import java.sql.SQLException;
 
-public interface UserDAO {
-    User getUserByEmail(String mail);
-    boolean userExists(String mail);
-
+public abstract class UserDAO extends DAO<User> {
+    public abstract User getUserByEmail(String mail);
+    public abstract boolean userExists(String mail);
 }

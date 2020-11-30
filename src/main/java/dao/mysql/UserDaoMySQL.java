@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDaoMySQL extends DAO<User> implements UserDAO {
+public class UserDaoMySQL extends UserDAO {
     private final String LAST_NAME_COL = "lastname";
     private final String FIRST_NAME_COL = "firstname";
     private final String EMAIL_COL = "email";
