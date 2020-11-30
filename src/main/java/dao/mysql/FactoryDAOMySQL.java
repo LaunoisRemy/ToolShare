@@ -5,7 +5,7 @@ import dao.structure.UserDAO;
 
 public class FactoryDAOMySQL extends AbstractFactoryDAO {
     @Override
-    public UserDAO getUserUserDAO() {
+    public UserDAO getUserDAO() {
         return new UserDaoMySQL();
     }
 }
