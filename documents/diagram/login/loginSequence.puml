@@ -39,9 +39,11 @@ UserFacade->AbstractFactoryDAO:getFactory(Typedb:Enum(typedb)
 
 activate AbstractFactoryDAO
 
-AbstractFactoryDAO->FactoryDAOMySQL:getUserDAO()
-
+AbstractFactoryDAO--> UserFacade : FactoryDAOMySQL
 deactivate AbstractFactoryDAO
+
+UserFacade -> FactoryDAOMySQL:getUserDAO()
+
 activate FactoryDAOMySQL
 
 FactoryDAOMySQL->UserDAOMySQL **:Create
@@ -86,21 +88,24 @@ Statement-->UserDAOMySQL: ResultSet
 
 deactivate Statement
 
+UserDAOMySQL-->UserFacade: return user : User
 alt user != null
 
-    UserDAOMySQL-->UserFacade: return User
     deactivate UserDAOMySQL
     UserFacade->"User (class)": checkPassword(password:String)
     activate "User (class)"
-    "User (class)"-->UserFacade: return boolean
+    "User (class)"-->UserFacade: return check : boolean
     deactivate "User (class)"
 
-    alt if check password true
-        UserFacade->Session **: Create
+    alt if check
+        UserFacade->Session **: getInstance()
 
         activate Session
 
         Session-->UserFacade:getUser()
+
+    else check == false
+        UserFacade-->UserFacade: user = null
     end
 
 end
