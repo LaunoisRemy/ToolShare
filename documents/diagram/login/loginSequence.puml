@@ -2,9 +2,12 @@
 title Login Diagram
 
 actor User
-participant LoginView
+participant "Login (fxml)"
 participant LoginController
 participant UserFacade
+participant AbstractFactoryDAO
+participant "User (class)"
+participant Session
 participant FactoryDAOMySQL
 participant UserDAOMySQL
 participant JConnectorMySQL
@@ -12,15 +15,17 @@ participant JConnection
 participant Statement
 database DB
 
-LoginView-->User: Display login view
 
+"Login (fxml)"-->User: Display login view
+
+activate "Login (fxml)"
 activate User
 activate DB
-activate LoginView
 
-User->LoginView:Enter his credentials (mail : String, password : String)
 
-LoginView->LoginController: handleLogin(mail : String, password : String)
+User->"Login (fxml)":Enter his credentials (mail : String, password : String)
+
+"Login (fxml)"->LoginController: handleLogin(mail : String, password : String)
 
 activate LoginController
 
@@ -30,11 +35,16 @@ deactivate LoginController
 
 activate UserFacade
 
-UserFacade->FactoryDAOMySQL:createUserDAO()
+UserFacade->AbstractFactoryDAO:getFactory(Typedb:Enum(typedb)
 
+activate AbstractFactoryDAO
+
+AbstractFactoryDAO->FactoryDAOMySQL:getUserDAO()
+
+deactivate AbstractFactoryDAO
 activate FactoryDAOMySQL
 
-FactoryDAOMySQL-->UserDAOMySQL **:Create
+FactoryDAOMySQL->UserDAOMySQL **:Create
 
 activate UserDAOMySQL
 
@@ -54,7 +64,9 @@ JConnectorMySQL-->UserDAOMySQL: JConnection
 
 deactivate JConnectorMySQL
 
-UserDAOMySQL->JConnection: createStatement()
+UserFacade->UserDAOMySQL: getUserByEmail(email : String)
+
+UserDAOMySQL->JConnection: prepareStatement()
 
 JConnection-->Statement **: Create
 
@@ -64,9 +76,7 @@ JConnection-->UserDAOMySQL: Statement
 
 deactivate JConnection
 
-UserFacade->UserDAOMySQL: getUserByCreds(mail : String, password : String)
-
-UserDAOMySQL->Statement:executeQuery(Statement)
+UserDAOMySQL->Statement:executeQuery()
 
 Statement->DB: SQL Query
 
@@ -76,20 +86,56 @@ Statement-->UserDAOMySQL: ResultSet
 
 deactivate Statement
 
-UserDAOMySQL-->UserFacade: User | Null
+alt user != null
 
-deactivate UserDAOMySQL
+    UserDAOMySQL-->UserFacade: return User
+    deactivate UserDAOMySQL
+    UserFacade->"User (class)": checkPassword(password:String)
+    activate "User (class)"
+    "User (class)"-->UserFacade: return boolean
+    deactivate "User (class)"
+
+    alt if check password true
+        UserFacade->Session **: Create
+
+        activate Session
+
+        Session-->UserFacade:getUser()
+    end
+
+end
+
+UserFacade-->LoginController: return user
+
+deactivate UserFacade
 
 activate LoginController
-UserFacade-->LoginController: User | Null
-deactivate UserFacade
-LoginController-->LoginView: Display home view | Display login view with error
+
+alt if user != null
+
+LoginController->LoginController:isBanned(password:String)
+
+    alt user isBanned
+
+        LoginController-->"Login (fxml)": Display banned users message
+
+    else user is not banned
+
+        LoginController-->"Login (fxml)": Display home view
+    end
+
+else return is null
+
+    LoginController-->"Login (fxml)": Display not found user message
+
+end
 
 deactivate LoginController
 
-LoginView-->User: Display corresponding View
-deactivate LoginView
+"Login (fxml)"-->User: Display corresponding View
+deactivate "Login (fxml)"
 deactivate DB
+deactivate Session
 deactivate User
 
 @enduml
