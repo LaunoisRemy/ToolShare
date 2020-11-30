@@ -10,10 +10,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDaoMySQL extends UserDAO {
-    private final String LAST_NAME_COL = "lastname";
-    private final String FIRST_NAME_COL = "firstname";
-    private final String EMAIL_COL = "email";
-    private final String PASSWORD_COL = "password";
+    private static final String LAST_NAME_COL = "lastname";
+    private static final String FIRST_NAME_COL = "firstname";
+    private static final String EMAIL_COL = "email";
+    private static final String PASSWORD_COL = "password";
+    private static final String ISBANNED = "isBanned";
+    private static final String USERCITY_COL = "userCity";
+    private static final String PHONENUMBER_COL = "phoneNumber";
+    private static final String ISADMIN = "isAdmin";
+    private static final String ID_COL = "user_id";
+
 
     /**
      * Method which communicate with DB for retrieve an User with id
@@ -32,7 +38,7 @@ public class UserDaoMySQL extends UserDAO {
 
             if(rs.next()){
                 if(rs.getInt(1) == (id)){
-                    user = new User(rs.getString(FIRST_NAME_COL),rs.getString(LAST_NAME_COL),rs.getString(EMAIL_COL),rs.getString(PASSWORD_COL));
+                    user = user = this.createUser(rs);
                 }
             }
         } catch (SQLException throwables) {
@@ -91,13 +97,16 @@ public class UserDaoMySQL extends UserDAO {
             ResultSet rs = prep.executeQuery();
             if(rs.next()){
                 if(rs.getString(3).equals(email)){
-                    user = new User(rs.getString(FIRST_NAME_COL),rs.getString(LAST_NAME_COL),email);
+                    user = this.createUser(rs);
                 }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return user;
+    }
+    private User createUser(ResultSet rs) throws SQLException {
+        return new User(rs.getInt(ID_COL),rs.getString(FIRST_NAME_COL),rs.getString(LAST_NAME_COL),rs.getString(EMAIL_COL),rs.getString(PASSWORD_COL),rs.getString(USERCITY_COL),rs.getString(PHONENUMBER_COL),rs.getBoolean(ISADMIN),rs.getBoolean(ISBANNED));
     }
 
     @Override

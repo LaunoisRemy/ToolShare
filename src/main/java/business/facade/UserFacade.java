@@ -3,8 +3,8 @@ package business.facade;
 import business.system.Session;
 import business.system.User;
 import dao.factory.AbstractFactoryDAO;
+import dao.factory.TypeDB;
 import dao.structure.UserDAO;
-import java.sql.SQLException;
 
 public class UserFacade {
 
@@ -14,7 +14,7 @@ public class UserFacade {
 
     public User login(String mail, String password) {
 
-        UserDAO userDAO = AbstractFactoryDAO.getInstance().getUserDAO();
+        UserDAO userDAO = AbstractFactoryDAO.getFactory(TypeDB.MySQL).getUserDAO();
 
         User user = userDAO.getUserByEmail(mail);
 
