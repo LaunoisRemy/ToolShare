@@ -1,5 +1,7 @@
 package dao.factory;
 
-public abstract class AbstractFactoryDAO {
+import dao.structure.UserDAO;
 
+public abstract class AbstractFactoryDAO {
+    public abstract UserDAO getUserUserDAO();
 }
