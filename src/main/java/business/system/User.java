@@ -229,4 +229,5 @@ public class User {
             return this.getUser_id() == ((User) user).getUser_id();
         }
     }
+
 }
