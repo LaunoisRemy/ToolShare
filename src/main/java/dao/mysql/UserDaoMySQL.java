@@ -101,7 +101,7 @@ public class UserDaoMySQL extends UserDAO {
     }
 
     @Override
-    public boolean userExists(String mail){
+    public boolean userExists(String email){
         return false;
     }
 }
