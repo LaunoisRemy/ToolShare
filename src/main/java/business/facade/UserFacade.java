@@ -21,7 +21,7 @@ public class UserFacade {
         if (user.getPassword().equals(password)) {
             Session session = Session.getInstance();
             session.setUser(user);
-            return user;
+            return session.getUser();
         } else {
             return null;
         }
