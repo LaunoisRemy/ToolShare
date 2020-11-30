@@ -1,5 +1,6 @@
 package business.facade;
 
+import business.system.Session;
 import business.system.User;
 import dao.factory.AbstractFactoryDAO;
 import dao.structure.UserDAO;
@@ -13,12 +14,13 @@ public class UserFacade {
 
     public User login(String mail, String password) throws SQLException {
 
-        //get userdao by mail
-        UserDAO userDAO = null;
+        UserDAO userDAO = AbstractFactoryDAO.getInstance().getUserUserDAO();
 
         User user = userDAO.getUserByEmail(mail);
 
         if (user.getPassword().equals(password)) {
+            Session session = new Session();
+            session.setUser(user);
             return user;
         } else {
             return null;
@@ -27,7 +29,6 @@ public class UserFacade {
     }
 
     public User register(String mail, String firstName, String lastName, String city, String password) {
-
 
         return null;
     }
