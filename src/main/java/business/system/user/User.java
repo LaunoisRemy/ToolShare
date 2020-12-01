@@ -59,19 +59,6 @@ public class User {
     /**
      * Default constructor
      */
-    public User(String firstName, String lastName, String email) {
-        this.setFirstName(firstName);
-        this.setLastName(lastName);
-        this.setEmail(email);
-    }
-
-    public User(String firstName, String lastName, String email, String password) {
-        this.setFirstName(firstName);
-        this.setLastName(lastName);
-        this.setEmail(email);
-        this.setPassword(password);
-    }
-
     public User(String firstName, String lastName, String email, String password, String userCity, String phoneNumber, String salt) {
         this.setFirstName(firstName);
         this.setLastName(lastName);
