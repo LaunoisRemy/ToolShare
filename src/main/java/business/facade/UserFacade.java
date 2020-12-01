@@ -3,8 +3,6 @@ package business.facade;
 import business.system.Session;
 import business.system.user.User;
 import dao.factory.AbstractFactoryDAO;
-import dao.factory.TypeDB;
-import dao.mysql.FactoryDAOMySQL;
 import dao.structure.UserDAO;
 import util.Cryptor;
 

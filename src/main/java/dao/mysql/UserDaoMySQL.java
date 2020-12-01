@@ -1,13 +1,15 @@
 package dao.mysql;
 
 import business.system.user.User;
+import dao.factory.AbstractFactoryDAO;
 import dao.structure.UserDAO;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDaoMySQL extends UserDAO {
+public class UserDaoMySQL implements UserDAO {
     private static final String LAST_NAME_COL = "lastname";
     private static final String FIRST_NAME_COL = "firstname";
     private static final String EMAIL_COL = "email";
@@ -17,7 +19,11 @@ public class UserDaoMySQL extends UserDAO {
     private static final String PHONENUMBER_COL = "phoneNumber";
     private static final String ISADMIN = "isAdmin";
     private static final String ID_COL = "user_id";
+    private final Connection connection;
 
+    public UserDaoMySQL() {
+        this.connection = AbstractFactoryDAO.connectionDB.getDb();
+    }
 
     /**
      * Method which communicate with DB to retrieve an User with id
@@ -28,7 +34,7 @@ public class UserDaoMySQL extends UserDAO {
     public User find(int id) {
         User user = null;
         try {
-            PreparedStatement prep = connection.prepareStatement(
+            PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM user WHERE user_id =?"
             );
             prep.setInt(1,id);
