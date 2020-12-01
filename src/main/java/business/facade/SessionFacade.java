@@ -50,11 +50,13 @@ public class SessionFacade {
         //Create UserDAO
         UserDAO userDAO = AbstractFactoryDAO.getInstance().getUserDAO();
 
-        //GET user salt
-        String salt = userDAO.getSalt(email);
+
 
         //GET user
         User user = userDAO.getUserByEmail(email);
+
+        //GET user salt
+        String salt = user.getSalt();
 
         //Compare password & set session user
         this.setUser(userManagement.comparePassword(user, password, salt));
