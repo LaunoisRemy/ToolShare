@@ -6,12 +6,12 @@ import com.jfoenix.controls.JFXTextField;
 import gui.LoadView;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
-import business.facade.UserFacade;
+import business.facade.SessionFacade;
 import javafx.scene.control.Label;
 
 
 public class LoginController {
-    private UserFacade facade=new UserFacade();
+    private SessionFacade facade=new SessionFacade();
 
     @FXML
     private JFXTextField mail;
