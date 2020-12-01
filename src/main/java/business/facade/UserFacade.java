@@ -19,7 +19,7 @@ public class UserFacade {
 
         UserDAO userDAO = AbstractFactoryDAO.getFactory(TypeDB.MySQL).getUserDAO();
 
-        //TODO : uncomment when the register view is implemented
+        //TODO : uncomment when the register view is implemented & update password check
 
         /* GET SALT
         String salt = userDAO.getSalt(mail);
@@ -31,8 +31,8 @@ public class UserFacade {
         String encryptedPassword = null;
         try {
             encryptedPassword = Cryptor.generateHash(password, salt);
-        } catch (InvalidKeySpecException throwables) {
-            throwables.printStackTrace();
+        } catch (InvalidKeySpecException throwable) {
+            throwable.printStackTrace();
             return null;
         }
          */
@@ -64,7 +64,7 @@ public class UserFacade {
         User registeredUser = new User(firstName, lastName, email, hashedPassword, city, phoneNumber, salt);
 
         if(userDAO.create(registeredUser)) {
-            return login(email, hashedPassword);
+            return login(email, password);
         } else {
             return null;
         }
