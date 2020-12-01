@@ -56,12 +56,12 @@ public class UserFacade {
         String hashedPassword = null;
         try {
             hashedPassword = Cryptor.generateHash(password, salt);
-        } catch (InvalidKeySpecException throwables) {
-            throwables.printStackTrace();
+        } catch (InvalidKeySpecException throwable) {
+            throwable.printStackTrace();
             return null;
         }
 
-        User registeredUser = new User(firstName, lastName, email, hashedPassword, city, phoneNumber);
+        User registeredUser = new User(firstName, lastName, email, hashedPassword, city, phoneNumber, salt);
 
         if(userDAO.create(registeredUser)) {
             return login(email, hashedPassword);

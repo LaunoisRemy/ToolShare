@@ -47,6 +47,11 @@ public class User {
     private boolean isBanned;
 
     /**
+     * Salt of the user
+     */
+    private String salt;
+
+    /**
      * The role of an user, ordinary or admin
      */
     private Role role;
@@ -67,13 +72,14 @@ public class User {
         this.setPassword(password);
     }
 
-    public User(String firstName, String lastName, String email, String password, String userCity, String phoneNumber) {
+    public User(String firstName, String lastName, String email, String password, String userCity, String phoneNumber, String salt) {
         this.setFirstName(firstName);
         this.setLastName(lastName);
         this.setEmail(email);
         this.setPassword(password);
         this.setUserCity(userCity);
         this.setPhoneNumber(phoneNumber);
+        this.setSalt(salt);
         this.setAdmin(false);
         this.setBanned(false);
     }
@@ -223,6 +229,18 @@ public class User {
      * @param banned true if the user is banned, else false
      */
     public void setBanned(boolean banned) { this.isBanned = banned; }
+
+    /**
+     * getter of salt
+     * @return salt
+     */
+    public String getSalt() { return this.salt; }
+
+    /**
+     * setter of salt
+     * @param salt the salt of the user as a String
+     */
+    public void setSalt(String salt) { this.salt = salt; }
 
     /**
      * Getter of the role

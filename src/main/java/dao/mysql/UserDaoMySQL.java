@@ -49,8 +49,8 @@ public class UserDaoMySQL extends UserDAO {
     public boolean create(User obj) {
         try {
             PreparedStatement prep = connection.prepareStatement(
-                    "INSERT INTO user (lastname,firstname,email,password,userCity,phoneNumber,isAdmin,isBanned) " +
-                            "VALUES (?,?,?,?,?,?,?,?)"
+                    "INSERT INTO user (lastname,firstname,email,password,userCity,phoneNumber,isAdmin,isBanned, salt) " +
+                            "VALUES (?,?,?,?,?,?,?,?,?)"
             );
             prep.setString(1,obj.getLastName());
             prep.setString(2,obj.getFirstName());
@@ -60,6 +60,7 @@ public class UserDaoMySQL extends UserDAO {
             prep.setString(6,obj.getPhoneNumber());
             prep.setBoolean(7,obj.isAdmin());
             prep.setBoolean(8,obj.isBanned());
+            prep.setString(9, obj.getSalt());
 
             prep.executeUpdate();
 
