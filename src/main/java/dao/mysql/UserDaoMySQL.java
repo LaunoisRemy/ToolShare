@@ -112,19 +112,18 @@ public class UserDaoMySQL extends UserDAO {
      */
     @Override
     public String getSalt(String email) {
-        String salt = null;
         try {
             String sql = "SELECT salt FROM user WHERE email =?";
             PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setString(1,email);
             ResultSet rs = prep.executeQuery();
-            salt = rs.getString(1);
+            String salt = rs.getString(1);
             return salt;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
-        return "";
+        return null;
     }
 
     private User createUser(ResultSet rs) throws SQLException {
