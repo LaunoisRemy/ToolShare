@@ -28,7 +28,6 @@ public class ConnectionDBMySQL implements ConnectionDB{
         }
         catch(Exception e)
         {
-            //TODO comment on fait les erreurs ?
             JOptionPane.showMessageDialog(null, e);
         }
     }

@@ -4,20 +4,21 @@ import business.system.Session;
 import business.system.user.User;
 import dao.factory.AbstractFactoryDAO;
 import dao.factory.TypeDB;
+import dao.mysql.FactoryDAOMySQL;
 import dao.structure.UserDAO;
 import util.Cryptor;
 
 import java.security.spec.InvalidKeySpecException;
 
 public class UserFacade {
-
+    AbstractFactoryDAO factory;
     public UserFacade(){
-
+        factory = AbstractFactoryDAO.getInstance();
     }
 
     public User login(String mail, String password) {
-
-        UserDAO userDAO = AbstractFactoryDAO.getFactory(TypeDB.MySQL).getUserDAO();
+        ;//AbstractFactory : getInstance (new implementation : new MySQL )
+        UserDAO userDAO = factory.getUserDAO();
 
         //TODO : uncomment when the register view is implemented & update password check
 
@@ -50,7 +51,7 @@ public class UserFacade {
 
     public User register(String email, String firstName, String lastName, String city, String phoneNumber, String password) {
 
-        UserDAO userDAO = AbstractFactoryDAO.getFactory(TypeDB.MySQL).getUserDAO();
+        UserDAO userDAO = factory.getUserDAO();
 
         String salt = Cryptor.getSaltRandom();
         String hashedPassword = null;
