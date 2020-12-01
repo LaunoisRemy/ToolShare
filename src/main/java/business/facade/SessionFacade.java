@@ -1,5 +1,6 @@
 package business.facade;
 
+import business.management.UserManagement;
 import business.system.user.User;
 import dao.factory.AbstractFactoryDAO;
 import dao.structure.UserDAO;
@@ -10,6 +11,7 @@ import java.security.spec.InvalidKeySpecException;
 public class SessionFacade {
 
     private User user;
+    private UserManagement userManagement = new UserManagement();
 
     private SessionFacade() {
     }
@@ -46,54 +48,40 @@ public class SessionFacade {
     }
 
 
-    public User login(String mail, String password) {
+    public User login(String email, String password) {
 
+        //Create UserDAO
         UserDAO userDAO = AbstractFactoryDAO.getInstance().getUserDAO();
 
-        //TODO : uncomment when the register view is implemented & update password check
+        //GET user salt
+        String salt = userDAO.getSalt(email);
 
-        /* GET SALT
-        String salt = userDAO.getSalt(mail);
-        if (salt == null) {
-            return null;
-        }
+        //GET user
+        User user = userDAO.getUserByEmail(email);
 
-        GENERATE HASHED PASSWORD
-        String encryptedPassword = null;
-        try {
-            encryptedPassword = Cryptor.generateHash(password, salt);
-        } catch (InvalidKeySpecException throwable) {
-            throwable.printStackTrace();
-            return null;
-        }
-         */
+        //Compare password & set session user
+        this.setUser(userManagement.comparePassword(user, password, salt));
 
-        User user = userDAO.getUserByEmail(mail);
-        if (user != null && user.getPassword().equals(password)) {
-            SessionFacade session = SessionFacade.getInstance();
-            session.setUser(user);
-            return session.getUser();
-        } else {
-            return null;
-        }
+        //return session user
+        return this.getUser();
 
     }
 
     public User register(String email, String firstName, String lastName, String city, String phoneNumber, String password) {
 
+        //Create UserDAO
         UserDAO userDAO = AbstractFactoryDAO.getInstance().getUserDAO();
 
-        String salt = Cryptor.getSaltRandom();
-        String hashedPassword = null;
-        try {
-            hashedPassword = Cryptor.generateHash(password, salt);
-        } catch (InvalidKeySpecException throwable) {
-            throwable.printStackTrace();
-            return null;
-        }
+        //GET random salt
+        String salt = userManagement.getRandomSalt();
 
+        //GET hashed password
+        String hashedPassword = userManagement.getHashedPassword(password, salt);
+
+        //CREATE a new user
         User registeredUser = new User(firstName, lastName, email, hashedPassword, city, phoneNumber, salt);
 
+        //login user and set session
         if(userDAO.create(registeredUser)) {
             return login(email, password);
         } else {
