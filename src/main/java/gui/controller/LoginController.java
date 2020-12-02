@@ -2,6 +2,7 @@ package gui.controller;
 
 
 import business.system.user.User;
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import gui.LoadView;
 import javafx.fxml.FXML;
@@ -11,17 +12,21 @@ import javafx.scene.control.Label;
 
 
 public class LoginController {
-    private SessionFacade facade=new SessionFacade();
-
+    private SessionFacade facade=SessionFacade.getInstance();
     @FXML
     private JFXTextField mail;
     @FXML
-    private JFXTextField password;
+    private JFXPasswordField password;
     @FXML
     private Label error_msg;
     @FXML
     private Label banned_msg;
 
+    /**
+     * Handle the login from an user
+     * @param actionEvent ActionEvent
+     * Displays the corresponding view whether the user had valid credentials or not
+     */
     public void handleLogin(ActionEvent actionEvent){
         System.out.println(mail.getText());
         System.out.println(password.getText());
@@ -38,5 +43,9 @@ public class LoginController {
             LoadView.changeScreen(actionEvent,"offers");
             System.out.println("OK");
         }
+    }
+
+    public void registerPage(ActionEvent actionEvent){
+        LoadView.changeScreen(actionEvent,"register");
     }
 }
