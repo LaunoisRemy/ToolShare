@@ -82,7 +82,7 @@ package business{
         + setNameROle() : String
         + toString() : String
     }
-    abstract OrdinaryUser{
+    class OrdinaryUser{
         + {static} final ORDINARY_USER
         - userCity :  String
         - phoneNumber :  String
@@ -93,7 +93,7 @@ package business{
         + toString() : String
 
     }
-    abstract Admin{
+    class Admin{
         + {static} final ADMIN
 
     }
