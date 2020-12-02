@@ -5,13 +5,14 @@ actor User
 participant "Login (fxml)"
 participant LoginController
 participant UserFacade
-participant AbstractFactoryDAO
 participant "User (class)"
 participant Session
+participant AbstractFactoryDAO
+participant ConnectionDBMySQL
+participant JConnectorMySQL
 participant FactoryDAOMySQL
 participant UserDAOMySQL
-participant JConnectorMySQL
-participant JConnection
+participant Connection
 participant Statement
 database DB
 
@@ -35,9 +36,26 @@ deactivate LoginController
 
 activate UserFacade
 
-UserFacade->AbstractFactoryDAO:getFactory(Typedb:Enum(typedb)
-
+UserFacade->AbstractFactoryDAO:getInstance()
 activate AbstractFactoryDAO
+
+AbstractFactoryDAO -> ConnectionDBMySQL : getInstance()
+
+activate ConnectionDBMySQL
+
+
+ConnectionDBMySQL->JConnectorMySQL: getConnection(url : String, user : String, password : String)
+
+activate JConnectorMySQL
+
+JConnectorMySQL -> Connection **: Create
+
+activate Connection
+JConnectorMySQL-->ConnectionDBMySQL: Connection
+
+deactivate JConnectorMySQL
+AbstractFactoryDAO <-- ConnectionDBMySQL : connectionDBMySQL
+
 
 AbstractFactoryDAO--> UserFacade : FactoryDAOMySQL
 deactivate AbstractFactoryDAO
@@ -46,37 +64,24 @@ UserFacade -> FactoryDAOMySQL:getUserDAO()
 
 activate FactoryDAOMySQL
 
-FactoryDAOMySQL->UserDAOMySQL **:Create
+FactoryDAOMySQL->UserDAOMySQL **:Create(connection)
 
 activate UserDAOMySQL
-
 FactoryDAOMySQL-->UserFacade:UserDAOMySQL
 
 deactivate FactoryDAOMySQL
 
-UserDAOMySQL->JConnectorMySQL: getConnection(url : String, user : String, password : String)
-
-activate JConnectorMySQL
-
-JConnectorMySQL--> JConnection **: Create
-
-activate JConnection
-
-JConnectorMySQL-->UserDAOMySQL: JConnection
-
-deactivate JConnectorMySQL
-
 UserFacade->UserDAOMySQL: getUserByEmail(email : String)
 
-UserDAOMySQL->JConnection: prepareStatement()
+UserDAOMySQL->Connection: prepareStatement()
 
-JConnection-->Statement **: Create
+Connection-->Statement **: Create
 
 activate Statement
 
-JConnection-->UserDAOMySQL: Statement
+Connection-->UserDAOMySQL: Statement
 
-deactivate JConnection
+deactivate Connection
 
 UserDAOMySQL->Statement:executeQuery()
 
@@ -88,7 +93,7 @@ Statement-->UserDAOMySQL: ResultSet
 
 deactivate Statement
 
-UserDAOMySQL-->UserFacade: return user : User
+UserDAOMySQL-->UserFacade: return new(user) : User
 alt user != null
 
     deactivate UserDAOMySQL
@@ -142,5 +147,6 @@ deactivate "Login (fxml)"
 deactivate DB
 deactivate Session
 deactivate User
+deactivate ConnectionDBMySQL
 
 @enduml

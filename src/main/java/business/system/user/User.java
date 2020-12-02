@@ -28,22 +28,7 @@ public class User {
      */
     private String password;
 
-    /**
-     * City of user if is not an admin, else null
-     */
-    private String userCity;
-
-    /**
-     * Phone number of user
-     */
-    private String phoneNumber;
-
-    /**
-     * True if the user is admin, else false
-     */
-    private boolean isAdmin;
-
-    /**
+     /**
      * True if the user isBanned, else false
      */
     private boolean isBanned;
@@ -61,15 +46,13 @@ public class User {
     /**
      * Default constructor
      */
+    @Deprecated
     public User(String firstName, String lastName, String email, String password, String userCity, String phoneNumber, String salt) {
         this.setFirstName(firstName);
         this.setLastName(lastName);
         this.setEmail(email);
         this.setPassword(password);
-        this.setUserCity(userCity);
-        this.setPhoneNumber(phoneNumber);
         this.setSalt(salt);
-        this.setAdmin(false);
         this.setBanned(false);
     }
 
@@ -79,9 +62,11 @@ public class User {
         this.setLastName(lastName);
         this.setEmail(email);
         this.setPassword(password);
-        this.setUserCity(userCity);
-        this.setPhoneNumber(phoneNumber);
-        this.setAdmin(isAdmin);
+        if(isAdmin){
+            this.role = new Admin();
+        }else{
+            this.role= new OrdinaryUser(userCity,phoneNumber);
+        }
         this.setBanned(isBanned);
         this.setSalt(salt);
     }
@@ -164,49 +149,7 @@ public class User {
         this.user_id = user_id;
     }
 
-    /**
-     * getter of userCity
-     * @return userCity
-     */
-    public String getUserCity() { return this.userCity; }
 
-    /**
-     * setter of user city
-     * @param userCity the city of the user as a String
-     */
-    public void setUserCity(String userCity) {
-        this.userCity = userCity;
-    }
-
-    /**
-     * getter of phoneNumber
-     * @return phoneNumber
-     */
-    public String getPhoneNumber() { return this.phoneNumber; }
-
-    /**
-     * setter of phone number of user
-     * @param phoneNumber the phone number of the user as a String
-     */
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    /**
-     * if the user is admin
-     * @return true if admin, else false
-     */
-    public boolean isAdmin() {
-        return this.isAdmin;
-    }
-
-    /**
-     * setter of boolean isAdmin
-     * @param admin true is the user is an admin, else false
-     */
-    public void setAdmin(boolean admin) {
-        this.isAdmin = admin;
-    }
 
     /**
      * if the user is banned
@@ -248,10 +191,8 @@ public class User {
                 ", lastName = '" + this.getLastName() + '\'' +
                 ", email = '" + this.getEmail() + '\'' +
                 ", password = '" + this.getPassword() + '\'' +
-                ", userCity = '" + this.getUserCity() + '\'' +
-                ", phoneNumber = '" + this.getPhoneNumber() + '\'' +
-                ", isAdmin = " + this.isAdmin() +
-                ", isBanned = " + this.isBanned() ;
+                ", isBanned = " + this.isBanned() + '\''+
+                this.role.toString();
     }
 
     @Override

@@ -7,8 +7,7 @@ import db.ConnectionDBMySQL;
 import java.sql.Connection;
 
 public abstract class AbstractFactoryDAO {
-    public static final ConnectionDB connectionDB = ConnectionDBMySQL.getInstance();
-
+    public static final Connection connection = ConnectionDBMySQL.getInstance().getDb();
 
     /**
      * The static class definition LazyHolder within it is not initialized until the JVM determines that LazyHolder must be executed
