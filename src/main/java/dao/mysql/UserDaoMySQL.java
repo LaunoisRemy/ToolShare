@@ -22,8 +22,8 @@ public class UserDaoMySQL implements UserDAO {
     private static final String ID_COL = "user_id";
     private final Connection connection;
 
-    public UserDaoMySQL() {
-        this.connection = AbstractFactoryDAO.connectionDB.getDb();
+    public UserDaoMySQL(Connection connection) {
+        this.connection = connection;
     }
 
     /**
