@@ -1,5 +1,8 @@
 package gui.controller;
 
+import business.exceptions.NotInsertedUser;
+import business.exceptions.UserBannedException;
+import business.exceptions.UserNotFoundException;
 import business.facade.SessionFacade;
 import business.system.user.User;
 import com.jfoenix.controls.JFXPasswordField;
@@ -26,11 +29,11 @@ public class RegisterController {
     private JFXTextField phone;
 
     public void handleRegister(ActionEvent actionEvent){
-        User user=facade.register(email.getText(),firstname.getText(),lastname.getText(),city.getText(),phone.getText(),password.getText());
-        if(user!=null){
-            LoadView.changeScreen(actionEvent,"offers");
-        }else{
-            System.out.println("rip");
+        try {
+            facade.register(email.getText(), firstname.getText(), lastname.getText(), city.getText(), phone.getText(), password.getText());
+            LoadView.changeScreen(actionEvent, "login");
+        } catch (NotInsertedUser e){
+            e.toString();
         }
     }
     public void loginPage(ActionEvent actionEvent){

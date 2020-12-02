@@ -1,6 +1,8 @@
 package gui.controller;
 
 
+import business.exceptions.UserBannedException;
+import business.exceptions.UserNotFoundException;
 import business.system.user.User;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -27,22 +29,24 @@ public class LoginController {
      * @param actionEvent ActionEvent
      * Displays the corresponding view whether the user had valid credentials or not
      */
-    public void handleLogin(ActionEvent actionEvent){
+    public void handleLogin(ActionEvent actionEvent) throws UserBannedException, UserNotFoundException {
         System.out.println(mail.getText());
         System.out.println(password.getText());
-        User user=facade.login(mail.getText(),password.getText());
-        if (user == null) {
-            banned_msg.setVisible(false);
-            error_msg.setVisible(true);
-        }
-        else{
-            if(user.isBanned()){
-                error_msg.setVisible(false);
-                banned_msg.setVisible(true);
-            }
+
+        try {
+            User user = facade.login(mail.getText(), password.getText());
             LoadView.changeScreen(actionEvent,"offers");
             System.out.println("OK");
+        } catch (UserNotFoundException e1){
+            banned_msg.setVisible(false);
+            error_msg.setVisible(true);
+            e1.toString();
+        } catch (UserBannedException e2){
+            error_msg.setVisible(false);
+            banned_msg.setVisible(true);
+            e2.toString();
         }
+
     }
 
     public void registerPage(ActionEvent actionEvent){

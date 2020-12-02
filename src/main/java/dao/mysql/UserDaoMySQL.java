@@ -1,6 +1,5 @@
 package dao.mysql;
 
-import business.system.user.OrdinaryUser;
 import business.system.user.User;
 import dao.factory.AbstractFactoryDAO;
 import dao.structure.UserDAO;
@@ -20,6 +19,7 @@ public class UserDaoMySQL implements UserDAO {
     private static final String PHONENUMBER_COL = "phoneNumber";
     private static final String ISADMIN = "isAdmin";
     private static final String ID_COL = "user_id";
+    private static final String SALT_COL = "salt";
     private final Connection connection;
 
     public UserDaoMySQL(Connection connection) {
@@ -43,7 +43,7 @@ public class UserDaoMySQL implements UserDAO {
 
             if(rs.next()){
                 if(rs.getInt(1) == (id)){
-                    user = user = this.createUserFromRs(rs);
+                    user = user = this.createUser(rs);
                 }
             }
         } catch (SQLException throwables) {
@@ -63,17 +63,9 @@ public class UserDaoMySQL implements UserDAO {
             prep.setString(2,obj.getFirstName());
             prep.setString(3,obj.getEmail());
             prep.setString(4,obj.getPassword());
-            if(obj.getRole().getNameRole().equals(OrdinaryUser.ORDINARY_USER)){
-                OrdinaryUser role = (OrdinaryUser) obj.getRole();
-                prep.setString(5,role.getUserCity());
-                prep.setString(6,role.getPhoneNumber());
-                prep.setBoolean(7,false);
-            }else{
-                prep.setString(5,null);
-                prep.setString(6,null);
-                prep.setBoolean(7,true);
-            }
-
+            prep.setString(5,obj.getUserCity());
+            prep.setString(6,obj.getPhoneNumber());
+            prep.setBoolean(7,obj.isAdmin());
             prep.setBoolean(8,obj.isBanned());
             prep.setString(9, obj.getSalt());
 
@@ -111,7 +103,7 @@ public class UserDaoMySQL implements UserDAO {
             ResultSet rs = prep.executeQuery();
             if(rs.next()){
                 if(rs.getString(3).equals(email)){
-                    user = this.createUserFromRs(rs);
+                    user = this.createUser(rs);
                 }
             }
         } catch (SQLException throwables) {
@@ -141,7 +133,7 @@ public class UserDaoMySQL implements UserDAO {
         return null;
     }
 
-    private User createUserFromRs(ResultSet rs) throws SQLException {
+    private User createUser(ResultSet rs) throws SQLException {
         return new User(rs.getInt(ID_COL),rs.getString(FIRST_NAME_COL),rs.getString(LAST_NAME_COL),rs.getString(EMAIL_COL),rs.getString(PASSWORD_COL),rs.getString(USERCITY_COL),rs.getString(PHONENUMBER_COL),rs.getBoolean(ISADMIN),rs.getBoolean(ISBANNED));
     }
 
