@@ -1,5 +1,7 @@
 package business.system.user;
 
+import business.exceptions.UserNotFoundException;
+
 public class User {
     /**
      * Id of user
@@ -71,7 +73,7 @@ public class User {
         this.setBanned(false);
     }
 
-    public User(int id, String firstName, String lastName, String email, String password, String userCity, String phoneNumber, boolean isAdmin, boolean isBanned) {
+    public User(int id, String firstName, String lastName, String email, String password, String userCity, String phoneNumber, boolean isAdmin, boolean isBanned, String salt) {
         this.setUser_id(id);
         this.setFirstName(firstName);
         this.setLastName(lastName);
@@ -81,6 +83,7 @@ public class User {
         this.setPhoneNumber(phoneNumber);
         this.setAdmin(isAdmin);
         this.setBanned(isBanned);
+        this.setSalt(salt);
     }
 
     /**

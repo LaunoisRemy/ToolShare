@@ -1,5 +1,6 @@
 package dao.mysql;
 
+import business.exceptions.UserNotFoundException;
 import business.system.user.User;
 import dao.factory.AbstractFactoryDAO;
 import dao.structure.UserDAO;
@@ -19,6 +20,7 @@ public class UserDaoMySQL implements UserDAO {
     private static final String PHONENUMBER_COL = "phoneNumber";
     private static final String ISADMIN = "isAdmin";
     private static final String ID_COL = "user_id";
+    private static final String SALT_COL = "salt";
     private final Connection connection;
 
     public UserDaoMySQL() {
@@ -42,7 +44,7 @@ public class UserDaoMySQL implements UserDAO {
 
             if(rs.next()){
                 if(rs.getInt(1) == (id)){
-                    user = user = this.createUser(rs);
+                    user = this.createUser(rs);
                 }
             }
         } catch (SQLException throwables) {
@@ -133,7 +135,7 @@ public class UserDaoMySQL implements UserDAO {
     }
 
     private User createUser(ResultSet rs) throws SQLException {
-        return new User(rs.getInt(ID_COL),rs.getString(FIRST_NAME_COL),rs.getString(LAST_NAME_COL),rs.getString(EMAIL_COL),rs.getString(PASSWORD_COL),rs.getString(USERCITY_COL),rs.getString(PHONENUMBER_COL),rs.getBoolean(ISADMIN),rs.getBoolean(ISBANNED));
+        return new User(rs.getInt(ID_COL),rs.getString(FIRST_NAME_COL),rs.getString(LAST_NAME_COL),rs.getString(EMAIL_COL),rs.getString(PASSWORD_COL),rs.getString(USERCITY_COL),rs.getString(PHONENUMBER_COL),rs.getBoolean(ISADMIN),rs.getBoolean(ISBANNED),rs.getString(SALT_COL));
     }
 
     @Override

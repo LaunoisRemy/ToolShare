@@ -1,7 +1,9 @@
 package util;
 
+//import java.lang.Object.org.springframework.security.crypto.bcrypt.BCrypt;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -19,14 +21,14 @@ public class Cryptor {
         return new String(hexChars);
     }
 
-    private static byte[] hexToBytes(String hex) {
-        byte[] val = new byte[hex.length() / 2];
-        for (int i = 0; i < val.length; i++) {
-            int index = i * 2;
-            int j = Integer.parseInt(hex.substring(index, index + 2), 16);
-            val[i] = (byte) j;
+    public static byte[] hexToBytes(String s) {
+        int len = s.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i + 1), 16));
         }
-        return val;
+        return data;
     }
 
     public static String generateHash(String password, String salt) throws InvalidKeySpecException {
@@ -58,6 +60,11 @@ public class Cryptor {
         byte[] salt = new byte[16];
         sr.nextBytes(salt);
         return bytesToHex(salt);
+    }
+
+    public static void main(String[] args) {
+        String salt = getSaltRandom();
+        System.out.println(salt);
     }
 
 }
