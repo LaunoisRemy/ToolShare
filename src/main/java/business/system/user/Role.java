@@ -1,7 +1,7 @@
 package business.system.user;
 
 public abstract class Role {
-    public String nameRole;
+    private  String nameRole;
 
     public String getNameRole() {
         return nameRole;
