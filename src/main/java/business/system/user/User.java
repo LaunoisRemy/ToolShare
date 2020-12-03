@@ -46,12 +46,16 @@ public class User {
     /**
      * Default constructor
      */
-    @Deprecated
-    public User(String firstName, String lastName, String email, String password, String userCity, String phoneNumber, String salt) {
+    public User(String firstName, String lastName, String email, String password, String userCity, String phoneNumber, String salt, boolean isAdmin) {
         this.setFirstName(firstName);
         this.setLastName(lastName);
         this.setEmail(email);
         this.setPassword(password);
+        if(isAdmin) {
+            this.role = new Admin();
+        } else {
+            this.role = new OrdinaryUser(userCity, phoneNumber);
+        }
         this.setSalt(salt);
         this.setBanned(false);
     }

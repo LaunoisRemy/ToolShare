@@ -47,7 +47,14 @@ public class SessionFacade {
         this.user = user;
     }
 
-
+    /**
+     * The login method called by the LoginController, it will set the user session as well
+     * @param email the email of the user as a String
+     * @param password the password of the user as a String
+     * @return User
+     * @throws UserNotFoundException if user is not found
+     * @throws UserBannedException if user is banned
+     */
     public User login(String email, String password) throws UserNotFoundException, UserBannedException {
 
         //Create UserDAO
@@ -62,7 +69,8 @@ public class SessionFacade {
             throw new UserBannedException("User is banned");
         } else {
             //GET user salt
-            String salt = user.getSalt();
+            String salt = userDAO.getSalt(email);
+            //COMPARE user password
             this.setUser(userManagement.comparePassword(user, password, salt));
         }
 
@@ -71,7 +79,18 @@ public class SessionFacade {
 
     }
 
-    public void register(String email, String firstName, String lastName, String city, String phoneNumber, String password) throws NotInsertedUser {
+    /**
+     * The register method called by the RegisterController, it will create a new user and login the user
+     * @param email the email of the user as a String
+     * @param firstName the first name of the user as a String
+     * @param lastName the last name of the user as a String
+     * @param city the city of the user as a String
+     * @param phoneNumber the phone number of the user as a String
+     * @param password the password of the user as a String
+     * @param isAdmin true if the user is an admin, else false
+     * @throws NotInsertedUser if the user is not inserted
+     */
+    public void register(String email, String firstName, String lastName, String city, String phoneNumber, String password, boolean isAdmin) throws NotInsertedUser {
 
         //Create UserDAO
         UserDAO userDAO = AbstractFactoryDAO.getInstance().getUserDAO();
@@ -83,7 +102,7 @@ public class SessionFacade {
         String hashedPassword = userManagement.getHashedPassword(password, salt);
 
         //CREATE a new user
-        User registeredUser = new User(firstName, lastName, email, hashedPassword, city, phoneNumber, salt);
+        User registeredUser = new User(firstName, lastName, email, hashedPassword, city, phoneNumber, salt, isAdmin);
 
         //true if the user is well inserted in the bdd, false otherwise
         if(!userDAO.create(registeredUser)) {
