@@ -30,7 +30,7 @@ public class RegisterController {
 
     public void handleRegister(ActionEvent actionEvent){
         try {
-            facade.register(email.getText(), firstname.getText(), lastname.getText(), city.getText(), phone.getText(), password.getText());
+            facade.register(email.getText(), firstname.getText(), lastname.getText(), city.getText(), phone.getText(), password.getText(), false);
             LoadView.changeScreen(actionEvent, "login");
         } catch (NotInsertedUser e){
             e.toString();
