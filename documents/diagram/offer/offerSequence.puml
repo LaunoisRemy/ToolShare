@@ -4,7 +4,7 @@ title Login Diagram
 actor User
 participant "CreateOffer (fxml)"
 participant "ViewOffer (fxml)"
-participant CreateOfferController
+participant OfferController
 participant OfferFacade
 participant Offer
 participant AbstractFactoryDAO
@@ -28,13 +28,13 @@ activate ConnectionDBMySQL
 
 User->"CreateOffer (fxml)":Enter the offer information (title : String, description : String, state : String, Category : String, toSale : boolean, city : String, price : int, image1 : ???, image2 : ???, image3 : ???)
 
-"CreateOffer (fxml)"->CreateOfferController: handleNewOffer(mail : String, password : String)
+"CreateOffer (fxml)"->OfferController: handleNewOffer(mail : String, password : String)
 
 deactivate "CreateOffer (fxml)"
 
-activate CreateOfferController
+activate OfferController
 
-CreateOfferController->OfferFacade:postOffer(title : String, description : String...)
+OfferController->OfferFacade:postOffer(title : String, description : String...)
 
 activate OfferFacade
 
@@ -92,13 +92,13 @@ Offer-->OfferFacade: offer
 
 deactivate Offer
 
-OfferFacade-->CreateOfferController: offer
+OfferFacade-->OfferController: offer
 
 deactivate OfferFacade
 
-CreateOfferController-->"ViewOffer (fxml)": handleViewOffer(offer)
+OfferController-->"ViewOffer (fxml)": handleViewOffer(offer)
 
-deactivate CreateOfferController
+deactivate OfferController
 
 activate "ViewOffer (fxml)"
 

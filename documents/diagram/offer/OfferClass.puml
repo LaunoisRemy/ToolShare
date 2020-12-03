@@ -1,0 +1,134 @@
+@startuml
+
+package dao {
+
+
+    interface OfferDao{
+        getOffersFromUser(user : User) : Offer[]
+        getOffersByCity(city : String) : Offer[]
+        getLatestOffers() : Offer[]
+        offerExists(id : int) : boolean
+    }
+    class OfferDaoMySQL
+    AbstractFactoryDao <|-- FactoryDaoSQL
+    OfferDao <|-- OfferDaoMySQL
+
+    interface DAO<T>{
+        find(id : int) : T
+        create(T obj) : boolean
+        update(T obj) : boolean
+        delete(T obj) : boolean
+    }
+
+    abstract AbstractFactoryDao{
+        - {static } final connectionDB : ConnectionDB
+        + {static} getFactory(type : TypeDB) : AbstractFactoryDao
+        + getOfferDao() : OfferDao
+    }
+
+    class FactoryDaoSQL{
+    }
+
+
+    DAO <|-- OfferDao
+}
+package db{
+    class ConnectionDBMySQL{
+        - connection : Connection
+        - ConnectionDBMySQL()
+        + {static} getInstance() : ConnectionDBMySQL
+        + getDb() : Connection
+    }
+
+    class LazyHolderDB{
+        + {static} final INSTANCE : ConnectionDBMySQL
+    }
+    interface ConnectionDB
+    ConnectionDBMySQL -Left-> LazyHolderDB
+    ConnectionDBMySQL .up.|> ConnectionDB
+
+}
+package business{
+    class SessionFacade{
+        + SessionFacade()
+        + login(mail : String, password : String) : Void
+        + register(email : String, firstName : String, lastName : String, city : String, phoneNumber : String, password : String) : Void
+        + getInstance() : SessionFacade
+    }
+
+    class LazyHolderUser{
+        -{static} final INSTANCE : SessionFacade
+    }
+
+    SessionFacade -> LazyHolderUser
+    class User{
+        -firstName : String
+        -lastName : String
+        -email : String
+        -password : String
+        + User()
+        +getFirstName() : String
+        +getLastName() : String
+        +getEmail() : String
+        +getPassword() : String
+        +setFirstName(name : String)
+        +setLastName(lastName : String)
+        +setEmail(email : String)
+        +setPassword(password : String)
+        +checkPassword(password : String)
+    }
+
+    abstract Role{
+        - nameRole : String
+        + getNameRole() : String
+        + setNameROle() : String
+        + toString() : String
+    }
+    class OrdinaryUser{
+        + {static} final ORDINARY_USER
+        - userCity :  String
+        - phoneNumber :  String
+        + getUserCity() : String
+        + setUserCity(String : userCity)
+        + getPhoneNumber() : String
+        + setPhoneNumber(String : phoneNumber)
+        + toString() : String
+
+    }
+    class Admin{
+        + {static} final ADMIN
+
+    }
+    User -> Role : -role
+    OrdinaryUser -Up-|> Role
+    Admin -Up-|> Role
+    class UserManagement{
+        + getHashedPassword(password : String, salt : String) : String
+        + comparePassword(user : User, password : String, salt : String) : String
+        + getRandomSalt() : String
+    }
+
+    SessionFacade --> UserManagement : -userManagement
+}
+
+package gui{
+
+    class LoadView{
+        + {static} load(nameFxml : Parent) : Parent
+        + {static} changeScreen(actionEvent : ActionEvent, view : String) : void
+    }
+
+    package controller{
+        class OfferController{
+            + handleNewOffer(title : String, description : String, state : String, Category : String, toSale : boolean...) : void
+            + handleViewOffer(offer : Offer) : void
+        }
+
+    }
+}
+SessionFacade <--Up- OfferController
+SessionFacade .Up.> AbstractFactoryDao
+
+
+
+@enduml
