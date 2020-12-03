@@ -18,7 +18,7 @@ public class UserManagement {
      * @return the hashed password if successful, else return null
      */
     public String getHashedPassword(String password, String salt) {
-        String encryptedPassword = null;
+        String encryptedPassword;
         try {
             encryptedPassword = Cryptor.generateHash(password, salt);
         } catch (InvalidKeySpecException throwable) {
