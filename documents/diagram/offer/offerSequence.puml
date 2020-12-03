@@ -1,0 +1,113 @@
+@startuml
+title Login Diagram
+
+actor User
+participant "CreateOffer (fxml)"
+participant "ViewOffer (fxml)"
+participant CreateOfferController
+participant OfferFacade
+participant Offer
+participant AbstractFactoryDAO
+participant ConnectionDBMySQL
+participant FactoryDAOMySQL
+participant OfferDAOMySQL
+participant Connection
+participant Statement
+database DB
+
+
+"CreateOffer (fxml)"-->User: Display the form to create an offer
+
+activate "CreateOffer (fxml)"
+activate User
+activate DB
+activate Connection
+activate ConnectionDBMySQL
+
+
+
+User->"CreateOffer (fxml)":Enter the offer information (title : String, description : String, state : String, Category : String, toSale : boolean, city : String, price : int, image1 : ???, image2 : ???, image3 : ???)
+
+"CreateOffer (fxml)"->CreateOfferController: handleNewOffer(mail : String, password : String)
+
+deactivate "CreateOffer (fxml)"
+
+activate CreateOfferController
+
+CreateOfferController->OfferFacade:postOffer(title : String, description : String...)
+
+activate OfferFacade
+
+OfferFacade->AbstractFactoryDAO:getInstance()
+
+activate AbstractFactoryDAO
+
+AbstractFactoryDAO -> ConnectionDBMySQL : getInstance()
+
+AbstractFactoryDAO <-- ConnectionDBMySQL : connectionDBMySQL
+
+AbstractFactoryDAO--> OfferFacade : FactoryDAOMySQL
+
+deactivate AbstractFactoryDAO
+
+OfferFacade -> FactoryDAOMySQL:getOfferDAO()
+
+activate FactoryDAOMySQL
+
+FactoryDAOMySQL->OfferDAOMySQL **:Create(connection)
+
+activate OfferDAOMySQL
+
+FactoryDAOMySQL-->OfferFacade:OfferDAOMySQL
+
+deactivate FactoryDAOMySQL
+
+OfferFacade->OfferDAOMySQL: create(title : String, description : String...)
+
+OfferDAOMySQL->Connection: prepareStatement()
+
+Connection-->Statement **: Create
+
+activate Statement
+
+Connection-->OfferDAOMySQL: Statement
+
+OfferDAOMySQL->Statement:executeQuery()
+
+Statement->DB: SQL Query
+
+DB->Statement:Result
+
+Statement-->OfferDAOMySQL: ResultSet
+
+deactivate Statement
+
+OfferDAOMySQL->Offer: Offer(title : String, description : String...)
+
+deactivate OfferDAOMySQL
+
+activate Offer
+
+Offer-->OfferFacade: offer
+
+deactivate Offer
+
+OfferFacade-->CreateOfferController: offer
+
+deactivate OfferFacade
+
+CreateOfferController-->"ViewOffer (fxml)": handleViewOffer(offer)
+
+deactivate CreateOfferController
+
+activate "ViewOffer (fxml)"
+
+"ViewOffer (fxml)"-->User: Display corresponding View
+
+deactivate "ViewOffer (fxml)"
+deactivate DB
+deactivate User
+deactivate ConnectionDBMySQL
+deactivate Connection
+
+@enduml
