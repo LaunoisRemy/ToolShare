@@ -78,11 +78,13 @@ public class UserDaoMySQL implements UserDAO {
             prep.setString(9, obj.getSalt());
 
             prep.executeUpdate();
+            return true;
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            return false;
         }
-        return true;
+
     }
 
     @Override
