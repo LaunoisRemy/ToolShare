@@ -22,9 +22,11 @@ activate "CreateOffer (fxml)"
 activate User
 activate DB
 activate Connection
+activate ConnectionDBMySQL
 
 
-User->"CreateOffer (fxml)":Enter the offer information (title : String, description : String, state : String, Category : String, toSale : boolean...)
+
+User->"CreateOffer (fxml)":Enter the offer information (title : String, description : String, state : String, Category : String, toSale : boolean, city : String, price : int, image1 : ???, image2 : ???, image3 : ???)
 
 "CreateOffer (fxml)"->CreateOfferController: handleNewOffer(mail : String, password : String)
 
@@ -37,16 +39,15 @@ CreateOfferController->OfferFacade:postOffer(title : String, description : Strin
 activate OfferFacade
 
 OfferFacade->AbstractFactoryDAO:getInstance()
+
 activate AbstractFactoryDAO
 
 AbstractFactoryDAO -> ConnectionDBMySQL : getInstance()
 
-activate ConnectionDBMySQL
-
 AbstractFactoryDAO <-- ConnectionDBMySQL : connectionDBMySQL
 
-
 AbstractFactoryDAO--> OfferFacade : FactoryDAOMySQL
+
 deactivate AbstractFactoryDAO
 
 OfferFacade -> FactoryDAOMySQL:getOfferDAO()
@@ -56,6 +57,7 @@ activate FactoryDAOMySQL
 FactoryDAOMySQL->OfferDAOMySQL **:Create(connection)
 
 activate OfferDAOMySQL
+
 FactoryDAOMySQL-->OfferFacade:OfferDAOMySQL
 
 deactivate FactoryDAOMySQL
