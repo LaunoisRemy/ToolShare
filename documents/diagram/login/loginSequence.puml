@@ -4,9 +4,9 @@ title Login Diagram
 actor User
 participant "Login (fxml)"
 participant LoginController
-participant UserFacade
+participant SessionFacade
 participant "User (class)"
-participant Session
+participant UserManagement
 participant AbstractFactoryDAO
 participant ConnectionDBMySQL
 participant JConnectorMySQL
@@ -30,13 +30,13 @@ User->"Login (fxml)":Enter his credentials (mail : String, password : String)
 
 activate LoginController
 
-LoginController->UserFacade:login(mail : String, password : String)
+LoginController->SessionFacade:login(mail : String, password : String)
 
 deactivate LoginController
 
-activate UserFacade
+activate SessionFacade
 
-UserFacade->AbstractFactoryDAO:getInstance()
+SessionFacade->AbstractFactoryDAO:getInstance()
 activate AbstractFactoryDAO
 
 AbstractFactoryDAO -> ConnectionDBMySQL : getInstance()
@@ -57,21 +57,21 @@ deactivate JConnectorMySQL
 AbstractFactoryDAO <-- ConnectionDBMySQL : connectionDBMySQL
 
 
-AbstractFactoryDAO--> UserFacade : FactoryDAOMySQL
+AbstractFactoryDAO--> SessionFacade : FactoryDAOMySQL
 deactivate AbstractFactoryDAO
 
-UserFacade -> FactoryDAOMySQL:getUserDAO()
+SessionFacade -> FactoryDAOMySQL:getUserDAO()
 
 activate FactoryDAOMySQL
 
 FactoryDAOMySQL->UserDAOMySQL **:Create(connection)
 
 activate UserDAOMySQL
-FactoryDAOMySQL-->UserFacade:UserDAOMySQL
+FactoryDAOMySQL-->SessionFacade:UserDAOMySQL
 
 deactivate FactoryDAOMySQL
 
-UserFacade->UserDAOMySQL: getUserByEmail(email : String)
+SessionFacade->UserDAOMySQL: getUserByEmail(email : String)
 
 UserDAOMySQL->Connection: prepareStatement()
 
@@ -93,31 +93,22 @@ Statement-->UserDAOMySQL: ResultSet
 
 deactivate Statement
 
-UserDAOMySQL-->UserFacade: return new(user) : User
+UserDAOMySQL-->SessionFacade: return new(user) : User
 alt user != null
 
     deactivate UserDAOMySQL
-    UserFacade->"User (class)": checkPassword(password:String)
-    activate "User (class)"
-    "User (class)"-->UserFacade: return check : boolean
-    deactivate "User (class)"
+    SessionFacade->UserManagement: comparePassword(user: User, password:String, salt : String)
+    activate UserManagement
+    UserManagement -->SessionFacade: return check : boolean
+    deactivate UserManagement
 
-    alt if check
-        UserFacade->Session **: getInstance()
 
-        activate Session
-
-        Session-->UserFacade:getUser()
-
-    else check == false
-        UserFacade-->UserFacade: user = null
-    end
 
 end
 
-UserFacade-->LoginController: return user
+SessionFacade-->LoginController: return user
 
-deactivate UserFacade
+deactivate SessionFacade
 
 activate LoginController
 
@@ -145,7 +136,7 @@ deactivate LoginController
 "Login (fxml)"-->User: Display corresponding View
 deactivate "Login (fxml)"
 deactivate DB
-deactivate Session
+deactivate UserManagement
 deactivate User
 deactivate ConnectionDBMySQL
 
