@@ -3,6 +3,7 @@ package gui.controller;
 
 import business.exceptions.UserBannedException;
 import business.exceptions.UserNotFoundException;
+import business.exceptions.WrongPasswordException;
 import business.system.user.User;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -29,7 +30,7 @@ public class LoginController {
      * @param actionEvent ActionEvent
      * Displays the corresponding view whether the user had valid credentials or not
      */
-    public void handleLogin(ActionEvent actionEvent) throws UserBannedException, UserNotFoundException {
+    public void handleLogin(ActionEvent actionEvent) {
         System.out.println(mail.getText());
         System.out.println(password.getText());
 
@@ -37,7 +38,7 @@ public class LoginController {
             User user = facade.login(mail.getText(), password.getText());
             LoadView.changeScreen(actionEvent,"offers");
             System.out.println("OK");
-        } catch (UserNotFoundException e1){
+        } catch (UserNotFoundException | WrongPasswordException e1){
             banned_msg.setVisible(false);
             error_msg.setVisible(true);
             e1.toString();
