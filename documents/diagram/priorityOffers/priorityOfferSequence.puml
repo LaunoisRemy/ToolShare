@@ -1,0 +1,103 @@
+@startuml
+title Login Diagram
+
+actor User
+participant "Homepage (fxml)"
+participant OfferController
+participant OfferFacade
+participant "Offer (class)"
+participant UserManagement
+participant AbstractFactoryDAO
+participant FactoryDAOMySQL
+participant PriorityOfferDAOMySQL
+participant Connection
+participant Statement
+database DB
+
+
+"Homepage (fxml)"-->User: Display Homepage view
+
+activate "Homepage (fxml)"
+activate User
+activate DB
+
+
+User->"Homepage (fxml)":Select an offer to view(offerId : int)
+
+"Homepage (fxml)"->OfferController: handleClickOnOffer(offerId : int)
+
+activate OfferController
+
+OfferController->OfferFacade:getOffer(offerId : int)
+
+deactivate OfferController
+
+activate OfferFacade
+
+OfferFacade->AbstractFactoryDAO:getInstance()
+activate AbstractFactoryDAO
+
+
+
+
+
+
+
+
+
+
+AbstractFactoryDAO--> OfferFacade : FactoryDAOMySQL
+deactivate AbstractFactoryDAO
+
+OfferFacade -> FactoryDAOMySQL:getPriorityOfferDAO()
+
+activate FactoryDAOMySQL
+
+FactoryDAOMySQL->PriorityOfferDAOMySQL **:Create(connection)
+
+activate PriorityOfferDAOMySQL
+FactoryDAOMySQL-->OfferFacade:PriorityOfferDAOMySQL
+
+deactivate FactoryDAOMySQL
+
+OfferFacade->PriorityOfferDAOMySQL: getPriorityOfferById(offerId : int)
+
+PriorityOfferDAOMySQL->Connection: prepareStatement()
+activate Connection
+
+Connection-->Statement **: Create
+
+activate Statement
+
+Connection-->PriorityOfferDAOMySQL: Statement
+
+deactivate Connection
+
+PriorityOfferDAOMySQL->Statement:executeQuery()
+
+Statement->DB: SQL Query
+
+DB->Statement:Result
+
+Statement-->PriorityOfferDAOMySQL: ResultSet
+
+deactivate Statement
+
+PriorityOfferDAOMySQL-->OfferFacade: return new(PriorityOffer) : PriorityOffer
+
+OfferFacade-->OfferController : return PriorityOffer
+activate OfferController
+
+deactivate OfferFacade
+
+OfferController-->"Homepage (fxml)": Display the offer view
+
+deactivate OfferController
+
+"Homepage (fxml)"-->User: Display corresponding Offer
+deactivate "Homepage (fxml)"
+deactivate DB
+deactivate UserManagement
+deactivate User
+
+@enduml
