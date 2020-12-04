@@ -51,7 +51,7 @@ activate ReservationDAOMySQL
 FactoryDAOMySQL-->ReservationFacade:ReservationDAOMySQL
 
 deactivate FactoryDAOMySQL
-ReservationFacade->ReservationManagement:checkDates(offer_id : int, dateStartBooking : Date, getDateEndBooking : Date)
+ReservationFacade->ReservationManagement:checkDates(offerId : int, dateStartBooking : Date, getDateEndBooking : Date)
 ReservationManagement-->ReservationFacade:return boolean
 alt boolean == true (offer available)
 
@@ -60,7 +60,7 @@ alt boolean == true (offer available)
     SessionFacade-->ReservationFacade: return user
     deactivate SessionFacade
 
-    ReservationFacade->ReservationDAOMySQL: create(offer_id : int, user_id : int, dateStartBooking : Date, getDateEndBooking : Date)
+    ReservationFacade->ReservationDAOMySQL: create(offerId : int, userId : int, dateStartBooking : Date, getDateEndBooking : Date)
 
     ReservationDAOMySQL->Connection: prepareStatement()
 
@@ -102,6 +102,5 @@ deactivate "CreateReservation (fxml)"
 deactivate DB
 deactivate ReservationManagement
 deactivate User
-deactivate ConnectionDBMySQL
 
 @enduml

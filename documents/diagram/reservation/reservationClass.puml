@@ -4,8 +4,8 @@ package dao {
 
 
     interface ReservationDao{
-        getUserByEmail(mail : String): User
-        userExists(email : String) : boolean
+        getUserByReservationId(reservationId : int): User
+        getOfferByReservationId(reservationId : int): Offer
     }
     class ReservationDaoMySQL
     AbstractFactoryDao <|-- FactoryDaoSQL
@@ -63,11 +63,11 @@ package business{
 
     class ReservationFacade{
         + ReservationFacade()
-        + reserve(offer_id : int, dateStartBooking : Date, getDateEndBooking : Date) : Void
-        + viewAvailability(offer_id : int)
+        + reserve(offerId : int, dateStartBooking : Date, getDateEndBooking : Date) : Void
+        + viewAvailability(offerId : int)
         + viewActiveReservations()
-        + confirmReservation(reservation_id : int)
-        + cancelReservation(reservation_id : int)
+        + confirmReservation(reservationId : int)
+        + cancelReservation(reservationId : int)
     }
 
     class Reservation{
@@ -87,7 +87,7 @@ package business{
     ReservationFacade --> SessionFacade
 
     class ReservationManagement{
-        + checkDates(offer_id : int, dateStartBooking : Date, getDateEndBooking : Date) : boolean
+        + checkDates(offerId : int, dateStartBooking : Date, getDateEndBooking : Date) : boolean
     }
 
     ReservationFacade --> ReservationManagement : -ReservationManagement
@@ -102,8 +102,11 @@ package gui{
 
     package controller{
         class ReservationController{
-            + handleReservation(offer_id : int, dateStartBooking : Date, dateEndBooking : Date) : void
-            + handleOfferAvailability(offer_id : int)
+            + handleReservation(offerId : int, dateStartBooking : Date, dateEndBooking : Date) : void
+            + handleOfferAvailability(offerId : int)
+        }
+
+        class ReservationManagementController{
             + handleActiveReservation()
             + handleReservationConfirmation()
             + handleCancelReservation()
@@ -112,6 +115,7 @@ package gui{
     }
 }
 ReservationFacade <--Up- ReservationController
+ReservationFacade <--Up- ReservationManagementController
 ReservationFacade .Up.> AbstractFactoryDao
 
 
