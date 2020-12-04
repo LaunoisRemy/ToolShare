@@ -4,8 +4,9 @@ title Login Diagram
 actor User
 participant "CreateReservation (fxml)"
 participant ReservationController
-participant SessionFacade
+participant ReservationFacade
 participant "Reservation (class)"
+participant SessionFacade
 participant ReservationManagement
 participant AbstractFactoryDAO
 participant FactoryDAOMySQL
@@ -28,32 +29,38 @@ User->"CreateReservation (fxml)": Enter the booking information (dateStartBookin
 
 activate ReservationController
 
-ReservationController->SessionFacade:reserve(dateStartBooking : Date, dateEndBooking : Date)
+ReservationController->ReservationFacade:reserve(dateStartBooking : Date, dateEndBooking : Date)
 
 deactivate ReservationController
 
-activate SessionFacade
+activate ReservationFacade
 
-SessionFacade->AbstractFactoryDAO:getInstance()
+ReservationFacade->AbstractFactoryDAO:getInstance()
 activate AbstractFactoryDAO
 
-AbstractFactoryDAO--> SessionFacade : FactoryDAOMySQL
+AbstractFactoryDAO--> ReservationFacade : FactoryDAOMySQL
 deactivate AbstractFactoryDAO
 
-SessionFacade -> FactoryDAOMySQL:getReservationDAO()
+ReservationFacade -> FactoryDAOMySQL:getReservationDAO()
 
 activate FactoryDAOMySQL
 
 FactoryDAOMySQL->ReservationDAOMySQL **:Create(connection)
 
 activate ReservationDAOMySQL
-FactoryDAOMySQL-->SessionFacade:ReservationDAOMySQL
+FactoryDAOMySQL-->ReservationFacade:ReservationDAOMySQL
 
 deactivate FactoryDAOMySQL
-SessionFacade->ReservationManagement:checkDates(offer_id : int, dateStartBooking : Date, getDateEndBooking : Date)
-ReservationManagement-->SessionFacade:return boolean
+ReservationFacade->ReservationManagement:checkDates(offer_id : int, dateStartBooking : Date, getDateEndBooking : Date)
+ReservationManagement-->ReservationFacade:return boolean
 alt boolean == true (offer available)
-    SessionFacade->ReservationDAOMySQL: create(offer_id : int, dateStartBooking : Date, getDateEndBooking : Date)
+
+    ReservationFacade->SessionFacade: getUser()
+    activate SessionFacade
+    SessionFacade-->ReservationFacade: return user
+    deactivate SessionFacade
+
+    ReservationFacade->ReservationDAOMySQL: create(offer_id : int, user_id : int, dateStartBooking : Date, getDateEndBooking : Date)
 
     ReservationDAOMySQL->Connection: prepareStatement()
 
@@ -75,16 +82,16 @@ alt boolean == true (offer available)
 
     deactivate Statement
 
-    ReservationDAOMySQL-->SessionFacade: return new(Reservation) : Reservation
+    ReservationDAOMySQL-->ReservationFacade: return new(Reservation) : Reservation
 
 else offer not available
-    SessionFacade-->SessionFacade:DatesUnavailableException raised
+    ReservationFacade-->ReservationFacade:DatesUnavailableException raised
 end
 
-SessionFacade-->ReservationController : return reservation
+ReservationFacade-->ReservationController : return reservation
     activate ReservationController
 
-    deactivate SessionFacade
+    deactivate ReservationFacade
 
 ReservationController-->"CreateReservation (fxml)": Display well inserted reservation or view with error messages (dates unavailable)
 
