@@ -134,12 +134,15 @@ public class UserDaoMySQL implements UserDAO {
             PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setString(1,email);
             ResultSet rs = prep.executeQuery();
-            String salt = rs.getString(1);
+            //String salt = rs.getString(1);
+            String salt = null; 
+            if(rs.next()){
+                salt = rs.getString(1);
+            }
             return salt;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
         return null;
     }
 
