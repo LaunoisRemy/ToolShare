@@ -1,0 +1,104 @@
+@startuml
+
+package dao {
+
+
+    interface HistoryDao{
+        getAllOffersFromHistory(): Offer[]
+    }
+    class HistoryDaoMySQL
+    AbstractFactoryDao <|-- FactoryDaoSQL
+    HistoryDao <|-- HistoryDaoMySQL
+
+    interface DAO<T>{
+        find(id : int) : T
+        create(T obj) : boolean
+        update(T obj) : boolean
+        delete(T obj) : boolean
+    }
+
+    abstract AbstractFactoryDao{
+        - {static } final connectionDB : ConnectionDB
+        + {static} getFactory(type : TypeDB) : AbstractFactoryDao
+        + getHistoryDao() : HistoryDao
+    }
+
+    class FactoryDaoSQL{
+    }
+
+
+    DAO <|-- HistoryDao
+}
+package db{
+    class ConnectionDBMySQL{
+        - connection : Connection
+        - ConnectionDBMySQL()
+        + {static} getInstance() : ConnectionDBMySQL
+        + getDb() : Connection
+    }
+
+    class LazyHolderDB{
+        + {static} final INSTANCE : ConnectionDBMySQL
+    }
+    interface ConnectionDB
+    ConnectionDBMySQL -Left-> LazyHolderDB
+    ConnectionDBMySQL .up.|> ConnectionDB
+
+}
+package business{
+    class SessionFacade{
+            + SessionFacade()
+            + login(mail : String, password : String) : Void
+            + register(email : String, firstName : String, lastName : String, city : String, phoneNumber : String, password : String) : Void
+            + getInstance() : SessionFacade
+        }
+
+        class LazyHolderUser{
+            -{static} final INSTANCE : SessionFacade
+        }
+
+        SessionFacade -> LazyHolderUser
+
+
+    class HistoryFacade{
+        + HistoryFacade()
+        + viewAllOffersFromHistory()
+        + rateOffer(offerId : int)
+        + commentOffer(offerId : int)
+        + deleteOffer(offerId : int)
+    }
+
+    class Offer{
+
+    }
+    HistoryFacade --> SessionFacade
+
+    class HistoryManagement{
+
+    }
+
+    HistoryFacade --Right> HistoryManagement : -HistoryManagement
+}
+
+package gui{
+
+    class LoadView{
+        + {static} load(nameFxml : Parent) : Parent
+        + {static} changeScreen(actionEvent : ActionEvent, view : String) : void
+    }
+
+    package controller{
+        class HistoryController{
+            + handleOffersFromHistory() : void
+            + handleComment(offerId : int) : void
+            + handleRate(offerId : int) : void
+            + handleHistoryOfferDeletion(offerId : int) : void
+        }
+    }
+}
+HistoryFacade <--Up- HistoryController
+HistoryFacade .Up.> AbstractFactoryDao
+
+
+
+@enduml
