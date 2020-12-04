@@ -69,7 +69,27 @@ package business{
     }
 
     class Offer{
-
+        -offerId : int
+        -title : String
+        -pricePerDay : int
+        -description : String
+        -toolState : String
+        -isPriority : boolean
+        -userId : int
+        -categoryId : int
+        + Offer()
+        + getOfferId() : int
+        + getTitle() : String
+        + getPricePerDay() : int
+        + getDescription() : String
+        + getUserId() : int
+        + getCategoryId() : int
+        + setTitle(title:String) : void
+        + setDescription(description:String) : void
+        + setPricePerDay(price:int) : void
+        + setUserId(userId:int) : void
+        + setCategoryId(categoryId:int) : void
+        + setIsPriority(b:boolean) : void
     }
     HistoryFacade --> SessionFacade
 
