@@ -3,6 +3,7 @@ package business.facade;
 import business.exceptions.NotInsertedUser;
 import business.exceptions.UserBannedException;
 import business.exceptions.UserNotFoundException;
+import business.exceptions.WrongPasswordException;
 import business.management.UserManagement;
 import business.system.user.User;
 import dao.factory.AbstractFactoryDAO;
@@ -55,7 +56,7 @@ public class SessionFacade {
      * @throws UserNotFoundException if user is not found
      * @throws UserBannedException if user is banned
      */
-    public User login(String email, String password) throws UserNotFoundException, UserBannedException {
+    public User login(String email, String password) throws UserNotFoundException, UserBannedException, WrongPasswordException {
 
         //Create UserDAO
         UserDAO userDAO = AbstractFactoryDAO.getInstance().getUserDAO();
@@ -72,6 +73,9 @@ public class SessionFacade {
             String salt = userDAO.getSalt(email);
             //COMPARE user password
             this.setUser(userManagement.comparePassword(user, password, salt));
+            if(this.user==null){
+                throw new WrongPasswordException("Wrong password");
+            }
         }
 
         //return session user

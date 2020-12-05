@@ -1,0 +1,123 @@
+@startuml
+
+package dao {
+
+
+    interface ReservationDao{
+        getUserByReservationId(reservationId : int): User
+        getOfferByReservationId(reservationId : int): Offer
+    }
+    class ReservationDaoMySQL
+    AbstractFactoryDao <|-- FactoryDaoSQL
+    ReservationDao <|-- ReservationDaoMySQL
+
+    interface DAO<T>{
+        find(id : int) : T
+        create(T obj) : boolean
+        update(T obj) : boolean
+        delete(T obj) : boolean
+    }
+
+    abstract AbstractFactoryDao{
+        - {static } final connectionDB : ConnectionDB
+        + {static} getFactory(type : TypeDB) : AbstractFactoryDao
+        + getReservationDao() : ReservationDao
+    }
+
+    class FactoryDaoSQL{
+    }
+
+
+    DAO <|-- ReservationDao
+}
+package db{
+    class ConnectionDBMySQL{
+        - connection : Connection
+        - ConnectionDBMySQL()
+        + {static} getInstance() : ConnectionDBMySQL
+        + getDb() : Connection
+    }
+
+    class LazyHolderDB{
+        + {static} final INSTANCE : ConnectionDBMySQL
+    }
+    interface ConnectionDB
+    ConnectionDBMySQL -Left-> LazyHolderDB
+    ConnectionDBMySQL .up.|> ConnectionDB
+
+}
+package business{
+    class SessionFacade{
+            + SessionFacade()
+            + login(mail : String, password : String) : Void
+            + register(email : String, firstName : String, lastName : String, city : String, phoneNumber : String, password : String) : Void
+            + getInstance() : SessionFacade
+        }
+
+        class LazyHolderUser{
+            -{static} final INSTANCE : SessionFacade
+        }
+
+        SessionFacade -> LazyHolderUser
+
+
+    class ReservationFacade{
+        + ReservationFacade()
+        + reserve(offerId : int, dateStartBooking : Date, getDateEndBooking : Date) : Void
+        + viewAvailability(offerId : int)
+        + viewActiveReservations()
+        + confirmReservation(reservationId : int)
+        + cancelReservation(reservationId : int)
+    }
+
+    class Reservation{
+        -dateStartBooking : Date
+        -dateEndBooking : Date
+        -isConfirmed : boolean
+        +Reservation(dateS : Date, sateE : Date)
+        +getDateStartBooking() : Date
+        +getDateEndBooking() : Date
+        +getIsConfirmed() : boolean
+        +getUser() : User
+        +getOffer() : Offer
+        +setDateStartBooking(dateS : Date)
+        +setDateEndBooking(dateE : Date)
+        +setIsConfirmed(confirmed : boolean)
+    }
+    ReservationFacade --> SessionFacade
+
+    class ReservationManagement{
+        + checkDates(offerId : int, dateStartBooking : Date, getDateEndBooking : Date) : boolean
+    }
+
+    ReservationFacade --> ReservationManagement : -ReservationManagement
+}
+
+package gui{
+
+    class LoadView{
+        + {static} load(nameFxml : Parent) : Parent
+        + {static} changeScreen(actionEvent : ActionEvent, view : String) : void
+    }
+
+    package controller{
+        class ReservationController{
+            + handleReservation(offerId : int, dateStartBooking : Date, dateEndBooking : Date) : void
+            + handleOfferAvailability(offerId : int)
+        }
+
+        class ReservationManagementController{
+            + handleActiveReservation()
+            + handleReservationConfirmation()
+            + handleCancelReservation()
+        }
+
+    }
+}
+ReservationFacade <--Up- ReservationController
+ReservationFacade <--Up- ReservationManagementController
+ReservationFacade .Up.> AbstractFactoryDao
+
+
+
+@enduml

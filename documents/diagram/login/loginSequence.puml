@@ -99,37 +99,25 @@ alt user != null
     deactivate UserDAOMySQL
     SessionFacade->UserManagement: comparePassword(user: User, password:String, salt : String)
     activate UserManagement
-    UserManagement -->SessionFacade: return check : boolean
+    UserManagement -->SessionFacade: return User
     deactivate UserManagement
+    alt user != null
+        alt user.isBanned
+            SessionFacade -->SessionFacade: UserBannedException raised
+        end
+    end
 
 
-
+else user == null
+        SessionFacade -->SessionFacade: UserNotFoundException raised
 end
 
-SessionFacade-->LoginController: return user
+SessionFacade-->LoginController : return user
+activate LoginController
 
 deactivate SessionFacade
 
-activate LoginController
-
-alt if user != null
-
-LoginController->LoginController:isBanned(password:String)
-
-    alt user isBanned
-
-        LoginController-->"Login (fxml)": Display banned users message
-
-    else user is not banned
-
-        LoginController-->"Login (fxml)": Display home view
-    end
-
-else return is null
-
-    LoginController-->"Login (fxml)": Display not found user message
-
-end
+LoginController-->"Login (fxml)": Display home view or login view with error messages
 
 deactivate LoginController
 

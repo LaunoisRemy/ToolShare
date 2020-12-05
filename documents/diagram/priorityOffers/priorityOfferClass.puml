@@ -1,0 +1,127 @@
+@startuml
+
+package dao {
+
+
+    interface PriorityOfferDao{
+        getPriorityOfferById(id : int): PriorityOffer
+        getPriorityOffersByCategory(idCat:int): PriorityOffer[]
+        getPriorityOffers(): PriorityOffer[]
+        OfferExpired(id : int) : boolean
+    }
+    class PriorityOfferDaoMySQL
+    AbstractFactoryDao <|-- FactoryDaoSQL
+    PriorityOfferDao <|-- PriorityOfferDaoMySQL
+
+    interface DAO<T>{
+        find(id : int) : T
+        create(T obj) : boolean
+        update(T obj) : boolean
+        delete(T obj) : boolean
+    }
+
+    abstract AbstractFactoryDao{
+        - {static} final connectionDB : ConnectionDB
+        + {static} getFactory(type : TypeDB) : AbstractFactoryDao
+        + getPriorityOfferDao() : PriorityOfferDao
+    }
+
+    class FactoryDaoSQL{
+    }
+
+
+    DAO <|-- PriorityOfferDao
+}
+package db{
+    class ConnectionDBMySQL{
+        - connection : Connection
+        - ConnectionDBMySQL()
+        + {static} getInstance() : ConnectionDBMySQL
+        + getDb() : Connection
+    }
+
+    class LazyHolderDB{
+        + {static} final INSTANCE : ConnectionDBMySQL
+    }
+    interface ConnectionDB
+    ConnectionDBMySQL -Left-> LazyHolderDB
+    ConnectionDBMySQL .up.|> ConnectionDB
+
+}
+package business{
+    class OfferFacade{
+    + OfferFacade()
+    + getOffer(idOffer : int) : Offer
+    }
+    class SessionFacade{
+        + SessionFacade()
+        + login(mail : String, password : String) : Void
+        + register(email : String, firstName : String, lastName : String, city : String, phoneNumber : String, password : String) : Void
+        + getInstance() : SessionFacade
+    }
+
+    class LazyHolderUser{
+        -{static} final INSTANCE : SessionFacade
+    }
+
+    SessionFacade -down-> LazyHolderUser
+    class Offer{
+        -offerId : int
+        -title : String
+        -pricePerDay : int
+        -description : String
+        -toolState : String
+        -isPriority : boolean
+        -userId : int
+        -categoryId : int
+        + Offer()
+        + getOfferId() : int
+        + getTitle() : String
+        + getPricePerDay() : int
+        + getDescription() : String
+        + getUserId() : int
+        + getCategoryId() : int
+        + setTitle(title:String) : void
+        + setDescription(description:String) : void
+        + setPricePerDay(price:int) : void
+        + setUserId(userId:int) : void
+        + setCategoryId(categoryId:int) : void
+        + setIsPriority(b:boolean) : void
+
+    }
+
+    class PriorityOffer{
+        -dateStartPriority : date
+        -dateEndPriority : date
+        +PriorityOffer()
+        +isExpired() : boolean
+    }
+    Offer <|-- PriorityOffer
+
+    class OfferManagement{
+        + getOfferInfo(idOffer:int) : ArrayList<String>
+    }
+
+    OfferFacade --> OfferManagement
+}
+
+package gui{
+
+    class LoadView{
+        + {static} load(nameFxml : Parent) : Parent
+        + {static} changeScreen(actionEvent : ActionEvent, view : String) : void
+    }
+
+    package controller{
+        class OfferController{
+            + handleClickOnOffer(idOffer : int) : void
+            + handleOfferDisplay(offer : Offer) : void
+        }
+    }
+}
+OfferFacade <--Up- OfferController
+SessionFacade .Up.> AbstractFactoryDao
+
+
+
+@enduml
