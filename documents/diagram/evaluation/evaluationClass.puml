@@ -9,13 +9,10 @@ package dao {
     interface CommentDao{
     }
     class CommentDaoMySQL
-    interface ScoreDao{
-    }
-    class ScoreDaoMySQL
+
     AbstractFactoryDao <|-- FactoryDaoSQL
-    ScoreOfferDao <|-- ScoreOfferDaoMySQL
-    CommentDao <|-- CommentDaoMySQL
-    ScoreDao <|-- ScoreDaoMySQL
+    ScoreOfferDao <|.. ScoreOfferDaoMySQL
+    CommentDao <|.. CommentDaoMySQL
 
     interface DAO<T>{
         find(id : int) : T
@@ -25,7 +22,7 @@ package dao {
     }
 
     abstract AbstractFactoryDao{
-        - {static } final connectionDB : ConnectionDB
+        - {static} final connectionDB : ConnectionDB
         + {static} getFactory(type : TypeDB) : AbstractFactoryDao
         + getScoreOfferDao() : ScoreOfferDao
     }
@@ -35,7 +32,6 @@ package dao {
 
     DAO <|- ScoreOfferDao
     DAO <|-left CommentDao
-    DAO <|-- ScoreDao
 }
 package db{
     class ConnectionDBMySQL{

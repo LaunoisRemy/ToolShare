@@ -7,7 +7,7 @@ participant HistoryController
 participant EvaluationFacade
 participant AbstractFactoryDAO
 participant FactoryDAOMySQL
-participant RateDAOMySQL
+participant ScoreOfferDAOMySql
 participant CommentDAOMySQL
 participant Connection
 participant Statement
@@ -44,37 +44,38 @@ EvaluationFacade -> FactoryDAOMySQL:getRateDAO()
 
 activate FactoryDAOMySQL
 
-FactoryDAOMySQL->RateDAOMySQL **:Create(connection)
+FactoryDAOMySQL->ScoreOfferDAOMySql **:Create(connection)
 
-activate RateDAOMySQL
-FactoryDAOMySQL-->EvaluationFacade:RateDAOMySQL
+activate ScoreOfferDAOMySql
+FactoryDAOMySQL-->EvaluationFacade:ScoreOfferDAOMySql
 
 deactivate FactoryDAOMySQL
 
-EvaluationFacade->RateDAOMySQL: create(offerID: int, rate :int)
+EvaluationFacade->ScoreOfferDAOMySql: create(offerID: int, rate :int)
 
-RateDAOMySQL->Connection: prepareStatement()
+ScoreOfferDAOMySql->Connection: prepareStatement()
+activate Connection
 
 Connection-->Statement **: Create
 
 activate Statement
 
-Connection-->RateDAOMySQL: Statement
+Connection-->ScoreOfferDAOMySql: Statement
 
 deactivate Connection
 
-RateDAOMySQL->Statement:executeQuery()
+ScoreOfferDAOMySql->Statement:executeQuery()
 
 Statement->DB: SQL Query
 
 DB->Statement:Result
 
-Statement-->RateDAOMySQL: ResultSet
+Statement-->ScoreOfferDAOMySql: ResultSet
 
 deactivate Statement
 
-RateDAOMySQL-->EvaluationFacade: return true
-deactivate RateDAOMySQL
+ScoreOfferDAOMySql-->EvaluationFacade: return true
+deactivate ScoreOfferDAOMySql
 
 
 EvaluationFacade --> HistoryController : return true
@@ -98,6 +99,7 @@ deactivate FactoryDAOMySQL
 EvaluationFacade -> CommentDAOMySQL : create(offerId : int, comment : String)
 
 CommentDAOMySQL->Connection: prepareStatement()
+activate Connection
 
 Connection-->Statement **: Create
 
