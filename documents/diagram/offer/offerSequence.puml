@@ -88,7 +88,7 @@ Statement-->OfferDAOMySQL: ResultSet
 
 deactivate Statement
 
-OfferDAOMySQL->Offer: Offer(title : String, description : String...)
+OfferDAOMySQL->Offer: Offer(id : int, userid : int, title : String, description : String...)
 
 deactivate OfferDAOMySQL
 
