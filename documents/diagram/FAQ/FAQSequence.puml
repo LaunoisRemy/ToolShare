@@ -1,0 +1,145 @@
+@startuml
+title Create Question Diagram
+
+actor User
+participant "CreateQuestion (fxml)"
+participant "ViewFAQ (fxml)"
+participant FAQController
+participant FAQFacade
+participant FAQ
+participant AbstractFactoryDAO
+participant SessionFacade
+participant ConnectionDBMySQL
+participant FactoryDAOMySQL
+participant FAQDAOMySQL
+participant Connection
+participant Statement
+database DB
+
+
+"CreateQuestion (fxml)"-->User: Display the form to create a question
+
+activate "CreateQuestion (fxml)"
+activate User
+activate DB
+activate Connection
+activate ConnectionDBMySQL
+activate SessionFacade
+
+
+User->"CreateQuestion (fxml)":Enter the FAQ information (offerid : int, question : String)
+
+"CreateQuestion (fxml)"->FAQController: handleNewQuestion(offerid : int, question : String)
+
+deactivate "CreateQuestion (fxml)"
+
+activate FAQController
+
+FAQController->FAQFacade:createQuestion(offerid : int, question : String)
+
+activate FAQFacade
+
+FAQFacade->AbstractFactoryDAO:getInstance()
+
+activate AbstractFactoryDAO
+
+AbstractFactoryDAO -> ConnectionDBMySQL : getInstance()
+
+AbstractFactoryDAO <-- ConnectionDBMySQL : connectionDBMySQL
+
+AbstractFactoryDAO--> FAQFacade : FactoryDAOMySQL
+
+deactivate AbstractFactoryDAO
+
+FAQFacade -> FactoryDAOMySQL:getFAQDAO()
+
+activate FactoryDAOMySQL
+
+FactoryDAOMySQL->FAQDAOMySQL **:Create(connection)
+
+activate FAQDAOMySQL
+
+FactoryDAOMySQL-->FAQFacade:FAQDAOMySQL
+
+deactivate FactoryDAOMySQL
+
+FAQFacade->SessionFacade: getUser()
+
+SessionFacade-->FAQFacade: user
+
+FAQFacade->FAQDAOMySQL: create(userid : int, offerid : int, question : String)
+
+FAQDAOMySQL->Connection: prepareStatement()
+
+Connection-->Statement **: Create
+
+activate Statement
+
+Connection-->FAQDAOMySQL: Statement
+
+FAQDAOMySQL->Statement:executeQuery()
+
+Statement->DB: SQL Query
+
+DB->Statement:Result
+
+Statement-->FAQDAOMySQL: ResultSet
+
+deactivate Statement
+
+FAQDAOMySQL->FAQ: FAQ(id : int, userid : int, offerid : int, answerid : int, question : String)
+
+deactivate FAQDAOMySQL
+
+activate FAQ
+
+FAQ-->FAQFacade: faq
+
+deactivate FAQ
+
+FAQFacade->FAQDAOMySQL: getFAQs(offerid : int)
+
+activate FAQDAOMySQL
+
+FAQDAOMySQL->Connection: prepareStatement()
+
+Connection-->Statement **: Create
+
+activate Statement
+
+Connection-->FAQDAOMySQL: Statement
+
+FAQDAOMySQL->Statement:executeQuery()
+
+Statement->DB: SQL Query
+
+DB->Statement:Result
+
+Statement-->FAQDAOMySQL: ResultSet
+
+FAQDAOMySQL-->FAQFacade: ArrayList<FAQ>
+
+deactivate FAQDAOMySQL
+
+deactivate Statement
+
+FAQFacade-->FAQController: ArrayList<FAQ>
+
+deactivate FAQFacade
+
+FAQController-->"ViewFAQ (fxml)": loadView(ViewFAQ, ArrayList<FAQ>)
+
+deactivate FAQController
+
+activate "ViewFAQ (fxml)"
+
+"ViewFAQ (fxml)"-->User: Display corresponding View
+
+deactivate SessionFacade
+deactivate "ViewFAQ (fxml)"
+deactivate DB
+deactivate User
+deactivate ConnectionDBMySQL
+deactivate Connection
+
+@enduml
