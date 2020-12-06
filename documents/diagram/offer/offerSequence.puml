@@ -62,11 +62,11 @@ activate OfferDAOMySQL
 
 FactoryDAOMySQL-->OfferFacade:OfferDAOMySQL
 
+deactivate FactoryDAOMySQL
+
 OfferFacade->SessionFacade: getUser()
 
 SessionFacade-->OfferFacade: user
-
-deactivate FactoryDAOMySQL
 
 OfferFacade->OfferDAOMySQL: create(userid : int, title : String, description : String...)
 
@@ -110,6 +110,7 @@ activate "ViewOffer (fxml)"
 
 "ViewOffer (fxml)"-->User: Display corresponding View
 
+deactivate SessionFacade
 deactivate "ViewOffer (fxml)"
 deactivate DB
 deactivate User
