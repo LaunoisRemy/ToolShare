@@ -15,8 +15,8 @@ package dao {
 
     interface DAO<T>{
         find(id : int) : T
-        create(T obj) : boolean
-        update(T obj) : boolean
+        create(T obj) : T
+        update(T obj) : T
         delete(T obj) : boolean
     }
 

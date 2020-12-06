@@ -5,6 +5,7 @@ actor User
 participant "History (fxml)"
 participant HistoryController
 participant EvaluationFacade
+participant SessionFacade
 participant AbstractFactoryDAO
 participant FactoryDAOMySQL
 participant ScoreOfferDAOMySql
@@ -19,9 +20,10 @@ database DB
 activate "History (fxml)"
 activate User
 activate DB
+activate SessionFacade
+activate Connection
 
-
-User->"History (fxml)":Choose offer to rate
+User->"History (fxml)": Rate an offer
 
 "History (fxml)"->HistoryController: handleRate(offerID : int, rate : int)
 
@@ -40,7 +42,7 @@ activate AbstractFactoryDAO
 AbstractFactoryDAO--> EvaluationFacade : FactoryDAOMySQL
 deactivate AbstractFactoryDAO
 
-EvaluationFacade -> FactoryDAOMySQL:getRateDAO()
+EvaluationFacade -> FactoryDAOMySQL:getScoreOfferDAO()
 
 activate FactoryDAOMySQL
 
@@ -50,11 +52,12 @@ activate ScoreOfferDAOMySql
 FactoryDAOMySQL-->EvaluationFacade:ScoreOfferDAOMySql
 
 deactivate FactoryDAOMySQL
-
-EvaluationFacade->ScoreOfferDAOMySql: create(offerID: int, rate :int)
+EvaluationFacade -> SessionFacade : getUser()
+SessionFacade --> EvaluationFacade : user
+EvaluationFacade->ScoreOfferDAOMySql: create(offerID: int, rate :int, userId : int)
 
 ScoreOfferDAOMySql->Connection: prepareStatement()
-activate Connection
+
 
 Connection-->Statement **: Create
 
@@ -62,7 +65,7 @@ activate Statement
 
 Connection-->ScoreOfferDAOMySql: Statement
 
-deactivate Connection
+
 
 ScoreOfferDAOMySql->Statement:executeQuery()
 
@@ -74,13 +77,13 @@ Statement-->ScoreOfferDAOMySql: ResultSet
 
 deactivate Statement
 
-ScoreOfferDAOMySql-->EvaluationFacade: return true
+ScoreOfferDAOMySql-->EvaluationFacade: return ScoreOffer
 deactivate ScoreOfferDAOMySql
 
 
-EvaluationFacade --> HistoryController : return true
+EvaluationFacade --> HistoryController : return ScoreOffer
 note right
-    Return true is this case
+    Return ScoreOffer in this case
     (Because we put ourselves in the situation
     where there is no system error.)
 end note
@@ -88,18 +91,19 @@ end note
 
 
 HistoryController-->"History (fxml)": Display box choice comment
+"History (fxml)" --> User : Display box choice comment
+User -> "History (fxml)" : Choose to comment
 "History (fxml)" -> HistoryController : handleComment(offerId : int, comment : String)
-HistoryController -> EvaluationFacade : comment(offerId : int, comment : String)
+HistoryController -> EvaluationFacade : comment(offerId : int, comment : String, ScoreOfferId : int)
 EvaluationFacade -> FactoryDAOMySQL : getCommentDao()
 activate FactoryDAOMySQL
 FactoryDAOMySQL -> CommentDAOMySQL **: create(connection)
 activate CommentDAOMySQL
 FactoryDAOMySQL --> EvaluationFacade : CommentDaoMySQL
 deactivate FactoryDAOMySQL
-EvaluationFacade -> CommentDAOMySQL : create(offerId : int, comment : String)
+EvaluationFacade -> CommentDAOMySQL : create(offerId : int, comment : String, ScoreOfferId : int)
 
 CommentDAOMySQL->Connection: prepareStatement()
-activate Connection
 
 Connection-->Statement **: Create
 
@@ -107,7 +111,6 @@ activate Statement
 
 Connection-->CommentDAOMySQL: Statement
 
-deactivate Connection
 
 CommentDAOMySQL->Statement:executeQuery()
 
@@ -118,9 +121,9 @@ DB->Statement:Result
 Statement-->CommentDAOMySQL: ResultSet
 
 deactivate Statement
-CommentDAOMySQL --> EvaluationFacade : return true
+CommentDAOMySQL --> EvaluationFacade : return Comment
 deactivate CommentDAOMySQL
-EvaluationFacade --> HistoryController : return true
+EvaluationFacade --> HistoryController : return Comment
 deactivate EvaluationFacade
 HistoryController --> "History (fxml)" : Display box validation
 

@@ -16,8 +16,8 @@ package dao {
 
     interface DAO<T>{
         find(id : int) : T
-        create(T obj) : boolean
-        update(T obj) : boolean
+        create(T obj) : T
+        update(T obj) : T
         delete(T obj) : boolean
     }
 
@@ -63,7 +63,27 @@ package business{
         + deleteComment(commentId : int) : Void
         + deleteRate(idRate : int) : Void
     }
+    class ScoreOffer{
+        - scoreId : int
+        - rate : float
+        - offerId : int
+        - commentId : int
+        - userId : int
+        + getScoreId() : int
+        + getUserId() : int
+        + getCommentId() : int
+        + getRate() : float
+    }
 
+    class Comment{
+    - commentId : int
+    - comment : String
+    - commentScore : int
+    + getCommentId() : int
+    + getComment() : String
+    + getCommentScore() : int
+    + setComment(comment : String)
+    }
 }
 
 package gui{
@@ -74,7 +94,7 @@ package gui{
     }
 
     package controller{
-        class EvaluationController{
+        class HistoryController{
             + handleRate(offerId : int, rate : int) : void
             + handleComment(offerId : int, comment : String)
             + handleDeleteComment(commentId : int) : Void
@@ -83,9 +103,9 @@ package gui{
 
     }
 }
-EvaluationFacade <--Up- EvaluationController
+EvaluationFacade <--Up- HistoryController
 EvaluationFacade --> SessionFacade
-EvaluationFacade --> AbstractFactoryDao
+EvaluationFacade ..> AbstractFactoryDao
 
 
 
