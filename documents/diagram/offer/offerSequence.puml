@@ -8,6 +8,7 @@ participant OfferController
 participant OfferFacade
 participant Offer
 participant AbstractFactoryDAO
+participant SessionFacade
 participant ConnectionDBMySQL
 participant FactoryDAOMySQL
 participant OfferDAOMySQL
@@ -23,6 +24,7 @@ activate User
 activate DB
 activate Connection
 activate ConnectionDBMySQL
+activate SessionFacade
 
 
 
@@ -34,7 +36,7 @@ deactivate "CreateOffer (fxml)"
 
 activate OfferController
 
-OfferController->OfferFacade:postOffer(title : String, description : String...)
+OfferController->OfferFacade:createOffer(title : String, description : String...)
 
 activate OfferFacade
 
@@ -60,9 +62,13 @@ activate OfferDAOMySQL
 
 FactoryDAOMySQL-->OfferFacade:OfferDAOMySQL
 
+OfferFacade->SessionFacade: getUser()
+
+SessionFacade-->OfferFacade: user
+
 deactivate FactoryDAOMySQL
 
-OfferFacade->OfferDAOMySQL: create(title : String, description : String...)
+OfferFacade->OfferDAOMySQL: create(userid : int, title : String, description : String...)
 
 OfferDAOMySQL->Connection: prepareStatement()
 
@@ -96,7 +102,7 @@ OfferFacade-->OfferController: offer
 
 deactivate OfferFacade
 
-OfferController-->"ViewOffer (fxml)": handleViewOffer(offer)
+OfferController-->"ViewOffer (fxml)": loadView(ViewOffer, offer)
 
 deactivate OfferController
 
