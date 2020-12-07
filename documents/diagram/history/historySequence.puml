@@ -51,8 +51,15 @@ activate HistoryDAOMySQL
 FactoryDAOMySQL-->HistoryFacade:HistoryDAOMySQL
 
 deactivate FactoryDAOMySQL
-HistoryFacade->HistoryDAOMySQL:getAllOffersFromHistory()
+
+HistoryFacade->SessionFacade: getUser()
+activate SessionFacade
+SessionFacade-->HistoryFacade: return user
+deactivate SessionFacade
+
+HistoryFacade->HistoryDAOMySQL:getAllOffersFromHistory(userId : int)
 HistoryDAOMySQL->Connection: prepareStatement()
+activate Connection
 
 Connection-->Statement **: Create
 
@@ -77,9 +84,9 @@ alt Offer[]==null
     HistoryFacade-->HistoryFacade: NoHistoryException raised
 else
     HistoryFacade-->HistoryController : return Offer[]
+    activate HistoryController
 end
 
-activate HistoryController
 
 deactivate HistoryFacade
 

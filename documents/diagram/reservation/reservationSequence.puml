@@ -7,7 +7,6 @@ participant ReservationController
 participant ReservationFacade
 participant "Reservation (class)"
 participant SessionFacade
-participant ReservationManagement
 participant AbstractFactoryDAO
 participant FactoryDAOMySQL
 participant ReservationDAOMySQL
@@ -51,8 +50,31 @@ activate ReservationDAOMySQL
 FactoryDAOMySQL-->ReservationFacade:ReservationDAOMySQL
 
 deactivate FactoryDAOMySQL
-ReservationFacade->ReservationManagement:checkDates(offerId : int, dateStartBooking : Date, getDateEndBooking : Date)
-ReservationManagement-->ReservationFacade:return boolean
+
+ReservationFacade->ReservationDAOMySQL: getAvailabilityByOfferAndDates(offerId : int, dateStartBooking : Date, dateEndBooking : Date)
+
+ReservationDAOMySQL->Connection: prepareStatement()
+activate Connection
+Connection-->Statement **: Create
+
+activate Statement
+
+Connection-->ReservationDAOMySQL: Statement
+
+deactivate Connection
+
+ReservationDAOMySQL->Statement:executeQuery()
+
+Statement->DB: SQL Query
+
+DB->Statement:Result
+
+Statement-->ReservationDAOMySQL: ResultSet
+
+deactivate Statement
+
+ReservationDAOMySQL-->ReservationFacade: return boolean
+
 alt boolean == true (offer available)
 
     ReservationFacade->SessionFacade: getUser()
@@ -63,7 +85,7 @@ alt boolean == true (offer available)
     ReservationFacade->ReservationDAOMySQL: create(offerId : int, userId : int, dateStartBooking : Date, getDateEndBooking : Date)
 
     ReservationDAOMySQL->Connection: prepareStatement()
-
+    activate Connection
     Connection-->Statement **: Create
 
     activate Statement
@@ -100,7 +122,6 @@ deactivate ReservationController
 "CreateReservation (fxml)"-->User: Display corresponding View
 deactivate "CreateReservation (fxml)"
 deactivate DB
-deactivate ReservationManagement
 deactivate User
 
 @enduml

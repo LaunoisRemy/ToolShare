@@ -4,16 +4,16 @@ package dao {
 
 
     interface HistoryDao{
-        getAllOffersFromHistory(): Offer[]
+        getAllOffersFromHistory(userId : int): Offer[]
     }
     class HistoryDaoMySQL
     AbstractFactoryDao <|-- FactoryDaoSQL
-    HistoryDao <|-- HistoryDaoMySQL
+    HistoryDao <|.. HistoryDaoMySQL
 
     interface DAO<T>{
         find(id : int) : T
-        create(T obj) : boolean
-        update(T obj) : boolean
+        create(T obj) : T
+        update(T obj) : T
         delete(T obj) : boolean
     }
 
@@ -47,18 +47,8 @@ package db{
 }
 package business{
     class SessionFacade{
-            + SessionFacade()
-            + login(mail : String, password : String) : Void
-            + register(email : String, firstName : String, lastName : String, city : String, phoneNumber : String, password : String) : Void
-            + getInstance() : SessionFacade
+            + getUser()
         }
-
-        class LazyHolderUser{
-            -{static} final INSTANCE : SessionFacade
-        }
-
-        SessionFacade -> LazyHolderUser
-
 
     class HistoryFacade{
         + HistoryFacade()
@@ -93,11 +83,6 @@ package business{
     }
     HistoryFacade --> SessionFacade
 
-    class HistoryManagement{
-
-    }
-
-    HistoryFacade --Right> HistoryManagement : -HistoryManagement
 }
 
 package gui{
