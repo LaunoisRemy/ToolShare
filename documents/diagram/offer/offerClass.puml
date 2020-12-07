@@ -3,15 +3,15 @@
 package dao {
 
 
-    interface PriorityOfferDao{
-        getPriorityOfferById(id : int): PriorityOffer
-        getPriorityOffersByCategory(idCat:int): PriorityOffer[]
-        getPriorityOffers(): PriorityOffer[]
-        OfferExpired(id : int) : boolean
+    interface OfferDao{
+        getOffersFromUser(userId : int) : ArrayList<Offer>
+        getOffersByCity(city : String) : ArrayList<Offer>
+        getLatestOffers() : ArrayList<Offer>
+        offerExists(id : int) : boolean
     }
-    class PriorityOfferDaoMySQL
-    AbstractFactoryDao <|-- FactoryDaoSQL
-    PriorityOfferDao <|-- PriorityOfferDaoMySQL
+    class OfferDaoMySQL
+    FactoryDaoSQL .up.|> AbstractFactoryDao
+    OfferDaoMySQL .up.|> OfferDao
 
     interface DAO<T>{
         find(id : int) : T
@@ -21,16 +21,16 @@ package dao {
     }
 
     abstract AbstractFactoryDao{
-        - {static} final connectionDB : ConnectionDB
+        - {static } final connectionDB : ConnectionDB
         + {static} getFactory(type : TypeDB) : AbstractFactoryDao
-        + getPriorityOfferDao() : PriorityOfferDao
+        + getOfferDao() : OfferDao
     }
 
     class FactoryDaoSQL{
     }
 
 
-    DAO <|-- PriorityOfferDao
+    DAO <|-- OfferDao
 }
 package db{
     class ConnectionDBMySQL{
@@ -49,22 +49,11 @@ package db{
 
 }
 package business{
-    class OfferFacade{
-    + OfferFacade()
-    + getOffer(idOffer : int) : Offer
-    }
     class SessionFacade{
         + SessionFacade()
-        + login(mail : String, password : String) : Void
-        + register(email : String, firstName : String, lastName : String, city : String, phoneNumber : String, password : String) : Void
-        + getInstance() : SessionFacade
+        + getUser() : User
     }
 
-    class LazyHolderUser{
-        -{static} final INSTANCE : SessionFacade
-    }
-
-    SessionFacade -down-> LazyHolderUser
     class Offer{
         -offerId : int
         -title : String
@@ -87,22 +76,14 @@ package business{
         + setUserId(userId:int) : void
         + setCategoryId(categoryId:int) : void
         + setIsPriority(b:boolean) : void
-
     }
 
-    class PriorityOffer{
-        -dateStartPriority : date
-        -dateEndPriority : date
-        +PriorityOffer()
-        +isExpired() : boolean
-    }
-    Offer <|-- PriorityOffer
-
-    class OfferManagement{
-        + getOfferInfo(idOffer:int) : ArrayList<String>
+    class OfferFacade{
+        + OfferFacade()
+        + getOffer(idOffer : int) : Offer
+        + createOffer(idUser : int, title : String, description : String, state : String, Category : String, toSale : boolean...) : Offer
     }
 
-    OfferFacade --> OfferManagement
 }
 
 package gui{
@@ -114,13 +95,15 @@ package gui{
 
     package controller{
         class OfferController{
-            + handleClickOnOffer(idOffer : int) : void
-            + handleOfferDisplay(offer : Offer) : void
+            + handleNewOffer(title : String, description : String, state : String, Category : String, toSale : boolean...) : void
+            + handleViewOffer(offer : Offer) : void
         }
+
     }
 }
 OfferFacade <--Up- OfferController
-SessionFacade .Up.> AbstractFactoryDao
+SessionFacade <--Up- OfferFacade
+OfferFacade .Up.> AbstractFactoryDao
 
 
 

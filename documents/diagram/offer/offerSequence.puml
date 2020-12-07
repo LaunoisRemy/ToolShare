@@ -4,10 +4,11 @@ title Login Diagram
 actor User
 participant "CreateOffer (fxml)"
 participant "ViewOffer (fxml)"
-participant CreateOfferController
+participant OfferController
 participant OfferFacade
 participant Offer
 participant AbstractFactoryDAO
+participant SessionFacade
 participant ConnectionDBMySQL
 participant FactoryDAOMySQL
 participant OfferDAOMySQL
@@ -23,18 +24,19 @@ activate User
 activate DB
 activate Connection
 activate ConnectionDBMySQL
+activate SessionFacade
 
 
 
 User->"CreateOffer (fxml)":Enter the offer information (title : String, description : String, state : String, Category : String, toSale : boolean, city : String, price : int, image1 : ???, image2 : ???, image3 : ???)
 
-"CreateOffer (fxml)"->CreateOfferController: handleNewOffer(mail : String, password : String)
+"CreateOffer (fxml)"->OfferController: handleNewOffer(mail : String, password : String)
 
 deactivate "CreateOffer (fxml)"
 
-activate CreateOfferController
+activate OfferController
 
-CreateOfferController->OfferFacade:postOffer(title : String, description : String...)
+OfferController->OfferFacade:createOffer(title : String, description : String...)
 
 activate OfferFacade
 
@@ -60,9 +62,13 @@ activate OfferDAOMySQL
 
 FactoryDAOMySQL-->OfferFacade:OfferDAOMySQL
 
+OfferFacade->SessionFacade: getUser()
+
+SessionFacade-->OfferFacade: user
+
 deactivate FactoryDAOMySQL
 
-OfferFacade->OfferDAOMySQL: create(title : String, description : String...)
+OfferFacade->OfferDAOMySQL: create(userid : int, title : String, description : String...)
 
 OfferDAOMySQL->Connection: prepareStatement()
 
@@ -92,13 +98,13 @@ Offer-->OfferFacade: offer
 
 deactivate Offer
 
-OfferFacade-->CreateOfferController: offer
+OfferFacade-->OfferController: offer
 
 deactivate OfferFacade
 
-CreateOfferController-->"ViewOffer (fxml)": handleViewOffer(offer)
+OfferController-->"ViewOffer (fxml)": loadView(ViewOffer, offer)
 
-deactivate CreateOfferController
+deactivate OfferController
 
 activate "ViewOffer (fxml)"
 
