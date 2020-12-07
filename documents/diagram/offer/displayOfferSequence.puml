@@ -1,0 +1,104 @@
+@startuml
+title Login Diagram
+
+actor User
+participant "ViewOffer (fxml)"
+participant "Homepage (fxml)"
+participant OfferController
+participant OfferFacade
+participant "ViewOffer (class)"
+participant UserManagement
+participant AbstractFactoryDAO
+participant FactoryDAOMySQL
+participant PriorityOfferDAOMySQL
+participant Connection
+participant Statement
+database DB
+
+
+"Homepage (fxml)"-->User: Display Homepage view
+
+activate "Homepage (fxml)"
+activate User
+activate DB
+activate Connection
+
+User->"Homepage (fxml)":Select an offer to view(offerId : int)
+
+"Homepage (fxml)"->OfferController: handleClickOnOffer(offerId : int)
+
+activate OfferController
+
+OfferController->OfferFacade:getOffer(offerId : int)
+
+deactivate OfferController
+
+activate OfferFacade
+
+OfferFacade->AbstractFactoryDAO:getInstance()
+activate AbstractFactoryDAO
+
+
+
+
+
+
+
+
+
+
+AbstractFactoryDAO--> OfferFacade : FactoryDAOMySQL
+deactivate AbstractFactoryDAO
+
+OfferFacade -> FactoryDAOMySQL:getOfferDAO()
+
+activate FactoryDAOMySQL
+
+FactoryDAOMySQL->OfferDAOMySQL **:Create(connection)
+
+activate OfferDAOMySQL
+FactoryDAOMySQL-->OfferFacade:OfferDAOMySQL
+
+deactivate FactoryDAOMySQL
+
+OfferFacade->OfferDAOMySQL: getOfferById(offerId : int)
+
+OfferDAOMySQL->Connection: prepareStatement()
+
+Connection-->Statement **: Create
+
+activate Statement
+
+Connection-->OfferDAOMySQL: Statement
+
+
+OfferDAOMySQL->Statement:executeQuery()
+
+Statement->DB: SQL Query
+
+DB->Statement:Result
+
+Statement-->OfferDAOMySQL: ResultSet
+
+deactivate Statement
+
+OfferDAOMySQL-->OfferFacade: return new(Offer) : Offer
+
+OfferFacade-->OfferController : return Offer
+activate OfferController
+
+deactivate OfferFacade
+deactivate "Homepage (fxml)"
+
+OfferController-->"ViewOffer (fxml)": Display the offer view
+activate "ViewOffer (fxml)"
+
+deactivate OfferController
+
+"ViewOffer (fxml)"-->User: Display corresponding Offer
+deactivate Connection
+deactivate DB
+deactivate UserManagement
+deactivate User
+
+@enduml
