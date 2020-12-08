@@ -1,10 +1,14 @@
 package db;
 
-import db.setup.DataConnect;
+import com.mysql.cj.MysqlConnection;
 
 import javax.swing.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.Properties;
 
 /**
  * Class to create, instantiate Connection
@@ -23,7 +27,8 @@ public class ConnectionDBMySQL implements ConnectionDB{
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            this.connection = DriverManager.getConnection(DataConnect.URL,DataConnect.USER,DataConnect.PASSWORD);
+            Properties p = getDatabaseProperties();
+            this.connection = DriverManager.getConnection(p.getProperty("URL"),p.getProperty("USER"),p.getProperty("PASSWORD"));
 
         }
         catch(Exception e)
@@ -31,7 +36,23 @@ public class ConnectionDBMySQL implements ConnectionDB{
             JOptionPane.showMessageDialog(null, e);
         }
     }
-
+    private Properties getDatabaseProperties()
+    {
+        Properties p = new Properties();
+        try (InputStream in = MysqlConnection.class.getClassLoader().getResourceAsStream("db/database.properties"))
+        {
+            if (in == null)
+            {
+                throw new NullPointerException("You must specify a database.properties file");
+            }
+            p.load(new InputStreamReader(in));
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return p;
+    }
     /**
      * The static class definition LazyHolder within it is not initialized until the JVM determines that LazyHolder must be executed
      */
