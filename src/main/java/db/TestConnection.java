@@ -1,4 +1,4 @@
-package db.setup;
+package db;
 
 import com.mysql.cj.MysqlConnection;
 
@@ -17,7 +17,6 @@ public class TestConnection {
         try{
         Class.forName("com.mysql.cj.jdbc.Driver");
         Properties p = getDatabaseProperties();
-            System.out.println(p.getProperty("URL") + p.getProperty("USER") + p.getProperty("PASSWORD"));
         Connection connection = DriverManager.getConnection(p.getProperty("URL"),p.getProperty("USER"),p.getProperty("PASSWORD"));
 
         Statement statement = connection.createStatement();
