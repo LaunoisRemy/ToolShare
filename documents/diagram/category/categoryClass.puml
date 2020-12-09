@@ -47,13 +47,13 @@ package db{
 }
 package business{
     class CategoryFacade{
-    + CategoryFacade()
     + getCategory(idCategory : int) : Category
-    + createCategory(categoryName : String) : Category
+    + createCategory(categoryName : String, validated: boolean) : Category
     + getAllCategories() : Category[]
+    + deleteCategory(idCategory : int) : void
+    + updateCategory(idCategory : int, categoryName : String):boolean
     }
     class SessionFacade{
-        + SessionFacade()
         + login(mail : String, password : String) : Void
         + register(email : String, firstName : String, lastName : String, city : String, phoneNumber : String, password : String) : Void
         + getInstance() : SessionFacade
@@ -64,7 +64,6 @@ package business{
         -categoryId : int
         -categoryName : String
         -isValidated : boolean
-        + Category(String name, boolean isValidated)
         + getCategoryId() : int
         + getCategoryName() : String
         + isValidated() : boolean
@@ -86,6 +85,9 @@ package gui{
         class CategoryController{
             -categoryName : JFXTextLabel
             + handleNewCategory() : void
+            + handleNewCategoryAdmin() : void
+            + handleDeleteCategory():void
+            + handleUpdateCategory():void
         }
     }
 }

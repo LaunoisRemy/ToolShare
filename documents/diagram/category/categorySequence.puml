@@ -33,7 +33,7 @@ else User wants to add a new category
     "CreateOffer (fxml)" ->User  :Display the pop-up
     User ->  "CreateOffer (fxml)":Enter the category name
     "CreateOffer (fxml)"->CategoryController: handleNewCategory()
-    CategoryController -> CategoryFacade : createCategory(categoryName:String)
+    CategoryController -> CategoryFacade : createCategory(categoryName : String,false : boolean)
 
     deactivate CategoryController
     activate CategoryFacade
