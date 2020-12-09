@@ -4,7 +4,6 @@ package dao {
 
 
     interface OfferDao{
-        find(id : int): Offer
         getOffersByCategory(idCat:int): Offer[]
         getPriorityOffers(): PriorityOffer[]
         PriorityOfferExpired(id : int) : boolean
@@ -70,7 +69,7 @@ package business{
         -isPriority : boolean
         -userId : int
         -categoryId : int
-        + Offer()
+        + Offer(String title,int price,String desc,String state,boolean isPriority,int userId,int categoryId)
         + getOfferId() : int
         + getTitle() : String
         + getPricePerDay() : int
