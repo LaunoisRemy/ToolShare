@@ -84,6 +84,8 @@ package business{
         + OfferFacade()
         + getOffer(idOffer : int) : Offer
         + createOffer(idUser : int, title : String, description : String, state : String, Category : String, toSale : boolean...) : Offer
+        + createUpdate(idUser : int, title : String, description : String, state : String, Category : String, toSale : boolean...) : Offer
+        + deleteOffer(offerId : int)
     }
 
 }
@@ -105,6 +107,8 @@ package gui{
             - image : ImageView
             + handleNewOffer(title : String, description : String, state : String, Category : String, toSale : boolean...) : void
             + handleViewOffer(offer : Offer) : void
+            + handleUpdateOffer(title : String, description : String, state : String, Category : String, toSale : boolean...) : void
+            + handleDeleteOffer(offerId : int)
         }
 
     }
