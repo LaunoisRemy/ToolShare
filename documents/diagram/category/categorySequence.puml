@@ -1,0 +1,120 @@
+@startuml
+title Category Diagram
+
+actor User
+participant "CreateOffer (fxml)"
+participant CategoryController
+participant CategoryFacade
+participant AbstractFactoryDAO
+participant FactoryDAOMySQL
+participant CategoryDAOMySQL
+participant Connection
+participant Statement
+database DB
+
+
+"CreateOffer (fxml)"-->User: Display Create Offer view
+
+activate "CreateOffer (fxml)"
+activate User
+activate DB
+activate Connection
+
+User->"CreateOffer (fxml)": Inserting data in inputs
+
+alt User selects an existing category
+    User->"CreateOffer (fxml)": Select a category
+else User wants to add a new category
+    User ->  "CreateOffer (fxml)":Add new Category
+    "CreateOffer (fxml)" -> CategoryController:handleClickOnNewCategory()
+    activate CategoryController
+
+    CategoryController -> "CreateOffer (fxml)":set Pop-up to enter a new category visible
+    "CreateOffer (fxml)" ->User  :Display the pop-up
+    User ->  "CreateOffer (fxml)":Enter the category name
+    "CreateOffer (fxml)"->CategoryController: handleNewCategory()
+    CategoryController -> CategoryFacade : createCategory(categoryName : String,false : boolean)
+
+    deactivate CategoryController
+    activate CategoryFacade
+
+    CategoryFacade->AbstractFactoryDAO:getInstance()
+
+    activate AbstractFactoryDAO
+    AbstractFactoryDAO--> CategoryFacade : FactoryDAOMySQL
+    deactivate AbstractFactoryDAO
+
+    CategoryFacade -> FactoryDAOMySQL:getCategoryDAO()
+
+    activate FactoryDAOMySQL
+
+    FactoryDAOMySQL->CategoryDAOMySQL **:Create(connection)
+
+    activate CategoryDAOMySQL
+    FactoryDAOMySQL-->CategoryFacade:CategoryDAOMySQL
+
+    deactivate FactoryDAOMySQL
+
+    CategoryFacade->CategoryDAOMySQL: create(cat : Category)
+
+    CategoryDAOMySQL->Connection: prepareStatement()
+
+    Connection-->Statement **: Create
+
+    activate Statement
+
+    Connection-->CategoryDAOMySQL: Statement
+
+
+    CategoryDAOMySQL->Statement:executeQuery()
+
+    Statement->DB: SQL Query
+
+    DB->Statement:Result
+
+    Statement-->CategoryDAOMySQL: ResultSet
+
+    deactivate Statement
+
+    CategoryDAOMySQL-->CategoryFacade: return new(Category) : Category
+
+    CategoryFacade-->CategoryController : return Category
+    activate CategoryController
+    CategoryController-->"CreateOffer (fxml)":set visible category selected and a message
+    note right
+        the category is tempoprary created
+        untill and admin accept whether it is
+        added to the database or not.
+        The user will have no category display
+        untill an admin's action.
+    end note
+    "CreateOffer (fxml)"-->User:Display category selected and a message
+
+    deactivate CategoryFacade
+    deactivate "CreateOffer (fxml)"
+    deactivate CategoryController
+    deactivate Connection
+    deactivate DB
+    deactivate UserManagement
+    deactivate User
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@enduml

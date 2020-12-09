@@ -4,11 +4,12 @@ package dao {
 
 
     interface HistoryDao{
-        getAllOffersFromHistory(): Offer[]
+        getAllOffersFromHistory(userId : int): Offer[]
+        getOffererFromOfferId(offerId : int) : User
     }
     class HistoryDaoMySQL
     AbstractFactoryDao <|-- FactoryDaoSQL
-    HistoryDao <|-- HistoryDaoMySQL
+    HistoryDao <|.. HistoryDaoMySQL
 
     interface DAO<T>{
         find(id : int) : T
@@ -47,25 +48,12 @@ package db{
 }
 package business{
     class SessionFacade{
-            + SessionFacade()
-            + login(mail : String, password : String) : Void
-            + register(email : String, firstName : String, lastName : String, city : String, phoneNumber : String, password : String) : Void
-            + getInstance() : SessionFacade
+            + getUser()
         }
-
-        class LazyHolderUser{
-            -{static} final INSTANCE : SessionFacade
-        }
-
-        SessionFacade -> LazyHolderUser
-
 
     class HistoryFacade{
         + HistoryFacade()
         + viewAllOffersFromHistory()
-        + rateOffer(offerId : int)
-        + commentOffer(offerId : int)
-        + deleteOffer(offerId : int)
     }
 
     class Offer{
@@ -93,11 +81,6 @@ package business{
     }
     HistoryFacade --> SessionFacade
 
-    class HistoryManagement{
-
-    }
-
-    HistoryFacade --Right> HistoryManagement : -HistoryManagement
 }
 
 package gui{
@@ -109,10 +92,15 @@ package gui{
 
     package controller{
         class HistoryController{
+            - infos_offer : ListView
+            - commentArea : JTextArea
+            - rateArea : JButtonBar
             + handleOffersFromHistory() : void
-            + handleComment(offerId : int) : void
-            + handleRate(offerId : int) : void
-            + handleHistoryOfferDeletion(offerId : int) : void
+            + handleRate(offerId : int, rate : int) : void
+            + handleComment(offerId : int, comment : String)
+            + handleDeleteComment(commentId : int) : Void
+            + handleDeleteRate(idRate : int) : Void
+
         }
     }
 }
