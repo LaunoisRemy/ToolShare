@@ -87,7 +87,7 @@ Statement-->FAQDAOMySQL: ResultSet
 
 deactivate Statement
 
-FAQDAOMySQL->Question: Question(id : int, userid : int, offerid : int, answer : Answer | null, question : String, score : int)
+FAQDAOMySQL->Question: Question(id : int, userid : int, offerid : int, answer : Answer, question : String, score : int)
 
 deactivate FAQDAOMySQL
 
