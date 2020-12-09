@@ -12,7 +12,13 @@ package dao {
     class OfferDaoMySQL
     FactoryDaoSQL .up.|> AbstractFactoryDao
     OfferDaoMySQL .up.|> OfferDao
-
+    interface FavoryDao{
+        getAllFavoryByIdUser(idUser : int) : ArrayList<Favory>
+        getAllUserByIdUser(idOffer : int) : ArrayList<Offer>
+        getFavory(favory : FavoryOffer) : FavoryOffer
+    }
+    class FavoryDaoMySQL
+    FavoryDaoMySQL .up.|> FavoryDao
 
     interface DAO<T>{
         find(id : int) : T
@@ -31,7 +37,8 @@ package dao {
     }
 
 
-    DAO <|-- OfferDao
+    DAO <|-left OfferDao
+    DAO <|- FavoryDao
 }
 package db{
     class ConnectionDBMySQL{
@@ -79,11 +86,15 @@ package business{
         + setIsPriority(b:boolean) : void
     }
 
-
-    class OfferFacade{
-        + OfferFacade()
-        + getOffer(idOffer : int) : Offer
-        + createOffer(idUser : int, title : String, description : String, state : String, Category : String, toSale : boolean...) : Offer
+    class FavoryOffer{
+        - idUser : int
+        - idOffer : int
+        + getUserId() : int
+        + getOfferId() : int
+    }
+    class HomePageFacade{
+        + HomePageFacade()
+        + favOffer(offerId : int)
     }
 
 }
@@ -96,16 +107,15 @@ package gui{
     }
 
     package controller{
-        class OfferController{
-            + handleNewOffer(title : String, description : String, state : String, Category : String, toSale : boolean...) : void
-            + handleViewOffer(offer : Offer) : void
+        class HomePageController{
+            + handleFavOffer(offerID : int)
         }
 
     }
 }
-OfferFacade <--Up- OfferController
-SessionFacade <--Up- OfferFacade
-OfferFacade .Up.> AbstractFactoryDao
+HomePageFacade <--Up- HomePageController
+SessionFacade <--Up- HomePageFacade
+HomePageFacade .Up.> AbstractFactoryDao
 
 
 
