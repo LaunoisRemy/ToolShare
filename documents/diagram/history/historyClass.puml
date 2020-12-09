@@ -5,6 +5,7 @@ package dao {
 
     interface HistoryDao{
         getAllOffersFromHistory(userId : int): Offer[]
+        getOffererFromOfferId(offerId : int) : User
     }
     class HistoryDaoMySQL
     AbstractFactoryDao <|-- FactoryDaoSQL
@@ -55,7 +56,6 @@ package business{
         + viewAllOffersFromHistory()
         + rateOffer(offerId : int)
         + commentOffer(offerId : int)
-        + deleteOffer(offerId : int)
     }
 
     class Offer{
@@ -94,10 +94,10 @@ package gui{
 
     package controller{
         class HistoryController{
+            - infos_offer : TextArea
             + handleOffersFromHistory() : void
             + handleComment(offerId : int) : void
             + handleRate(offerId : int) : void
-            + handleHistoryOfferDeletion(offerId : int) : void
         }
     }
 }
