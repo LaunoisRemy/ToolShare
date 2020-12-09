@@ -87,12 +87,15 @@ package gui{
     }
 
     package controller{
-        class ReservationController{
+        class ReservationAvailabilityController{
+            - calendar : DatePicker
+            - error_availability_msg : Label
             + handleReservation(offerId : int, dateStartBooking : Date, dateEndBooking : Date) : void
             + handleOfferAvailability(offerId : int)
         }
 
         class ReservationManagementController{
+            - infos_offer : TextArea
             + handleActiveReservation()
             + handleReservationConfirmation()
             + handleCancelReservation()
@@ -100,7 +103,9 @@ package gui{
 
     }
 }
-ReservationFacade <--Up- ReservationController
+
+ReservationFacade <--Up- ReservationAvailabilityController
+ReservationFacade <--Up- OfferController
 ReservationFacade <--Up- ReservationManagementController
 ReservationFacade .Up.> AbstractFactoryDao
 
