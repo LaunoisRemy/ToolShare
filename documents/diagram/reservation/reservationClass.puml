@@ -6,10 +6,11 @@ package dao {
     interface ReservationDao{
         getUserByReservationId(reservationId : int): User
         getOfferByReservationId(reservationId : int): Offer
+        getAvailabilityByOfferAndDates(offerId : int, dateStartBooking : Date, dateEndBooking : Date) : boolean
     }
     class ReservationDaoMySQL
     AbstractFactoryDao <|-- FactoryDaoSQL
-    ReservationDao <|-- ReservationDaoMySQL
+    ReservationDao <|.. ReservationDaoMySQL
 
     interface DAO<T>{
         find(id : int) : T
@@ -48,18 +49,8 @@ package db{
 }
 package business{
     class SessionFacade{
-            + SessionFacade()
-            + login(mail : String, password : String) : Void
-            + register(email : String, firstName : String, lastName : String, city : String, phoneNumber : String, password : String) : Void
-            + getInstance() : SessionFacade
+            + getUser()
         }
-
-        class LazyHolderUser{
-            -{static} final INSTANCE : SessionFacade
-        }
-
-        SessionFacade -> LazyHolderUser
-
 
     class ReservationFacade{
         + ReservationFacade()
@@ -86,11 +77,6 @@ package business{
     }
     ReservationFacade --> SessionFacade
 
-    class ReservationManagement{
-        + checkDates(offerId : int, dateStartBooking : Date, getDateEndBooking : Date) : boolean
-    }
-
-    ReservationFacade --> ReservationManagement : -ReservationManagement
 }
 
 package gui{
