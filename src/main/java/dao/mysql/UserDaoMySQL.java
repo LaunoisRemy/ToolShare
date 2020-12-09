@@ -54,7 +54,7 @@ public class UserDaoMySQL implements UserDAO {
     }
 
     @Override
-    public boolean create(User obj) {
+    public User create(User obj) {
         try {
             PreparedStatement prep = connection.prepareStatement(
                     "INSERT INTO user (lastname,firstname,email,password,userCity,phoneNumber,isAdmin,isBanned, salt) " +
@@ -78,18 +78,24 @@ public class UserDaoMySQL implements UserDAO {
             prep.setString(9, obj.getSalt());
 
             prep.executeUpdate();
-            return true;
+            ResultSet rs = prep.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+            obj.setUser_id(generatedKey);
+            return obj;
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            return false;
+            return null;
         }
 
     }
 
     @Override
-    public boolean update(User obj) {
-        return false;
+    public User update(User obj) {
+        return null;
     }
 
     @Override

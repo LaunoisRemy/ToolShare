@@ -109,7 +109,8 @@ public class SessionFacade {
         User registeredUser = new User(firstName, lastName, email, hashedPassword, city, phoneNumber, salt, isAdmin);
 
         //true if the user is well inserted in the bdd, false otherwise
-        if(!userDAO.create(registeredUser)) {
+        registeredUser = userDAO.create(registeredUser);
+        if(registeredUser != null) {
             throw new NotInsertedUser("The user is not registered in the app");
         }
     }
