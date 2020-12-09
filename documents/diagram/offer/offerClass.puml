@@ -90,8 +90,8 @@ package business{
     class OfferFacade{
         + OfferFacade()
         + getOffer(idOffer : int) : Offer
-        + createOffer(idUser : int, title : String, description : String, state : String, Category : String, toSale : boolean...) : Offer
-        + updateOffer(idUser : int, title : String, description : String, state : String, Category : String, toSale : boolean...) : Offer
+        + createOffer(idUser : int, title : String, description : String, state : String, Category : String, ...) : Offer
+        + updateOffer(idOffer : int, idUser : int, title : String, description : String, state : String, Category : String, ...) : Offer
         + deleteOffer(offerId : int)
     }
 
@@ -110,16 +110,14 @@ package gui{
     package controller{
         class OfferController{
             -offerTitle : JFXTextField
-            -offerDescription : JFXTextField
-            -offerState : ChoiceBox
-            -offerCategory : ChoiceBox
-            -offerPriority : CheckBox
-            -dateStartPriority : DatePicker
-            -dateEndPriority : DatePicker
-
+            -offerDescription : JFXTextArea
+            -offerState : JFXChoiceBox
+            -offerCategory : JFXChoiceBox
+            -offerPriority : JFXCheckBox
+            -dateStartPriority : JFXDatePicker
+            -dateEndPriority : JFXDatePicker
             + handleNewOffer() : void
             + handleViewOffer() : void
-            + handleClickOnOffer() : void
             + handleDeleteOffer() : void
             + handleUpdateOffer() : void
 

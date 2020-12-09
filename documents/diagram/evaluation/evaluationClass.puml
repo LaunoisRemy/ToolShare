@@ -97,9 +97,9 @@ package gui{
         note "Comment/rate area are show in box for comment" as n1
         HistoryController .. n1
         class HistoryController{
-            - infos_offer : TextArea
-            - commentArea : JTextArea
-            - rateArea : JButtonBar
+            - infos_offer : ListView
+            - commentArea : JFXTextArea
+            - rateArea : Rating
 
             + handleOffersFromHistory() : void
             + handleRate(offerId : int, rate : int) : void
