@@ -5,7 +5,6 @@ actor User
 participant "CreateReservation (fxml)"
 participant ReservationController
 participant ReservationFacade
-participant "Reservation (class)"
 participant SessionFacade
 participant AbstractFactoryDAO
 participant FactoryDAOMySQL
@@ -24,7 +23,7 @@ activate DB
 
 User->"CreateReservation (fxml)": Enter the booking information (dateStartBooking : Date, dateEndBooking : Date)
 
-"CreateReservation (fxml)"->ReservationController: handleReservation(dateStartBooking : Date, dateEndBooking : Date)
+"CreateReservation (fxml)"->ReservationController: handleReservation(actionEvent : ActionEvent)
 
 activate ReservationController
 

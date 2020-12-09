@@ -48,12 +48,11 @@ package db{
 }
 package business{
     class SessionFacade{
-            + getUser()
+            + getUser() : User
         }
 
     class HistoryFacade{
-        + HistoryFacade()
-        + viewAllOffersFromHistory()
+        + viewAllOffersFromHistory(userId : int) : Offer[]
     }
 
     class Offer{
@@ -95,11 +94,11 @@ package gui{
             - infos_offer : ListView
             - commentArea : JTextArea
             - rateArea : JButtonBar
-            + handleOffersFromHistory() : void
-            + handleRate(offerId : int, rate : int) : void
-            + handleComment(offerId : int, comment : String)
-            + handleDeleteComment(commentId : int) : Void
-            + handleDeleteRate(idRate : int) : Void
+            + handleOffersFromHistory(actionEvent : ActionEvent) : void
+            + handleRate(actionEvent : ActionEvent) : void
+            + handleComment(actionEvent : ActionEvent) : void
+            + handleDeleteComment(actionEvent : ActionEvent) : Void
+            + handleDeleteRate(actionEvent : ActionEvent) : Void
 
         }
     }
