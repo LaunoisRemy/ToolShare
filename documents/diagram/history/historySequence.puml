@@ -1,11 +1,10 @@
 @startuml
-title Login Diagram
+title History Diagram
 
 actor User
 participant "History (fxml)"
 participant HistoryController
 participant HistoryFacade
-participant "History (class)"
 participant SessionFacade
 participant HistoryManagement
 participant AbstractFactoryDAO
@@ -25,7 +24,7 @@ activate DB
 
 User->"History (fxml)": Click "History" in the nav bar
 
-"History (fxml)"->HistoryController: handleOffersFromHistory()
+"History (fxml)"->HistoryController: handleOffersFromHistory(actionEvent : ActionEvent)
 
 activate HistoryController
 

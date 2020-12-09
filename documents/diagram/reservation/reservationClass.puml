@@ -49,16 +49,15 @@ package db{
 }
 package business{
     class SessionFacade{
-            + getUser()
+            + getUser() : User
         }
 
     class ReservationFacade{
-        + ReservationFacade()
-        + reserve(offerId : int, dateStartBooking : Date, getDateEndBooking : Date) : Void
-        + viewAvailability(offerId : int)
-        + viewActiveReservations()
-        + confirmReservation(reservationId : int)
-        + cancelReservation(reservationId : int)
+        + reserve(offerId : int, dateStartBooking : Date, getDateEndBooking : Date) : void
+        + viewAvailability(offerId : int) : void
+        + viewActiveReservations(userId: int) : Reservation[]
+        + confirmReservation(reservationId : int) : void
+        + cancelReservation(reservationId : int) : void
     }
 
     class Reservation{
@@ -90,22 +89,21 @@ package gui{
         class ReservationAvailabilityController{
             - calendar : DatePicker
             - error_availability_msg : Label
-            + handleReservation(offerId : int, dateStartBooking : Date, dateEndBooking : Date) : void
-            + handleOfferAvailability(offerId : int)
+            + handleReservation(actionEvent : ActionEvent) : void
+            + handleOfferAvailability(actionEvent : ActionEvent) : void
         }
 
         class ReservationManagementController{
-            - infos_offer : TextArea
-            + handleActiveReservation()
-            + handleReservationConfirmation()
-            + handleCancelReservation()
+            - infos_offer : ListView
+            + handleActiveReservation(actionEvent : ActionEvent) : void
+            + handleReservationConfirmation(actionEvent : ActionEvent) : void
+            + handleCancelReservation(actionEvent : ActionEvent) : void
         }
 
     }
 }
 
 ReservationFacade <--Up- ReservationAvailabilityController
-ReservationFacade <--Up- OfferController
 ReservationFacade <--Up- ReservationManagementController
 ReservationFacade .Up.> AbstractFactoryDao
 
