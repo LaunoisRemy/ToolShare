@@ -29,7 +29,7 @@ User->"Homepage (fxml)": fav on an offer
 
 activate HomePageController
 
-HomePageController->HomePageFacade: fav(offerID : int)
+HomePageController->HomePageFacade: favOffer(offerID : int)
 
 
 

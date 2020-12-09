@@ -97,6 +97,12 @@ package gui{
 
     package controller{
         class OfferController{
+            - description : JTextField
+            - titleOffer : JLabel
+            - category : JLabel
+            - state : JLabel
+            - price : JLabel
+            - image : ImageView
             + handleNewOffer(title : String, description : String, state : String, Category : String, toSale : boolean...) : void
             + handleViewOffer(offer : Offer) : void
         }
