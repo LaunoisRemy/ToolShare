@@ -4,10 +4,13 @@ package dao {
 
 
     interface OfferDao{
-        getOffersFromUser(userId : int) : ArrayList<Offer>
-        getOffersByCity(city : String) : ArrayList<Offer>
-        getLatestOffers() : ArrayList<Offer>
+        getOffersFromUser(userId : int) : Offer[]
+        getOffersByCity(city : String) : Offer[]
+        getLatestOffers() : Offer[]
+        getOffersByCategory(idCat:int): Offer[]
+        getPriorityOffers(): PriorityOffer[]
         offerExists(id : int) : boolean
+        PriorityOfferExpired(id : int) : boolean
     }
     class OfferDaoMySQL
     FactoryDaoSQL .up.|> AbstractFactoryDao
@@ -64,7 +67,6 @@ package business{
         -isPriority : boolean
         -userId : int
         -categoryId : int
-        + Offer(String title,int price,String desc,String state,boolean isPriority,int userId,int categoryId)
         + getOfferId() : int
         + getTitle() : String
         + getPricePerDay() : int
@@ -79,12 +81,21 @@ package business{
         + setIsPriority(b:boolean) : void
     }
 
-
+    class PriorityOffer{
+        -dateStartPriority : date
+        -dateEndPriority : date
+        +PriorityOffer()
+        +isExpired() : boolean
+    }
     class OfferFacade{
         + OfferFacade()
         + getOffer(idOffer : int) : Offer
         + createOffer(idUser : int, title : String, description : String, state : String, Category : String, toSale : boolean...) : Offer
+        + updateOffer(offer : Offer) : void
     }
+
+        Offer <|-- PriorityOffer
+
 
 }
 
@@ -97,8 +108,20 @@ package gui{
 
     package controller{
         class OfferController{
-            + handleNewOffer(title : String, description : String, state : String, Category : String, toSale : boolean...) : void
-            + handleViewOffer(offer : Offer) : void
+            -offerTitle : JFXTextField
+            -offerDescription : JFXTextField
+            -offerState : ChoiceBox
+            -offerCategory : ChoiceBox
+            -offerPriority : CheckBox
+            -dateStartPriority : DatePicker
+            -dateEndPriority : DatePicker
+
+            + handleNewOffer() : void
+            + handleViewOffer() : void
+            + handleClickOnOffer() : void
+            + handleDeleteOffer() : void
+            + handleUpdateOffer() : void
+
         }
 
     }
