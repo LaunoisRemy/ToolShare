@@ -1,5 +1,5 @@
 @startuml
-title Login Diagram
+title Create Offer Diagram
 
 actor User
 participant "CreateOffer (fxml)"
@@ -30,7 +30,7 @@ activate SessionFacade
 
 User->"CreateOffer (fxml)":Enter the offer information (title : String, description : String, state : String, Category : String, toSale : boolean, city : String, price : int, image1 : ???, image2 : ???, image3 : ???)
 
-"CreateOffer (fxml)"->OfferController: handleNewOffer(mail : String, password : String)
+"CreateOffer (fxml)"->OfferController: handleNewOffer(title : String, description : String...)
 
 deactivate "CreateOffer (fxml)"
 
@@ -62,11 +62,11 @@ activate OfferDAOMySQL
 
 FactoryDAOMySQL-->OfferFacade:OfferDAOMySQL
 
+deactivate FactoryDAOMySQL
+
 OfferFacade->SessionFacade: getUser()
 
 SessionFacade-->OfferFacade: user
-
-deactivate FactoryDAOMySQL
 
 OfferFacade->OfferDAOMySQL: create(userid : int, title : String, description : String...)
 
@@ -88,7 +88,7 @@ Statement-->OfferDAOMySQL: ResultSet
 
 deactivate Statement
 
-OfferDAOMySQL->Offer: Offer(title : String, description : String...)
+OfferDAOMySQL->Offer: Offer(id : int, userid : int, title : String, description : String...)
 
 deactivate OfferDAOMySQL
 
@@ -110,6 +110,7 @@ activate "ViewOffer (fxml)"
 
 "ViewOffer (fxml)"-->User: Display corresponding View
 
+deactivate SessionFacade
 deactivate "ViewOffer (fxml)"
 deactivate DB
 deactivate User
