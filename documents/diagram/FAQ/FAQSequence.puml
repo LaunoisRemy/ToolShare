@@ -6,7 +6,7 @@ participant "CreateQuestion (fxml)"
 participant "ViewFAQ (fxml)"
 participant FAQController
 participant FAQFacade
-participant FAQ
+participant Question
 participant AbstractFactoryDAO
 participant SessionFacade
 participant ConnectionDBMySQL
@@ -87,17 +87,17 @@ Statement-->FAQDAOMySQL: ResultSet
 
 deactivate Statement
 
-FAQDAOMySQL->FAQ: FAQ(id : int, userid : int, offerid : int, answerid : int, question : String)
+FAQDAOMySQL->Question: Question(id : int, userid : int, offerid : int, answer : Answer | null, question : String, score : int)
 
 deactivate FAQDAOMySQL
 
-activate FAQ
+activate Question
 
-FAQ-->FAQFacade: faq
+Question-->FAQFacade: question
 
-deactivate FAQ
+deactivate Question
 
-FAQFacade->FAQDAOMySQL: getFAQs(offerid : int)
+FAQFacade->FAQDAOMySQL: getQuestionsByOfferId(offerid : int)
 
 activate FAQDAOMySQL
 
@@ -117,17 +117,17 @@ DB->Statement:Result
 
 Statement-->FAQDAOMySQL: ResultSet
 
-FAQDAOMySQL-->FAQFacade: ArrayList<FAQ>
+FAQDAOMySQL-->FAQFacade: ArrayList<Question>
 
 deactivate FAQDAOMySQL
 
 deactivate Statement
 
-FAQFacade-->FAQController: ArrayList<FAQ>
+FAQFacade-->FAQController: ArrayList<Question>
 
 deactivate FAQFacade
 
-FAQController-->"ViewFAQ (fxml)": loadView(ViewFAQ, ArrayList<FAQ>)
+FAQController-->"ViewFAQ (fxml)": loadView(ViewFAQ, ArrayList<Question>)
 
 deactivate FAQController
 
