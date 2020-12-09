@@ -10,7 +10,6 @@ package dao {
         getOffersByCategory(idCat:int): Offer[]
         getPriorityOffers(): PriorityOffer[]
         offerExists(id : int) : boolean
-        PriorityOfferExpired(id : int) : boolean
     }
     class OfferDaoMySQL
     FactoryDaoSQL .up.|> AbstractFactoryDao
@@ -67,6 +66,7 @@ package business{
         -isPriority : boolean
         -userId : int
         -categoryId : int
+        + Offer(String title,int price,String desc,String state,boolean isPriority,int userId,int categoryId)
         + getOfferId() : int
         + getTitle() : String
         + getPricePerDay() : int
@@ -91,7 +91,8 @@ package business{
         + OfferFacade()
         + getOffer(idOffer : int) : Offer
         + createOffer(idUser : int, title : String, description : String, state : String, Category : String, toSale : boolean...) : Offer
-        + updateOffer(offer : Offer) : void
+        + updateOffer(idUser : int, title : String, description : String, state : String, Category : String, toSale : boolean...) : Offer
+        + deleteOffer(offerId : int)
     }
 
         Offer <|-- PriorityOffer
