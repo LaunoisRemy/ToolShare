@@ -1,0 +1,97 @@
+@startuml
+
+package dao {
+
+
+    interface CategoryDao{
+        getCategories(): Category[]
+    }
+    class CategoryDaoMySQL
+    AbstractFactoryDao <|-- FactoryDaoSQL
+    CategoryDao <.. CategoryDaoMySQL
+
+    interface DAO<T>{
+        find(id : int) : T
+        create(T obj) : T
+        update(T obj) : T
+        delete(T obj) : boolean
+    }
+
+    abstract AbstractFactoryDao{
+        - {static} final connectionDB : ConnectionDB
+        + {static} getFactory(type : TypeDB) : AbstractFactoryDao
+        + getCategoryDao() : CategoryDao
+    }
+
+    class FactoryDaoSQL{
+    }
+
+
+    DAO <|-- CategoryDao
+}
+package db{
+    class ConnectionDBMySQL{
+        - connection : Connection
+        - ConnectionDBMySQL()
+        + {static} getInstance() : ConnectionDBMySQL
+        + getDb() : Connection
+    }
+
+    class LazyHolderDB{
+        + {static} final INSTANCE : ConnectionDBMySQL
+    }
+    interface ConnectionDB
+    ConnectionDBMySQL -Left-> LazyHolderDB
+    ConnectionDBMySQL .up.|> ConnectionDB
+
+}
+package business{
+    class CategoryFacade{
+    + CategoryFacade()
+    + getCategory(idCategory : int) : Category
+    + createCategory(categoryName : String) : Category
+    + getAllCategories() : Category[]
+    }
+    class SessionFacade{
+        + SessionFacade()
+        + login(mail : String, password : String) : Void
+        + register(email : String, firstName : String, lastName : String, city : String, phoneNumber : String, password : String) : Void
+        + getInstance() : SessionFacade
+    }
+
+    CategoryFacade --> SessionFacade
+    class Category{
+        -categoryId : int
+        -categoryName : String
+        -isValidated : boolean
+        + Category(String name, boolean isValidated)
+        + getCategoryId() : int
+        + getCategoryName() : String
+        + isValidated() : boolean
+        + setCategoryName() : String
+        + setValidated() : boolean
+
+    }
+
+}
+
+package gui{
+
+    class LoadView{
+        + {static} load(nameFxml : Parent) : Parent
+        + {static} changeScreen(actionEvent : ActionEvent, view : String) : void
+    }
+
+    package controller{
+        class CategoryController{
+            -categoryName : JFXTextLabel
+            + handleNewCategory() : void
+        }
+    }
+}
+CategoryFacade <--Up- CategoryController
+CategoryFacade .Up.> AbstractFactoryDao
+
+
+
+@enduml

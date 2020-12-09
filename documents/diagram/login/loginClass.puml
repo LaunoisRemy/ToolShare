@@ -118,6 +118,10 @@ package gui{
 
     package controller{
         class LoginController{
+            - mail : JFXTextField ;
+            - password : JFXPasswordField;
+            - error_msg : error_msg;
+            - banned_msg : Label;
             + handleLogin(mail : String, password : String) : void
         }
 

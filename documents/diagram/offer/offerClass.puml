@@ -13,6 +13,7 @@ package dao {
     FactoryDaoSQL .up.|> AbstractFactoryDao
     OfferDaoMySQL .up.|> OfferDao
 
+
     interface DAO<T>{
         find(id : int) : T
         create(T obj) : T
@@ -63,7 +64,7 @@ package business{
         -isPriority : boolean
         -userId : int
         -categoryId : int
-        + Offer()
+        + Offer(String title,int price,String desc,String state,boolean isPriority,int userId,int categoryId)
         + getOfferId() : int
         + getTitle() : String
         + getPricePerDay() : int
@@ -77,6 +78,7 @@ package business{
         + setCategoryId(categoryId:int) : void
         + setIsPriority(b:boolean) : void
     }
+
 
     class OfferFacade{
         + OfferFacade()

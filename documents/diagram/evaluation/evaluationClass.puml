@@ -95,6 +95,8 @@ package gui{
 
     package controller{
         class HistoryController{
+            - comment : JTextArea
+            - rate : JButtonBar
             + handleRate(offerId : int, rate : int) : void
             + handleComment(offerId : int, comment : String)
             + handleDeleteComment(commentId : int) : Void
