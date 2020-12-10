@@ -3,10 +3,10 @@
 package dao {
 
 
-    interface ScoreOfferDao{
+    abstract ScoreOfferDao{
     }
     class ScoreOfferDaoMySQL
-    interface CommentDao{
+    abstract CommentDao{
     }
     class CommentDaoMySQL
 
@@ -126,7 +126,8 @@ package gui{
 EvaluationFacade <--Up- EvaluationController
 EvaluationFacade <--Up- OfferController
 EvaluationFacade --> SessionFacade
-EvaluationFacade ..> AbstractFactoryDao
+EvaluationFacade --> CommentDao
+EvaluationFacade --> ScoreOfferDao
 
 
 
