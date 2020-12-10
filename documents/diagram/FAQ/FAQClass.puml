@@ -3,14 +3,23 @@
 package dao {
 
 
-    interface FAQDao{
+    interface QuestionDao{
         getQuestionsByOfferId(offerId : int) : ArrayList<Question>
         questionExists(id : int) : boolean
         hasAnAnswer(id : int) : boolean
     }
-    class FAQDaoMySQL
+
+    interface AnswerDao{
+        getAnswersByOfferId(offerId : int) : ArrayList<Answer>
+        answerExists(id : int) : boolean
+    }
+
+    class QuestionDaoMySQL
+    QuestionDaoMySQL .up.|> QuestionDao
+
+    class AnswerDaoMySQL
     FactoryDaoSQL .up.|> AbstractFactoryDao
-    FAQDaoMySQL .up.|> FAQDao
+    AnswerDaoMySQL .up.|> AnswerDao
 
     interface DAO<T>{
         find(id : int) : T
@@ -28,8 +37,8 @@ package dao {
     class FactoryDaoSQL{
     }
 
-
-    DAO <|-- FAQDao
+    DAO <|-- AnswerDao
+    DAO <|-- QuestionDao
 }
 package db{
     class ConnectionDBMySQL{
@@ -57,7 +66,7 @@ package business{
         -questionId : int
         -content : String
         -score : int
-        -answer : Answer
+        -answerId : int
         -userId : int
         -offerId : int
         + Question()
@@ -92,12 +101,16 @@ package business{
     }
 
     class FAQFacade{
-        + FAQFacade()
-        + getQuestion(id : int) : Question
-        + createQuestion(id : int, userid : int, offerid : int, answer : Answer, question : String, score : int) : Question
+        + getQuestionById(id : int) : Question
+        + getAnswerById(id : int) : Answer
+        + createQuestion(id : int, userid : int, offerid : int, answerid : int, question : String, score : int) : Question
+        + createAnswer(id : int, userid : int, answer : String, score : int) : Answer
         + getQuestionsByOfferId(offerid : int) : ArrayList<Question>
-        + updateQuestionScore(id : int, score : int) : Question
-        + updateAnswerScore(id : int, score : int) : Answer
+        + getAnswersByOfferId(offerid : int) : ArrayList<Answer>
+        + updateQuestionScore(id : int, userid : int, offerid : int, answerid : int, question : String, score : int) : Question
+        + updateAnswerScore(id : int, userid : int, answer : String, score : int) : Answer
+        + deleteQuestion(id : int) : boolean
+        + deleteAnswer(id : int) : boolean
     }
 
 }
@@ -110,14 +123,42 @@ package gui{
     }
 
     package controller{
-        class FAQController{
-            + handleNewQuestion(offerid : int, question : String) : void
-            + handleNewAnswer(questionid : int, answer : String)
+
+        class OfferController {
+            - FAQ : ListView
+            - answerQuestion : JButtonBar
+            - update : JButtonBar
+            - updat : JButtonBar
+            - newQuestion : JButtonBar
+            - rateArea : JButtonBar
+            + handleNewQuestion(actionEvent : ActionEvent) : void
+            + handleNewAnswer(actionEvent : ActionEvent) : void
+            + handleUpdateQuestion(actionEvent : ActionEvent) : void
+            + handleUpdateAnswer(actionEvent : ActionEvent) : void
+            + handleDeleteQuestion(actionEvent : ActionEvent) : void
+            + handleDeleteAnswer(actionEvent : ActionEvent) : void
+            + handleUpdateScoreQuestion(actionEvent : ActionEvent) : void
+            + handleUpdateScoreAnswer(actionEvent : ActionEvent) : void
         }
 
+        class NewQuestionController {
+            - questionArea : JTextArea
+            - postQuestion : JButtonBar
+            - cancel : JButtonBar
+            + handleNewQuestion(actionEvent : ActionEvent) : void
+            + cancel(actionEvent : ActionEvent) : void
+        }
+
+        class NewAnswerController {
+            - answerArea : JTextArea
+            - postAnswer : JButtonBar
+            - cancel : JButtonBar
+            + handleNewAnswer(actionEvent : ActionEvent) : void
+            + cancel(actionEvent : ActionEvent) : void
+        }
     }
 }
-FAQFacade <--Up- FAQController
+FAQFacade <--Up- controller
 SessionFacade <--Up- FAQFacade
 FAQFacade .Up.> AbstractFactoryDao
 

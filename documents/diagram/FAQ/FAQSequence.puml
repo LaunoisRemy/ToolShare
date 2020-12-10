@@ -67,7 +67,7 @@ FAQFacade->SessionFacade: getUser()
 
 SessionFacade-->FAQFacade: user
 
-FAQFacade->FAQDAOMySQL: create(userid : int, offerid : int, question : String)
+FAQFacade->FAQDAOMySQL: create(new Question(userid : int, offerid : int, question : String))
 
 FAQDAOMySQL->Connection: prepareStatement()
 
@@ -87,7 +87,7 @@ Statement-->FAQDAOMySQL: ResultSet
 
 deactivate Statement
 
-FAQDAOMySQL->Question: Question(id : int, userid : int, offerid : int, answer : Answer, question : String, score : int)
+FAQDAOMySQL->Question: Question(id : int, userid : int, offerid : int, answerid : int, question : String, score : int)
 
 deactivate FAQDAOMySQL
 
