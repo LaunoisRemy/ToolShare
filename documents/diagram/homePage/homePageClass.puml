@@ -34,9 +34,10 @@ package dao {
     }
 
     abstract AbstractFactoryDao{
-        - {static } final connectionDB : ConnectionDB
+        - {static} final connectionDB : ConnectionDB
         + {static} getFactory(type : TypeDB) : AbstractFactoryDao
         + getOfferDao() : OfferDao
+        + getFavoryDao() : FavoryDao
     }
 
     class FactoryDaoMySQL{
