@@ -128,7 +128,7 @@ package gui{
     }
 }
 OfferFacade <--Up- OfferController
-SessionFacade <--Up- OfferFacade
+SessionFacade <-Up- OfferFacade
 OfferFacade .Up.> AbstractFactoryDao
 
 
