@@ -1,5 +1,5 @@
 @startuml
-title Login Diagram
+title Favory Diagram
 
 actor User
 participant "Homepage (fxml)"
@@ -9,7 +9,6 @@ participant SessionFacade
 participant AbstractFactoryDAO
 participant FactoryDAOMySQL
 participant FavoryDaoMySQL
-participant CommentDAOMySQL
 participant Connection
 participant Statement
 database DB
@@ -25,7 +24,7 @@ activate Connection
 
 User->"Homepage (fxml)": fav on an offer
 
-"Homepage (fxml)"-> HomePageController: handleFavOffer(offerID : int)
+"Homepage (fxml)"-> HomePageController: handleFavOffer(actionEvent ActionEvent)
 
 activate HomePageController
 
@@ -54,7 +53,7 @@ FactoryDAOMySQL-->HomePageFacade:FavoryDaoMySQL
 deactivate FactoryDAOMySQL
 HomePageFacade -> SessionFacade : getUser()
 SessionFacade --> HomePageFacade : user
-HomePageFacade->FavoryDaoMySQL: create(offerID: int, userId : int)
+HomePageFacade->FavoryDaoMySQL: create(new Favory(offerID: int, userId : int))
 
 FavoryDaoMySQL->Connection: prepareStatement()
 
@@ -77,11 +76,11 @@ Statement-->FavoryDaoMySQL: ResultSet
 
 deactivate Statement
 
-FavoryDaoMySQL-->HomePageFacade: return Favory
+FavoryDaoMySQL-->HomePageFacade: return favory
 deactivate FavoryDaoMySQL
 
 
-HomePageFacade --> HomePageController : return Favory
+HomePageFacade --> HomePageController : return favory
 
 
 
@@ -89,7 +88,6 @@ HomePageFacade --> HomePageController : return Favory
 HomePageController-->"Homepage (fxml)": Display home page with offer in fav
 "Homepage (fxml)" --> User : Display home page with offer in fav
 deactivate HomePageFacade
-deactivate "Homepage (fxml)"
 deactivate DB
 deactivate User
 

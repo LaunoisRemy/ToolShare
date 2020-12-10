@@ -64,7 +64,7 @@ package business{
         -dateStartBooking : Date
         -dateEndBooking : Date
         -isConfirmed : boolean
-        +Reservation(dateS : Date, sateE : Date)
+        +Reservation(offerId : int, dateS : Date, sateE : Date)
         +getDateStartBooking() : Date
         +getDateEndBooking() : Date
         +getIsConfirmed() : boolean

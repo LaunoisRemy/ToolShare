@@ -94,24 +94,28 @@ package gui{
     }
 
     package controller{
-        note "Comment/rate area are show in box for comment" as n1
-        HistoryController .. n1
-        class HistoryController{
-            - infos_offer : ListView
+
+        class EvaluationController{
             - commentArea : JFXTextArea
             - rateArea : Rating
 
-            + handleOffersFromHistory() : void
-            + handleRate(offerId : int, rate : int) : void
-            + handleComment(offerId : int, comment : String)
-            + handleDeleteComment(commentId : int) : Void
-            + handleDeleteRate(idRate : int) : Void
-            + handleUpdateComment(idComment:int,idUser:int,comment:String)
+            + handleRate(actionEvent : ActionEvent ) : void
+            + handleComment(actionEvent : ActionEvent) : void
+
+        }
+        class HistoryController{
+            - infos_offer : ListView
+            - commentArea : JTextArea
+            - rateArea : JButtonBar
+            + handleOffersFromHistory(actionEvent : ActionEvent) : void
+            + handleNewRate(actionEvent : ActionEvent) : void
+
         }
 
     }
 }
-EvaluationFacade <--Up- HistoryController
+
+EvaluationFacade <--Up- EvaluationController
 EvaluationFacade --> SessionFacade
 EvaluationFacade ..> AbstractFactoryDao
 

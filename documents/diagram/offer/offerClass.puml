@@ -92,7 +92,8 @@ package business{
         + getOffer(idOffer : int) : Offer
         + createOffer(idUser : int, title : String, description : String, state : String, Category : String, ...) : Offer
         + updateOffer(idOffer : int, idUser : int, title : String, description : String, state : String, Category : String, ...) : Offer
-        + deleteOffer(offerId : int)
+        + deleteOffer(offerId : int) : void
+        + newReservation(offerId : int) : void
     }
 
         Offer <|-- PriorityOffer
@@ -116,10 +117,11 @@ package gui{
             -offerPriority : JFXCheckBox
             -dateStartPriority : JFXDatePicker
             -dateEndPriority : JFXDatePicker
-            + handleNewOffer() : void
-            + handleViewOffer() : void
-            + handleDeleteOffer() : void
-            + handleUpdateOffer() : void
+            + handleNewOffer(actionEvent : ActionEvent) : void
+            + handleViewOffer(actionEvent : ActionEvent) : void
+            + handleDeleteOffer(actionEvent : ActionEvent) : void
+            + handleUpdateOffer(actionEvent : ActionEvent) : void
+            + handleNewReservation(actionEvent : ActionEvent) : void
 
         }
 
