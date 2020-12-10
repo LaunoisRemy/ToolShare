@@ -6,6 +6,7 @@ package dao {
     interface HistoryDao{
         getAllOffersFromHistory(userId : int): Offer[]
         getOffererFromOfferId(offerId : int) : User
+        getAlreadyRated(userId : int, offerId : int) : boolean
     }
     class HistoryDaoMySQL
     AbstractFactoryDao <|-- FactoryDaoSQL
@@ -53,6 +54,7 @@ package business{
 
     class HistoryFacade{
         + viewAllOffersFromHistory(userId : int) : Offer[]
+        + newRate(userId : int, offerId : int)
     }
 
     class Offer{
@@ -64,7 +66,7 @@ package business{
         -isPriority : boolean
         -userId : int
         -categoryId : int
-        + Offer()
+        + Offer(...)
         + getOfferId() : int
         + getTitle() : String
         + getPricePerDay() : int
@@ -95,10 +97,7 @@ package gui{
             - commentArea : JTextArea
             - rateArea : JButtonBar
             + handleOffersFromHistory(actionEvent : ActionEvent) : void
-            + handleRate(actionEvent : ActionEvent) : void
-            + handleComment(actionEvent : ActionEvent) : void
-            + handleDeleteComment(actionEvent : ActionEvent) : Void
-            + handleDeleteRate(actionEvent : ActionEvent) : Void
+            + handleNewRate(actionEvent : ActionEvent) : void
 
         }
     }
