@@ -62,6 +62,7 @@ package business{
         + comment(offerId : int, comment : String) : Void
         + deleteComment(commentId : int) : Void
         + deleteRate(idRate : int) : Void
+        + updateComment(commentId: int, idRate : int, userID; int)
     }
     class ScoreOffer{
         - scoreId : int
@@ -111,11 +112,19 @@ package gui{
             + handleNewRate(actionEvent : ActionEvent) : void
 
         }
+        class OfferController{
+            + handleDeleteComment(actionEvent : ActionEvent) : void
+            + handleUpdateComment(actionEvent : ActionEvent) : void
+            + handleDeleteRate(actionEvent : ActionEvent) : void
+
+        }
+        note right : OfferController from offerClass
 
     }
 }
 
 EvaluationFacade <--Up- EvaluationController
+EvaluationFacade <--Up- OfferController
 EvaluationFacade --> SessionFacade
 EvaluationFacade ..> AbstractFactoryDao
 
