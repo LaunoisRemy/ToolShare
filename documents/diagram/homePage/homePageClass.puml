@@ -110,7 +110,13 @@ package gui{
         class HomePageController{
             + handleFavOffer(offerID : int)
         }
-
+        class NavBarController{
+            + handleViewMyOffers(actionEvent : ActionEvent) : void
+            + handleViewOffers(actionEvent : ActionEvent) : void
+            + handleViewFavorites(actionEvent : ActionEvent) : void
+            + handleViewHistory(actionEvent : ActionEvent) : void
+            + handleViewProfile(actionEvent : ActionEvent) : void
+        }
     }
 }
 HomePageFacade <--Up- HomePageController
