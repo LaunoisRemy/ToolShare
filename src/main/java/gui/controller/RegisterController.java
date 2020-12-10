@@ -1,10 +1,7 @@
 package gui.controller;
 
-import business.exceptions.NotInsertedUser;
-import business.exceptions.UserBannedException;
-import business.exceptions.UserNotFoundException;
+import business.exceptions.BadInsertionInBDDException;
 import business.facade.SessionFacade;
-import business.system.user.User;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import gui.LoadView;
@@ -32,8 +29,8 @@ public class RegisterController {
         try {
             facade.register(email.getText(), firstname.getText(), lastname.getText(), city.getText(), phone.getText(), password.getText(), false);
             LoadView.changeScreen(actionEvent, "login");
-        } catch (NotInsertedUser e){
-            e.toString();
+        } catch (BadInsertionInBDDException e){
+            System.out.println(e.toString());
         }
     }
     public void loginPage(ActionEvent actionEvent){
