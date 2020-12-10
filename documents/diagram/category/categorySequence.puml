@@ -5,9 +5,10 @@ actor User
 participant "CreateOffer (fxml)"
 participant CategoryController
 participant CategoryFacade
+participant CategoryDao
 participant AbstractFactoryDAO
 participant FactoryDAOMySQL
-participant CategoryDAOMySQL
+participant CategoryDaoMySQL
 participant Connection
 participant Statement
 database DB
@@ -38,24 +39,26 @@ else User wants to add a new category
     deactivate CategoryController
     activate CategoryFacade
 
-    CategoryFacade->AbstractFactoryDAO:getInstance()
 
-    activate AbstractFactoryDAO
-    AbstractFactoryDAO--> CategoryFacade : FactoryDAOMySQL
-    deactivate AbstractFactoryDAO
+    CategoryFacade->CategoryDao : getInstance()
+    alt if (first getInstance)
+        activate CategoryDao
+        CategoryDao -> AbstractFactoryDAO : getInstance()
+        activate AbstractFactoryDAO
+        AbstractFactoryDAO --> CategoryDao : FactoryDAOMySQL
+        deactivate AbstractFactoryDAO
 
-    CategoryFacade -> FactoryDAOMySQL:getCategoryDAO()
+        CategoryDao -> FactoryDAOMySQL : getCategoryDaoMySQL()
+        activate FactoryDAOMySQL
+        FactoryDAOMySQL -> CategoryDaoMySQL **:Create(connection)
+        activate CategoryDaoMySQL
+        FactoryDAOMySQL --> CategoryDao : CategoryDaoMySQL
+    end
+    CategoryDao --> CategoryFacade : CategoryDaoMySQL
 
-    activate FactoryDAOMySQL
 
-    FactoryDAOMySQL->CategoryDAOMySQL **:Create(connection)
 
-    activate CategoryDAOMySQL
-    FactoryDAOMySQL-->CategoryFacade:CategoryDAOMySQL
-
-    deactivate FactoryDAOMySQL
-
-    CategoryFacade->CategoryDAOMySQL: create(new Category(categoryName : String,isValidated : boolean) : Category)
+    CategoryFacade->CategoryDaoMySQL: create(new Category(categoryName : String,isValidated : boolean) : Category)
 
     CategoryDAOMySQL->Connection: prepareStatement()
 

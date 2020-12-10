@@ -3,12 +3,15 @@
 package dao {
 
 
-    interface CategoryDao{
+    abstract CategoryDao{
+        # OfferDao()
+        + {static} getInstance() : CategoryDao
+        - {static} LazyHolder()
         getCategories(): Category[]
     }
     class CategoryDaoMySQL
-    AbstractFactoryDao <|-- FactoryDaoSQL
-    CategoryDao <.. CategoryDaoMySQL
+    AbstractFactoryDao <|-- FactoryDaoMySQL
+    CategoryDao <|-- CategoryDaoMySQL
 
     interface DAO<T>{
         find(id : int) : T
@@ -23,11 +26,11 @@ package dao {
         + getCategoryDao() : CategoryDao
     }
 
-    class FactoryDaoSQL{
+    class FactoryDaoMySQL{
     }
 
-
-    DAO <|-- CategoryDao
+    CategoryDao-->AbstractFactoryDao
+    DAO <|.. CategoryDao
 }
 package db{
     class ConnectionDBMySQL{
@@ -71,7 +74,6 @@ package business{
         + setValidated() : boolean
 
     }
-
 }
 
 package gui{
@@ -91,8 +93,8 @@ package gui{
         }
     }
 }
+CategoryFacade --> CategoryDao
 CategoryFacade <--Up- CategoryController
-CategoryFacade .Up.> AbstractFactoryDao
 
 
 
