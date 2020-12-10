@@ -33,7 +33,8 @@ package dao {
         + getReservationDao() : ReservationDao
         + getUserDao() : UserDAO
         + getHistoryDao() : HistoryDao
-        + getFAQDao() : FAQDao
+        + getQuestionDao() : QuestionDao
+        + getAnswerDao() : AnswerDao
         + getScoreOfferDao() : ScoreOfferDao
         + getCategoryDao() : CategoryDao
         + getFavoryDao() : FavoryDao
