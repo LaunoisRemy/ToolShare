@@ -6,7 +6,14 @@ import db.ConnectionDBMySQL;
 
 import java.sql.Connection;
 
+/**
+ * Abstract Factory (Singleton pattern)
+ * instantiate connection (Singleton)
+ */
 public abstract class AbstractFactoryDAO {
+    /**
+     * Connection to the database
+     */
     public static final Connection connection = ConnectionDBMySQL.getInstance().getDb();
 
     /**
@@ -24,8 +31,26 @@ public abstract class AbstractFactoryDAO {
         return AbstractFactoryDAO.LazyHolder.INSTANCE;
     }
 
-
+    /**
+     * Get the data access object of user
+     * @return User dao
+     */
     public abstract UserDAO getUserDAO();
+    /**
+     * Get the data access object of  offer
+     * @return Offer dao
+     */
+    public abstract UserDAO getOfferDAO();
+    /**
+     * Get the data access object of  Score offer (rate)
+     * @return Offer dao
+     */
+    public abstract UserDAO getScoreOfferDAO();
+    /**
+     * Get the data access object of comment
+     * @return comment dao
+     */
+    public abstract UserDAO getCommentDAO();
 
 
 

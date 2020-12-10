@@ -2,6 +2,9 @@ package business.system.user;
 
 import business.exceptions.UserNotFoundException;
 
+/**
+ * Represent user in the application
+ */
 public class User {
     /**
      * Id of user
