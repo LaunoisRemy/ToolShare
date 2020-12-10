@@ -2,25 +2,16 @@ package dao.structure;
 
 import business.system.user.User;
 import dao.factory.AbstractFactoryDAO;
-import dao.mysql.UserDaoMySQL;
 
 public abstract class UserDAO implements DAO<User> {
-    protected UserDAO() {
-    }
+    private static final UserDAO INSTANCE = AbstractFactoryDAO.getInstance().getUserDAO();
 
-    /**
-     * The static class definition LazyHolder within it is not initialized until the JVM determines that LazyHolder must be executed
-     */
-    private static class LazyHolder {
-        public static final UserDAO INSTANCE=AbstractFactoryDAO.getInstance().getUserDAO();
-    }
     /**
      * getInstance will return the same correctly initialized INSTANCE
      * @return instance of the class
      */
     public static UserDAO getInstance(){
-
-        return UserDAO.LazyHolder.INSTANCE;
+        return INSTANCE;
     }
 
     public abstract User getUserByEmail(String email);

@@ -36,6 +36,7 @@ package dao {
         + getQuestionDao() : QuestionDao
         + getAnswerDao() : AnswerDao
         + getScoreOfferDao() : ScoreOfferDao
+        + getCommentDao() : CommentDao
         + getCategoryDao() : CategoryDao
         + getFavoryDao() : FavoryDao
     }

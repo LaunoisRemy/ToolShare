@@ -31,9 +31,9 @@ public class UserDaoMySQL extends UserDAO {
      * @param connection to have a link of the connection
      */
     public UserDaoMySQL(Connection connection) {
-        super();
         this.connection = connection;
     }
+
 
     /**
      * Method which communicate with DB to retrieve an User with id
