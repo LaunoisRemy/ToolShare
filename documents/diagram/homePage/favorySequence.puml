@@ -6,6 +6,7 @@ participant "Homepage (fxml)"
 participant HomePageController
 participant HomePageFacade
 participant SessionFacade
+participant FavoryDao
 participant AbstractFactoryDAO
 participant FactoryDAOMySQL
 participant FavoryDaoMySQL
@@ -34,21 +35,26 @@ HomePageController->HomePageFacade: favOffer(offerID : int)
 
 activate HomePageFacade
 
-HomePageFacade->AbstractFactoryDAO:getInstance()
-activate AbstractFactoryDAO
+HomePageFacade->FavoryDao : getInstance()
+alt if (first getInstance)
+    activate FavoryDao
+    FavoryDao -> AbstractFactoryDAO : getInstance()
+    activate AbstractFactoryDAO
+    AbstractFactoryDAO --> FavoryDao : FactoryDAOMySQL
+    deactivate AbstractFactoryDAO
+
+    FavoryDao -> FactoryDAOMySQL : getFavoryDaoMySQL()
+    activate FactoryDAOMySQL
+    FactoryDAOMySQL -> FavoryDaoMySQL **:Create(connection)
+    activate FavoryDaoMySQL
+    FactoryDAOMySQL --> FavoryDao : FavoryDaoMySQL
+end
+FavoryDao --> HomePageFacade : FavoryDaoMySQL
+
+HomePageFacade --> HomePageFacade : FavoryDao.getDao()
 
 
-AbstractFactoryDAO--> HomePageFacade : FactoryDAOMySQL
-deactivate AbstractFactoryDAO
 
-HomePageFacade -> FactoryDAOMySQL:getScoreOfferDAO()
-
-activate FactoryDAOMySQL
-
-FactoryDAOMySQL->FavoryDaoMySQL **:Create(connection)
-
-activate FavoryDaoMySQL
-FactoryDAOMySQL-->HomePageFacade:FavoryDaoMySQL
 
 deactivate FactoryDAOMySQL
 HomePageFacade -> SessionFacade : getUser()

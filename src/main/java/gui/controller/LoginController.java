@@ -31,8 +31,8 @@ public class LoginController {
      * Displays the corresponding view whether the user had valid credentials or not
      */
     public void handleLogin(ActionEvent actionEvent) {
-        System.out.println(mail.getText());
-        System.out.println(password.getText());
+//        System.out.println(mail.getText());
+//        System.out.println(password.getText());
 
         try {
             User user = facade.login(mail.getText(), password.getText());

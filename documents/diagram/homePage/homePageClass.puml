@@ -3,7 +3,7 @@
 package dao {
 
 
-    interface OfferDao{
+    abstract OfferDao{
         getOffersFromUser(userId : int) : ArrayList<Offer>
         getOffersByCity(city : String) : ArrayList<Offer>
         getLatestOffers() : ArrayList<Offer>
@@ -12,7 +12,7 @@ package dao {
     class OfferDaoMySQL
     FactoryDaoSQL .up.|> AbstractFactoryDao
     OfferDaoMySQL .up.|> OfferDao
-    interface FavoryDao{
+    abstract FavoryDao{
         getAllFavoryByIdUser(idUser : int) : ArrayList<Favory>
         getAllUserByIdUser(idOffer : int) : ArrayList<Offer>
         getFavory(favory : FavoryOffer) : FavoryOffer
@@ -121,7 +121,8 @@ package gui{
 }
 HomePageFacade <--Up- HomePageController
 SessionFacade <--Up- HomePageFacade
-HomePageFacade .Up.> AbstractFactoryDao
+HomePageFacade ..> FavoryDao
+HomePageFacade ..> OfferDao
 
 
 
