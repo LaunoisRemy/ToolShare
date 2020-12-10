@@ -120,6 +120,7 @@ package gui{
             + handleViewOffer() : void
             + handleDeleteOffer() : void
             + handleUpdateOffer() : void
+            + handleNewReservation() : void
 
         }
 
