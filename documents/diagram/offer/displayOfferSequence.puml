@@ -6,12 +6,10 @@ participant "ViewOffer (fxml)"
 participant "Homepage (fxml)"
 participant OfferController
 participant OfferFacade
-participant "ViewOffer (class)"
-participant UserManagement
+participant OfferDao
 participant AbstractFactoryDAO
 participant FactoryDAOMySQL
 participant OfferDAOMySQL
-participant PriorityOfferDAOMySQL
 participant Connection
 participant Statement
 database DB
@@ -36,29 +34,23 @@ deactivate OfferController
 
 activate OfferFacade
 
-OfferFacade->AbstractFactoryDAO:getInstance()
-activate AbstractFactoryDAO
+OfferFacade->OfferDao : getInstance()
+alt if (first getInstance)
+    activate OfferDao
+    OfferDao -> AbstractFactoryDAO : getInstance()
+    activate AbstractFactoryDAO
+    AbstractFactoryDAO --> OfferDao : FactoryDAOMySQL
+    deactivate AbstractFactoryDAO
 
-
-
-
-
-
-
-
-
-
-AbstractFactoryDAO--> OfferFacade : FactoryDAOMySQL
-deactivate AbstractFactoryDAO
-
-OfferFacade -> FactoryDAOMySQL:getOfferDAO()
-
-activate FactoryDAOMySQL
-
-FactoryDAOMySQL->OfferDAOMySQL **:Create(connection)
-
-activate OfferDAOMySQL
-FactoryDAOMySQL-->OfferFacade:OfferDAOMySQL
+    OfferDao -> FactoryDAOMySQL : getOfferDao()
+    activate FactoryDAOMySQL
+    FactoryDAOMySQL -> OfferDAOMySQL **:Create(connection)
+    activate OfferDAOMySQL
+    FactoryDAOMySQL --> OfferDao : OfferDaoMySQL
+    deactivate FactoryDAOMySQL
+end
+OfferDao --> OfferFacade : OfferDaoMySQL
+deactivate OfferDao
 
 deactivate FactoryDAOMySQL
 
@@ -99,7 +91,6 @@ deactivate OfferController
 "ViewOffer (fxml)"-->User: Display corresponding Offer
 deactivate Connection
 deactivate DB
-deactivate UserManagement
 deactivate User
 
 @enduml

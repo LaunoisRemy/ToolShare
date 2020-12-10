@@ -6,9 +6,9 @@ participant "CreateOffer (fxml)"
 participant "ViewOffer (fxml)"
 participant OfferController
 participant OfferFacade
-participant AbstractFactoryDAO
 participant SessionFacade
-participant ConnectionDBMySQL
+participant OfferDao
+participant AbstractFactoryDAO
 participant FactoryDAOMySQL
 participant OfferDAOMySQL
 participant Connection
@@ -22,8 +22,6 @@ activate "CreateOffer (fxml)"
 activate User
 activate DB
 activate Connection
-activate ConnectionDBMySQL
-activate SessionFacade
 
 
 
@@ -39,33 +37,29 @@ OfferController->OfferFacade:createOffer(title : String, description : String...
 
 activate OfferFacade
 
-OfferFacade->AbstractFactoryDAO:getInstance()
+OfferFacade->OfferDao : getInstance()
+alt if (first getInstance)
+    activate OfferDao
+    OfferDao -> AbstractFactoryDAO : getInstance()
+    activate AbstractFactoryDAO
+    AbstractFactoryDAO --> OfferDao : FactoryDAOMySQL
+    deactivate AbstractFactoryDAO
 
-activate AbstractFactoryDAO
-
-AbstractFactoryDAO -> ConnectionDBMySQL : getInstance()
-
-AbstractFactoryDAO <-- ConnectionDBMySQL : connectionDBMySQL
-
-AbstractFactoryDAO--> OfferFacade : FactoryDAOMySQL
-
-deactivate AbstractFactoryDAO
-
-OfferFacade -> FactoryDAOMySQL:getOfferDAO()
-
-activate FactoryDAOMySQL
-
-FactoryDAOMySQL->OfferDAOMySQL **:Create(connection)
-
-activate OfferDAOMySQL
-
-FactoryDAOMySQL-->OfferFacade:OfferDAOMySQL
+    OfferDao -> FactoryDAOMySQL : getOfferDao()
+    activate FactoryDAOMySQL
+    FactoryDAOMySQL -> OfferDAOMySQL **:Create(connection)
+    activate OfferDAOMySQL
+    FactoryDAOMySQL --> OfferDao : OfferDaoMySQL
+    deactivate FactoryDAOMySQL
+end
+OfferDao --> OfferFacade : OfferDaoMySQL
+deactivate OfferDao
 
 deactivate FactoryDAOMySQL
-
 OfferFacade->SessionFacade: getUser()
-
+activate SessionFacade
 SessionFacade-->OfferFacade: user
+deactivate SessionFacade
 
 OfferFacade->OfferDAOMySQL: create(new Offer(userid : int, title : String, description : String...) : Offer)
 
@@ -104,11 +98,9 @@ activate "ViewOffer (fxml)"
 
 "ViewOffer (fxml)"-->User: Display corresponding View
 
-deactivate SessionFacade
 deactivate "ViewOffer (fxml)"
 deactivate DB
 deactivate User
-deactivate ConnectionDBMySQL
 deactivate Connection
 
 @enduml

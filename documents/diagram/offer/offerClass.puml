@@ -3,7 +3,10 @@
 package dao {
 
 
-    interface OfferDao{
+    abstract OfferDao{
+        # OfferDao()
+        + {static} getInstance() : QuestionDao
+        - {static} LazyHolder()
         getOffersFromUser(userId : int) : Offer[]
         getOffersByCity(city : String) : Offer[]
         getLatestOffers() : Offer[]
@@ -12,8 +15,8 @@ package dao {
         offerExists(id : int) : boolean
     }
     class OfferDaoMySQL
-    FactoryDaoSQL .up.|> AbstractFactoryDao
-    OfferDaoMySQL .up.|> OfferDao
+    FactoryDaoMySQL -up-|> AbstractFactoryDao
+    OfferDaoMySQL -up-|> OfferDao
 
 
     interface DAO<T>{
@@ -29,11 +32,12 @@ package dao {
         + getOfferDao() : OfferDao
     }
 
-    class FactoryDaoSQL{
+    class FactoryDaoMySQL{
     }
 
 
-    DAO <|-- OfferDao
+    DAO <|.. OfferDao
+    OfferDao-->AbstractFactoryDao
 }
 package db{
     class ConnectionDBMySQL{
@@ -133,7 +137,6 @@ package gui{
 }
 OfferFacade <--Up- OfferController
 SessionFacade <-Up- OfferFacade
-OfferFacade .Up.> AbstractFactoryDao
 
 
 
