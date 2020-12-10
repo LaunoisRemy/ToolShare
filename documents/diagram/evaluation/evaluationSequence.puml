@@ -1,5 +1,5 @@
 @startuml
-title Login Diagram
+title Evaluation Diagram
 
 actor User
 participant "History (fxml)"
@@ -27,13 +27,13 @@ activate Connection
 
 User->"History (fxml)": Rate an offer
 
-"History (fxml)"->HistoryController: handleNewRate(ActionEvent e)
+"History (fxml)"->HistoryController: handleNewRate(actionEvent ActionEvent)
 
 activate HistoryController
 HistoryController --> evView :  Display view to rate
 deactivate HistoryController
 activate evView
-evView -> EvaluationController : handleRate(ActionEvent e)
+evView -> EvaluationController : handleRate(actionEvent ActionEvent)
 
 activate EvaluationController
 EvaluationController->EvaluationFacade: rate(offerID : int, rate : int)
@@ -100,7 +100,7 @@ end note
 EvaluationController --> evView : Display box choice comment
 evView --> User : Display box choice comment
 User -> evView : Choose to comment
-evView -> EvaluationController : handleComment(ActionEvent e)
+evView -> EvaluationController : handleComment(actionEvent ActionEvent)
 deactivate evView
 EvaluationController -> EvaluationFacade : comment(offerId : int, comment : String, ScoreOfferId : int)
 EvaluationFacade -> FactoryDAOMySQL : getCommentDao()

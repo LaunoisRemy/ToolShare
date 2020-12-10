@@ -99,8 +99,8 @@ package gui{
             - commentArea : JFXTextArea
             - rateArea : Rating
 
-            + handleRate(offerId : int, rate : int) : void
-            + handleComment(offerId : int, comment : String)
+            + handleRate(actionEvent : ActionEvent ) : void
+            + handleComment(actionEvent : ActionEvent) : void
 
         }
         class HistoryController{
