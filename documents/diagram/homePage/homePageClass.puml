@@ -4,21 +4,27 @@ package dao {
 
 
     abstract OfferDao{
+        - OfferDao()
+        + {static} getInstance() : OfferDao
+        - {static} LazyHolder()
         getOffersFromUser(userId : int) : ArrayList<Offer>
         getOffersByCity(city : String) : ArrayList<Offer>
         getLatestOffers() : ArrayList<Offer>
         offerExists(id : int) : boolean
     }
     class OfferDaoMySQL
-    FactoryDaoSQL .up.|> AbstractFactoryDao
-    OfferDaoMySQL .up.|> OfferDao
+    FactoryDaoMySQL -up-|> AbstractFactoryDao
+    OfferDaoMySQL -up-|> OfferDao
     abstract FavoryDao{
+        - FavoryDao()
+        + {static} getInstance() : FavoryDao
+        - {static} LazyHolder()
         getAllFavoryByIdUser(idUser : int) : ArrayList<Favory>
         getAllUserByIdUser(idOffer : int) : ArrayList<Offer>
         getFavory(favory : FavoryOffer) : FavoryOffer
     }
     class FavoryDaoMySQL
-    FavoryDaoMySQL .up.|> FavoryDao
+    FavoryDaoMySQL -up-|> FavoryDao
 
     interface DAO<T>{
         find(id : int) : T
@@ -33,12 +39,12 @@ package dao {
         + getOfferDao() : OfferDao
     }
 
-    class FactoryDaoSQL{
+    class FactoryDaoMySQL{
     }
 
 
-    DAO <|-- OfferDao
-    DAO <|-- FavoryDao
+    DAO <|.. OfferDao
+    DAO <|.. FavoryDao
 }
 package db{
     class ConnectionDBMySQL{

@@ -43,7 +43,7 @@ alt if (first getInstance)
     AbstractFactoryDAO --> FavoryDao : FactoryDAOMySQL
     deactivate AbstractFactoryDAO
 
-    FavoryDao -> FactoryDAOMySQL : getFavoryDaoMySQL()
+    FavoryDao -> FactoryDAOMySQL : getFavoryDao()
     activate FactoryDAOMySQL
     FactoryDAOMySQL -> FavoryDaoMySQL **:Create(connection)
     activate FavoryDaoMySQL
@@ -51,7 +51,7 @@ alt if (first getInstance)
 end
 FavoryDao --> HomePageFacade : FavoryDaoMySQL
 
-HomePageFacade --> HomePageFacade : FavoryDao.getDao()
+
 
 
 

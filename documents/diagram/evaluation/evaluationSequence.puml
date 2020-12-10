@@ -8,7 +8,9 @@ participant HistoryController
 participant EvaluationController
 participant EvaluationFacade
 participant SessionFacade
+participant ScoreOfferDao
 participant AbstractFactoryDAO
+participant CommentDao
 participant FactoryDAOMySQL
 participant ScoreOfferDAOMySql
 participant CommentDAOMySQL
@@ -41,22 +43,24 @@ EvaluationController->EvaluationFacade: rate(offerID : int, rate : int)
 
 
 activate EvaluationFacade
+EvaluationFacade->ScoreOfferDao : getInstance()
+alt if (first getInstance)
+    activate ScoreOfferDao
+    ScoreOfferDao -> AbstractFactoryDAO : getInstance()
+    activate AbstractFactoryDAO
+    AbstractFactoryDAO --> ScoreOfferDao : FactoryDAOMySQL
+    deactivate AbstractFactoryDAO
 
-EvaluationFacade->AbstractFactoryDAO:getInstance()
-activate AbstractFactoryDAO
+    ScoreOfferDao -> FactoryDAOMySQL : getScoreOfferDao()
+    activate FactoryDAOMySQL
+    FactoryDAOMySQL -> ScoreOfferDAOMySql **:Create(connection)
+    activate ScoreOfferDAOMySql
+    FactoryDAOMySQL --> ScoreOfferDao : ScoreOfferDaoMySQL
+end
+
+ScoreOfferDao --> EvaluationFacade : ScoreOfferDaoMySQL
 
 
-AbstractFactoryDAO--> EvaluationFacade : FactoryDAOMySQL
-deactivate AbstractFactoryDAO
-
-EvaluationFacade -> FactoryDAOMySQL:getScoreOfferDAO()
-
-activate FactoryDAOMySQL
-
-FactoryDAOMySQL->ScoreOfferDAOMySql **:Create(connection)
-
-activate ScoreOfferDAOMySql
-FactoryDAOMySQL-->EvaluationFacade:ScoreOfferDAOMySql
 
 deactivate FactoryDAOMySQL
 EvaluationFacade -> SessionFacade : getUser()
@@ -103,12 +107,28 @@ User -> evView : Choose to comment
 evView -> EvaluationController : handleComment(actionEvent ActionEvent)
 deactivate evView
 EvaluationController -> EvaluationFacade : comment(offerId : int, comment : String, ScoreOfferId : int)
-EvaluationFacade -> FactoryDAOMySQL : getCommentDao()
-activate FactoryDAOMySQL
-FactoryDAOMySQL -> CommentDAOMySQL **: create(connection)
-activate CommentDAOMySQL
-FactoryDAOMySQL --> EvaluationFacade : CommentDaoMySQL
-deactivate FactoryDAOMySQL
+
+EvaluationFacade->CommentDao : getInstance()
+alt if (first getInstance)
+    activate CommentDao
+    CommentDao -> AbstractFactoryDAO : getInstance()
+    activate AbstractFactoryDAO
+    AbstractFactoryDAO --> CommentDao : FactoryDAOMySQL
+    deactivate AbstractFactoryDAO
+
+    CommentDao -> FactoryDAOMySQL : getCommentMySQL()
+    activate FactoryDAOMySQL
+    FactoryDAOMySQL -> CommentDAOMySQL **:Create(connection)
+    activate CommentDAOMySQL
+    FactoryDAOMySQL --> ScoreOfferDao : ScoreOfferDaoMySQL
+
+    deactivate FactoryDAOMySQL
+end
+
+ScoreOfferDao --> EvaluationFacade : ScoreOfferDaoMySQL
+
+
+
 EvaluationFacade -> CommentDAOMySQL : create(new Comment(offerId : int, comment : String, ScoreOfferId : int))
 
 CommentDAOMySQL->Connection: prepareStatement()
