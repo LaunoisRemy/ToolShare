@@ -81,7 +81,7 @@ alt boolean == true (offer available)
     SessionFacade-->ReservationFacade: return user
     deactivate SessionFacade
 
-    ReservationFacade->ReservationDAOMySQL: create(offerId : int, userId : int, dateStartBooking : Date, getDateEndBooking : Date)
+    ReservationFacade->ReservationDAOMySQL: create(new Reservation (offerId : int, userId : int, dateStartBooking : Date, getDateEndBooking : Date))
 
     ReservationDAOMySQL->Connection: prepareStatement()
     activate Connection
