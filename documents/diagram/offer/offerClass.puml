@@ -123,6 +123,10 @@ package gui{
             + handleUpdateOffer(actionEvent : ActionEvent) : void
             + handleNewReservation(actionEvent : ActionEvent) : void
 
+            + handleDeleteComment(actionEvent : ActionEvent) : void
+            + handleUpdateComment(actionEvent : ActionEvent) : void
+            + handleDeleteRate(actionEvent : ActionEvent) : void
+
         }
 
     }
