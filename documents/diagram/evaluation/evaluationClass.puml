@@ -4,15 +4,21 @@ package dao {
 
 
     abstract ScoreOfferDao{
+         # ScoreOfferDao()
+         + {static} getInstance() : CommentDao
+         - {static} LazyHolder()
     }
     class ScoreOfferDaoMySQL
-    abstract CommentDao{
+        abstract CommentDao{
+         # CommentDao()
+         + {static} getInstance() : CommentDao
+         - {static} LazyHolder()
     }
     class CommentDaoMySQL
 
     AbstractFactoryDao <|-- FactoryDaoSQL
-    ScoreOfferDao <|.. ScoreOfferDaoMySQL
-    CommentDao <|.. CommentDaoMySQL
+    ScoreOfferDao <|-- ScoreOfferDaoMySQL
+    CommentDao <|-- CommentDaoMySQL
 
     interface DAO<T>{
         find(id : int) : T
@@ -30,8 +36,8 @@ package dao {
     class FactoryDaoSQL{
     }
 
-    DAO <|- ScoreOfferDao
-    DAO <|-left CommentDao
+    DAO <|..Right ScoreOfferDao
+    DAO <|..left CommentDao
 }
 package db{
     class ConnectionDBMySQL{
@@ -128,6 +134,8 @@ EvaluationFacade <--Up- OfferController
 EvaluationFacade --> SessionFacade
 EvaluationFacade --> CommentDao
 EvaluationFacade --> ScoreOfferDao
+CommentDao --> AbstractFactoryDao
+ScoreOfferDao --> AbstractFactoryDao
 
 
 
