@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDaoMySQL implements UserDAO {
+public class UserDaoMySQL extends UserDAO {
     private static final String LAST_NAME_COL = "lastname";
     private static final String FIRST_NAME_COL = "firstname";
     private static final String EMAIL_COL = "email";
@@ -24,6 +24,7 @@ public class UserDaoMySQL implements UserDAO {
     private final Connection connection;
 
     public UserDaoMySQL(Connection connection) {
+        super();
         this.connection = connection;
     }
 

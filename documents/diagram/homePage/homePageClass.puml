@@ -37,8 +37,8 @@ package dao {
     }
 
 
-    DAO <|-left OfferDao
-    DAO <|- FavoryDao
+    DAO <|-- OfferDao
+    DAO <|-- FavoryDao
 }
 package db{
     class ConnectionDBMySQL{
@@ -57,10 +57,6 @@ package db{
 
 }
 package business{
-    class SessionFacade{
-        + SessionFacade()
-        + getUser() : User
-    }
 
     class Offer{
         -offerId : int
@@ -92,10 +88,16 @@ package business{
         + getUserId() : int
         + getOfferId() : int
     }
+    class SessionFacade{
+        + SessionFacade()
+        + getUser() : User
+    }
+
     class HomePageFacade{
         + HomePageFacade()
         + favOffer(offerId : int)
     }
+
 
 }
 
@@ -119,10 +121,12 @@ package gui{
         }
     }
 }
-HomePageFacade <--Up- HomePageController
+HomePageFacade <-Up- HomePageController
 SessionFacade <--Up- HomePageFacade
-HomePageFacade ..> FavoryDao
-HomePageFacade ..> OfferDao
+HomePageFacade --> FavoryDao
+HomePageFacade --> OfferDao
+OfferDao --> AbstractFactoryDao
+FavoryDao --> AbstractFactoryDao
 
 
 

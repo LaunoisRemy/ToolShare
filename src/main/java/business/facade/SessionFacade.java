@@ -59,7 +59,7 @@ public class SessionFacade {
     public User login(String email, String password) throws UserNotFoundException, UserBannedException, WrongPasswordException {
 
         //Create UserDAO
-        UserDAO userDAO = AbstractFactoryDAO.getInstance().getUserDAO();
+        UserDAO userDAO = UserDAO.getInstance();
 
         //GET user
         User user = userDAO.getUserByEmail(email);
