@@ -26,7 +26,7 @@ activate DB
 
 User->"Login (fxml)":Enter his credentials (mail : String, password : String)
 
-"Login (fxml)"->LoginController: handleLogin(mail : String, password : String)
+"Login (fxml)"->LoginController: handleLogin(actionEvent : ActionEvent)
 
 activate LoginController
 
