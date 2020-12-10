@@ -117,11 +117,11 @@ package gui{
             -offerPriority : JFXCheckBox
             -dateStartPriority : JFXDatePicker
             -dateEndPriority : JFXDatePicker
-            + handleNewOffer() : void
-            + handleViewOffer() : void
-            + handleDeleteOffer() : void
-            + handleUpdateOffer() : void
-            + handleNewReservation() : void
+            + handleNewOffer(actionEvent : ActionEvent) : void
+            + handleViewOffer(actionEvent : ActionEvent) : void
+            + handleDeleteOffer(actionEvent : ActionEvent) : void
+            + handleUpdateOffer(actionEvent : ActionEvent) : void
+            + handleNewReservation(actionEvent : ActionEvent) : void
 
         }
 

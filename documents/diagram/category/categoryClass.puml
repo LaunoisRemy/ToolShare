@@ -84,10 +84,10 @@ package gui{
     package controller{
         class CategoryController{
             -categoryName : JFXTextLabel
-            + handleNewCategory() : void
-            + handleNewCategoryAdmin() : void
-            + handleDeleteCategory():void
-            + handleUpdateCategory():void
+            + handleNewCategory(actionEvent : ActionEvent) : void
+            + handleNewCategoryAdmin(actionEvent : ActionEvent) : void
+            + handleDeleteCategory(actionEvent : ActionEvent):void
+            + handleUpdateCategory(actionEvent : ActionEvent):void
         }
     }
 }

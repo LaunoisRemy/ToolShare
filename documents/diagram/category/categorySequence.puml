@@ -26,7 +26,7 @@ alt User selects an existing category
     User->"CreateOffer (fxml)": Select a category
 else User wants to add a new category
     User ->  "CreateOffer (fxml)":Add new Category
-    "CreateOffer (fxml)" -> CategoryController:handleClickOnNewCategory()
+    "CreateOffer (fxml)" -> CategoryController:handleClickOnNewCategory(actionEvent : ActionEvent)
     activate CategoryController
 
     CategoryController -> "CreateOffer (fxml)":set Pop-up to enter a new category visible
@@ -55,7 +55,7 @@ else User wants to add a new category
 
     deactivate FactoryDAOMySQL
 
-    CategoryFacade->CategoryDAOMySQL: create(cat : Category)
+    CategoryFacade->CategoryDAOMySQL: create(new Category(categoryName : String,isValidated : boolean) : Category)
 
     CategoryDAOMySQL->Connection: prepareStatement()
 

@@ -6,7 +6,6 @@ participant "CreateOffer (fxml)"
 participant "ViewOffer (fxml)"
 participant OfferController
 participant OfferFacade
-participant Offer
 participant AbstractFactoryDAO
 participant SessionFacade
 participant ConnectionDBMySQL
@@ -28,9 +27,9 @@ activate SessionFacade
 
 
 
-User->"CreateOffer (fxml)":Enter the offer information (title : String, description : String, state : String, Category : String, toSale : boolean, city : String, price : int, image1 : ???, image2 : ???, image3 : ???)
+User->"CreateOffer (fxml)":Enter the offer information (title : String, description : String, state : String, Category : String, city : String, price : int)
 
-"CreateOffer (fxml)"->OfferController: handleNewOffer(title : String, description : String...)
+"CreateOffer (fxml)"->OfferController: handleNewOffer(actionEvent : ActionEvent)
 
 deactivate "CreateOffer (fxml)"
 
@@ -68,7 +67,7 @@ OfferFacade->SessionFacade: getUser()
 
 SessionFacade-->OfferFacade: user
 
-OfferFacade->OfferDAOMySQL: create(userid : int, title : String, description : String...)
+OfferFacade->OfferDAOMySQL: create(new Offer(userid : int, title : String, description : String...) : Offer)
 
 OfferDAOMySQL->Connection: prepareStatement()
 
@@ -88,21 +87,16 @@ Statement-->OfferDAOMySQL: ResultSet
 
 deactivate Statement
 
-OfferDAOMySQL->Offer: Offer(id : int, userid : int, title : String, description : String...)
+OfferDAOMySQL->OfferFacade: Offer(id : int, userid : int, title : String, description : String...)
 
 deactivate OfferDAOMySQL
 
-activate Offer
 
-Offer-->OfferFacade: offer
-
-deactivate Offer
-
-OfferFacade-->OfferController: offer
+OfferFacade-->OfferController: offer : Offer
 
 deactivate OfferFacade
 
-OfferController-->"ViewOffer (fxml)": loadView(ViewOffer, offer)
+OfferController-->"ViewOffer (fxml)": Display ViewOffer
 
 deactivate OfferController
 
