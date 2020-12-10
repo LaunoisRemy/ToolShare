@@ -1,8 +1,5 @@
 package business.system.user;
 
-import business.exceptions.UserNotFoundException;
-import dao.structure.UserDAO;
-
 /**
  * Represent user in the application
  */
