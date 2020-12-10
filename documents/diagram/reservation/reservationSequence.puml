@@ -1,5 +1,5 @@
 @startuml
-title Login Diagram
+title Reservation Diagram
 
 actor User
 participant "CreateReservation (fxml)"
