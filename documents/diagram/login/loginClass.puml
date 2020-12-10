@@ -3,7 +3,10 @@
 package dao {
 
 
-    interface UserDao{
+    abstract UserDao{
+        # UserDao()
+        + {static} getInstance() : UserDao
+        - {static} LazyHolder()
         getUserByEmail(mail : String): User
         userExists(email : String) : boolean
     }
@@ -48,7 +51,6 @@ package db{
 }
 package business{
     class SessionFacade{
-        + SessionFacade()
         + login(mail : String, password : String) : Void
         + register(email : String, firstName : String, lastName : String, city : String, phoneNumber : String, password : String) : Void
         + getInstance() : SessionFacade
@@ -128,8 +130,8 @@ package gui{
     }
 }
 SessionFacade <--Up- LoginController
-SessionFacade .Up.> AbstractFactoryDao
-
+SessionFacade -Up-> UserDao
+UserDao -> AbstractFactoryDao
 
 
 @enduml

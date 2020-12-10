@@ -116,16 +116,16 @@ alt if (first getInstance)
     AbstractFactoryDAO --> CommentDao : FactoryDAOMySQL
     deactivate AbstractFactoryDAO
 
-    CommentDao -> FactoryDAOMySQL : getCommentMySQL()
+    CommentDao -> FactoryDAOMySQL : getCommentDao()
     activate FactoryDAOMySQL
     FactoryDAOMySQL -> CommentDAOMySQL **:Create(connection)
     activate CommentDAOMySQL
-    FactoryDAOMySQL --> ScoreOfferDao : ScoreOfferDaoMySQL
+    FactoryDAOMySQL --> CommentDao : CommentDao
 
     deactivate FactoryDAOMySQL
 end
 
-ScoreOfferDao --> EvaluationFacade : ScoreOfferDaoMySQL
+CommentDao --> EvaluationFacade : CommentDAOMySQL
 
 
 
