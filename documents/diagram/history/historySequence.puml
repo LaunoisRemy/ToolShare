@@ -6,7 +6,7 @@ participant "History (fxml)"
 participant HistoryController
 participant HistoryFacade
 participant SessionFacade
-participant HistoryManagement
+participant HistoryDAO
 participant AbstractFactoryDAO
 participant FactoryDAOMySQL
 participant HistoryDAOMySQL
@@ -34,22 +34,22 @@ deactivate HistoryController
 
 activate HistoryFacade
 
-HistoryFacade->AbstractFactoryDAO:getInstance()
-activate AbstractFactoryDAO
+HistoryFacade->HistoryDAO : getInstance()
+alt if (first getInstance)
+    activate HistoryDAO
+    HistoryDAO -> AbstractFactoryDAO : getInstance()
+    activate AbstractFactoryDAO
+    AbstractFactoryDAO --> HistoryDAO : FactoryDAOMySQL
+    deactivate AbstractFactoryDAO
 
-AbstractFactoryDAO--> HistoryFacade : FactoryDAOMySQL
-deactivate AbstractFactoryDAO
-
-HistoryFacade -> FactoryDAOMySQL:getHistoryDAO()
-
-activate FactoryDAOMySQL
-
-FactoryDAOMySQL->HistoryDAOMySQL **:Create(connection)
-
-activate HistoryDAOMySQL
-FactoryDAOMySQL-->HistoryFacade:HistoryDAOMySQL
-
-deactivate FactoryDAOMySQL
+    HistoryDAO -> FactoryDAOMySQL : getHistoryDAO()
+    activate FactoryDAOMySQL
+    FactoryDAOMySQL -> HistoryDAOMySQL **:Create(connection)
+    activate HistoryDAOMySQL
+    FactoryDAOMySQL --> HistoryDAO : HistoryDAOMySQL
+end
+HistoryDAO --> HistoryFacade : HistoryDAOMySQL
+deactivate HistoryDAO
 
 HistoryFacade->SessionFacade: getUser()
 activate SessionFacade
@@ -96,7 +96,6 @@ deactivate HistoryController
 "History (fxml)"-->User: Display corresponding View
 
 deactivate DB
-deactivate HistoryManagement
 deactivate User
 
 @enduml

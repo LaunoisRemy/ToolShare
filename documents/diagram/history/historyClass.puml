@@ -3,14 +3,17 @@
 package dao {
 
 
-    interface HistoryDao{
+    abstract class HistoryDao{
+        # {static} HistoryDao()
+        - {static} LazyHolder()
+        + {static} getInstance() : HistoryDao
         getAllOffersFromHistory(userId : int): Offer[]
         getOffererFromOfferId(offerId : int) : User
         getAlreadyRated(userId : int, offerId : int) : boolean
     }
     class HistoryDaoMySQL
-    AbstractFactoryDao <|-- FactoryDaoSQL
-    HistoryDao <|.. HistoryDaoMySQL
+    AbstractFactoryDao <|-- FactoryDaoMySQL
+    HistoryDao <|-- HistoryDaoMySQL
 
     interface DAO<T>{
         find(id : int) : T
@@ -20,16 +23,16 @@ package dao {
     }
 
     abstract AbstractFactoryDao{
-        - {static } final connectionDB : ConnectionDB
+        - {static} final connectionDB : ConnectionDB
         + {static} getFactory(type : TypeDB) : AbstractFactoryDao
         + getHistoryDao() : HistoryDao
     }
 
-    class FactoryDaoSQL{
+    class FactoryDaoMySQL{
     }
 
 
-    DAO <|-- HistoryDao
+    DAO <|.. HistoryDao
 }
 package db{
     class ConnectionDBMySQL{
@@ -103,7 +106,8 @@ package gui{
     }
 }
 HistoryFacade <--Up- HistoryController
-HistoryFacade .Up.> AbstractFactoryDao
+HistoryDao --> AbstractFactoryDao
+HistoryFacade --> HistoryDao
 
 
 

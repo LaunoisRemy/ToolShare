@@ -6,6 +6,7 @@ participant "CreateReservation (fxml)"
 participant ReservationController
 participant ReservationFacade
 participant SessionFacade
+participant ReservationDAO
 participant AbstractFactoryDAO
 participant FactoryDAOMySQL
 participant ReservationDAOMySQL
@@ -33,22 +34,22 @@ deactivate ReservationController
 
 activate ReservationFacade
 
-ReservationFacade->AbstractFactoryDAO:getInstance()
-activate AbstractFactoryDAO
+ReservationFacade->ReservationDAO : getInstance()
+alt if (first getInstance)
+    activate ReservationDAO
+    ReservationDAO -> AbstractFactoryDAO : getInstance()
+    activate AbstractFactoryDAO
+    AbstractFactoryDAO --> ReservationDAO : FactoryDAOMySQL
+    deactivate AbstractFactoryDAO
 
-AbstractFactoryDAO--> ReservationFacade : FactoryDAOMySQL
-deactivate AbstractFactoryDAO
-
-ReservationFacade -> FactoryDAOMySQL:getReservationDAO()
-
-activate FactoryDAOMySQL
-
-FactoryDAOMySQL->ReservationDAOMySQL **:Create(connection)
-
-activate ReservationDAOMySQL
-FactoryDAOMySQL-->ReservationFacade:ReservationDAOMySQL
-
-deactivate FactoryDAOMySQL
+    ReservationDAO -> FactoryDAOMySQL : getReservationDAO()
+    activate FactoryDAOMySQL
+    FactoryDAOMySQL -> ReservationDAOMySQL **:Create(connection)
+    activate ReservationDAOMySQL
+    FactoryDAOMySQL --> ReservationDAO : ReservationDAOMySQL
+end
+ReservationDAO --> ReservationFacade : ReservationDAOMySQL
+deactivate ReservationDAO
 
 ReservationFacade->ReservationDAOMySQL: getAvailabilityByOfferAndDates(offerId : int, dateStartBooking : Date, dateEndBooking : Date)
 

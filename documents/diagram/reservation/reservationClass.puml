@@ -3,14 +3,17 @@
 package dao {
 
 
-    interface ReservationDao{
+    abstract class ReservationDao{
+        # {static} ReservationDao()
+        - {static} LazyHolder()
+        + {static} getInstance() : ReservationDao
         getUserByReservationId(reservationId : int): User
         getOfferByReservationId(reservationId : int): Offer
         getAvailabilityByOfferAndDates(offerId : int, dateStartBooking : Date, dateEndBooking : Date) : boolean
     }
     class ReservationDaoMySQL
-    AbstractFactoryDao <|-- FactoryDaoSQL
-    ReservationDao <|.. ReservationDaoMySQL
+    AbstractFactoryDao <|-- FactoryDaoMySQL
+    ReservationDao <|-- ReservationDaoMySQL
 
     interface DAO<T>{
         find(id : int) : T
@@ -25,7 +28,7 @@ package dao {
         + getReservationDao() : ReservationDao
     }
 
-    class FactoryDaoSQL{
+    class FactoryDaoMySQL{
     }
 
 
@@ -105,7 +108,8 @@ package gui{
 
 ReservationFacade <--Up- ReservationAvailabilityController
 ReservationFacade <--Up- ReservationManagementController
-ReservationFacade .Up.> AbstractFactoryDao
+ReservationFacade -Up-> AbstractFactoryDao
+ReservationDao --> AbstractFactoryDao
 
 
 
