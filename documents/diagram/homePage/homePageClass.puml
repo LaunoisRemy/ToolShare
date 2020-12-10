@@ -4,7 +4,7 @@ package dao {
 
 
     abstract OfferDao{
-        - OfferDao()
+        # OfferDao()
         + {static} getInstance() : OfferDao
         - {static} LazyHolder()
         getOffersFromUser(userId : int) : ArrayList<Offer>
@@ -16,7 +16,7 @@ package dao {
     FactoryDaoMySQL -up-|> AbstractFactoryDao
     OfferDaoMySQL -up-|> OfferDao
     abstract FavoryDao{
-        - FavoryDao()
+        # FavoryDao()
         + {static} getInstance() : FavoryDao
         - {static} LazyHolder()
         getAllFavoryByIdUser(idUser : int) : ArrayList<Favory>
