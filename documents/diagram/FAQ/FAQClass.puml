@@ -3,23 +3,29 @@
 package dao {
 
 
-    interface QuestionDao{
+    abstract QuestionDao{
+        # OfferDao()
+        + {static} getInstance() : QuestionDao
+        - {static} LazyHolder()
         getQuestionsByOfferId(offerId : int) : ArrayList<Question>
         questionExists(id : int) : boolean
         hasAnAnswer(id : int) : boolean
     }
 
-    interface AnswerDao{
+    abstract AnswerDao{
+        # OfferDao()
+        + {static} getInstance() : QuestionDao
+        - {static} LazyHolder()
         getAnswersByOfferId(offerId : int) : ArrayList<Answer>
         answerExists(id : int) : boolean
     }
 
     class QuestionDaoMySQL
-    QuestionDaoMySQL .up.|> QuestionDao
+    QuestionDaoMySQL -up-|> QuestionDao
 
     class AnswerDaoMySQL
-    FactoryDaoSQL .up.|> AbstractFactoryDao
-    AnswerDaoMySQL .up.|> AnswerDao
+    FactoryDaoMySQL -up-|> AbstractFactoryDao
+    AnswerDaoMySQL -up-|> AnswerDao
 
     interface DAO<T>{
         find(id : int) : T
@@ -34,11 +40,13 @@ package dao {
         + getFAQDao() : FAQDao
     }
 
-    class FactoryDaoSQL{
+    class FactoryDaoMySQL{
     }
 
-    DAO <|-- AnswerDao
-    DAO <|-- QuestionDao
+    DAO <|.. AnswerDao
+    DAO <|.. QuestionDao
+    QuestionDao-->AbstractFactoryDao
+    AnswerDao-->AbstractFactoryDao
 }
 package db{
     class ConnectionDBMySQL{
@@ -160,7 +168,6 @@ package gui{
 }
 FAQFacade <--Up- controller
 SessionFacade <--Up- FAQFacade
-FAQFacade .Up.> AbstractFactoryDao
 
 
 

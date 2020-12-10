@@ -7,10 +7,10 @@ participant "ViewFAQ (fxml)"
 participant FAQController
 participant FAQFacade
 participant Question
+participant FAQDao
 participant AbstractFactoryDAO
-participant SessionFacade
-participant ConnectionDBMySQL
 participant FactoryDAOMySQL
+participant SessionFacade
 participant FAQDAOMySQL
 participant Connection
 participant Statement
@@ -23,7 +23,6 @@ activate "CreateQuestion (fxml)"
 activate User
 activate DB
 activate Connection
-activate ConnectionDBMySQL
 activate SessionFacade
 
 
@@ -39,27 +38,27 @@ FAQController->FAQFacade:createQuestion(offerid : int, question : String)
 
 activate FAQFacade
 
-FAQFacade->AbstractFactoryDAO:getInstance()
 
-activate AbstractFactoryDAO
+FAQFacade->FAQDao : getInstance()
+alt if (first getInstance)
+    activate FAQDao
+    FAQDao -> AbstractFactoryDAO : getInstance()
+    activate AbstractFactoryDAO
+    AbstractFactoryDAO --> FAQDao : FactoryDAOMySQL
+    deactivate AbstractFactoryDAO
 
-AbstractFactoryDAO -> ConnectionDBMySQL : getInstance()
+    FAQDao -> FactoryDAOMySQL : getFAQDao()
+    activate FactoryDAOMySQL
+    FactoryDAOMySQL -> FAQDAOMySQL **:Create(connection)
+    activate FAQDAOMySQL
+    FactoryDAOMySQL --> FAQDao : FAQDaoMySQL
+    deactivate FactoryDAOMySQL
+end
+FAQDao --> FAQFacade : FAQDaoMySQL
 
-AbstractFactoryDAO <-- ConnectionDBMySQL : connectionDBMySQL
 
-AbstractFactoryDAO--> FAQFacade : FactoryDAOMySQL
 
-deactivate AbstractFactoryDAO
 
-FAQFacade -> FactoryDAOMySQL:getFAQDAO()
-
-activate FactoryDAOMySQL
-
-FactoryDAOMySQL->FAQDAOMySQL **:Create(connection)
-
-activate FAQDAOMySQL
-
-FactoryDAOMySQL-->FAQFacade:FAQDAOMySQL
 
 deactivate FactoryDAOMySQL
 
@@ -139,7 +138,6 @@ deactivate SessionFacade
 deactivate "ViewFAQ (fxml)"
 deactivate DB
 deactivate User
-deactivate ConnectionDBMySQL
 deactivate Connection
 
 @enduml
