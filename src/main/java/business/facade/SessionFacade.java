@@ -1,8 +1,8 @@
 package business.facade;
 
-import business.exceptions.NotInsertedUser;
+import business.exceptions.BadInsertionInBDDException;
 import business.exceptions.UserBannedException;
-import business.exceptions.UserNotFoundException;
+import business.exceptions.ObjectNotFoundException;
 import business.exceptions.WrongPasswordException;
 import business.management.UserManagement;
 import business.system.user.User;
@@ -38,7 +38,7 @@ public class SessionFacade {
      */
     public User getUser(){
         return user;
-    };
+    }
 
     /**
      * setter of the session user
@@ -53,10 +53,10 @@ public class SessionFacade {
      * @param email the email of the user as a String
      * @param password the password of the user as a String
      * @return User
-     * @throws UserNotFoundException if user is not found
+     * @throws ObjectNotFoundException if user is not found
      * @throws UserBannedException if user is banned
      */
-    public User login(String email, String password) throws UserNotFoundException, UserBannedException, WrongPasswordException {
+    public User login(String email, String password) throws ObjectNotFoundException, UserBannedException, WrongPasswordException {
 
         //Create UserDAO
         UserDAO userDAO = UserDAO.getInstance();
@@ -65,7 +65,7 @@ public class SessionFacade {
         User user = userDAO.getUserByEmail(email);
 
         if(user==null){
-            throw new UserNotFoundException("User is not found");
+            throw new ObjectNotFoundException("User is not found");
         } else if (user.isBanned()){
             throw new UserBannedException("User is banned");
         } else {
@@ -92,9 +92,9 @@ public class SessionFacade {
      * @param phoneNumber the phone number of the user as a String
      * @param password the password of the user as a String
      * @param isAdmin true if the user is an admin, else false
-     * @throws NotInsertedUser if the user is not inserted
+     * @throws BadInsertionInBDDException if the user is not inserted
      */
-    public void register(String email, String firstName, String lastName, String city, String phoneNumber, String password, boolean isAdmin) throws NotInsertedUser {
+    public void register(String email, String firstName, String lastName, String city, String phoneNumber, String password, boolean isAdmin) throws BadInsertionInBDDException {
 
         //Create UserDAO
         UserDAO userDAO = AbstractFactoryDAO.getInstance().getUserDAO();
@@ -111,7 +111,7 @@ public class SessionFacade {
         //true if the user is well inserted in the bdd, false otherwise
         registeredUser = userDAO.create(registeredUser);
         if(registeredUser != null) {
-            throw new NotInsertedUser("The user is not registered in the app");
+            throw new BadInsertionInBDDException("The user is not registered in the app");
         }
     }
 }

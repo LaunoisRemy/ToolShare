@@ -2,7 +2,7 @@ package gui.controller;
 
 
 import business.exceptions.UserBannedException;
-import business.exceptions.UserNotFoundException;
+import business.exceptions.ObjectNotFoundException;
 import business.exceptions.WrongPasswordException;
 import business.system.user.User;
 import com.jfoenix.controls.JFXPasswordField;
@@ -38,14 +38,14 @@ public class LoginController {
             User user = facade.login(mail.getText(), password.getText());
             LoadView.changeScreen(actionEvent,"offers");
             System.out.println("OK");
-        } catch (UserNotFoundException | WrongPasswordException e1){
+        } catch (ObjectNotFoundException | WrongPasswordException e1){
             banned_msg.setVisible(false);
             error_msg.setVisible(true);
-            e1.toString();
+            System.out.println(e1.toString());
         } catch (UserBannedException e2){
             error_msg.setVisible(false);
             banned_msg.setVisible(true);
-            e2.toString();
+            System.out.println(e2.toString());
         }
 
     }

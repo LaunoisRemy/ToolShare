@@ -1,7 +1,5 @@
 package business.system.user;
 
-import business.exceptions.UserNotFoundException;
-
 public class User {
     /**
      * Id of user
