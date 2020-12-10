@@ -1,7 +1,13 @@
 package business.system.user;
 
+/**
+ * Represent attributes and methods of an  ordinary user
+ */
 public class OrdinaryUser extends Role{
-    public static final String ORDINARY_USER = "Admin";
+    /**
+     * Name of the ordinary_user
+     */
+    public static final String ORDINARY_USER = "ORDINARY_USER";
 
     /**
      * City of user if is not an admin, else null

@@ -10,6 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Dao concrete of user using MySQL database
+ */
 public class UserDaoMySQL extends UserDAO {
     private static final String LAST_NAME_COL = "lastname";
     private static final String FIRST_NAME_COL = "firstname";
@@ -23,6 +26,10 @@ public class UserDaoMySQL extends UserDAO {
     private static final String SALT_COL = "salt";
     private final Connection connection;
 
+    /**
+     * Constructor of UserDaoMySQL
+     * @param connection to have a link of the connection
+     */
     public UserDaoMySQL(Connection connection) {
         super();
         this.connection = connection;
@@ -54,6 +61,11 @@ public class UserDaoMySQL extends UserDAO {
         return user;
     }
 
+    /**
+     * Create a user in database by an object instance of User
+     * @param obj object to save in database
+     * @return
+     */
     @Override
     public User create(User obj) {
         try {
@@ -94,11 +106,20 @@ public class UserDaoMySQL extends UserDAO {
 
     }
 
+    /**
+     * Update the user (instance of User) in database
+     * @param obj object to update in database
+     * @return user update or null if a problem has been raise
+     */
     @Override
     public User update(User obj) {
         return null;
     }
-
+    /**
+     * Delete the user (instance of User) in database
+     * @param obj object to update in database
+     * @return true for good delete
+     */
     @Override
     public boolean delete(User obj) {
         return false;

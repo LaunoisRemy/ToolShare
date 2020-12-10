@@ -1,5 +1,8 @@
 package business.system.user;
 
+/**
+ * Represent user in the application
+ */
 public class User {
     /**
      * Id of user
