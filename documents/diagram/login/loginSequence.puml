@@ -63,7 +63,7 @@ alt if (first getInstance)
     AbstractFactoryDAO --> UserDao : FactoryDAOMySQL
     deactivate AbstractFactoryDAO
 
-    UserDao -> FactoryDAOMySQL : getComment()
+    UserDao -> FactoryDAOMySQL : getUserDao()
     activate FactoryDAOMySQL
     FactoryDAOMySQL -> UserDAOMySQL **:Create(connection)
     activate UserDAOMySQL
