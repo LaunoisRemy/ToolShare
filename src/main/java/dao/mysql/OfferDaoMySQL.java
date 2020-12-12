@@ -1,7 +1,10 @@
 package dao.mysql;
 
 import business.system.offer.Offer;
+import business.system.offer.PriorityOffer;
 import dao.structure.OfferDAO;
+
+import java.util.ArrayList;
 
 public class OfferDaoMySQL extends OfferDAO {
 
@@ -47,5 +50,35 @@ public class OfferDaoMySQL extends OfferDAO {
     public boolean delete(Offer obj) {
         //TODO
         return false;
+    }
+
+    @Override
+    public ArrayList<Offer> getOffersFromUser(int user_id) {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public ArrayList<Offer> getOffersByCity(String city) {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public ArrayList<Offer> getLatestOffers() {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public ArrayList<Offer> getOffersByCategory(int category_id) {
+        //TODO
+        return null;
+    }
+
+    @Override
+    public ArrayList<PriorityOffer> getPriorityOffer() {
+        //TODO
+        return null;
     }
 }
