@@ -1,9 +1,9 @@
 package dao.structure;
 
-import business.system.user.User;
+import business.system.offer.Offer;
 import dao.factory.AbstractFactoryDAO;
 
-public abstract class OfferDAO implements DAO<User> {
+public abstract class OfferDAO implements DAO<Offer> {
     private static final OfferDAO INSTANCE = AbstractFactoryDAO.getInstance().getOfferDAO();
 
     /**
