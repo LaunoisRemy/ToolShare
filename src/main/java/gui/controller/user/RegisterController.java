@@ -1,4 +1,4 @@
-package gui.controller;
+package gui.controller.user;
 
 import business.exceptions.BadInsertionInBDDException;
 import business.facade.SessionFacade;

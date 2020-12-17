@@ -1,8 +1,7 @@
 package dao.structure;
 
 import business.system.ScoreOffer;
-import business.system.user.User;
-import dao.factory.AbstractFactoryDAO;
+import dao.factory_business.AbstractFactoryDAO;
 
 public abstract class ScoreOfferDAO implements DAO<ScoreOffer> {
     private static final ScoreOfferDAO INSTANCE = AbstractFactoryDAO.getInstance().getScoreOfferDAO();

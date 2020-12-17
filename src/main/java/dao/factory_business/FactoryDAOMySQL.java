@@ -1,11 +1,6 @@
-package dao.factory;
+package dao.factory_business;
 
-import dao.factory.AbstractFactoryDAO;
-import dao.mysql.*;
 import dao.structure.*;
-import db.ConnectionDBMySQL;
-
-import java.sql.Connection;
 //TODO JAVADOC
 /**
  * Factory concrete using MySQL database

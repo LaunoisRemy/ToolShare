@@ -1,4 +1,4 @@
-package gui.controller;
+package gui.controller.user;
 
 
 import business.exceptions.UserBannedException;
@@ -52,5 +52,8 @@ public class LoginController {
 
     public void registerPage(ActionEvent actionEvent){
         LoadView.changeScreen(actionEvent,"register");
+    }
+    public void forgotPasswordPage(ActionEvent actionEvent){
+        LoadView.changeScreen(actionEvent,"forgot_password");
     }
 }

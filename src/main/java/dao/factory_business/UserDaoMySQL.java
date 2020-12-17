@@ -1,8 +1,7 @@
-package dao.mysql;
+package dao.factory_business;
 
 import business.system.user.OrdinaryUser;
 import business.system.user.User;
-import dao.factory.AbstractFactoryDAO;
 import dao.structure.UserDAO;
 
 import java.sql.Connection;
@@ -14,23 +13,23 @@ import java.sql.SQLException;
  * Dao concrete of user using MySQL database
  */
 public class UserDaoMySQL extends UserDAO {
-    private static final String LAST_NAME_COL = "lastname";
-    private static final String FIRST_NAME_COL = "firstname";
-    private static final String EMAIL_COL = "email";
-    private static final String PASSWORD_COL = "password";
-    private static final String ISBANNED = "isBanned";
-    private static final String USERCITY_COL = "userCity";
-    private static final String PHONENUMBER_COL = "phoneNumber";
-    private static final String ISADMIN = "isAdmin";
-    private static final String ID_COL = "user_id";
-    private static final String SALT_COL = "salt";
+    static final String LAST_NAME_COL = "lastname";
+    static final String FIRST_NAME_COL = "firstname";
+    static final String EMAIL_COL = "email";
+    static final String PASSWORD_COL = "password";
+    static final String ISBANNED = "isBanned";
+    static final String USERCITY_COL = "userCity";
+    static final String PHONENUMBER_COL = "phoneNumber";
+    static final String ISADMIN = "isAdmin";
+    static final String ID_COL = "user_id";
+    static final String SALT_COL = "salt";
     private final Connection connection;
 
     /**
      * Constructor of UserDaoMySQL
      * @param connection to have a link of the connection
      */
-    public UserDaoMySQL(Connection connection) {
+    protected UserDaoMySQL(Connection connection) {
         this.connection = connection;
     }
 
@@ -174,6 +173,12 @@ public class UserDaoMySQL extends UserDAO {
         return null;
     }
 
+    /**
+     * Creates and returns an user from a query ResultSet
+     * @param rs the ResultSet that contains user information
+     * @return new User with rs information
+     * @throws SQLException
+     */
     private User createUserFromRs(ResultSet rs) throws SQLException {
         return new User(rs.getInt(ID_COL),rs.getString(FIRST_NAME_COL),rs.getString(LAST_NAME_COL),rs.getString(EMAIL_COL),rs.getString(PASSWORD_COL),rs.getString(USERCITY_COL),rs.getString(PHONENUMBER_COL),rs.getBoolean(ISADMIN),rs.getBoolean(ISBANNED),rs.getString(SALT_COL));
      }

@@ -1,39 +1,38 @@
-package dao.mysql;
+package dao.factory_business;
 
-import business.system.Category;
-import business.system.offer.Offer;
-import dao.structure.CategoryDAO;
+import business.system.faq.Question;
+import dao.structure.QuestionDAO;
 
 import java.sql.Connection;
 
-public class CategoryDaoMySQL extends CategoryDAO {
+public class QuestionDaoMySQL extends QuestionDAO {
     private final Connection connection;
 
     /**
      * Constructor of OfferDaoMySQL
      * @param connection to have a link of the connection
      */
-    public CategoryDaoMySQL(Connection connection) {
+    protected QuestionDaoMySQL(Connection connection) {
         this.connection = connection;
     }
 
     @Override
-    public Category find(int id) {
+    public Question find(int id) {
         return null;
     }
 
     @Override
-    public Category create(Category obj) {
+    public Question create(Question obj) {
         return null;
     }
 
     @Override
-    public Category update(Category obj) {
+    public Question update(Question obj) {
         return null;
     }
 
     @Override
-    public boolean delete(Category obj) {
+    public boolean delete(Question obj) {
         return false;
     }
 }

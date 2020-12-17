@@ -1,8 +1,7 @@
-package dao.factory;
+package dao.factory_business;
 
 import dao.structure.*;
 import db.ConnectionDBMySQL;
-import jdk.jfr.Category;
 
 import java.sql.Connection;
 
