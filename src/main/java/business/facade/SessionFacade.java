@@ -1,9 +1,6 @@
 package business.facade;
 
-import business.exceptions.BadInsertionInBDDException;
-import business.exceptions.UserBannedException;
-import business.exceptions.ObjectNotFoundException;
-import business.exceptions.WrongPasswordException;
+import business.exceptions.*;
 import business.management.UserManagement;
 import business.system.user.User;
 import dao.factory.AbstractFactoryDAO;
@@ -16,6 +13,8 @@ public class SessionFacade {
 
     private SessionFacade() {
     }
+
+
 
     /**
      * The static class definition LazyHolder within it is not initialized until the JVM determines that LazyHolder must be executed
@@ -113,5 +112,9 @@ public class SessionFacade {
         if(registeredUser != null) {
             throw new BadInsertionInBDDException("The user is not registered in the app");
         }
+    }
+
+    public void sendMail(String mail) throws NotYetImplementedException {
+        throw new NotYetImplementedException();
     }
 }
