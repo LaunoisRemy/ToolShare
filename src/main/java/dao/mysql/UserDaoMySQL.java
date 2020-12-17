@@ -52,7 +52,7 @@ public class UserDaoMySQL extends UserDAO {
 
             if(rs.next()){
                 if(rs.getInt(1) == (id)){
-                    user = user = this.createUserFromRs(rs);
+                    user = this.createUserFromRs(rs);
                 }
             }
         } catch (SQLException throwables) {
