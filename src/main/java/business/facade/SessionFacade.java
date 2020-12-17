@@ -20,7 +20,7 @@ public class SessionFacade {
     /**
      * The static class definition LazyHolder within it is not initialized until the JVM determines that LazyHolder must be executed
      */
-    private static class LazyHolder {
+    private static class LazyHolder { //TODO : simple singelton
         public static final SessionFacade INSTANCE= new SessionFacade();
     }
 

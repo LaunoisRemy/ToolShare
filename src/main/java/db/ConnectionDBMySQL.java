@@ -56,7 +56,7 @@ public class ConnectionDBMySQL implements ConnectionDB{
     /**
      * The static class definition LazyHolder within it is not initialized until the JVM determines that LazyHolder must be executed
      */
-    private static class LazyHolder {
+    private static class LazyHolder { //TODO Simple singelton
         public static final ConnectionDBMySQL INSTANCE= new ConnectionDBMySQL();
     }
 
