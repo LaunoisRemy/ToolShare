@@ -174,6 +174,12 @@ public class UserDaoMySQL extends UserDAO {
         return null;
     }
 
+    /**
+     * Creates and returns an user from a query ResultSet
+     * @param rs the ResultSet that contains user information
+     * @return new User with rs information
+     * @throws SQLException
+     */
     private User createUserFromRs(ResultSet rs) throws SQLException {
         return new User(rs.getInt(ID_COL),rs.getString(FIRST_NAME_COL),rs.getString(LAST_NAME_COL),rs.getString(EMAIL_COL),rs.getString(PASSWORD_COL),rs.getString(USERCITY_COL),rs.getString(PHONENUMBER_COL),rs.getBoolean(ISADMIN),rs.getBoolean(ISBANNED),rs.getString(SALT_COL));
      }

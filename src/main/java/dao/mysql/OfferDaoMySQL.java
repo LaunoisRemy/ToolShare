@@ -305,6 +305,12 @@ public class OfferDaoMySQL extends OfferDAO {
         return res;
     }
 
+    /**
+     * Creates and returns an offer from a query ResultSet
+     * @param rs the ResultSet that contains offer information
+     * @return new Offer or new PriorityOffer if isPriority=True
+     * @throws SQLException
+     */
     private Offer createOfferFromRs(ResultSet rs) throws SQLException {
         String ts = rs.getString(TOOL_STATE_COL);
         ToolSate toolState = ToolSate.valueOf(ts);
