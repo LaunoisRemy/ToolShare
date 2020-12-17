@@ -21,7 +21,7 @@ public abstract class OfferDAO implements DAO<Offer> {
 
     public abstract ArrayList<Offer> getOffersByCity(String city);
 
-    public abstract ArrayList<Offer> getLatestOffers();
+    //public abstract ArrayList<Offer> getLatestOffers();
 
     public abstract ArrayList<Offer> getOffersByCategory(int category_id);
 

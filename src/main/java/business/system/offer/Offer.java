@@ -15,7 +15,7 @@ public class Offer {
     /**
      * Daily price of offer
      */
-    private int pricePerDay;
+    private float pricePerDay;
 
     /**
      * Description of offer
@@ -47,7 +47,7 @@ public class Offer {
      */
     public Offer() {}
 
-    public Offer(int offer_id, String title, int pricePerDay, String description, ToolSate toolSate, boolean isPriority, int user_id, int category_id) {
+    public Offer(int offer_id, String title, float pricePerDay, String description, ToolSate toolSate, boolean isPriority, int user_id, int category_id) {
         this.offer_id = offer_id;
         this.title = title;
         this.pricePerDay = pricePerDay;
@@ -94,7 +94,7 @@ public class Offer {
      * getter of offer daily price
      * @return pricePerDay
      */
-    public int getPricePerDay() {
+    public float getPricePerDay() {
         return this.pricePerDay;
     }
 
@@ -102,7 +102,7 @@ public class Offer {
      * setter of offer daily price
      * @param pricePerDay the daily price of the offer
      */
-    public void setPricePerDay(int pricePerDay) {
+    public void setPricePerDay(float pricePerDay) {
         this.pricePerDay = pricePerDay;
     }
 
@@ -142,7 +142,7 @@ public class Offer {
      * getter of the priority of the offer
      * @return true if priority, else false
      */
-    public boolean isPriority() {
+    public boolean getIsPriority() {
         return this.isPriority;
     }
 

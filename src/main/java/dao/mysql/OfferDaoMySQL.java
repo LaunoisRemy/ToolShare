@@ -2,12 +2,25 @@ package dao.mysql;
 
 import business.system.offer.Offer;
 import business.system.offer.PriorityOffer;
+import business.system.offer.ToolSate;
+import business.system.user.User;
 import dao.structure.OfferDAO;
 
-import java.sql.Connection;
+import javax.tools.Tool;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class OfferDaoMySQL extends OfferDAO {
+    static final String TITLE_COL = "title";
+    static final String PRICE_PER_DAY_COL = "pricePerDay";
+    static final String DESCRPTION_COL = "description";
+    static final String ISPRIORITY = "isPriority";
+    static final String DATE_START_PRIORITY_COL = "dateStartPriority";
+    static final String DATE_END_PRIORITY_COL = "dateEndPriority";
+    static final String TOOL_STATE_COL = "toolState";
+    static final String USER_ID_COL = "user_id";
+    static final String CATEGORY_ID_COL = "category_id";
+    static final String OFFER_ID_COL = "offer_id";
     private final Connection connection;
 
     /**
@@ -24,8 +37,24 @@ public class OfferDaoMySQL extends OfferDAO {
      */
     @Override
     public Offer find(int id) {
-        //TODO
-        return null;
+        Offer offer = null;
+        try {
+            PreparedStatement prep = this.connection.prepareStatement(
+                    "SELECT *  FROM offer WHERE ? = ?"
+            );
+            prep.setString(1,OFFER_ID_COL);
+            prep.setInt(2,id);
+            ResultSet rs = prep.executeQuery();
+
+            if(rs.next()){
+                if(rs.getInt(2) == (id)){
+                    offer = this.createOfferFromRs(rs);
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return offer;
     }
 
     /**
@@ -35,8 +64,53 @@ public class OfferDaoMySQL extends OfferDAO {
      */
     @Override
     public Offer create(Offer obj) {
-        //TODO
-        return null;
+        try {
+            PreparedStatement prep = connection.prepareStatement(
+                    "INSERT INTO offer (?,?,?,?,?,?,?,?,?) " +
+                            "VALUES (?,?,?,?,?,?,?,?,?)"
+            );
+
+            prep.setString(1,TITLE_COL);
+            prep.setString(2,PRICE_PER_DAY_COL);
+            prep.setString(3,DESCRPTION_COL);
+            prep.setString(4,ISPRIORITY);
+            prep.setString(5,DATE_START_PRIORITY_COL);
+            prep.setString(6,DATE_END_PRIORITY_COL);
+            prep.setString(7,TOOL_STATE_COL);
+            prep.setString(8,USER_ID_COL);
+            prep.setString(9,CATEGORY_ID_COL);
+
+            prep.setString(10,obj.getTitle());
+            prep.setFloat(11,obj.getPricePerDay());
+            prep.setString(12,obj.getDescription());
+            prep.setBoolean(13,obj.getIsPriority());
+
+            if(obj.getIsPriority()){
+                PriorityOffer o = (PriorityOffer) obj;
+                prep.setDate(14, (Date) o.getDateStartPriority());
+                prep.setDate(15, (Date) o.getDateEndPriority());
+            } else {
+                prep.setDate(14,null);
+                prep.setDate(15,null);
+            }
+
+            prep.setString(16,obj.getToolSate().name());
+            prep.setInt(17,obj.getUser_id());
+            prep.setInt(18, obj.getCategory_id());
+
+            prep.executeUpdate();
+            ResultSet rs = prep.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+            obj.setOffer_id(generatedKey);
+            return obj;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -46,8 +120,57 @@ public class OfferDaoMySQL extends OfferDAO {
      */
     @Override
     public Offer update(Offer obj) {
-        //TODO
-        return null;
+        try {
+            PreparedStatement prep = connection.prepareStatement(
+                    "UPDATE offer " +
+                            "SET ? = ?, ? = ?, ? = ?, ? = ?, ? = ?, ? = ?, ? = ?, ? = ?, ? = ?"
+            );
+
+            prep.setString(1,TITLE_COL);
+            prep.setString(2,obj.getTitle());
+
+            prep.setString(3,PRICE_PER_DAY_COL);
+            prep.setFloat(4,obj.getPricePerDay());
+
+            prep.setString(5,DESCRPTION_COL);
+            prep.setString(6,obj.getDescription());
+
+            prep.setString(7,ISPRIORITY);
+            prep.setBoolean(8,obj.getIsPriority());
+
+            prep.setString(9,DATE_START_PRIORITY_COL);
+            prep.setString(11,DATE_END_PRIORITY_COL);
+            if(obj.getIsPriority()){
+                PriorityOffer o = (PriorityOffer) obj;
+                prep.setDate(10, (Date) o.getDateStartPriority());
+                prep.setDate(12, (Date) o.getDateEndPriority());
+            } else {
+                prep.setDate(10,null);
+                prep.setDate(12,null);
+            }
+
+            prep.setString(13,TOOL_STATE_COL);
+            prep.setString(14,obj.getToolSate().name());
+
+            prep.setString(15,USER_ID_COL);
+            prep.setInt(16,obj.getUser_id());
+
+            prep.setString(17,CATEGORY_ID_COL);
+            prep.setInt(18, obj.getCategory_id());
+
+            prep.executeUpdate();
+            ResultSet rs = prep.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+            obj.setOffer_id(generatedKey);
+            return obj;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -57,37 +180,145 @@ public class OfferDaoMySQL extends OfferDAO {
      */
     @Override
     public boolean delete(Offer obj) {
-        //TODO
-        return false;
+        try {
+            PreparedStatement prep = this.connection.prepareStatement(
+                    "DELETE FROM offer WHERE ? = ?"
+            );
+            prep.setString(1,OFFER_ID_COL);
+            prep.setInt(2,obj.getOffer_id());
+            ResultSet rs = prep.executeQuery();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return true;
     }
 
     @Override
-    public ArrayList<Offer> getOffersFromUser(int user_id) {
-        //TODO
-        return null;
+    public ArrayList getOffersFromUser(int user_id) {
+        ArrayList res = new ArrayList<Offer>();
+        try {
+            PreparedStatement prep = this.connection.prepareStatement(
+                    "SELECT *  FROM offer WHERE ? = ?"
+            );
+            prep.setString(1,USER_ID_COL);
+            prep.setInt(2,user_id);
+            ResultSet rs = prep.executeQuery();
+
+            while(rs.next()){
+                if(rs.getInt(2) == (user_id)){
+                    res.add(this.createOfferFromRs(rs));
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return res;
     }
 
     @Override
-    public ArrayList<Offer> getOffersByCity(String city) {
-        //TODO
-        return null;
+    public ArrayList getOffersByCity(String city) {
+        ArrayList res = new ArrayList<Offer>();
+        try {
+            PreparedStatement prep = this.connection.prepareStatement(
+                    "SELECT *  FROM offer o JOIN user u ON o.? = u.? WHERE ? = ?"
+            );
+
+            prep.setString(1,USER_ID_COL);
+            prep.setString(2,UserDaoMySQL.ID_COL);
+            prep.setString(3,UserDaoMySQL.USERCITY_COL);
+            prep.setString(4,city);
+            ResultSet rs = prep.executeQuery();
+
+            while(rs.next()){
+                if(rs.getString(4).equals(city)){
+                    res.add(this.createOfferFromRs(rs));
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return res;
+    }
+
+    /*@Override
+    public ArrayList getLatestOffers() {
+        ArrayList res = new ArrayList<Offer>();
+        try {
+            PreparedStatement prep = this.connection.prepareStatement(
+                    "SELECT *  FROM offer ORDER BY ?"
+            );
+
+            prep.setString(1,DATE_START_PRIORITY_COL);
+            ResultSet rs = prep.executeQuery();
+
+            while(rs.next()){
+                res.add(this.createOfferFromRs(rs));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return res;
+    }*/
+
+    @Override
+    public ArrayList getOffersByCategory(int category_id) {
+        ArrayList res = new ArrayList<Offer>();
+        try {
+            PreparedStatement prep = this.connection.prepareStatement(
+                    "SELECT *  FROM offer WHERE ? = ?"
+            );
+
+            prep.setString(1,CATEGORY_ID_COL);
+            prep.setInt(2,category_id);
+            ResultSet rs = prep.executeQuery();
+
+            while(rs.next()){
+                if(rs.getInt(2) == (category_id)){
+                    res.add(this.createOfferFromRs(rs));
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return res;
     }
 
     @Override
-    public ArrayList<Offer> getLatestOffers() {
-        //TODO
-        return null;
+    public ArrayList getPriorityOffer() {
+        ArrayList res = new ArrayList<PriorityOffer>();
+        try {
+            PreparedStatement prep = this.connection.prepareStatement(
+                    "SELECT *  FROM offer WHERE ? = 1 ORDER BY ? DESC"
+            );
+
+            prep.setString(1,ISPRIORITY);
+            prep.setString(2,DATE_START_PRIORITY_COL);
+            ResultSet rs = prep.executeQuery();
+
+            while(rs.next()){
+                res.add(this.createOfferFromRs(rs));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return res;
     }
 
-    @Override
-    public ArrayList<Offer> getOffersByCategory(int category_id) {
-        //TODO
-        return null;
-    }
+    /**
+     * Creates and returns an offer from a query ResultSet
+     * @param rs the ResultSet that contains offer information
+     * @return new Offer or new PriorityOffer if isPriority=True
+     * @throws SQLException
+     */
+    private Offer createOfferFromRs(ResultSet rs) throws SQLException {
+        String ts = rs.getString(TOOL_STATE_COL);
+        ToolSate toolState = ToolSate.valueOf(ts);
+        if (rs.getBoolean(ISPRIORITY)){
+            return new PriorityOffer(rs.getInt(OFFER_ID_COL),rs.getString(TITLE_COL),rs.getFloat(PRICE_PER_DAY_COL),rs.getString(DESCRPTION_COL),toolState,rs.getBoolean(ISPRIORITY),rs.getInt(USER_ID_COL),rs.getInt(CATEGORY_ID_COL),rs.getDate(DATE_START_PRIORITY_COL),rs.getDate(DATE_END_PRIORITY_COL));
+        } else {
+            return new Offer(rs.getInt(OFFER_ID_COL),rs.getString(TITLE_COL),rs.getFloat(PRICE_PER_DAY_COL),rs.getString(DESCRPTION_COL),toolState,rs.getBoolean(ISPRIORITY),rs.getInt(USER_ID_COL),rs.getInt(CATEGORY_ID_COL));
+        }
 
-    @Override
-    public ArrayList<PriorityOffer> getPriorityOffer() {
-        //TODO
-        return null;
     }
 }

@@ -10,6 +10,7 @@ public class SessionFacade {
 
     private User user;
     private UserManagement userManagement = new UserManagement();
+    private static final SessionFacade INSTANCE = new SessionFacade();
 
     private SessionFacade() {
     }
@@ -17,18 +18,11 @@ public class SessionFacade {
 
 
     /**
-     * The static class definition LazyHolder within it is not initialized until the JVM determines that LazyHolder must be executed
-     */
-    private static class LazyHolder { //TODO : simple singelton
-        public static final SessionFacade INSTANCE= new SessionFacade();
-    }
-
-    /**
      * getInstance will return the same correctly initialized INSTANCE
      * @return instance of the class
      */
     public static SessionFacade getInstance(){
-        return SessionFacade.LazyHolder.INSTANCE;
+        return INSTANCE;
     }
 
     /**
