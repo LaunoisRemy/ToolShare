@@ -15,6 +15,13 @@ public abstract class CategoryDAO implements DAO<Category> {
         return INSTANCE;
     }
 
+    /**
+     * Find a category thanks to its name
+     * @param name the name of the category we research in th bdd
+     * @return an instance of category that corresponds to the name given
+     */
+    public abstract Category getCategoryByName(String name);
+
 
 }
 

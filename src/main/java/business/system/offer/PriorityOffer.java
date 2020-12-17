@@ -25,6 +25,12 @@ public class PriorityOffer extends Offer {
         this.dateEndPriority = dateEndPriority;
     }
 
+    public PriorityOffer(String title, String description, float pricePerDay, ToolSate toolSate, boolean isPriority, int user_id, int category_id, Date dateStartPriority, Date dateEndPriority) {
+        super(title, pricePerDay, description, toolSate, isPriority, user_id, category_id);
+        this.dateStartPriority = dateStartPriority;
+        this.dateEndPriority = dateEndPriority;
+    }
+
     /**
      * getter of priority offer starting date
      * @return the starting date of the priority privilege
