@@ -1,9 +1,9 @@
 package dao.structure;
 
-import business.system.user.User;
+import business.system.faq.Question;
 import dao.factory.AbstractFactoryDAO;
 
-public abstract class QuestionDAO implements DAO<User> {
+public abstract class QuestionDAO implements DAO<Question> {
     private static final QuestionDAO INSTANCE = AbstractFactoryDAO.getInstance().getQuestionDAO();
 
     /**

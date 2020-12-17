@@ -1,9 +1,10 @@
 package dao.structure;
 
+import business.system.History;
 import business.system.user.User;
 import dao.factory.AbstractFactoryDAO;
 
-public abstract class HistoryDAO implements DAO<User> {
+public abstract class HistoryDAO implements DAO<History> {
     private static final HistoryDAO INSTANCE = AbstractFactoryDAO.getInstance().getHistoryDAO();
 
     /**

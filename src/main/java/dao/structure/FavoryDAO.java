@@ -1,9 +1,10 @@
 package dao.structure;
 
+import business.system.Favory;
 import business.system.user.User;
 import dao.factory.AbstractFactoryDAO;
 
-public abstract class FavoryDAO implements DAO<User> {
+public abstract class FavoryDAO implements DAO<Favory> {
     private static final FavoryDAO INSTANCE = AbstractFactoryDAO.getInstance().getFavoryDAO();
 
     /**

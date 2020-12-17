@@ -1,9 +1,10 @@
 package dao.structure;
 
+import business.system.Category;
 import business.system.user.User;
 import dao.factory.AbstractFactoryDAO;
 
-public abstract class CategoryDAO implements DAO<User> {
+public abstract class CategoryDAO implements DAO<Category> {
     private static final CategoryDAO INSTANCE = AbstractFactoryDAO.getInstance().getCategoryDAO();
 
     /**

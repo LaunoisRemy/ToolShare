@@ -4,10 +4,19 @@ import business.system.offer.Offer;
 import business.system.offer.PriorityOffer;
 import dao.structure.OfferDAO;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 
 public class OfferDaoMySQL extends OfferDAO {
+    private final Connection connection;
 
+    /**
+     * Constructor of OfferDaoMySQL
+     * @param connection to have a link of the connection
+     */
+    public OfferDaoMySQL(Connection connection) {
+        this.connection = connection;
+    }
     /**
      * method which communicate with the db in order to find an offer with the specified id
      * @param id id of the Offer the system wants

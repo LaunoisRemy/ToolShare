@@ -1,6 +1,7 @@
 package dao.factory;
 
 import dao.factory.AbstractFactoryDAO;
+import dao.mysql.OfferDaoMySQL;
 import dao.mysql.UserDaoMySQL;
 import dao.structure.*;
 import db.ConnectionDBMySQL;
@@ -14,7 +15,7 @@ public class FactoryDAOMySQL extends AbstractFactoryDAO {
 
     @Override
     public OfferDAO getOfferDAO() {
-        return null;
+        return new OfferDaoMySQL(connection);
     }
 
     @Override
