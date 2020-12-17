@@ -1,8 +1,7 @@
-package dao.mysql;
+package dao.factory_business;
 
 import business.system.user.OrdinaryUser;
 import business.system.user.User;
-import dao.factory.AbstractFactoryDAO;
 import dao.structure.UserDAO;
 
 import java.sql.Connection;
@@ -30,7 +29,7 @@ public class UserDaoMySQL extends UserDAO {
      * Constructor of UserDaoMySQL
      * @param connection to have a link of the connection
      */
-    public UserDaoMySQL(Connection connection) {
+    protected UserDaoMySQL(Connection connection) {
         this.connection = connection;
     }
 

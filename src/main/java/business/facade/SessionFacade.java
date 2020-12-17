@@ -3,7 +3,7 @@ package business.facade;
 import business.exceptions.*;
 import business.management.UserManagement;
 import business.system.user.User;
-import dao.factory.AbstractFactoryDAO;
+import dao.factory_business.AbstractFactoryDAO;
 import dao.structure.UserDAO;
 
 public class SessionFacade {

@@ -1,8 +1,7 @@
 package dao.structure;
 
 import business.system.Reservation;
-import business.system.user.User;
-import dao.factory.AbstractFactoryDAO;
+import dao.factory_business.AbstractFactoryDAO;
 
 public abstract class ReservationDAO implements DAO<Reservation> {
     private static final ReservationDAO INSTANCE = AbstractFactoryDAO.getInstance().getReservationDao();

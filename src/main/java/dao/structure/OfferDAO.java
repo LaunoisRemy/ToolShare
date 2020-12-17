@@ -2,7 +2,7 @@ package dao.structure;
 
 import business.system.offer.Offer;
 import business.system.offer.PriorityOffer;
-import dao.factory.AbstractFactoryDAO;
+import dao.factory_business.AbstractFactoryDAO;
 
 import java.util.ArrayList;
 
