@@ -1,12 +1,9 @@
 package business.facade;
 
-import business.exceptions.BadInsertionInBDDException;
-import business.exceptions.UserBannedException;
-import business.exceptions.ObjectNotFoundException;
-import business.exceptions.WrongPasswordException;
+import business.exceptions.*;
 import business.management.UserManagement;
 import business.system.user.User;
-import dao.factory.AbstractFactoryDAO;
+import dao.factory_business.AbstractFactoryDAO;
 import dao.structure.UserDAO;
 
 public class SessionFacade {
@@ -17,6 +14,8 @@ public class SessionFacade {
 
     private SessionFacade() {
     }
+
+
 
     /**
      * getInstance will return the same correctly initialized INSTANCE
@@ -107,5 +106,9 @@ public class SessionFacade {
         if(registeredUser != null) {
             throw new BadInsertionInBDDException("The user is not registered in the app");
         }
+    }
+
+    public void sendMail(String mail) throws NotYetImplementedException {
+        throw new NotYetImplementedException();
     }
 }

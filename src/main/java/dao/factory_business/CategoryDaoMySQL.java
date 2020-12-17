@@ -1,4 +1,4 @@
-package dao.mysql;
+package dao.factory_business;
 
 import business.system.Category;
 import business.system.offer.Offer;
@@ -22,7 +22,7 @@ public class CategoryDaoMySQL extends CategoryDAO {
      * Constructor of OfferDaoMySQL
      * @param connection to have a link of the connection
      */
-    public CategoryDaoMySQL(Connection connection) {
+    protected CategoryDaoMySQL(Connection connection) {
         this.connection = connection;
     }
 

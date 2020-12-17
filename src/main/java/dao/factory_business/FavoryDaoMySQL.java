@@ -1,38 +1,38 @@
-package dao.mysql;
+package dao.factory_business;
 
-import business.system.faq.Answer;
-import dao.structure.AnswerDAO;
+import business.system.Favory;
+import dao.structure.FavoryDAO;
 
 import java.sql.Connection;
 
-public class AnswerDaoMySQL extends AnswerDAO {
+public class FavoryDaoMySQL extends FavoryDAO {
     private final Connection connection;
 
     /**
      * Constructor of OfferDaoMySQL
      * @param connection to have a link of the connection
      */
-    public AnswerDaoMySQL(Connection connection) {
+    protected FavoryDaoMySQL(Connection connection) {
         this.connection = connection;
     }
 
     @Override
-    public Answer find(int id) {
+    public Favory find(int id) {
         return null;
     }
 
     @Override
-    public Answer create(Answer obj) {
+    public Favory create(Favory obj) {
         return null;
     }
 
     @Override
-    public Answer update(Answer obj) {
+    public Favory update(Favory obj) {
         return null;
     }
 
     @Override
-    public boolean delete(Answer obj) {
+    public boolean delete(Favory obj) {
         return false;
     }
 }

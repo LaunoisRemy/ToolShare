@@ -1,39 +1,38 @@
-package dao.mysql;
+package dao.factory_business;
 
-import business.system.History;
-import business.system.offer.Offer;
-import dao.structure.HistoryDAO;
+import business.system.faq.Question;
+import dao.structure.QuestionDAO;
 
 import java.sql.Connection;
 
-public class HistoryDaoMySQL extends HistoryDAO {
+public class QuestionDaoMySQL extends QuestionDAO {
     private final Connection connection;
 
     /**
      * Constructor of OfferDaoMySQL
      * @param connection to have a link of the connection
      */
-    public HistoryDaoMySQL(Connection connection) {
+    protected QuestionDaoMySQL(Connection connection) {
         this.connection = connection;
     }
 
     @Override
-    public History find(int id) {
+    public Question find(int id) {
         return null;
     }
 
     @Override
-    public History create(History obj) {
+    public Question create(Question obj) {
         return null;
     }
 
     @Override
-    public History update(History obj) {
+    public Question update(Question obj) {
         return null;
     }
 
     @Override
-    public boolean delete(History obj) {
+    public boolean delete(Question obj) {
         return false;
     }
 }

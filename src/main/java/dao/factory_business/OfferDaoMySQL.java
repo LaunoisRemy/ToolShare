@@ -1,12 +1,10 @@
-package dao.mysql;
+package dao.factory_business;
 
 import business.system.offer.Offer;
 import business.system.offer.PriorityOffer;
 import business.system.offer.ToolSate;
-import business.system.user.User;
 import dao.structure.OfferDAO;
 
-import javax.tools.Tool;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -27,7 +25,7 @@ public class OfferDaoMySQL extends OfferDAO {
      * Constructor of OfferDaoMySQL
      * @param connection to have a link of the connection
      */
-    public OfferDaoMySQL(Connection connection) {
+    protected OfferDaoMySQL(Connection connection) {
         this.connection = connection;
     }
     /**
