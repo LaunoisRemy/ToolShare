@@ -19,7 +19,7 @@ public class PriorityOffer extends Offer {
      */
     public PriorityOffer() {}
 
-    public PriorityOffer(int offer_id, String title, int pricePerDay, String description, ToolSate toolSate, boolean isPriority, int user_id, int category_id, Date dateStartPriority, Date dateEndPriority) {
+    public PriorityOffer(int offer_id, String title, float pricePerDay, String description, ToolSate toolSate, boolean isPriority, int user_id, int category_id, Date dateStartPriority, Date dateEndPriority) {
         super(offer_id, title, pricePerDay, description, toolSate, isPriority, user_id, category_id);
         this.dateStartPriority = dateStartPriority;
         this.dateEndPriority = dateEndPriority;
