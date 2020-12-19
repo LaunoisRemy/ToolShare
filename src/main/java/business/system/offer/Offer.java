@@ -58,6 +58,16 @@ public class Offer {
         this.category_id = category_id;
     }
 
+    public Offer(String title, int pricePerDay, String description, ToolSate toolSate, boolean isPriority, int user_id, int category_id) {
+        this.title = title;
+        this.pricePerDay = pricePerDay;
+        this.description = description;
+        this.toolSate = toolSate;
+        this.isPriority = isPriority;
+        this.user_id = user_id;
+        this.category_id = category_id;
+    }
+
     /**
      * getter of offer id
      * @return offer_id

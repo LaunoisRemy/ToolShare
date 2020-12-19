@@ -12,8 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="901.0" prefWidth="1227.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="901.0" prefWidth="1227.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.CreateOfferController">
    <children>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -37,24 +36,27 @@
                            </font>
                         </Label>
                         <AnchorPane layoutX="212.0" layoutY="50.0" prefHeight="8.0" prefWidth="205.0" style="-fx-background-color: #212121;" AnchorPane.leftAnchor="130.0" AnchorPane.rightAnchor="130.0" AnchorPane.topAnchor="50.0" />
-                        <JFXTextField layoutX="120.0" layoutY="81.0" prefHeight="26.0" prefWidth="390.0" text="Title" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="85.0">
+                        <JFXTextField fx:id="title" layoutX="120.0" layoutY="81.0" prefHeight="26.0" prefWidth="390.0" text="Title" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="85.0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextArea layoutX="120.0" layoutY="151.0" prefHeight="175.0" prefWidth="390.0" text="Describe your offer in a few sentences..." AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="155.0">
+                        <JFXTextArea fx:id="description" layoutX="120.0" layoutY="151.0" prefHeight="175.0" prefWidth="390.0" text="Describe your offer in a few sentences..." AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="155.0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </JFXTextArea>
-                        <JFXComboBox layoutX="120.0" layoutY="372.0" prefHeight="26.0" prefWidth="136.0" promptText="Offer state" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="330.0" AnchorPane.topAnchor="370.0" />
-                        <JFXTextField layoutX="275.0" layoutY="368.0" prefHeight="30.0" prefWidth="231.0" text="Price" AnchorPane.leftAnchor="330.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="366.0">
+                        <JFXComboBox fx:id="state" layoutX="120.0" layoutY="372.0" prefHeight="26.0" prefWidth="136.0" promptText="Offer state" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="330.0" AnchorPane.topAnchor="370.0" />
+                        <JFXTextField fx:id="price" layoutX="275.0" layoutY="368.0" prefHeight="30.0" prefWidth="231.0" text="Price per day in €" AnchorPane.leftAnchor="330.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="366.0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </JFXTextField>
-                        <JFXComboBox layoutX="110.0" layoutY="424.0" prefHeight="26.0" prefWidth="190.0" promptText="Offer category" AnchorPane.topAnchor="430.0" />
-                        <JFXButton buttonType="RAISED" layoutX="342.0" layoutY="425.0" prefHeight="26.0" prefWidth="166.0" style="-fx-background-radius: 90; -fx-background-color: #2f9acd;" text="Add a new category" AnchorPane.leftAnchor="330.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="430.0" />
+                        <JFXComboBox fx:id="category" layoutX="110.0" layoutY="424.0" prefHeight="26.0" prefWidth="190.0" promptText="Offer category" AnchorPane.topAnchor="430.0" />
+                        <JFXButton fx:id="addNewCategory" buttonType="RAISED" layoutX="342.0" layoutY="425.0" onAction="#handleNewCategory" prefHeight="26.0" prefWidth="166.0" style="-fx-background-radius: 90; -fx-background-color: #2f9acd;" text="Add a new category" AnchorPane.leftAnchor="330.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="430.0" />
+                        <JFXButton fx:id="createOffer" buttonType="RAISED" layoutX="342.0" layoutY="772.0" onAction="#handleNewOffer" prefHeight="26.0" prefWidth="166.0" style="-fx-background-radius: 90; -fx-background-color: #2f9acd;" text="Create" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="120.0" />
+                        <JFXButton fx:id="cancel" buttonType="RAISED" layoutX="122.0" layoutY="772.0" prefHeight="26.0" prefWidth="166.0" style="-fx-background-radius: 90; -fx-background-color: #3f4b4b;" text="Cancel" textFill="WHITE" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="340.0" />
+                        <JFXButton fx:id="createPriorityOffer" buttonType="RAISED" layoutX="124.0" layoutY="824.0" onAction="#handleNewPriorityOffer" prefHeight="26.0" prefWidth="383.0" style="-fx-background-radius: 90; -fx-background-color: #82db2a;" text="Create a Priority offer" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="120.0" />
                      </children>
                   </AnchorPane>
                </children>
