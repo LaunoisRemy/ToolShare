@@ -1,5 +1,6 @@
 package gui.controller;
 
+import business.exceptions.BadInsertionInBDDException;
 import business.facade.OfferFacade;
 import business.system.Category;
 import business.system.offer.Offer;
@@ -8,6 +9,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -39,13 +41,24 @@ public class CreateOfferController {
     @FXML
     private JFXTextField price;
 
-    @FXML JFXComboBox<Category> category;
+    @FXML
+    private JFXComboBox<Category> category;
+
+    @FXML
+    private Label error_msg;
+
+    @FXML
+    private Label cast_msg;
 
     public void handleNewOffer(javafx.event.ActionEvent actionEvent) {
         try {
             Offer offer = facade.createOffer(title.getText(), Integer.parseInt(price.getText()), description.getText(), state.getValue(), false, Integer.parseInt(category.getId()));
-        } catch (Exception e) {
-            System.err.println(e);
+        } catch (NumberFormatException e) {
+            System.err.println(e.toString());
+            cast_msg.setVisible(true);
+        } catch (BadInsertionInBDDException e) {
+            error_msg.setVisible(true);
+            System.err.println(e.toString());
         }
     }
 
