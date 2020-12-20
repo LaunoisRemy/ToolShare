@@ -13,11 +13,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="901.0" prefWidth="1227.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.user.RegisterController">
+<AnchorPane prefHeight="901.0" prefWidth="1227.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane layoutX="325.0" layoutY="147.0" prefHeight="659.0" prefWidth="586.0" style="-fx-background-color: #fafafa; -fx-border-color: black; -fx-border-width: 2;" AnchorPane.bottomAnchor="163.0" AnchorPane.leftAnchor="325.0" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="147.0">
          <children>
-            <Label alignment="CENTER" layoutX="117.0" layoutY="18.0" prefHeight="54.0" prefWidth="353.0" text="Register" AnchorPane.bottomAnchor="573.0" AnchorPane.leftAnchor="115.0" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="16.0">
+            <Label fx:id="profileLabel" alignment="CENTER" layoutX="115.0" layoutY="38.0" prefHeight="54.0" prefWidth="353.0" text="Profile Page" visible="false">
+               <font>
+                  <Font name="Tahoma Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="registerLabel" alignment="CENTER" layoutX="117.0" layoutY="14.0" prefHeight="54.0" prefWidth="353.0" text="Register" visible="false" AnchorPane.bottomAnchor="579.0" AnchorPane.leftAnchor="117.0" AnchorPane.rightAnchor="116.0" AnchorPane.topAnchor="14.0">
                <font>
                   <Font name="Tahoma Bold" size="36.0" />
                </font>
@@ -136,7 +141,7 @@
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </JFXButton>
-                        <Hyperlink onAction="#loginPage" prefHeight="33.0" prefWidth="60.0" text="Cancel" underline="true">
+                        <Hyperlink fx:id="cancel" onAction="#loginPage" prefHeight="33.0" prefWidth="60.0" text="Cancel" underline="true">
                            <font>
                               <Font size="15.0" />
                            </font>

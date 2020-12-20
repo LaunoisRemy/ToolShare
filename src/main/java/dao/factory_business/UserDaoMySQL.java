@@ -112,7 +112,36 @@ public class UserDaoMySQL extends UserDAO {
      */
     @Override
     public User update(User obj) {
-        return null;
+        try {
+            PreparedStatement prep = connection.prepareStatement(
+                    "UPDATE user " +
+                        "SET email=?,firstname=?,lastname=?,password=?,userCity=?,phoneNumber=?,isAdmin=?,isBanned=?" +
+                        "WHERE user_id=?"
+            );
+            prep.setString(1,obj.getEmail());
+            prep.setString(2,obj.getFirstName());
+            prep.setString(3,obj.getLastName());
+            prep.setString(4,obj.getPassword());
+            if(obj.getRole().getNameRole().equals(OrdinaryUser.ORDINARY_USER)){
+                OrdinaryUser role = (OrdinaryUser) obj.getRole();
+                prep.setString(5,role.getUserCity());
+                prep.setString(6,role.getPhoneNumber());
+                prep.setBoolean(7,false);
+            }
+            else{
+                prep.setString(5,null);
+                prep.setString(6,null);
+                prep.setBoolean(7,true);
+            }
+            prep.setBoolean(8,obj.isBanned());
+            prep.setInt(9,obj.getUser_id());
+
+            int rs = prep.executeUpdate();
+            return obj;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
     }
     /**
      * Delete the user (instance of User) in database

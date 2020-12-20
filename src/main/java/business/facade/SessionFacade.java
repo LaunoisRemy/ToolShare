@@ -2,6 +2,7 @@ package business.facade;
 
 import business.exceptions.*;
 import business.management.UserManagement;
+import business.system.user.OrdinaryUser;
 import business.system.user.User;
 import dao.factory_business.AbstractFactoryDAO;
 import dao.structure.UserDAO;
@@ -13,6 +14,7 @@ public class SessionFacade {
     private static final SessionFacade INSTANCE = new SessionFacade();
 
     private SessionFacade() {
+
     }
 
 
@@ -110,5 +112,23 @@ public class SessionFacade {
 
     public void sendMail(String mail) throws NotYetImplementedException {
         throw new NotYetImplementedException();
+    }
+    public void updateProfile(String email, String firstName, String lastName, String city, String phoneNumber, String password){
+        //Get UserDAO
+        UserDAO userDAO = UserDAO.getInstance();
+        //Get the user
+        user.setEmail(email);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        ((OrdinaryUser)user.getRole()).setUserCity(city);
+        ((OrdinaryUser)user.getRole()).setPhoneNumber(phoneNumber);
+        user.setPassword(password);
+
+        userDAO.update(user);
+
+
+
+
+
     }
 }
