@@ -121,7 +121,8 @@ public class OfferDaoMySQL extends OfferDAO {
         try {
             PreparedStatement prep = connection.prepareStatement(
                     "UPDATE offer " +
-                            "SET ? = ?, ? = ?, ? = ?, ? = ?, ? = ?, ? = ?, ? = ?, ? = ?, ? = ?"
+                            "SET ? = ?, ? = ?, ? = ?, ? = ?, ? = ?, ? = ?, ? = ?, ? = ?, ? = ?" +
+                            "WHERE ? = ?"
             );
 
             prep.setString(1,TITLE_COL);
@@ -155,6 +156,9 @@ public class OfferDaoMySQL extends OfferDAO {
 
             prep.setString(17,CATEGORY_ID_COL);
             prep.setInt(18, obj.getCategory_id());
+
+            prep.setString(19,OFFER_ID_COL);
+            prep.setInt(20,obj.getOffer_id());
 
             prep.executeUpdate();
             ResultSet rs = prep.getGeneratedKeys();
