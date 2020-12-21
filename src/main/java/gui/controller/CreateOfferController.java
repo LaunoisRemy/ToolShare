@@ -15,7 +15,7 @@ import javafx.fxml.FXML;
 
 public class CreateOfferController {
 
-    private OfferFacade facade = new OfferFacade();
+    private OfferFacade facade = OfferFacade.getInstance();
 
     @FXML
     private JFXButton createOffer;
@@ -52,7 +52,7 @@ public class CreateOfferController {
 
     public void handleNewOffer(javafx.event.ActionEvent actionEvent) {
         try {
-            Offer offer = facade.createOffer(title.getText(), Integer.parseInt(price.getText()), description.getText(), state.getValue(), false, Integer.parseInt(category.getId()));
+            Offer offer = facade.createOffer(title.getText(), Integer.parseInt(price.getText()), description.getText(), state.getValue(), false, Integer.parseInt(category.getId()), null, null);
         } catch (NumberFormatException e) {
             System.err.println(e.toString());
             cast_msg.setVisible(true);
