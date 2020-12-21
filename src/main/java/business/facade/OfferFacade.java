@@ -122,10 +122,10 @@ public class OfferFacade {
         offer.setCategory_id(category_id);
         offer.setUser_id(this.user.getUser_id());
 
-        if(isPriority && dateStartPriority!=null && dateEndPriority!=null){
+        if (isPriority && dateStartPriority != null && dateEndPriority != null) {
             ((PriorityOffer) offer).setDateStartPriority(dateStartPriority);
             ((PriorityOffer) offer).setDateEndPriority(dateEndPriority);
-        } else if (!isPriority){
+        } else if (!isPriority) {
             ((PriorityOffer) offer).setDateStartPriority(null);
             ((PriorityOffer) offer).setDateEndPriority(null);
         } else {
