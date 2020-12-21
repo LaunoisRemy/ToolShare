@@ -56,7 +56,7 @@
                         </Label>
                         <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="75.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../img/user_32.png" />
+                              <Image url="@../img/icons8_gmail_32.png" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="75.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true">
