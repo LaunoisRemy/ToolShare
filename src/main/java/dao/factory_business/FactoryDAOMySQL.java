@@ -1,17 +1,13 @@
-package dao.factory;
+package dao.factory_business;
 
-import dao.factory.AbstractFactoryDAO;
-import dao.mysql.OfferDaoMySQL;
-import dao.mysql.UserDaoMySQL;
 import dao.structure.*;
-import db.ConnectionDBMySQL;
-
-import java.sql.Connection;
-
+//TODO JAVADOC
 /**
  * Factory concrete using MySQL database
  */
 public class FactoryDAOMySQL extends AbstractFactoryDAO {
+    protected FactoryDAOMySQL(){};
+
 
     @Override
     public OfferDAO getOfferDAO() {
@@ -20,7 +16,7 @@ public class FactoryDAOMySQL extends AbstractFactoryDAO {
 
     @Override
     public ReservationDAO getReservationDao() {
-        return null;
+        return new ReservationDaoMySQL(connection);
     }
 
     @Override
@@ -30,37 +26,37 @@ public class FactoryDAOMySQL extends AbstractFactoryDAO {
 
     @Override
     public HistoryDAO getHistoryDAO() {
-        return null;
+        return new HistoryDaoMySQL(connection);
     }
 
     @Override
     public QuestionDAO getQuestionDAO() {
-        return null;
+        return new QuestionDaoMySQL(connection);
     }
 
     @Override
     public AnswerDAO getAnswerDAO() {
-        return null;
+        return new AnswerDaoMySQL(connection);
     }
 
     @Override
     public ScoreOfferDAO getScoreOfferDAO() {
-        return null;
+        return new ScoreOfferDaoMySQL(connection);
     }
 
     @Override
     public CommentDAO getCommentDAO() {
-        return null;
+        return new CommentDaoMySQL(connection);
     }
 
     @Override
     public CategoryDAO getCategoryDAO() {
-        return null;
+        return new CategoryDaoMySQL(connection);
     }
 
     @Override
     public FavoryDAO getFavoryDAO() {
-        return null;
+        return new FavoryDaoMySQL(connection);
     }
 
 }

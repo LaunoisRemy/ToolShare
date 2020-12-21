@@ -1,35 +1,30 @@
 package business.facade;
 
-import business.exceptions.BadInsertionInBDDException;
-import business.exceptions.UserBannedException;
-import business.exceptions.ObjectNotFoundException;
-import business.exceptions.WrongPasswordException;
+import business.exceptions.*;
 import business.management.UserManagement;
+import business.system.user.OrdinaryUser;
 import business.system.user.User;
-import dao.factory.AbstractFactoryDAO;
+import dao.factory_business.AbstractFactoryDAO;
 import dao.structure.UserDAO;
 
 public class SessionFacade {
 
     private User user;
     private UserManagement userManagement = new UserManagement();
+    private static final SessionFacade INSTANCE = new SessionFacade();
 
     private SessionFacade() {
+
     }
 
-    /**
-     * The static class definition LazyHolder within it is not initialized until the JVM determines that LazyHolder must be executed
-     */
-    private static class LazyHolder {
-        public static final SessionFacade INSTANCE= new SessionFacade();
-    }
+
 
     /**
      * getInstance will return the same correctly initialized INSTANCE
      * @return instance of the class
      */
     public static SessionFacade getInstance(){
-        return SessionFacade.LazyHolder.INSTANCE;
+        return INSTANCE;
     }
 
     /**
@@ -113,5 +108,27 @@ public class SessionFacade {
         if(registeredUser != null) {
             throw new BadInsertionInBDDException("The user is not registered in the app");
         }
+    }
+
+    public void sendMail(String mail) throws NotYetImplementedException {
+        throw new NotYetImplementedException();
+    }
+    public void updateProfile(String email, String firstName, String lastName, String city, String phoneNumber, String password){
+        //Get UserDAO
+        UserDAO userDAO = UserDAO.getInstance();
+        //Get the user
+        user.setEmail(email);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        ((OrdinaryUser)user.getRole()).setUserCity(city);
+        ((OrdinaryUser)user.getRole()).setPhoneNumber(phoneNumber);
+        user.setPassword(password);
+
+        userDAO.update(user);
+
+
+
+
+
     }
 }

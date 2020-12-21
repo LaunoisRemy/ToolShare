@@ -1,4 +1,4 @@
-package gui.controller;
+package gui.controller.user;
 
 
 import business.exceptions.UserBannedException;
@@ -8,6 +8,7 @@ import business.system.user.User;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import gui.LoadView;
+import gui.router.UserRouter;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import business.facade.SessionFacade;
@@ -15,6 +16,7 @@ import javafx.scene.control.Label;
 
 
 public class LoginController {
+    UserRouter userRouter = new UserRouter();
     private SessionFacade facade=SessionFacade.getInstance();
     @FXML
     private JFXTextField mail;
@@ -50,7 +52,11 @@ public class LoginController {
 
     }
 
+
     public void registerPage(ActionEvent actionEvent){
-        LoadView.changeScreen(actionEvent,"register");
+        userRouter.registerUser(actionEvent,"registerUpdateUser");
+    }
+    public void forgotPasswordPage(ActionEvent actionEvent){
+        LoadView.changeScreen(actionEvent,"forgot_password");
     }
 }

@@ -1,8 +1,7 @@
-package dao.factory;
+package dao.factory_business;
 
 import dao.structure.*;
 import db.ConnectionDBMySQL;
-import jdk.jfr.Category;
 
 import java.sql.Connection;
 
@@ -15,7 +14,7 @@ public abstract class AbstractFactoryDAO {
      * Connection to the database
      */
     public static final Connection connection = ConnectionDBMySQL.getInstance().getDb();
-    private static AbstractFactoryDAO INSTANCE =null;
+    private static AbstractFactoryDAO INSTANCE = null;
 
 
     /**

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="901.0" prefWidth="1227.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane layoutX="325.0" layoutY="147.0" prefHeight="659.0" prefWidth="586.0" style="-fx-background-color: #fafafa; -fx-border-color: black; -fx-border-width: 2;" AnchorPane.bottomAnchor="163.0" AnchorPane.leftAnchor="325.0" AnchorPane.rightAnchor="320.0" AnchorPane.topAnchor="147.0">
+         <children>
+            <Label fx:id="profileLabel" alignment="CENTER" layoutX="115.0" layoutY="38.0" prefHeight="54.0" prefWidth="353.0" text="Profile Page" visible="false">
+               <font>
+                  <Font name="Tahoma Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="registerLabel" alignment="CENTER" layoutX="117.0" layoutY="14.0" prefHeight="54.0" prefWidth="353.0" text="Register" visible="false" AnchorPane.bottomAnchor="579.0" AnchorPane.leftAnchor="117.0" AnchorPane.rightAnchor="116.0" AnchorPane.topAnchor="14.0">
+               <font>
+                  <Font name="Tahoma Bold" size="36.0" />
+               </font>
+            </Label>
+            <VBox layoutX="97.0" layoutY="107.0" prefHeight="584.0" prefWidth="417.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="68.0" prefWidth="417.0">
+                     <children>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/icons8_gmail_32.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <JFXTextField fx:id="email" prefHeight="45.0" prefWidth="281.0" promptText="Email">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="68.0" prefWidth="417.0">
+                     <children>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/password_32.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <JFXPasswordField fx:id="password" prefHeight="45.0" prefWidth="281.0" promptText="Password">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXPasswordField>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="68.0" prefWidth="417.0">
+                     <children>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/name_tag_32.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <JFXTextField fx:id="firstname" prefHeight="45.0" prefWidth="281.0" promptText="Firstname">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="68.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/name_tag_32.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <JFXTextField fx:id="lastname" prefHeight="45.0" prefWidth="281.0" promptText="Lastname">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="68.0" prefWidth="417.0">
+                     <children>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/region_32.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <JFXTextField fx:id="city" prefHeight="45.0" prefWidth="281.0" promptText="City">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="68.0" prefWidth="417.0">
+                     <children>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/icons8_phone_32.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <JFXTextField fx:id="phone" prefHeight="45.0" prefWidth="281.0" promptText="Phone">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXTextField>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="74.0" prefWidth="201.0">
+                     <children>
+                        <JFXButton fx:id="submit" onAction="#handleRegister" prefHeight="45.0" prefWidth="129.0" style="-fx-background-color: #2f9acd; -fx-background-radius: 90;" text="Submit">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </JFXButton>
+                        <Hyperlink fx:id="cancel" onAction="#loginPage" prefHeight="33.0" prefWidth="60.0" text="Cancel" underline="true">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Hyperlink>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="73.0" prefWidth="417.0">
+                     <children>
+                        <Label fx:id="error_msg" text="Error with the uderlined input(s)" textFill="RED" visible="false">
+                           <font>
+                              <Font name="Tahoma Bold" size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="130.0" fitWidth="243.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/logo.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

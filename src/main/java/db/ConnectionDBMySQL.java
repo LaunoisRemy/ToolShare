@@ -20,6 +20,7 @@ public class ConnectionDBMySQL implements ConnectionDB{
      * Connection of the system
      */
     private Connection connection = null;
+    private static final ConnectionDBMySQL INSTANCE= new ConnectionDBMySQL();
 
 
     private ConnectionDBMySQL()
@@ -53,19 +54,13 @@ public class ConnectionDBMySQL implements ConnectionDB{
         }
         return p;
     }
-    /**
-     * The static class definition LazyHolder within it is not initialized until the JVM determines that LazyHolder must be executed
-     */
-    private static class LazyHolder {
-        public static final ConnectionDBMySQL INSTANCE= new ConnectionDBMySQL();
-    }
 
     /**
      * getInstance will return the same correctly initialized INSTANCE
      * @return instance of the class
      */
     public static ConnectionDBMySQL getInstance(){
-        return LazyHolder.INSTANCE;
+        return INSTANCE;
     }
 
     /**

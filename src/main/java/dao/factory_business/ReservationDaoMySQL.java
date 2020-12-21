@@ -1,7 +1,6 @@
-package dao.mysql;
+package dao.factory_business;
 
 import business.system.Reservation;
-import business.system.offer.Offer;
 import dao.structure.ReservationDAO;
 
 import java.sql.Connection;
@@ -13,7 +12,7 @@ public class ReservationDaoMySQL extends ReservationDAO {
      * Constructor of OfferDaoMySQL
      * @param connection to have a link of the connection
      */
-    public ReservationDaoMySQL(Connection connection) {
+    protected ReservationDaoMySQL(Connection connection) {
         this.connection = connection;
     }
 

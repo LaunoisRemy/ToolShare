@@ -2,10 +2,17 @@
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
     <data-source source="LOCAL" name="MySQL - solene34_toolshare@mysql-solene34.alwaysdata.net" uuid="03c8b3f0-7413-4297-8f5b-0604dc2be0b4">
+      <driver-ref>mariadb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://mysql-solene34.alwaysdata.net/solene34_toolshare</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="@localhost" uuid="74dee667-8a34-4f9d-a3b9-1e447f6caa16">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://mysql-solene34.alwaysdata.net/solene34_toolshare?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;serverTimezone=UTC</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
     <data-source source="LOCAL" name="@localhost" uuid="1e051e94-5f04-41a8-ac7f-4265cd734e11">
       <driver-ref>mysql.8</driver-ref>

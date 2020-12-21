@@ -1,8 +1,7 @@
 package dao.structure;
 
 import business.system.Category;
-import business.system.user.User;
-import dao.factory.AbstractFactoryDAO;
+import dao.factory_business.AbstractFactoryDAO;
 
 public abstract class CategoryDAO implements DAO<Category> {
     private static final CategoryDAO INSTANCE = AbstractFactoryDAO.getInstance().getCategoryDAO();
@@ -14,6 +13,13 @@ public abstract class CategoryDAO implements DAO<Category> {
     public static CategoryDAO getInstance(){
         return INSTANCE;
     }
+
+    /**
+     * Find a category thanks to its name
+     * @param name the name of the category we research in th bdd
+     * @return an instance of category that corresponds to the name given
+     */
+    public abstract Category getCategoryByName(String name);
 
 
 }
