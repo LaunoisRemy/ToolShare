@@ -18,10 +18,10 @@ public class CreateOfferController {
     private OfferFacade facade = new OfferFacade();
 
     @FXML
-    public JFXButton createOffer;
+    private JFXButton createOffer;
 
     @FXML
-    public JFXButton addNewCategory;
+    private JFXButton addNewCategory;
 
     @FXML
     private JFXButton cancel;
