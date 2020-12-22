@@ -1,5 +1,9 @@
 package gui.controller;
 
+import business.exceptions.ObjectNotFoundException;
+import business.facade.FavoryFacade;
+import business.facade.OfferFacade;
+import business.system.Favory;
 import business.system.offer.Offer;
 import business.system.offer.ToolSate;
 import com.jfoenix.controls.JFXButton;
@@ -10,7 +14,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -22,10 +25,12 @@ import javafx.util.converter.FloatStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
 import java.net.URL;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class HomePageController implements Initializable {
+    private FavoryController favoryController = new FavoryController();
+
     @FXML
     private TableView<Offer> table;
     @FXML
@@ -38,13 +43,19 @@ public class HomePageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        final ObservableList<Offer> data = FXCollections.observableArrayList(
-              new Offer(1,"Test",15,"ReTest Tool",ToolSate.GOOD,false,3,3),
-              new Offer(2,"ReTest",25,"Test Tool",ToolSate.GOOD,false,3,3),
-              new Offer(3,"RERETest",35,"RERETest Tool",ToolSate.GOOD,false,3,3),
-              new Offer(4,"RERERERETest",45,"RERERERETest Tool",ToolSate.GOOD,false,3,3),
-              new Offer(5,"RERERERERERETest",55,"RERERERERERETest Tool",ToolSate.GOOD,false,3,3)
-        );
+        FavoryFacade favoryFacade = FavoryFacade.getInstance();
+    //TODO Ici recupérer toutes les offres et non la 1ere
+        ArrayList<Offer> offerArrayList=new ArrayList<>();
+        Offer offer =null;
+        try {
+            offer = OfferFacade.getInstance().getOffer(1);
+            offerArrayList.add(offer);
+
+        } catch (ObjectNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        final ObservableList<Offer> data = FXCollections.observableArrayList(offerArrayList);
 
         title.setCellValueFactory(new PropertyValueFactory<>("title") );
         title.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -83,37 +94,64 @@ public class HomePageController implements Initializable {
         });
 
         favoryButton.setCellFactory(param -> new TableCell<>() {
-            Image img = new Image("img/favory.png") ;
-            ImageView iv = new ImageView(img);
+            Image img;
+            ImageView iv;
 
             private final JFXButton favoryButton = new JFXButton();
-            {
-                favoryButton.setOnAction(event -> {
-                    addToFavory(event, param.getTableView().getItems().get(getIndex()));
-                });
-                iv.setFitHeight(35);
-                iv.setFitWidth(35);
-                favoryButton.setGraphic(iv);
-            }
+
             @Override
             protected void updateItem(Integer item, boolean empty) {
                 super.updateItem(item, empty);
-
                 if (empty) {
                     setGraphic(null);
                 }
                 else {
+                    Offer offer=null;
+                    System.out.println(item);
+                    try {
+                       offer= OfferFacade.getInstance().getOffer((int)item);
+                    } catch (ObjectNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println(offer);
+                    Favory fav = favoryFacade.findFavory(offer);
+
+                    if(fav==null){
+                        Image img= new Image("img/favory.png") ;
+                        ImageView iv= new ImageView(img);
+                        favoryButton.setOnAction(event -> {
+                            addToFavory(event, item,favoryButton);
+                        });
+                        iv.setFitHeight(35);
+                        iv.setFitWidth(35);
+                        favoryButton.setGraphic(iv);
+                    }else{
+                        Image img= new Image("img/favoryFilled.png") ;
+                        ImageView iv= new ImageView(img);
+                        favoryButton.setOnAction(event -> {
+                            deleteFromFavory(event, item,favoryButton);
+                        });
+                        iv.setFitHeight(35);
+                        iv.setFitWidth(35);
+                        favoryButton.setGraphic(iv);
+                    }
+
                     setGraphic(favoryButton);
                 }
             }
         });
         table.setItems(data);
     }
+
+
     public void seeOfferPage(ActionEvent actionEvent,Offer offer){
-        System.out.println(offer);
+        //System.out.println(offer);
         //LoadView.changeScreen(actionEvent, ViewPath.LOGIN_VIEW,offer);
     }
-    public void addToFavory(ActionEvent actionEvent,Offer offer){
-        System.out.println(offer);
+    public void addToFavory(ActionEvent actionEvent,int offerID,JFXButton button){
+       favoryController.addToFavory(actionEvent,offerID,button);
+    }
+    public void deleteFromFavory(ActionEvent actionEvent, int offerID,JFXButton button){
+        favoryController.deleteFromFavory(actionEvent,offerID,button);
     }
 }

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="901.0" prefWidth="1227.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.HomePageController">
+   <children>
+      <BorderPane prefHeight="901.0" prefWidth="1227.0" style="-fx-background-color: fafafa; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+
+         </top>
+         <bottom>
+            <Pane prefHeight="85.0" prefWidth="1227.0" style="-fx-background-color: #f50057;" BorderPane.alignment="CENTER" />
+         </bottom>
+         <top>
+            <fx:include source="template/navBarUser.fxml" />
+         </top>
+         <center>
+            <Pane prefHeight="608.0" prefWidth="1227.0" style="-fx-background-color: #fafafa;" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox prefHeight="721.0" prefWidth="1229.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="69.0" prefWidth="1229.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="TOP" prefHeight="23.0" prefWidth="158.0" text="Offers">
+                                 <font>
+                                    <Font name="Tahoma Bold" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="150.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <ChoiceBox prefWidth="150.0" />
+                              <JFXTextField prefHeight="25.0" prefWidth="388.0" promptText="Search">
+                                 <HBox.margin>
+                                    <Insets left="30.0" />
+                                 </HBox.margin>
+                              </JFXTextField>
+                              <JFXButton text="Search">
+                                 <HBox.margin>
+                                    <Insets left="20.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </JFXButton>
+                           </children>
+                        </HBox>
+                        <VBox prefHeight="2.0" prefWidth="1229.0" style="-fx-background-color: #212121;" />
+                        <TableView fx:id="table" prefHeight="650.0" prefWidth="1229.0">
+                           <columns>
+                              <TableColumn fx:id="title" prefWidth="405.0" style="-fx-alignement: CENTER;" text="Title" />
+                              <TableColumn fx:id="category" prefWidth="340.0" text="Category" />
+                              <TableColumn fx:id="price" prefWidth="170.0" text="Price" />
+                              <TableColumn fx:id="offerButton" prefWidth="170.0" text="SeeOffer" />
+                              <TableColumn fx:id="favoryButton" prefWidth="133.0" text="Favory" />
+                           </columns></TableView>
+                     </children>
+                  </VBox>
+               </children>
+            </Pane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

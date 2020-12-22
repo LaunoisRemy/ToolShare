@@ -38,14 +38,14 @@ public class OfferDaoMySQL extends OfferDAO {
         Offer offer = null;
         try {
             PreparedStatement prep = this.connection.prepareStatement(
-                    "SELECT *  FROM offer WHERE ? = ?"
+                    "SELECT *  FROM offer WHERE "+UserDaoMySQL.ID_COL+" = ?"
             );
-            prep.setString(1,OFFER_ID_COL);
-            prep.setInt(2,id);
+            //prep.setString(1,OFFER_ID_COL);
+            prep.setInt(1,id);
             ResultSet rs = prep.executeQuery();
 
             if(rs.next()){
-                if(rs.getInt(2) == (id)){
+                if(rs.getInt(OFFER_ID_COL) == (id)){
                     offer = this.createOfferFromRs(rs);
                 }
             }
@@ -317,7 +317,17 @@ public class OfferDaoMySQL extends OfferDAO {
         String ts = rs.getString(TOOL_STATE_COL);
         ToolSate toolState = ToolSate.valueOf(ts);
         if (rs.getBoolean(ISPRIORITY)){
-            return new PriorityOffer(rs.getInt(OFFER_ID_COL),rs.getString(TITLE_COL),rs.getFloat(PRICE_PER_DAY_COL),rs.getString(DESCRPTION_COL),toolState,rs.getBoolean(ISPRIORITY),rs.getInt(USER_ID_COL),rs.getInt(CATEGORY_ID_COL),rs.getDate(DATE_START_PRIORITY_COL),rs.getDate(DATE_END_PRIORITY_COL));
+            return new PriorityOffer(
+                    rs.getInt(OFFER_ID_COL),
+                    rs.getString(TITLE_COL),
+                    rs.getFloat(PRICE_PER_DAY_COL),
+                    rs.getString(DESCRPTION_COL),
+                    toolState,rs.getBoolean(ISPRIORITY),
+                    rs.getInt(USER_ID_COL),
+                    rs.getInt(CATEGORY_ID_COL),
+                    rs.getDate(DATE_START_PRIORITY_COL),
+                    rs.getDate(DATE_END_PRIORITY_COL)
+            );
         } else {
             return new Offer(rs.getInt(OFFER_ID_COL),rs.getString(TITLE_COL),rs.getFloat(PRICE_PER_DAY_COL),rs.getString(DESCRPTION_COL),toolState,rs.getBoolean(ISPRIORITY),rs.getInt(USER_ID_COL),rs.getInt(CATEGORY_ID_COL));
         }
