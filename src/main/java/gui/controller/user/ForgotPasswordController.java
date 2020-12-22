@@ -10,6 +10,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Paint;
+import util.ConstantsRegex;
 
 public class ForgotPasswordController {
     private SessionFacade facade = SessionFacade.getInstance();
@@ -18,12 +20,15 @@ public class ForgotPasswordController {
 
     @FXML
     private JFXTextField mail;
+    @FXML
+    private Label mailError;
 
     @FXML
     private JFXTextField code;
     @FXML
     private Label errorCode;
-
+    @FXML
+    private Label errorFormat;
     @FXML
     private JFXPasswordField password;
     @FXML
@@ -38,11 +43,15 @@ public class ForgotPasswordController {
      */
     public void sendMail(ActionEvent actionEvent){
         try {
-            System.out.println(mail.getText());
+            String stringMail = mail.getText();
 
-            facade.sendMail(mail.getText());
-            //TODO check mail regex
-            LoadView.changeScreen(actionEvent, ViewPath.FORGOTPASSWORDCHECKCODE_VIEW);
+            if(!ConstantsRegex.matchEmail(stringMail)){
+                mail.setUnFocusColor(Paint.valueOf("red"));
+                mailError.setVisible(true);
+            }else{
+                facade.sendMail(mail.getText());
+                LoadView.changeScreen(actionEvent, ViewPath.FORGOTPASSWORDCHECKCODE_VIEW);
+            }
         } catch (Exception e) {
             AlertBox.showAlert("Not yet Implemented","Not yet implemented");
         }
@@ -53,12 +62,19 @@ public class ForgotPasswordController {
      */
     public void checkCode(ActionEvent actionEvent){
         try {
-            boolean check = facade.checkCode(code.getText());
-            //TODO check mail regex
-            if(check){
-                LoadView.changeScreen(actionEvent, ViewPath.CHANGEPASSWORD_VIEW);
+            String stringCode =code.getText();
+            if(!ConstantsRegex.matchCodeRegex(stringCode)){
+                code.setUnFocusColor(Paint.valueOf("red"));
+                errorCode.setVisible(false);
+                errorFormat.setVisible(true);
             }else{
-                errorCode.setVisible(true);
+                boolean check = facade.checkCode(code.getText());
+                if(check){
+                    LoadView.changeScreen(actionEvent, ViewPath.CHANGEPASSWORD_VIEW);
+                }else{
+                    errorFormat.setVisible(false);
+                    errorCode.setVisible(true);
+                }
             }
         } catch (Exception e) {
             AlertBox.showAlert("Error",e.toString());
@@ -71,10 +87,9 @@ public class ForgotPasswordController {
      */
     public void changePassword(ActionEvent actionEvent){
         try {
-            System.out.println(password);
-            System.out.println(confirmPassword);
             String stringPassword = password.getText();
             String stringConfirmPassword = confirmPassword.getText();
+
             if(stringPassword.equals(stringConfirmPassword)){
                 facade.changePassword(stringConfirmPassword);
                 AlertBox.showAlert("Success","Password has been changed");

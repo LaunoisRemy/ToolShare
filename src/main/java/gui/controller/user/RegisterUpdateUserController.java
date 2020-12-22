@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Paint;
+import util.ConstantsRegex;
 import util.MapRessourceBundle;
 
 import java.net.URL;
@@ -68,42 +69,37 @@ public class RegisterUpdateUserController implements Initializable {
         }
     }
 
-    private final String EMAIL_REGEX = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
-    private final String NAME_REGEX = "^(([A-Za-z]+[,.]?[ ]?|[a-z]+['-]?)+)$";
-    private final String PHONE_REGEX = "^(?:(?:\\+|00)33|0)\\s*[1-9](?:[\\s.-]*\\d{2}){4}$";
-
-
     private boolean checkInputs(){
         boolean checked = true;
-        if(!email.getText().matches(EMAIL_REGEX)){
+        if(!ConstantsRegex.matchEmail((email.getText()))){
             checked = false;
             email.setUnFocusColor(Paint.valueOf("red"));
         }
         else{
             email.setUnFocusColor(Paint.valueOf("black"));
         }
-        if(!firstname.getText().matches(NAME_REGEX)){
+        if(!ConstantsRegex.matchNameRegex(firstname.getText())){
             checked = false;
             firstname.setUnFocusColor(Paint.valueOf("red"));
         }
         else{
             firstname.setUnFocusColor(Paint.valueOf("black"));
         }
-        if(!lastname.getText().matches(NAME_REGEX)){
+        if(!ConstantsRegex.matchNameRegex(lastname.getText())){
             checked = false;
             lastname.setUnFocusColor(Paint.valueOf("red"));
         }
         else{
             lastname.setUnFocusColor(Paint.valueOf("black"));
         }
-        if(!city.getText().matches(NAME_REGEX)) {
+        if(!ConstantsRegex.matchNameRegex((city.getText()))) {
             checked = false;
             city.setUnFocusColor(Paint.valueOf("red"));
         }
         else{
             city.setUnFocusColor(Paint.valueOf("black"));
         }
-        if(!phone.getText().matches(PHONE_REGEX)){
+        if(!ConstantsRegex.matchPhoneRegex((phone.getText()))){
             checked = false;
             phone.setUnFocusColor(Paint.valueOf("red"));
         }
