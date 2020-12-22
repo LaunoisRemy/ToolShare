@@ -3,6 +3,8 @@ package gui;
 public enum ViewPath {
     LOGIN_VIEW("view/user/login.fxml"),
     FORGOTPASSWORD_VIEW("view/user/forgot_password/forgot_password.fxml"),
+    FORGOTPASSWORDCHECKCODE_VIEW("view/user/forgot_password/forgot_password_check_code.fxml"),
+    CHANGEPASSWORD_VIEW("view/user/forgot_password/change_password.fxml"),
     REGISTERUPDATEUSER_VIEW("view/user/registerUpdateUser.fxml"),
     HOMEPAGE_VIEW("view/offers.fxml");
 

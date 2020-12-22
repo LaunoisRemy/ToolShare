@@ -110,8 +110,8 @@ public class SessionFacade {
         }
     }
 
-    public void sendMail(String mail) throws NotYetImplementedException {
-        throw new NotYetImplementedException();
+    public void sendMail(String mail) {
+        //throw new NotYetImplementedException();
     }
     public void updateProfile(String email, String firstName, String lastName, String city, String phoneNumber, String password){
         //Get UserDAO
@@ -130,5 +130,13 @@ public class SessionFacade {
 
 
 
+    }
+
+    public boolean checkCode(String code) {
+        return code.equals("1234");
+    }
+
+    public void changePassword(String password) {
+        System.out.println("Youpi");;
     }
 }
