@@ -2,19 +2,30 @@ package gui.controller.user;
 
 import business.AlertBox;
 import business.facade.SessionFacade;
+import business.system.user.User;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import gui.LoadView;
 import gui.ViewPath;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Paint;
 import util.ConstantsRegex;
+import util.MapRessourceBundle;
 
-public class ForgotPasswordController {
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.regex.Pattern;
+
+public class ForgotPasswordController implements Initializable {
     private SessionFacade facade = SessionFacade.getInstance();
+    @FXML
+    private URL location;
+
+
     @FXML
     private Hyperlink cancel;
 
@@ -23,6 +34,7 @@ public class ForgotPasswordController {
     @FXML
     private Label mailError;
 
+    private String stringMail;
     @FXML
     private JFXTextField code;
     @FXML
@@ -37,20 +49,37 @@ public class ForgotPasswordController {
     private Label errorPassword;
 
 
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed.
+     *
+     * @param location  The location used to resolve relative paths for the root object, or
+     *                  {@code null} if the location is not known.
+     * @param resources The resources used to localize the root object, or {@code null} if
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        if(((MapRessourceBundle)resources).size()!=0){
+            if(ConstantsRegex.match(Pattern.compile("forgot_password_check_code"),location.getFile())){ //Optimiser
+                this.stringMail=(String)resources.getObject("0");
+            }
+        }
+    }
+
     /***
      * Method which handle button send recovery mail
      * @param actionEvent
      */
     public void sendMail(ActionEvent actionEvent){
         try {
-            String stringMail = mail.getText();
+            stringMail = mail.getText();
 
             if(!ConstantsRegex.matchEmail(stringMail)){
                 mail.setUnFocusColor(Paint.valueOf("red"));
                 mailError.setVisible(true);
             }else{
-                facade.sendMail(mail.getText());
-                LoadView.changeScreen(actionEvent, ViewPath.FORGOTPASSWORDCHECKCODE_VIEW);
+                facade.sendMail(stringMail);
+                LoadView.changeScreen(actionEvent, ViewPath.FORGOTPASSWORDCHECKCODE_VIEW,stringMail);
             }
         } catch (Exception e) {
             AlertBox.showAlert("Not yet Implemented","Not yet implemented");
@@ -62,13 +91,13 @@ public class ForgotPasswordController {
      */
     public void checkCode(ActionEvent actionEvent){
         try {
-            String stringCode =code.getText();
+            String stringCode = code.getText();
             if(!ConstantsRegex.matchCodeRegex(stringCode)){
                 code.setUnFocusColor(Paint.valueOf("red"));
                 errorCode.setVisible(false);
                 errorFormat.setVisible(true);
             }else{
-                boolean check = facade.checkCode(code.getText());
+                boolean check = facade.checkCode(code.getText(),stringMail);
                 if(check){
                     LoadView.changeScreen(actionEvent, ViewPath.CHANGEPASSWORD_VIEW);
                 }else{

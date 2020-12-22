@@ -20,8 +20,8 @@ public class LoadView  extends Parent{
         if(urlPath == null){
             throw new IOException("Problem of path for fxml");
         }
-        FXMLLoader loader = new FXMLLoader(urlPath);
-
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(urlPath);
         loader.setResources(new MapRessourceBundle(objects));
         return (Parent)loader.load();
     }

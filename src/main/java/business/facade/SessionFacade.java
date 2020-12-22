@@ -132,7 +132,9 @@ public class SessionFacade {
 
     }
 
-    public boolean checkCode(String code) {
+    public boolean checkCode(String code,String mail) {
+        System.out.println(mail);
+        UserDAO.getInstance().getUserByEmail(mail);
         return code.equals("1234");
     }
 
