@@ -1,5 +1,8 @@
 package business.system.offer;
 
+import business.system.Category;
+import business.system.user.User;
+
 public class Offer {
 
     /**
@@ -35,37 +38,37 @@ public class Offer {
     /**
      * Id of offer owner
      */
-    private int user_id;
+    private User user;
 
     /**
      * Id of offer category
      */
-    private int category_id;
+    private Category category;
 
     /**
      * Constructors
      */
     public Offer() {}
 
-    public Offer(int offer_id, String title, float pricePerDay, String description, ToolSate toolSate, boolean isPriority, int user_id, int category_id) {
+    public Offer(int offer_id, String title, float pricePerDay, String description, ToolSate toolSate, boolean isPriority, User user, Category category) {
         this.offer_id = offer_id;
         this.title = title;
         this.pricePerDay = pricePerDay;
         this.description = description;
         this.toolSate = toolSate;
         this.isPriority = isPriority;
-        this.user_id = user_id;
-        this.category_id = category_id;
+        this.user = user;
+        this.category = category;
     }
 
-    public Offer(String title, float pricePerDay, String description, ToolSate toolSate, boolean isPriority, int user_id, int category_id) {
+    public Offer(String title, float pricePerDay, String description, ToolSate toolSate, boolean isPriority, User user, Category category) {
         this.title = title;
         this.pricePerDay = pricePerDay;
         this.description = description;
         this.toolSate = toolSate;
         this.isPriority = isPriority;
-        this.user_id = user_id;
-        this.category_id = category_id;
+        this.user = user;
+        this.category = category;
     }
 
     /**
@@ -160,39 +163,41 @@ public class Offer {
      * setter of the priority of the offer
      * @param isPriority true if the offer is priority, else false
      */
-    public void setPriority(boolean isPriority) {
+    public void setIsPriority(boolean isPriority) {
         this.isPriority = isPriority;
     }
 
     /**
-     * getter of the id of offer owner
-     * @return the id of the user who own the offer
+     * getter of the offer owner
+     * @return the user who own the offer
      */
-    public int getUser_id() {
-        return this.user_id;
+    public User getUser() {
+        return this.user;
     }
 
     /**
-     * setter of the id of offer owner
-     * @param user_id the id of the offer owner
+     * setter of the offer owner
+     * @param user the offer owner
      */
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     /**
-     * getter of the id of offer category
-     * @return the id of offer category
+     * getter of the offer category
+     * @return the offer category
      */
-    public int getCategory_id() {
-        return this.category_id;
+    public Category getCategory() {
+        return category;
     }
 
     /**
-     * setter of the id of offer category
-     * @param category_id the id of the offer category
+     * setter of the offer category
+     * @param category the new offer category
      */
-    public void setCategory_id(int category_id) {
-        this.category_id = category_id;
+    public void setCategory(Category category) {
+        this.category = category;
     }
+
+
 }
