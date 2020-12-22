@@ -1,6 +1,7 @@
 package gui.controller;
 
 import business.exceptions.BadInsertionInBDDException;
+import business.exceptions.MissingParametersException;
 import business.facade.OfferFacade;
 import business.system.Category;
 import business.system.offer.Offer;
@@ -52,13 +53,15 @@ public class CreateOfferController {
 
     public void handleNewOffer(javafx.event.ActionEvent actionEvent) {
         try {
-            Offer offer = facade.createOffer(title.getText(), Integer.parseInt(price.getText()), description.getText(), state.getValue(), false, Integer.parseInt(category.getId()), null, null);
+            Offer offer = facade.createOffer(title.getText(), Float.parseFloat(price.getText()), description.getText(), state.getValue(), false, category.getValue().getCategoryName(), null, null);
         } catch (NumberFormatException e) {
             System.err.println(e.toString());
             cast_msg.setVisible(true);
         } catch (BadInsertionInBDDException e) {
             error_msg.setVisible(true);
             System.err.println(e.toString());
+        } catch (MissingParametersException e) {
+            e.printStackTrace();
         }
     }
 
