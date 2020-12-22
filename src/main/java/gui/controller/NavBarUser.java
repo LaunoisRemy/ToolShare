@@ -24,7 +24,7 @@ public class NavBarUser {
         LoadView.changeScreen(actionEvent,ViewPath.HOMEPAGE_VIEW);
     }
     public void postOfferPage(ActionEvent actionEvent){
-        LoadView.changeScreen(actionEvent,ViewPath.HOMEPAGE_VIEW);
+        LoadView.changeScreen(actionEvent,ViewPath.POSTOFFER_VIEW);
     }
 
 }
