@@ -52,27 +52,27 @@
                               <Font size="14.0" />
                            </font>
                         </JFXTextArea>
-                        <JFXComboBox fx:id="state" layoutX="110.0" layoutY="392.0" prefHeight="26.0" prefWidth="136.0" promptText="Offer state" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="330.0" AnchorPane.topAnchor="392.0" />
-                        <JFXTextField fx:id="price" layoutX="330.0" layoutY="388.0" prefHeight="30.0" prefWidth="231.0" text="Price per day in €" AnchorPane.leftAnchor="330.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="388.0">
+                        <JFXComboBox fx:id="state" layoutX="110.0" layoutY="392.0" prefHeight="26.0" prefWidth="136.0" promptText="Offer state" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="350.0" AnchorPane.topAnchor="392.0" />
+                        <JFXTextField fx:id="price" layoutX="330.0" layoutY="388.0" prefHeight="30.0" prefWidth="231.0" text="Price per day in €" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="388.0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </JFXTextField>
-                        <JFXComboBox fx:id="category" layoutX="110.0" layoutY="452.0" prefHeight="26.0" prefWidth="190.0" promptText="Offer category" AnchorPane.topAnchor="452.0" />
-                        <JFXButton fx:id="addNewCategory" buttonType="RAISED" layoutX="330.0" layoutY="452.0" onAction="#handleNewCategory" prefHeight="26.0" prefWidth="166.0" style="-fx-background-radius: 90; -fx-background-color: #2f9acd;" text="Add a new category" AnchorPane.leftAnchor="330.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="452.0">
+                        <JFXComboBox fx:id="category" layoutX="110.0" layoutY="452.0" prefHeight="26.0" prefWidth="190.0" promptText="Offer category" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="350.0" AnchorPane.topAnchor="452.0" />
+                        <JFXButton fx:id="addNewCategory" buttonType="RAISED" layoutX="330.0" layoutY="452.0" onAction="#handleNewCategory" prefHeight="26.0" prefWidth="166.0" style="-fx-background-radius: 90; -fx-background-color: #2f9acd;" text="Add a new category" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="452.0">
                            <font>
                               <Font size="14.0" />
                            </font></JFXButton>
-                        <JFXButton fx:id="createOffer" buttonType="RAISED" defaultButton="true" layoutX="340.0" layoutY="830.0" onAction="#handleNewOffer" prefHeight="26.0" prefWidth="166.0" style="-fx-background-radius: 90; -fx-background-color: #2f9acd;" text="Create" AnchorPane.leftAnchor="340.0" AnchorPane.rightAnchor="120.0">
+                        <JFXButton fx:id="createOffer" buttonType="RAISED" defaultButton="true" layoutX="340.0" layoutY="830.0" onAction="#handleNewOffer" prefHeight="26.0" prefWidth="166.0" style="-fx-background-radius: 90; -fx-background-color: #2f9acd;" text="Create" AnchorPane.leftAnchor="360.0" AnchorPane.rightAnchor="120.0">
                            <font>
                               <Font size="14.0" />
                            </font></JFXButton>
-                        <JFXButton fx:id="cancel" buttonType="RAISED" cancelButton="true" layoutX="120.0" layoutY="830.0" prefHeight="26.0" prefWidth="166.0" style="-fx-background-radius: 90; -fx-background-color: #3f4b4b;" text="Cancel" textFill="WHITE" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="340.0">
+                        <JFXButton fx:id="cancel" buttonType="RAISED" cancelButton="true" layoutX="120.0" layoutY="830.0" prefHeight="26.0" prefWidth="166.0" style="-fx-background-radius: 90; -fx-background-color: #3f4b4b;" text="Cancel" textFill="WHITE" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="360.0">
                            <font>
                               <Font size="14.0" />
                            </font></JFXButton>
-                        <Label fx:id="cast_msg" layoutX="330.0" layoutY="348.0" prefHeight="18.0" prefWidth="108.0" text="Enter a number" textFill="RED" visible="false" />
-                        <Label fx:id="error_msg" layoutX="227.0" layoutY="737.0" text="We can't create this offer for now" textFill="RED" visible="false" />
+                        <Label fx:id="cast_msg" layoutX="330.0" layoutY="348.0" prefHeight="18.0" prefWidth="108.0" text="Enter a number" textFill="RED" visible="false" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="375.0" />
+                        <Label fx:id="error_msg" layoutX="227.0" layoutY="737.0" text="We can't create this offer for now" textFill="RED" visible="false" AnchorPane.topAnchor="800.0" />
                         <JFXDatePicker fx:id="dateStart" layoutX="330.0" layoutY="582.0" prefHeight="28.0" prefWidth="190.0" visible="false" />
                         <JFXDatePicker fx:id="dateEnd" layoutX="330.0" layoutY="633.0" prefHeight="28.0" prefWidth="190.0" visible="false" />
                         <Label fx:id="dateStartPriorityLabel" layoutX="110.0" layoutY="589.0" prefHeight="20.0" prefWidth="190.0" text="Starting date of priority status" visible="false">

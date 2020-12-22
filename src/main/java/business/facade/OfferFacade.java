@@ -3,6 +3,7 @@ package business.facade;
 import business.exceptions.BadInsertionInBDDException;
 import business.exceptions.MissingParametersException;
 import business.exceptions.ObjectNotFoundException;
+import business.system.Category;
 import business.system.offer.Offer;
 import business.system.offer.PriorityOffer;
 import business.system.offer.ToolSate;
@@ -71,13 +72,13 @@ public class OfferFacade {
         OfferDAO offerDAO = OfferDAO.getInstance();
         CategoryDAO categoryDAO = CategoryDAO.getInstance();
 
-        int category_id = categoryDAO.getCategoryByName(category).getCategoryId();
+        Category new_category = categoryDAO.getCategoryByName(category);
 
         Offer offer = null;
         if(isPriority && dateStartPriority!=null && dateEndPriority!=null){
-            offer = new PriorityOffer(title,description,price,toolSate,isPriority,this.user.getUser_id(),category_id,dateStartPriority,dateEndPriority);
+            offer = new PriorityOffer(title,description,price,toolSate,isPriority,this.user,new_category,dateStartPriority,dateEndPriority);
         } else if (!isPriority){
-            offer = new Offer(title,price,description,toolSate,isPriority,this.user.getUser_id(),category_id);
+            offer = new Offer(title,price,description,toolSate,isPriority,this.user,new_category);
         } else {
             throw new MissingParametersException("Missing parameters dates for a priority offer (start and end of booking)");
         }
@@ -113,14 +114,14 @@ public class OfferFacade {
         offer.setTitle(title);
         offer.setPricePerDay(price);
         offer.setDescription(description);
-        offer.setPriority(isPriority);
+        offer.setIsPriority(isPriority);
 
-        int category_id = categoryDAO.getCategoryByName(category).getCategoryId();
+        Category new_category = categoryDAO.getCategoryByName(category);
         ToolSate toolSate = ToolSate.valueOf(state);
 
         offer.setToolSate(toolSate);
-        offer.setCategory_id(category_id);
-        offer.setUser_id(this.user.getUser_id());
+        offer.setCategory(new_category);
+        offer.setUser(this.user);
 
         if (isPriority && dateStartPriority != null && dateEndPriority != null) {
             ((PriorityOffer) offer).setDateStartPriority(dateStartPriority);

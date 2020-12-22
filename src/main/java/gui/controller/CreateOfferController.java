@@ -7,14 +7,17 @@ import business.system.Category;
 import business.system.offer.Offer;
 import business.system.offer.ToolSate;
 import com.jfoenix.controls.*;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
+import java.net.URL;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.ResourceBundle;
 
-public class CreateOfferController {
+public class CreateOfferController implements Initializable {
 
     private OfferFacade facade = OfferFacade.getInstance();
 
@@ -26,9 +29,6 @@ public class CreateOfferController {
 
     @FXML
     private JFXButton cancel;
-
-    @FXML
-    private JFXButton createPriorityOffer;
 
     @FXML
     private JFXTextField title;
@@ -69,6 +69,12 @@ public class CreateOfferController {
     @FXML
     private JFXDatePicker dateEnd;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        state.getItems().clear();
+        state.getItems().addAll(ToolSate.values());
+    }
+
     public void handleNewOffer(javafx.event.ActionEvent actionEvent) {
         try {
             Offer offer = facade.createOffer(title.getText(), Float.parseFloat(price.getText()), description.getText(), state.getValue(), isPriority.isSelected(), category.getValue().getCategoryName(), Date.from(dateStart.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), Date.from(dateEnd.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
@@ -99,6 +105,8 @@ public class CreateOfferController {
             dateEndPriorityLabel.setVisible(false);
             dateStart.setVisible(false);
             dateEnd.setVisible(false);
+            dateStart.setValue(null);
+            dateEnd.setValue(null);
         }
     }
 }

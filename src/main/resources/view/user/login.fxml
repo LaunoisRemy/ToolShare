@@ -39,12 +39,12 @@
                                 </font>
                             </Label>
                             <AnchorPane layoutX="105.0" layoutY="45.0" prefHeight="8.0" prefWidth="205.0" style="-fx-background-color: #212121;" AnchorPane.bottomAnchor="247.0" AnchorPane.leftAnchor="105.0" AnchorPane.rightAnchor="99.0" AnchorPane.topAnchor="45.0" />
-                            <JFXTextField fx:id="mail" layoutX="118.0" layoutY="76.0" prefHeight="31.0" prefWidth="220.0" promptText="Email" AnchorPane.leftAnchor="118.0" AnchorPane.rightAnchor="71.0">
+                            <JFXTextField fx:id="mail" layoutX="118.0" layoutY="76.0" prefHeight="31.0" prefWidth="220.0" promptText="Email" text="test" AnchorPane.leftAnchor="118.0" AnchorPane.rightAnchor="71.0">
                                 <font>
                                     <Font size="16.0" />
                                 </font>
                             </JFXTextField>
-                        <JFXPasswordField fx:id="password" layoutX="118.0" layoutY="132.0" prefHeight="37.0" prefWidth="220.0" promptText="Password" AnchorPane.leftAnchor="118.0" AnchorPane.rightAnchor="71.0">
+                        <JFXPasswordField fx:id="password" layoutX="118.0" layoutY="132.0" prefHeight="37.0" prefWidth="220.0" promptText="Password" text="test" AnchorPane.leftAnchor="118.0" AnchorPane.rightAnchor="71.0">
                            <font>
                               <Font size="16.0" />
                            </font>
