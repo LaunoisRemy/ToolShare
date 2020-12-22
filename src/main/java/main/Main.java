@@ -1,6 +1,7 @@
 package main;
 
 import gui.LoadView;
+import gui.ViewPath;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -16,7 +17,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("Tool Share");
-        primaryStage.setScene(new Scene(LoadView.load("login"), 1280, 900));
+        primaryStage.setScene(new Scene(LoadView.load(ViewPath.LOGIN_VIEW), 1280, 900));
         primaryStage.getIcons().add(new Image("img/logo.png"));
 //        primaryStage.setFullScreen(true);
         primaryStage.show();

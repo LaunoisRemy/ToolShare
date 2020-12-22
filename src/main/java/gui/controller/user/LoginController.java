@@ -8,15 +8,16 @@ import business.system.user.User;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import gui.LoadView;
-import gui.router.UserRouter;
+import gui.ViewPath;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import business.facade.SessionFacade;
 import javafx.scene.control.Label;
 
+import java.util.ArrayList;
+
 
 public class LoginController {
-    UserRouter userRouter = new UserRouter();
     private SessionFacade facade=SessionFacade.getInstance();
     @FXML
     private JFXTextField mail;
@@ -38,7 +39,7 @@ public class LoginController {
 
         try {
             User user = facade.login(mail.getText(), password.getText());
-            LoadView.changeScreen(actionEvent,"offers");
+            LoadView.changeScreen(actionEvent, ViewPath.HOMEPAGE_VIEW);
             System.out.println("OK");
         } catch (ObjectNotFoundException | WrongPasswordException e1){
             banned_msg.setVisible(false);
@@ -54,9 +55,9 @@ public class LoginController {
 
 
     public void registerPage(ActionEvent actionEvent){
-        userRouter.registerUser(actionEvent,"registerUpdateUser");
+        LoadView.changeScreen(actionEvent,ViewPath.REGISTERUPDATEUSER_VIEW);
     }
     public void forgotPasswordPage(ActionEvent actionEvent){
-        LoadView.changeScreen(actionEvent,"forgot_password");
+        LoadView.changeScreen(actionEvent,ViewPath.FORGOTPASSWORD_VIEW);
     }
 }

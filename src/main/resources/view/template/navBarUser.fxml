@@ -4,7 +4,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -13,104 +12,108 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="901.0" prefWidth="1227.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.NavBarUser">
-    <GridPane prefHeight="87.0" prefWidth="1227.0" style="-fx-background-color: #fafafa;" AnchorPane.bottomAnchor="814.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="302.0" minWidth="10.0" prefWidth="302.0" />
-         <ColumnConstraints hgrow="SOMETIMES" maxWidth="925.0" minWidth="10.0" prefWidth="904.0" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints maxHeight="42.0" minHeight="4.0" prefHeight="7.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="122.0" minHeight="10.0" prefHeight="72.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="53.0" minHeight="0.0" prefHeight="7.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-        <children>
-            <Pane prefHeight="74.0" prefWidth="312.0" GridPane.rowIndex="1">
-                <children>
-                    <ImageView fitHeight="90.0" fitWidth="147.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                            <Image url="@../../img/logoblack.png" />
-                        </image>
-                    </ImageView>
-               <JFXButton layoutX="147.0" layoutY="9.0" onAction="#postOfferPage" text="Post an offer" underline="true">
-                  <font>
-                     <Font name="Tahoma" size="16.0" />
-                  </font>
-                  <graphic>
-                          <ImageView fitHeight="36.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+<AnchorPane prefHeight="84.0" prefWidth="1227.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.NavBarUser">
+   <Pane prefHeight="93.0" prefWidth="1227.0">
+      <children>
+          <GridPane prefHeight="87.0" prefWidth="1227.0" style="-fx-background-color: #fafafa;">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="302.0" minWidth="10.0" prefWidth="302.0" />
+               <ColumnConstraints hgrow="SOMETIMES" maxWidth="925.0" minWidth="10.0" prefWidth="904.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="42.0" minHeight="4.0" prefHeight="7.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="122.0" minHeight="10.0" prefHeight="72.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="53.0" minHeight="0.0" prefHeight="1.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+              <children>
+                  <Pane prefHeight="74.0" prefWidth="312.0" GridPane.rowIndex="1">
+                      <children>
+                          <ImageView fitHeight="90.0" fitWidth="147.0" layoutY="-11.0" pickOnBounds="true" preserveRatio="true">
                               <image>
-                                  <Image url="@../../img/add_new_32.png" />
+                                  <Image url="@../../img/logoblack.png" />
                               </image>
                           </ImageView>
-                  </graphic>
-               </JFXButton>
-                </children>
-            </Pane>
-            <HBox prefHeight="8.0" prefWidth="301.0" style="-fx-background-color: #212121;" GridPane.rowIndex="2" />
-         <Pane prefHeight="74.0" prefWidth="437.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-            <children>
-               <HBox layoutX="663.0" prefHeight="73.0" prefWidth="262.0">
-                  <children>
-                     <VBox alignment="CENTER" onMouseClicked="#homePage" prefHeight="58.0" prefWidth="58.0">
-                        <children>
-                           <ImageView fitHeight="29.0" fitWidth="31.0" onMouseClicked="#historyPage" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                 <Image url="@../../img/search.png" />
-                              </image>
-                           </ImageView>
-                           <JFXButton onAction="#historyPage" prefHeight="14.0" prefWidth="58.0" text="Search" textAlignment="CENTER" underline="true">
-                              <font>
-                                 <Font name="Tahoma" size="12.0" />
-                              </font>
-                           </JFXButton>
-                        </children>
-                     </VBox>
-                     <VBox alignment="CENTER" onMouseClicked="#favoryPage" prefHeight="58.0" prefWidth="58.0">
-                        <children>
-                           <ImageView fitHeight="29.0" fitWidth="31.0" onMouseClicked="#historyPage" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                 <Image url="@../../img/favory.png" />
-                              </image>
-                           </ImageView>
-                           <JFXButton onAction="#historyPage" prefHeight="14.0" prefWidth="58.0" text="Favory" textAlignment="CENTER" underline="true">
-                              <font>
-                                 <Font name="Tahoma" size="12.0" />
-                              </font>
-                           </JFXButton>
-                        </children>
-                     </VBox>
-                     <VBox alignment="CENTER" onMouseClicked="#historyPage" prefHeight="58.0" prefWidth="58.0">
-                        <children>
-                           <ImageView fitHeight="29.0" fitWidth="31.0" onMouseClicked="#historyPage" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                 <Image url="@../../img/history.png" />
-                              </image>
-                           </ImageView>
-                           <JFXButton onAction="#historyPage" prefHeight="14.0" prefWidth="58.0" text="History" textAlignment="CENTER" underline="true">
-                              <font>
-                                 <Font name="Tahoma" size="12.0" />
-                              </font>
-                           </JFXButton>
-                        </children>
-                     </VBox>
-                     <JFXButton onAction="#profilePage" text="." textFill="WHITE">
-                        <graphic>
-                           <ImageView fitHeight="65.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true">
-                              <image>
-                                 <Image url="@../../img/profile.png" />
-                              </image>
-                           </ImageView>
-                        </graphic>
+                     <JFXButton layoutX="147.0" layoutY="9.0" onAction="#postOfferPage" text="Post an offer" underline="true">
                         <font>
-                           <Font />
+                           <Font name="Tahoma" size="16.0" />
                         </font>
+                        <graphic>
+                                <ImageView fitHeight="36.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../img/add_new_32.png" />
+                                    </image>
+                                </ImageView>
+                        </graphic>
                      </JFXButton>
+                      </children>
+                  </Pane>
+                  <HBox prefHeight="8.0" prefWidth="301.0" style="-fx-background-color: #212121;" GridPane.rowIndex="2" />
+               <Pane prefHeight="74.0" prefWidth="437.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <children>
+                     <HBox layoutX="663.0" prefHeight="73.0" prefWidth="262.0">
+                        <children>
+                           <VBox alignment="CENTER" onMouseClicked="#homePage" prefHeight="58.0" prefWidth="58.0">
+                              <children>
+                                 <ImageView fitHeight="29.0" fitWidth="31.0" onMouseClicked="#historyPage" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../../img/search.png" />
+                                    </image>
+                                 </ImageView>
+                                 <JFXButton onAction="#historyPage" prefHeight="14.0" prefWidth="58.0" text="Search" textAlignment="CENTER" underline="true">
+                                    <font>
+                                       <Font name="Tahoma" size="12.0" />
+                                    </font>
+                                 </JFXButton>
+                              </children>
+                           </VBox>
+                           <VBox alignment="CENTER" onMouseClicked="#favoryPage" prefHeight="58.0" prefWidth="58.0">
+                              <children>
+                                 <ImageView fitHeight="29.0" fitWidth="31.0" onMouseClicked="#historyPage" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../../img/favory.png" />
+                                    </image>
+                                 </ImageView>
+                                 <JFXButton onAction="#historyPage" prefHeight="14.0" prefWidth="58.0" text="Favory" textAlignment="CENTER" underline="true">
+                                    <font>
+                                       <Font name="Tahoma" size="12.0" />
+                                    </font>
+                                 </JFXButton>
+                              </children>
+                           </VBox>
+                           <VBox alignment="CENTER" onMouseClicked="#historyPage" prefHeight="58.0" prefWidth="58.0">
+                              <children>
+                                 <ImageView fitHeight="29.0" fitWidth="31.0" onMouseClicked="#historyPage" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../../img/history.png" />
+                                    </image>
+                                 </ImageView>
+                                 <JFXButton onAction="#historyPage" prefHeight="14.0" prefWidth="58.0" text="History" textAlignment="CENTER" underline="true">
+                                    <font>
+                                       <Font name="Tahoma" size="12.0" />
+                                    </font>
+                                 </JFXButton>
+                              </children>
+                           </VBox>
+                           <JFXButton onAction="#profilePage" text="." textFill="WHITE">
+                              <graphic>
+                                 <ImageView fitHeight="65.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../../img/profile.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                              <font>
+                                 <Font />
+                              </font>
+                           </JFXButton>
+                        </children>
+                     </HBox>
                   </children>
-               </HBox>
-            </children>
-         </Pane>
-         <HBox prefHeight="17.0" prefWidth="283.0" style="-fx-background-color: #212121;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-        </children>
-    </GridPane>
+               </Pane>
+               <HBox prefHeight="1.0" prefWidth="924.0" style="-fx-background-color: #212121;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+              </children>
+          </GridPane>
+      </children>
+   </Pane>
 
 </AnchorPane>

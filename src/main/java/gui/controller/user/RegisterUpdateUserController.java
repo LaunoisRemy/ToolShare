@@ -8,21 +8,23 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import gui.LoadView;
+import gui.ViewPath;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Paint;
+import util.MapRessourceBundle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AddUpdateUserController implements Initializable {
+public class RegisterUpdateUserController implements Initializable {
 
-    private SessionFacade facade;
-    private User user;
-    private int action;
+    private SessionFacade facade=SessionFacade.getInstance();;
+    private User user=null;
+    private int action=0;
     @FXML
     private JFXTextField email,firstname,lastname,city,phone;
     @FXML
@@ -33,18 +35,20 @@ public class AddUpdateUserController implements Initializable {
     private JFXButton submit;
     @FXML
     private Hyperlink cancel;
+
     /**
      *
-     * @param user can be null if the user wants to  register
-     * @param action 0 to register or 1 to update
+     * @param location
+     * @param resources got two resources
+     *                 - the User : User
+     *                 - the Action : Int = 0 to register or 1 to update
      */
-    public AddUpdateUserController(User user,int action) {
-        this.user = user;
-        this.facade = SessionFacade.getInstance();
-        this.action = action;
-    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        if(((MapRessourceBundle)resources).size()!=0){
+            this.user=(User)resources.getObject("0");
+            this.action = (Integer) resources.getObject("1");
+        }
         if(action==0){
             registerLabel.setVisible(true);
             submit.setOnAction(this::handleRegister);
@@ -115,7 +119,7 @@ public class AddUpdateUserController implements Initializable {
         try {
             if(checkInputs()){
                 facade.register(email.getText(), firstname.getText(), lastname.getText(), city.getText(), phone.getText(), password.getText(), false);
-                LoadView.changeScreen(actionEvent, "login");
+                LoadView.changeScreen(actionEvent, ViewPath.LOGIN_VIEW);
             }else{
                 error_msg.setVisible(true);
             }
@@ -134,10 +138,10 @@ public class AddUpdateUserController implements Initializable {
     }
 
     public void loginPage(ActionEvent actionEvent){
-        LoadView.changeScreen(actionEvent,"login");
+        LoadView.changeScreen(actionEvent,ViewPath.LOGIN_VIEW);
     }
     public void homePage(ActionEvent actionEvent){
-        LoadView.changeScreen(actionEvent,"offers");
+        LoadView.changeScreen(actionEvent,ViewPath.HOMEPAGE_VIEW);
     }
 
 
