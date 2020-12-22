@@ -40,5 +40,12 @@ public class Category {
         isValidated = validated;
     }
 
-
+    @Override
+    public String toString() {
+        return "Category{" +
+                "categoryId=" + categoryId +
+                ", categoryName='" + categoryName + '\'' +
+                ", isValidated=" + isValidated +
+                '}';
+    }
 }

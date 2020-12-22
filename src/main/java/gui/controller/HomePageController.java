@@ -3,12 +3,14 @@ package gui.controller;
 import business.exceptions.ObjectNotFoundException;
 import business.facade.FavoryFacade;
 import business.facade.OfferFacade;
+import business.system.Category;
 import business.system.Favory;
 import business.system.offer.Offer;
 import business.system.offer.ToolSate;
 import com.jfoenix.controls.JFXButton;
 import gui.LoadView;
 import gui.ViewPath;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,9 +23,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.FloatStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
+import javax.naming.Binding;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -36,7 +40,9 @@ public class HomePageController implements Initializable {
     @FXML
     private TableColumn<Offer,String> title;
     @FXML
-    private TableColumn<Offer,Integer> category,offerButton,favoryButton;
+    private TableColumn<Offer,String> category;
+    @FXML
+    private TableColumn<Offer,Integer> offerButton,favoryButton;
     @FXML
     private TableColumn<Offer,Float> price;
 
@@ -60,8 +66,8 @@ public class HomePageController implements Initializable {
         title.setCellValueFactory(new PropertyValueFactory<>("title") );
         title.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        category.setCellValueFactory(new PropertyValueFactory<>("category_id") );
-        category.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        category.setCellValueFactory(cellData -> Bindings.select(cellData.getValue(),"category","categoryName"));
+        category.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
 
         price.setCellValueFactory(new PropertyValueFactory<>("pricePerDay") );
         price.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
@@ -86,9 +92,7 @@ public class HomePageController implements Initializable {
                     setGraphic(null);
                 }
                 else {
-
                     setGraphic(seeOfferButton);
-
                 }
             }
         });
@@ -107,13 +111,11 @@ public class HomePageController implements Initializable {
                 }
                 else {
                     Offer offer=null;
-                    System.out.println(item);
                     try {
-                       offer= OfferFacade.getInstance().getOffer((int)item);
+                       offer= OfferFacade.getInstance().getOffer(item);
                     } catch (ObjectNotFoundException e) {
                         e.printStackTrace();
                     }
-                    System.out.println(offer);
                     Favory fav = favoryFacade.findFavory(offer);
 
                     if(fav==null){

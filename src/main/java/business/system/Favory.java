@@ -19,4 +19,12 @@ public class Favory {
     public Offer getOffer() {
         return offer;
     }
+
+    @Override
+    public String toString() {
+        return "Favory{" +
+                "user=" + user +
+                ", offer=" + offer +
+                '}';
+    }
 }

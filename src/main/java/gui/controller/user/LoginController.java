@@ -40,7 +40,6 @@ public class LoginController {
         try {
             User user = facade.login(mail.getText(), password.getText());
             LoadView.changeScreen(actionEvent, ViewPath.HOMEPAGE_VIEW);
-            System.out.println("OK");
         } catch (ObjectNotFoundException | WrongPasswordException e1){
             banned_msg.setVisible(false);
             error_msg.setVisible(true);

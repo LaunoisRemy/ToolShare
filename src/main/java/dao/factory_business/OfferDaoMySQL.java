@@ -43,7 +43,7 @@ public class OfferDaoMySQL extends OfferDAO {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM offer o " +
                             "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.ID_COL+
-                            " JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
+                            " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
                             " WHERE "+OFFER_ID_COL+" = ?"
             );
             prep.setInt(1,id);
