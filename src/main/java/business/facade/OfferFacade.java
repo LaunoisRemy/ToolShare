@@ -1,5 +1,6 @@
 package business.facade;
 
+import business.exceptions.BadInsertionInBDDException;
 import business.exceptions.MissingParametersException;
 import business.exceptions.ObjectNotFoundException;
 import business.system.offer.Offer;
@@ -59,19 +60,18 @@ public class OfferFacade {
      * @param title the offer title
      * @param price the offer price per day
      * @param description the offer description
-     * @param state the offer toolState
+     * @param toolSate the offer toolState
      * @param isPriority true if the offer is priority, false otherwise
      * @param category the offer category name
      * @param dateStartPriority null if the offer is not priority, start date of the priority otherwise
      * @param dateEndPriority null if the offer is not priority, end date of the priority otherwise
      * @return the instance of the new offer
      */
-    public Offer createOffer(String title, float price, String description, String state, boolean isPriority, String category, Date dateStartPriority, Date dateEndPriority) throws MissingParametersException {
+    public Offer createOffer(String title, float price, String description, ToolSate toolSate, boolean isPriority, String category, Date dateStartPriority, Date dateEndPriority) throws MissingParametersException, BadInsertionInBDDException {
         OfferDAO offerDAO = OfferDAO.getInstance();
         CategoryDAO categoryDAO = CategoryDAO.getInstance();
 
         int category_id = categoryDAO.getCategoryByName(category).getCategoryId();
-        ToolSate toolSate = ToolSate.valueOf(state);
 
         Offer offer = null;
         if(isPriority && dateStartPriority!=null && dateEndPriority!=null){
