@@ -33,7 +33,7 @@
                      <children>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../img/icons8_gmail_32.png" />
+                              <Image url="@../../img/icons8_gmail_32.png" />
                            </image>
                            <HBox.margin>
                               <Insets right="20.0" />
@@ -53,7 +53,7 @@
                      <children>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../img/password_32.png" />
+                              <Image url="@../../img/password_32.png" />
                            </image>
                            <HBox.margin>
                               <Insets right="20.0" />
@@ -70,7 +70,7 @@
                      <children>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../img/name_tag_32.png" />
+                              <Image url="@../../img/name_tag_32.png" />
                            </image>
                            <HBox.margin>
                               <Insets right="20.0" />
@@ -87,7 +87,7 @@
                      <children>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../img/name_tag_32.png" />
+                              <Image url="@../../img/name_tag_32.png" />
                            </image>
                            <HBox.margin>
                               <Insets right="20.0" />
@@ -104,7 +104,7 @@
                      <children>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../img/region_32.png" />
+                              <Image url="@../../img/region_32.png" />
                            </image>
                            <HBox.margin>
                               <Insets right="20.0" />
@@ -121,7 +121,7 @@
                      <children>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../img/icons8_phone_32.png" />
+                              <Image url="@../../img/icons8_phone_32.png" />
                            </image>
                            <HBox.margin>
                               <Insets right="20.0" />
@@ -163,7 +163,7 @@
       </AnchorPane>
       <ImageView fitHeight="130.0" fitWidth="243.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../img/logo.png" />
+            <Image url="@../../img/logo.png" />
          </image>
       </ImageView>
    </children>
