@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="901.0" prefWidth="1227.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="901.0" prefWidth="1227.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.HomePageController">
    <children>
       <BorderPane prefHeight="901.0" prefWidth="1227.0" style="-fx-background-color: fafafa; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -59,15 +59,13 @@
                         </HBox>
                         <VBox prefHeight="2.0" prefWidth="1229.0" style="-fx-background-color: #212121;" />
                         <TableView fx:id="table" prefHeight="650.0" prefWidth="1229.0">
-                          <columns>
-                            <TableColumn fx:id="title" prefWidth="250.0" text="titleProduct" />
-                              <TableColumn fx:id="category" prefWidth="256.0" text="category" />
-                            <TableColumn fx:id="price" minWidth="0.0" prefWidth="216.0" text="price" />
-                              <TableColumn fx:id="locDate" minWidth="0.0" prefWidth="238.0" text="loc date" />
-                              <TableColumn fx:id="offerButton" prefWidth="140.0" text="seeOffer" />
-                              <TableColumn fx:id="favoryButton" prefWidth="98.0" text="favory" />
-                          </columns>
-                        </TableView>
+                           <columns>
+                              <TableColumn fx:id="title" prefWidth="405.0" text="Title" />
+                              <TableColumn fx:id="category" prefWidth="340.0" text="Category" />
+                              <TableColumn fx:id="price" prefWidth="170.0" text="Price" />
+                              <TableColumn fx:id="offerButton" prefWidth="170.0" text="SeeOffer" />
+                              <TableColumn fx:id="favoryButton" prefWidth="133.0" text="Favory" />
+                           </columns></TableView>
                      </children>
                   </VBox>
                </children>

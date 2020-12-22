@@ -195,4 +195,18 @@ public class Offer {
     public void setCategory_id(int category_id) {
         this.category_id = category_id;
     }
+
+    @Override
+    public String toString() {
+        return "Offer{" +
+                "offer_id=" + offer_id +
+                ", title='" + title + '\'' +
+                ", pricePerDay=" + pricePerDay +
+                ", description='" + description + '\'' +
+                ", toolSate=" + toolSate +
+                ", isPriority=" + isPriority +
+                ", user_id=" + user_id +
+                ", category_id=" + category_id +
+                '}';
+    }
 }
