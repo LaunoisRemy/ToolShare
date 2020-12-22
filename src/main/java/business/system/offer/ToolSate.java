@@ -1,9 +1,9 @@
 package business.system.offer;
 
 public enum ToolSate {
-    Excellent,
-    Good,
-    Ok,
-    Bad,
-    Broken
+    EXCELLENT,
+    GOOD,
+    USED,
+    BAD,
+    DAMAGED
 }
