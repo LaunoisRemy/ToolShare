@@ -110,8 +110,12 @@ public class SessionFacade {
         }
     }
 
-    public void sendMail(String mail) {
-        //throw new NotYetImplementedException();
+    public void sendMail(String mail) throws ObjectNotFoundException {
+        User user = UserDAO.getInstance().getUserByEmail(mail);
+        System.out.println(user);
+        if(user == null){
+            throw new ObjectNotFoundException("User not found");
+        }
     }
     public void updateProfile(String email, String firstName, String lastName, String city, String phoneNumber, String password){
         //Get UserDAO
@@ -126,19 +130,15 @@ public class SessionFacade {
 
         userDAO.update(user);
 
-
-
-
-
     }
 
     public boolean checkCode(String code,String mail) {
-        System.out.println(mail);
-        UserDAO.getInstance().getUserByEmail(mail);
-        return code.equals("1234");
+        User user =  UserDAO.getInstance().getUserByEmail(mail);
+        return code.equals(user.getRecoveryCode());
     }
 
-    public void changePassword(String password) {
-        System.out.println("Youpi");;
+    public void changePassword(String password,String mail) {
+        User user = UserDAO.getInstance().getUserByEmail(mail);
+        System.out.println("Youpi");
     }
 }

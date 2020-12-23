@@ -23,6 +23,7 @@ public class UserDaoMySQL extends UserDAO {
     static final String ISADMIN = "isAdmin";
     static final String ID_COL = "user_id";
     static final String SALT_COL = "salt";
+    static final String RECOVERYCODE_COL = "recoveryCode";
     private final Connection connection;
 
     /**
@@ -163,12 +164,12 @@ public class UserDaoMySQL extends UserDAO {
         User user = null;
         try {
             PreparedStatement prep = connection.prepareStatement(
-                    "SELECT *  FROM user WHERE email =?"
+                    "SELECT *  FROM user WHERE "+ EMAIL_COL +"  = ?"
             );
             prep.setString(1,email);
             ResultSet rs = prep.executeQuery();
             if(rs.next()){
-                if(rs.getString(3).equals(email)){
+                if(rs.getString(EMAIL_COL).equals(email)){
                     user = this.createUserFromRs(rs);
                 }
             }
@@ -200,6 +201,30 @@ public class UserDaoMySQL extends UserDAO {
             throwables.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * Get recovery code of user by his mail
+     *
+     * @param mail of user
+     * @return recovery code
+     */
+    @Override
+    public String getRecoveryCodeByMail(String mail) {
+        String code="";
+        try {
+            PreparedStatement prep = connection.prepareStatement(
+                    "SELECT "+ RECOVERYCODE_COL +" FROM user WHERE " + EMAIL_COL  + " = ? "
+            );
+            prep.setString(1,mail);
+            ResultSet rs = prep.executeQuery();
+            if(rs.next()){
+                code = rs.getString(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return code;
     }
 
     /**

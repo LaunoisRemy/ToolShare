@@ -14,10 +14,17 @@ public abstract class UserDAO implements DAO<User> {
         return INSTANCE;
     }
 
-    public abstract User getUserByEmail(String email);
+    public abstract User getUserByEmail(String mail);
 
-    public abstract boolean userExists(String email);
+    public abstract boolean userExists(String mail);
 
-    public abstract String getSalt(String email);
+    public abstract String getSalt(String mail);
+
+    /**
+     * Get recovery code of user by his mail
+     * @param mail of user
+     * @return recovery code
+     */
+    public abstract String getRecoveryCodeByMail(String mail);
 }
 
