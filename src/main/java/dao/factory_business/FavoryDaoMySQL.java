@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static dao.factory_business.OfferDaoMySQL.*;
 
@@ -89,6 +91,28 @@ public class FavoryDaoMySQL extends FavoryDAO {
         }
     }
 
+    public List<Offer> getAllFavories(User user){
+        List<Offer> list = new ArrayList<>();
+        try{
+            PreparedStatement prep = this.connection.prepareStatement(
+                    "SELECT * FROM favory" +
+                            " JOIN offer o on favory."+OFFER_ID_COL+" = o."+OFFER_ID_COL+
+                            " JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.ID_COL+
+                            " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
+                            " WHERE favory."+UserDaoMySQL.ID_COL+" = ?"
+            );
+            prep.setInt(1,user.getUser_id());
+            ResultSet rs = prep.executeQuery();
+            while(rs.next()){
+                list.add(OfferDaoMySQL.createOfferFromRs(rs));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return list;
+
+    }
+
     /**
      * Creates and returns an offer from a query ResultSet
      * @param rs the ResultSet that contains offer information
@@ -100,4 +124,6 @@ public class FavoryDaoMySQL extends FavoryDAO {
         Offer o = OfferDaoMySQL.createOfferFromRs(rs);
         return new Favory(u,o);
     }
+
+
 }

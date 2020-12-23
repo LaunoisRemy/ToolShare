@@ -60,11 +60,12 @@
                         <VBox prefHeight="2.0" prefWidth="1229.0" style="-fx-background-color: #212121;" />
                         <TableView fx:id="table" prefHeight="650.0" prefWidth="1229.0">
                            <columns>
-                              <TableColumn fx:id="title" prefWidth="405.0" style="-fx-alignement: CENTER;" text="Title" />
-                              <TableColumn fx:id="category" prefWidth="340.0" text="Category" />
-                              <TableColumn fx:id="price" prefWidth="170.0" text="Price" />
-                              <TableColumn fx:id="offerButton" prefWidth="170.0" text="SeeOffer" />
-                              <TableColumn fx:id="favoryButton" prefWidth="133.0" text="Favory" />
+                              <TableColumn fx:id="title" prefWidth="405.0" style="-fx-alignment: CENTER;" text="Title" />
+                              <TableColumn fx:id="category" prefWidth="239.0" style="-fx-alignment: CENTER;" text="Category" />
+                              <TableColumn fx:id="price" prefWidth="154.0" style="-fx-alignment: CENTER;" text="Price" />
+                              <TableColumn fx:id="city" minWidth="0.0" prefWidth="196.0" style="-fx-alignment: CENTER;" text="City" />
+                              <TableColumn fx:id="offerButton" prefWidth="128.0" style="-fx-alignment: CENTER;" text="SeeOffer" />
+                              <TableColumn fx:id="favoryButton" prefWidth="98.0" style="-fx-alignment: CENTER;" text="Favory" />
                            </columns></TableView>
                      </children>
                   </VBox>

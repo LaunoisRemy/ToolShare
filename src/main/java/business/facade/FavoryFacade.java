@@ -5,6 +5,8 @@ import business.system.offer.Offer;
 import business.system.user.User;
 import dao.structure.FavoryDAO;
 
+import java.util.List;
+
 public class FavoryFacade {
     private User user = SessionFacade.getInstance().getUser();
     private static final FavoryFacade INSTANCE = new FavoryFacade();
@@ -35,5 +37,9 @@ public class FavoryFacade {
     public Favory findFavory(Offer offer){
         FavoryDAO favoryDAO = FavoryDAO.getInstance();
         return favoryDAO.find(user.getUser_id(),offer.getOffer_id());
+    }
+    public List<Offer> getAllFavories(){
+        FavoryDAO favoryDAO = FavoryDAO.getInstance();
+        return favoryDAO.getAllFavories(user);
     }
 }

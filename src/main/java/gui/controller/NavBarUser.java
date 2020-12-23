@@ -5,8 +5,9 @@ import business.system.user.User;
 import gui.LoadView;
 import gui.ViewPath;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.scene.input.MouseEvent;
 
-import java.util.ArrayList;
 
 public class NavBarUser {
     User user = SessionFacade.getInstance().getUser();
@@ -14,14 +15,14 @@ public class NavBarUser {
     public void profilePage(ActionEvent actionEvent){
         LoadView.changeScreen(actionEvent, ViewPath.REGISTERUPDATEUSER_VIEW,user,1);
     }
-    public void historyPage(ActionEvent actionEvent){
-        LoadView.changeScreen(actionEvent, ViewPath.LOGIN_VIEW);
+    public void historyPage(Event event){
+        LoadView.changeScreen(event, ViewPath.LOGIN_VIEW);
     }
-    public void favoryPage(ActionEvent actionEvent){
-        LoadView.changeScreen(actionEvent,ViewPath.LOGIN_VIEW);
+    public void favoryPage(Event event){
+        LoadView.changeScreen(event,ViewPath.FAVORY_VIEW);
     }
-    public void homePage(ActionEvent actionEvent){
-        LoadView.changeScreen(actionEvent,ViewPath.HOMEPAGE_VIEW);
+    public void homePage(Event event){
+        LoadView.changeScreen(event,ViewPath.HOMEPAGE_VIEW);
     }
     public void postOfferPage(ActionEvent actionEvent){
         LoadView.changeScreen(actionEvent,ViewPath.POSTOFFER_VIEW);

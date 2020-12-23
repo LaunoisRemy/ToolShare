@@ -1,7 +1,11 @@
 package dao.structure;
 
 import business.system.Favory;
+import business.system.offer.Offer;
+import business.system.user.User;
 import dao.factory_business.AbstractFactoryDAO;
+
+import java.util.List;
 
 public abstract class FavoryDAO{
     private static final FavoryDAO INSTANCE = AbstractFactoryDAO.getInstance().getFavoryDAO();
@@ -38,5 +42,6 @@ public abstract class FavoryDAO{
      */
     public abstract boolean delete(Favory obj);
 
+    public abstract List<Offer> getAllFavories(User user);
 }
 

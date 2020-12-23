@@ -11,8 +11,8 @@ public class ConstantsRegex {
     public static final Pattern CODE_REGEX = Pattern.compile("^[0-9]{4}$");
 
 
-    public static boolean match(Pattern p, String mail){
-        return p.matcher(mail).find();
+    public static boolean match(Pattern p, String text){
+        return p.matcher(text).find();
     }
     public static boolean matchEmail(String mail){
         return match(EMAIL_REGEX,mail);

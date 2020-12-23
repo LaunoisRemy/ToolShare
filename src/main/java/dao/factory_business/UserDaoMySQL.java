@@ -20,7 +20,6 @@ public class UserDaoMySQL extends UserDAO {
     static final String ISADMIN = "isAdmin";
     static final String ID_COL = "user_id";
     static final String SALT_COL = "salt";
-    static final String RECOVERYCODE_COL = "recoveryCode";
     private final Connection connection;
 
     /**
@@ -246,7 +245,8 @@ public class UserDaoMySQL extends UserDAO {
      * @throws SQLException
      */
     public static User createUserFromRs(ResultSet rs) throws SQLException {
-        return new User(rs.getInt(ID_COL),
+        return new User(
+                rs.getInt(ID_COL),
                 rs.getString(FIRST_NAME_COL),
                 rs.getString(LAST_NAME_COL),
                 rs.getString(EMAIL_COL),
@@ -255,9 +255,7 @@ public class UserDaoMySQL extends UserDAO {
                 rs.getString(PHONENUMBER_COL),
                 rs.getBoolean(ISADMIN),
                 rs.getBoolean(ISBANNED),
-                rs.getString(SALT_COL),
-                rs.getString(RECOVERYCODE_COL)
-        );
+                rs.getString(SALT_COL));
      }
 
     @Override
