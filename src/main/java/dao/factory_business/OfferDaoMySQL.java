@@ -40,12 +40,11 @@ public class OfferDaoMySQL extends OfferDAO {
     public Offer find(int id,int... others) {
         Offer offer = null;
         try {
-            PreparedStatement prep = this.connection.prepareStatement(
-                    "SELECT *  FROM offer o " +
-                            "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.ID_COL+
-                            " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
-                            " WHERE "+OFFER_ID_COL+" = ?"
-            );
+            String sql = "SELECT *  FROM offer o " +
+                    "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.ID_COL+
+                    " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
+                    " WHERE "+OFFER_ID_COL+" = ?";
+            PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setInt(1,id);
             ResultSet rs = prep.executeQuery();
 
@@ -68,18 +67,18 @@ public class OfferDaoMySQL extends OfferDAO {
     @Override
     public Offer create(Offer obj) {
         try {
-            PreparedStatement prep = connection.prepareStatement(
-                    "INSERT INTO offer ("+TITLE_COL+","+
-                            PRICE_PER_DAY_COL+","+
-                            DESCRPTION_COL+","+
-                            ISPRIORITY+","+
-                            DATE_START_PRIORITY_COL+","+
-                            DATE_END_PRIORITY_COL+","+
-                            TOOL_STATE_COL+","+
-                            USER_ID_COL+","+
-                            CATEGORY_ID_COL+") " +
-                            "VALUES (?,?,?,?,?,?,?,?,?)"
-            );
+            String sql = "INSERT INTO offer ("
+                    +TITLE_COL+","+
+                    PRICE_PER_DAY_COL+","+
+                    DESCRPTION_COL+","+
+                    ISPRIORITY+","+
+                    DATE_START_PRIORITY_COL+","+
+                    DATE_END_PRIORITY_COL+","+
+                    TOOL_STATE_COL+","+
+                    USER_ID_COL+","+
+                    CATEGORY_ID_COL+") " +
+                    "VALUES (?,?,?,?,?,?,?,?,?)";
+            PreparedStatement prep = connection.prepareStatement(sql);
 
             prep.setString(1,obj.getTitle());
             prep.setFloat(2,obj.getPricePerDay());
@@ -122,11 +121,18 @@ public class OfferDaoMySQL extends OfferDAO {
     @Override
     public Offer update(Offer obj) {
         try {
-            PreparedStatement prep = connection.prepareStatement(
-                    "UPDATE offer " +
-                            "SET "+TITLE_COL+" = ?, "+PRICE_PER_DAY_COL+" = ?, "+DESCRPTION_COL+" = ?, "+ISPRIORITY+" = ?, "+DATE_START_PRIORITY_COL+" = ?, "+DATE_END_PRIORITY_COL+" = ?, "+TOOL_STATE_COL+" = ?, "+USER_ID_COL+" = ?, "+CATEGORY_ID_COL+" = ? " +
-                            "WHERE "+OFFER_ID_COL+" = ?"
-            );
+            String sql = "UPDATE offer " +
+                    "SET "+TITLE_COL+" = ?, "+
+                    PRICE_PER_DAY_COL+" = ?, "+
+                    DESCRPTION_COL+" = ?, "+
+                    ISPRIORITY+" = ?, "+
+                    DATE_START_PRIORITY_COL+" = ?, "+
+                    DATE_END_PRIORITY_COL+" = ?, "+
+                    TOOL_STATE_COL+" = ?, "+
+                    USER_ID_COL+" = ?, "+
+                    CATEGORY_ID_COL+" = ? " +
+                    "WHERE "+OFFER_ID_COL+" = ?";
+            PreparedStatement prep = connection.prepareStatement(sql);
 
             prep.setString(1,obj.getTitle());
             prep.setFloat(2,obj.getPricePerDay());
@@ -170,9 +176,9 @@ public class OfferDaoMySQL extends OfferDAO {
     @Override
     public boolean delete(Offer obj) {
         try {
-            PreparedStatement prep = this.connection.prepareStatement(
-                    "DELETE FROM offer WHERE "+OFFER_ID_COL+" = ?"
-            );
+            String sql ="DELETE FROM offer WHERE "+OFFER_ID_COL+" = ?";
+
+            PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setInt(1,obj.getOffer_id());
             ResultSet rs = prep.executeQuery();
 
@@ -221,12 +227,12 @@ public class OfferDaoMySQL extends OfferDAO {
     public ArrayList getOffersByCity(String city) {
         ArrayList res = new ArrayList<Offer>();
         try {
-            PreparedStatement prep = this.connection.prepareStatement(
+            String sql =
                     "SELECT *  FROM offer o " +
                             "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.ID_COL+
                             " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
-                            " WHERE "+UserDaoMySQL.USERCITY_COL+" = ?"
-            );
+                            " WHERE "+UserDaoMySQL.USERCITY_COL+" = ?";
+            PreparedStatement prep = this.connection.prepareStatement(sql);
 
             prep.setString(1,city);
             ResultSet rs = prep.executeQuery();
