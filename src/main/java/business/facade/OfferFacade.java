@@ -12,6 +12,7 @@ import dao.structure.CategoryDAO;
 import dao.structure.OfferDAO;
 
 import java.util.Date;
+import java.util.List;
 
 public class OfferFacade {
     private User user = SessionFacade.getInstance().getUser();
@@ -135,5 +136,9 @@ public class OfferFacade {
 
         offer = offerDAO.update(offer);
         return offer;
+    }
+    public List<Offer> getAllOffers(){
+        OfferDAO offerDAO = OfferDAO.getInstance();
+        return offerDAO.getAllOffers();
     }
 }

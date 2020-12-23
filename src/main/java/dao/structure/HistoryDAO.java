@@ -1,7 +1,11 @@
 package dao.structure;
 
 import business.system.History;
+import business.system.offer.Offer;
+import business.system.user.User;
 import dao.factory_business.AbstractFactoryDAO;
+
+import java.util.List;
 
 public abstract class HistoryDAO implements DAO<History> {
     private static final HistoryDAO INSTANCE = AbstractFactoryDAO.getInstance().getHistoryDAO();
@@ -13,6 +17,8 @@ public abstract class HistoryDAO implements DAO<History> {
     public static HistoryDAO getInstance(){
         return INSTANCE;
     }
+
+    public abstract List<Offer> getHistory(User user);
 
 
 }

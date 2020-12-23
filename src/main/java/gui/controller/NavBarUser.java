@@ -19,7 +19,7 @@ public class NavBarUser {
         LoadView.changeScreen(event, ViewPath.LOGIN_VIEW);
     }
     public void favoryPage(Event event){
-        LoadView.changeScreen(event,ViewPath.FAVORY_VIEW);
+        LoadView.changeScreen(event,ViewPath.HOMEPAGE_VIEW,1);
     }
     public void homePage(Event event){
         LoadView.changeScreen(event,ViewPath.HOMEPAGE_VIEW);
