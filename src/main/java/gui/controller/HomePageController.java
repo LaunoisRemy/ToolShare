@@ -38,9 +38,7 @@ public class HomePageController implements Initializable {
     @FXML
     private TableView<Offer> table;
     @FXML
-    private TableColumn<Offer,String> title;
-    @FXML
-    private TableColumn<Offer,String> category;
+    private TableColumn<Offer,String> title,category,city;
     @FXML
     private TableColumn<Offer,Integer> offerButton,favoryButton;
     @FXML
@@ -68,6 +66,9 @@ public class HomePageController implements Initializable {
 
         category.setCellValueFactory(cellData -> Bindings.select(cellData.getValue(),"category","categoryName"));
         category.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+
+        city.setCellValueFactory(cellData -> Bindings.select(cellData.getValue(),"user","role","userCity"));
+        city.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
 
         price.setCellValueFactory(new PropertyValueFactory<>("pricePerDay") );
         price.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
