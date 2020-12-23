@@ -9,7 +9,7 @@ public class ConstantsRegex {
     private static final Pattern NAME_REGEX = Pattern.compile("^(([A-Za-z]+[,.]?[ ]?|[a-z]+['-]?)+)$");
     private static final Pattern PHONE_REGEX = Pattern.compile("^(?:(?:\\+|00)33|0)\\s*[1-9](?:[\\s.-]*\\d{2}){4}$");
     private static final Pattern CODE_REGEX = Pattern.compile("^[a-zA-Z0-9]{6}$");
-
+    private static final Pattern FLOAT_REGEX = Pattern.compile("^([+-]?\\d*\\.?\\d*)$");
 
     public static boolean match(Pattern p, String text){
         return p.matcher(text).find();
@@ -27,4 +27,5 @@ public class ConstantsRegex {
     public static boolean matchCodeRegex(String code){
         return match(CODE_REGEX,code);
     }
+    public static boolean matchFloatRegex(String number) { return match(FLOAT_REGEX,number); }
 }

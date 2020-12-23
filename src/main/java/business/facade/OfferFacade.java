@@ -10,7 +10,6 @@ import business.system.offer.ToolSate;
 import business.system.user.User;
 import dao.structure.CategoryDAO;
 import dao.structure.OfferDAO;
-import dao.structure.UserDAO;
 
 import java.util.ArrayList;
 import java.util.Date;

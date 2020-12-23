@@ -86,8 +86,8 @@ public class OfferDaoMySQL extends OfferDAO {
 
             if(obj.getIsPriority()){
                 PriorityOffer o = (PriorityOffer) obj;
-                prep.setDate(5, (Date) o.getDateStartPriority());
-                prep.setDate(6, (Date) o.getDateEndPriority());
+                prep.setDate(5, new Date(o.getDateStartPriority().getTime()) );
+                prep.setDate(6, new Date(o.getDateEndPriority().getTime()) );
             } else {
                 prep.setDate(5,null);
                 prep.setDate(6,null);
