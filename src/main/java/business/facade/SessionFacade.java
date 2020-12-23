@@ -6,6 +6,7 @@ import business.system.user.OrdinaryUser;
 import business.system.user.User;
 import dao.factory_business.AbstractFactoryDAO;
 import dao.structure.UserDAO;
+import util.Mail;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
@@ -149,8 +150,11 @@ public class SessionFacade {
             throw new ObjectNotFoundException("User not found");
         }else{
             user.setRecoveryCode(generateCode(6));
-            System.out.println(user.getRecoveryCode());
             UserDAO.getInstance().update(user);
+            Mail.sendMail("New password",
+                    "Here your code to change password :  " + user.getRecoveryCode(),
+                    user.getEmail()
+            );
         }
     }
     public boolean checkCode(String code,String mail) {

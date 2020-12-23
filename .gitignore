@@ -1,4 +1,5 @@
 /.gradle/
 /build/
 /build/classes/java/main/
-/src/main/resources/db/database.properties
+/src/main/resources/properties/database.properties
+/src/main/resources/properties/mail.properties

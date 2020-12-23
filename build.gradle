@@ -20,6 +20,7 @@ dependencies {
     implementation "mysql:mysql-connector-java:8.0.22"
     compile 'com.jfoenix:jfoenix:9.0.10'
     compile 'org.controlsfx:controlsfx:8.40.14'
+    compile group: 'javax.mail', name: 'mail', version: '1.4'
 }
 
 javafx {

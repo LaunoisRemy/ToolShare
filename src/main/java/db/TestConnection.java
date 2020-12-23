@@ -17,7 +17,7 @@ public class TestConnection {
     public static void main(String[] args) {
         try{
         Class.forName("com.mysql.cj.jdbc.Driver");
-            Properties p = PropertiesResources.getDatabaseProperties("db/database.properties");
+            Properties p = PropertiesResources.getDatabaseProperties("properties/database.properties");
             Connection connection = DriverManager.getConnection(p.getProperty("URL"),p.getProperty("USER"),p.getProperty("PASSWORD"));
 
         Statement statement = connection.createStatement();

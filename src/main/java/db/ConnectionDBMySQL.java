@@ -29,7 +29,7 @@ public class ConnectionDBMySQL implements ConnectionDB{
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Properties p = PropertiesResources.getDatabaseProperties("db/database.properties");
+            Properties p = PropertiesResources.getDatabaseProperties("properties/database.properties");
             this.connection = DriverManager.getConnection(p.getProperty("URL"),p.getProperty("USER"),p.getProperty("PASSWORD"));
 
         }
