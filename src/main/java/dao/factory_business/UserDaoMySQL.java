@@ -4,10 +4,7 @@ import business.system.user.OrdinaryUser;
 import business.system.user.User;
 import dao.structure.UserDAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Dao concrete of user using MySQL database
@@ -23,6 +20,7 @@ public class UserDaoMySQL extends UserDAO {
     static final String ISADMIN = "isAdmin";
     static final String ID_COL = "user_id";
     static final String SALT_COL = "salt";
+    static final String RECOVERYCODE_COL = "recoveryCode";
     private final Connection connection;
 
     /**
@@ -43,15 +41,14 @@ public class UserDaoMySQL extends UserDAO {
     public User find(int id) {
         User user = null;
         try {
-            PreparedStatement prep = this.connection.prepareStatement(
-                    "SELECT *  FROM user WHERE user_id =?"
-            );
+            String sql = "SELECT *  FROM user WHERE "+ID_COL+" =?";
+            PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setInt(1,id);
             ResultSet rs = prep.executeQuery();
 
             if(rs.next()){
                 if(rs.getInt(1) == (id)){
-                    user = this.createUserFromRs(rs);
+                    user = createUserFromRs(rs);
                 }
             }
         } catch (SQLException throwables) {
@@ -68,10 +65,17 @@ public class UserDaoMySQL extends UserDAO {
     @Override
     public User create(User obj) {
         try {
-            PreparedStatement prep = connection.prepareStatement(
-                    "INSERT INTO user (lastname,firstname,email,password,userCity,phoneNumber,isAdmin,isBanned, salt) " +
-                            "VALUES (?,?,?,?,?,?,?,?,?)"
-            );
+            String sql = "INSERT INTO user ("+LAST_NAME_COL +","+
+                    FIRST_NAME_COL+","+
+                    EMAIL_COL+","+
+                    PASSWORD_COL+","+
+                    USERCITY_COL+","+
+                    PHONENUMBER_COL+","+
+                    ISADMIN+","+
+                    ISBANNED+","
+                    + SALT_COL +") "+
+                    "VALUES (?,?,?,?,?,?,?,?,?)";
+            PreparedStatement prep = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             prep.setString(1,obj.getLastName());
             prep.setString(2,obj.getFirstName());
             prep.setString(3,obj.getEmail());
@@ -113,11 +117,17 @@ public class UserDaoMySQL extends UserDAO {
     @Override
     public User update(User obj) {
         try {
-            PreparedStatement prep = connection.prepareStatement(
-                    "UPDATE user " +
-                        "SET email=?,firstname=?,lastname=?,password=?,userCity=?,phoneNumber=?,isAdmin=?,isBanned=?" +
-                        "WHERE user_id=?"
-            );
+            String sql ="UPDATE user " +
+                    "SET "+EMAIL_COL + " = ?, " +
+                    FIRST_NAME_COL + " = ?, " +
+                    LAST_NAME_COL + " = ?, " +
+                    PASSWORD_COL + " = ?, " +
+                    USERCITY_COL + " = ?, " +
+                    PHONENUMBER_COL + " = ?, " +
+                    ISADMIN + " = ?, " +
+                    ISBANNED + " = ? " +
+                    "WHERE "+ ID_COL + " = ?";
+            PreparedStatement prep = connection.prepareStatement(sql);
             prep.setString(1,obj.getEmail());
             prep.setString(2,obj.getFirstName());
             prep.setString(3,obj.getLastName());
@@ -163,13 +173,13 @@ public class UserDaoMySQL extends UserDAO {
         User user = null;
         try {
             PreparedStatement prep = connection.prepareStatement(
-                    "SELECT *  FROM user WHERE email =?"
+                    "SELECT *  FROM user WHERE "+ EMAIL_COL +"  = ?"
             );
             prep.setString(1,email);
             ResultSet rs = prep.executeQuery();
             if(rs.next()){
-                if(rs.getString(3).equals(email)){
-                    user = this.createUserFromRs(rs);
+                if(rs.getString(EMAIL_COL).equals(email)){
+                    user = createUserFromRs(rs);
                 }
             }
         } catch (SQLException throwables) {
@@ -203,13 +213,48 @@ public class UserDaoMySQL extends UserDAO {
     }
 
     /**
+     * Get recovery code of user by his mail
+     *
+     * @param mail of user
+     * @return recovery code
+     */
+    @Override
+    public String getRecoveryCodeByMail(String mail) {
+        String code="";
+        try {
+            PreparedStatement prep = connection.prepareStatement(
+                    "SELECT "+ RECOVERYCODE_COL +" FROM user WHERE " + EMAIL_COL  + " = ? "
+            );
+            prep.setString(1,mail);
+            ResultSet rs = prep.executeQuery();
+            if(rs.next()){
+                code = rs.getString(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return code;
+    }
+
+    /**
      * Creates and returns an user from a query ResultSet
      * @param rs the ResultSet that contains user information
      * @return new User with rs information
      * @throws SQLException
      */
     public static User createUserFromRs(ResultSet rs) throws SQLException {
-        return new User(rs.getInt(ID_COL),rs.getString(FIRST_NAME_COL),rs.getString(LAST_NAME_COL),rs.getString(EMAIL_COL),rs.getString(PASSWORD_COL),rs.getString(USERCITY_COL),rs.getString(PHONENUMBER_COL),rs.getBoolean(ISADMIN),rs.getBoolean(ISBANNED),rs.getString(SALT_COL));
+        return new User(rs.getInt(ID_COL),
+                rs.getString(FIRST_NAME_COL),
+                rs.getString(LAST_NAME_COL),
+                rs.getString(EMAIL_COL),
+                rs.getString(PASSWORD_COL),
+                rs.getString(USERCITY_COL),
+                rs.getString(PHONENUMBER_COL),
+                rs.getBoolean(ISADMIN),
+                rs.getBoolean(ISBANNED),
+                rs.getString(SALT_COL),
+                rs.getString(RECOVERYCODE_COL)
+        );
      }
 
     @Override

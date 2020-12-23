@@ -15,7 +15,7 @@ public abstract class AbstractFactoryDAO {
      */
     public static final Connection connection = ConnectionDBMySQL.getInstance().getDb();
     private static AbstractFactoryDAO INSTANCE = null;
-
+    protected  AbstractFactoryDAO(){}
 
     /**
      * getInstance will return the same correctly initialized INSTANCE

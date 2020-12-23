@@ -1,8 +1,8 @@
 package gui.controller.user;
 
-import business.AlertBox;
+import business.exceptions.ObjectNotFoundException;
+import util.AlertBox;
 import business.facade.SessionFacade;
-import business.system.user.User;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import gui.LoadView;
@@ -32,7 +32,9 @@ public class ForgotPasswordController implements Initializable {
     @FXML
     private JFXTextField mail;
     @FXML
-    private Label mailError;
+    private Label mailErrorFormat;
+    @FXML
+    private Label badMail;
 
     private String stringMail;
     @FXML
@@ -60,8 +62,10 @@ public class ForgotPasswordController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if(((MapRessourceBundle)resources).size()!=0){
-            if(ConstantsRegex.match(Pattern.compile("forgot_password_check_code"),location.getFile())){ //Optimiser
+            if(ConstantsRegex.match(Pattern.compile(ViewPath.FORGOTPASSWORDCHECKCODE_VIEW.getUrl()),location.getFile()) ||
+               ConstantsRegex.match(Pattern.compile(ViewPath.CHANGEPASSWORD_VIEW.getUrl()),location.getFile())){ //Optimiser
                 this.stringMail=(String)resources.getObject("0");
+                System.out.println(stringMail);
             }
         }
     }
@@ -71,21 +75,27 @@ public class ForgotPasswordController implements Initializable {
      * @param actionEvent
      */
     public void sendMail(ActionEvent actionEvent){
-        try {
-            stringMail = mail.getText();
+        stringMail = mail.getText();
 
-            if(!ConstantsRegex.matchEmail(stringMail)){
-                mail.setUnFocusColor(Paint.valueOf("red"));
-                mailError.setVisible(true);
-            }else{
+        if(!ConstantsRegex.matchEmail(stringMail)){
+            mail.setUnFocusColor(Paint.valueOf("red"));
+            mailErrorFormat.setVisible(true);
+            badMail.setVisible(false);
+        }else{
+            try {
                 facade.sendMail(stringMail);
                 LoadView.changeScreen(actionEvent, ViewPath.FORGOTPASSWORDCHECKCODE_VIEW,stringMail);
+            } catch (ObjectNotFoundException e) {
+                mail.setUnFocusColor(Paint.valueOf("red"));
+                mailErrorFormat.setVisible(false);
+                badMail.setVisible(true);
             }
-        } catch (Exception e) {
-            AlertBox.showAlert("Not yet Implemented","Not yet implemented");
+
         }
     }
-    /***
+
+
+    /**
      * Method which handle button validate
      * @param actionEvent
      */
@@ -99,7 +109,7 @@ public class ForgotPasswordController implements Initializable {
             }else{
                 boolean check = facade.checkCode(code.getText(),stringMail);
                 if(check){
-                    LoadView.changeScreen(actionEvent, ViewPath.CHANGEPASSWORD_VIEW);
+                    LoadView.changeScreen(actionEvent, ViewPath.CHANGEPASSWORD_VIEW, stringMail);
                 }else{
                     errorFormat.setVisible(false);
                     errorCode.setVisible(true);
@@ -120,7 +130,7 @@ public class ForgotPasswordController implements Initializable {
             String stringConfirmPassword = confirmPassword.getText();
 
             if(stringPassword.equals(stringConfirmPassword)){
-                facade.changePassword(stringConfirmPassword);
+                facade.changePassword(stringConfirmPassword,stringMail);
                 AlertBox.showAlert("Success","Password has been changed");
                 LoadView.changeScreen(actionEvent, ViewPath.LOGIN_VIEW);
             }else{
