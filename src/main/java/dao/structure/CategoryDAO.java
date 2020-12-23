@@ -3,6 +3,8 @@ package dao.structure;
 import business.system.Category;
 import dao.factory_business.AbstractFactoryDAO;
 
+import java.util.ArrayList;
+
 public abstract class CategoryDAO implements DAO<Category> {
     private static final CategoryDAO INSTANCE = AbstractFactoryDAO.getInstance().getCategoryDAO();
 
@@ -20,6 +22,12 @@ public abstract class CategoryDAO implements DAO<Category> {
      * @return an instance of category that corresponds to the name given
      */
     public abstract Category getCategoryByName(String name);
+
+    /**
+     * Find all the categories
+     * @return a list of all the categories
+     */
+    public abstract ArrayList getAllCategories();
 
 
 }

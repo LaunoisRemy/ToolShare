@@ -105,13 +105,17 @@ public class SessionFacade {
 
         //true if the user is well inserted in the bdd, false otherwise
         registeredUser = userDAO.create(registeredUser);
-        if(registeredUser != null) {
+        if(registeredUser == null) {
             throw new BadInsertionInBDDException("The user is not registered in the app");
         }
     }
 
-    public void sendMail(String mail) {
-        //throw new NotYetImplementedException();
+    public void sendMail(String mail) throws ObjectNotFoundException {
+        User user = UserDAO.getInstance().getUserByEmail(mail);
+        System.out.println(user);
+        if(user == null){
+            throw new ObjectNotFoundException("User not found");
+        }
     }
     public void updateProfile(String email, String firstName, String lastName, String city, String phoneNumber, String password){
         //Get UserDAO
@@ -126,19 +130,26 @@ public class SessionFacade {
 
         userDAO.update(user);
 
-
-
-
-
     }
 
     public boolean checkCode(String code,String mail) {
-        System.out.println(mail);
-        UserDAO.getInstance().getUserByEmail(mail);
-        return code.equals("1234");
+        User user =  UserDAO.getInstance().getUserByEmail(mail);
+        return code.equals(user.getRecoveryCode());
     }
 
-    public void changePassword(String password) {
-        System.out.println("Youpi");;
+    public void changePassword(String password,String mail) throws BadInsertionInBDDException {
+        User user = UserDAO.getInstance().getUserByEmail(mail);
+
+        String salt = userManagement.getRandomSalt();
+        String hashedPassword = userManagement.getHashedPassword(password, salt);
+        user.setSalt(salt);
+        user.setPassword(hashedPassword);
+        //User registeredUser = new User(firstName, lastName, email, hashedPassword, city, phoneNumber, salt, isAdmin);
+        user = UserDAO.getInstance().update(user);
+        if(user == null) {
+            throw new BadInsertionInBDDException("The user is not registered in the app");
+        }
     }
+
+
 }

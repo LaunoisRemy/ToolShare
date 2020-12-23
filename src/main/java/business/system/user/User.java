@@ -44,6 +44,8 @@ public class User {
      */
     private Role role;
 
+    private String recoveryCode;
+
     /**
      * Default constructor
      */
@@ -74,6 +76,22 @@ public class User {
         }
         this.setBanned(isBanned);
         this.setSalt(salt);
+    }
+
+    public User(int user_id, String firstName, String lastName, String email, String password, String userCity, String phoneNumber, boolean isAdmin, boolean isBanned, String salt, String recoveryCode) {
+        this.user_id = user_id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.isBanned = isBanned;
+        this.salt = salt;
+        if(isAdmin){
+            this.role = new Admin();
+        }else{
+            this.role= new OrdinaryUser(userCity,phoneNumber);
+        }
+        this.recoveryCode = recoveryCode;
     }
 
     /**
@@ -186,6 +204,14 @@ public class User {
      */
     public Role getRole() {
         return role;
+    }
+
+    public String getRecoveryCode() {
+        return recoveryCode;
+    }
+
+    public void setRecoveryCode(String recoveryCode) {
+        this.recoveryCode = recoveryCode;
     }
 
     @Override
