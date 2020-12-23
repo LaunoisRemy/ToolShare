@@ -95,35 +95,9 @@ public class FavoryDaoMySQL extends FavoryDAO {
      * @return new Offer or new PriorityOffer if isPriority=True
      * @throws SQLException
      */
-    private Favory createFavoryFromRs(ResultSet rs) throws SQLException {
-        User u = new User(
-                rs.getInt(UserDaoMySQL.ID_COL),
-                rs.getString(UserDaoMySQL.FIRST_NAME_COL),
-                rs.getString(UserDaoMySQL.LAST_NAME_COL),
-                rs.getString(UserDaoMySQL.EMAIL_COL),
-                rs.getString(UserDaoMySQL.PASSWORD_COL),
-                rs.getString(UserDaoMySQL.USERCITY_COL),
-                rs.getString(UserDaoMySQL.PHONENUMBER_COL),
-                rs.getBoolean(UserDaoMySQL.ISADMIN),
-                rs.getBoolean(UserDaoMySQL.ISBANNED),
-                rs.getString(UserDaoMySQL.SALT_COL)
-        );
-        Offer o = createOfferFromRs(rs);
-
+    public static Favory createFavoryFromRs(ResultSet rs) throws SQLException {
+        User u = UserDaoMySQL.createUserFromRs(rs);
+        Offer o = OfferDaoMySQL.createOfferFromRs(rs);
         return new Favory(u,o);
     }
-
-    private Offer createOfferFromRs(ResultSet rs) throws SQLException {
-        String ts = rs.getString(TOOL_STATE_COL);
-        ToolSate toolState = ToolSate.valueOf(ts);
-        User user = new User(rs.getInt(USER_ID_COL),rs.getString(UserDaoMySQL.FIRST_NAME_COL),rs.getString(UserDaoMySQL.LAST_NAME_COL),rs.getString(UserDaoMySQL.EMAIL_COL),rs.getString(UserDaoMySQL.PASSWORD_COL),rs.getString(UserDaoMySQL.USERCITY_COL),rs.getString(UserDaoMySQL.PHONENUMBER_COL),rs.getBoolean(UserDaoMySQL.ISADMIN),rs.getBoolean(UserDaoMySQL.ISBANNED),rs.getString(UserDaoMySQL.SALT_COL));
-        Category category = new Category(rs.getInt(CategoryDaoMySQL.CATEGORY_ID_COL),rs.getString(CategoryDaoMySQL.CATEGORY_NAME_COL),rs.getBoolean(CategoryDaoMySQL.ISVALIDATED));
-        if (rs.getBoolean(ISPRIORITY)){
-            return new PriorityOffer(rs.getInt(OFFER_ID_COL),rs.getString(TITLE_COL),rs.getFloat(PRICE_PER_DAY_COL),rs.getString(DESCRPTION_COL),toolState,rs.getBoolean(ISPRIORITY),user,category,rs.getDate(DATE_START_PRIORITY_COL),rs.getDate(DATE_END_PRIORITY_COL));
-        } else {
-            return new Offer(rs.getInt(OFFER_ID_COL),rs.getString(TITLE_COL),rs.getFloat(PRICE_PER_DAY_COL),rs.getString(DESCRPTION_COL),toolState,rs.getBoolean(ISPRIORITY),user,category);
-        }
-
-    }
-
 }
