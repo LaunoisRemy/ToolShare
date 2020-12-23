@@ -132,7 +132,7 @@ public class OfferDaoMySQL extends OfferDAO {
                     USER_ID_COL+" = ?, "+
                     CATEGORY_ID_COL+" = ? " +
                     "WHERE "+OFFER_ID_COL+" = ?";
-            PreparedStatement prep = connection.prepareStatement(sql);
+            PreparedStatement prep = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 
             prep.setString(1,obj.getTitle());
             prep.setFloat(2,obj.getPricePerDay());
