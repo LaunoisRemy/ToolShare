@@ -3,7 +3,6 @@ package business.facade;
 import business.exceptions.ObjectNotFoundException;
 import business.system.Category;
 import dao.structure.CategoryDAO;
-
 import java.util.List;
 
 public class CategoryFacade {
@@ -11,11 +10,15 @@ public class CategoryFacade {
     private static final CategoryFacade INSTANCE = new CategoryFacade();
     private CategoryDAO categoryDAO = CategoryDAO.getInstance();
 
-    public CategoryFacade(){ }
-
-    public static CategoryFacade getInstance() {
+    /**
+     * getInstance will return the same correctly initialized INSTANCE
+     * @return instance of the class
+     */
+    public static CategoryFacade getInstance(){
         return INSTANCE;
     }
+
+    public CategoryFacade(){ }
 
     /**
      * getCategory will find a category with the specified id
@@ -47,7 +50,7 @@ public class CategoryFacade {
      * getAllCategories will return the list of all the categories present in the db
      * @return the list of all the categories
      */
-    public List getAllCategories() {
+    public List<Category> getAllCategories() {
         return this.categoryDAO.getAllCategories();
     }
 

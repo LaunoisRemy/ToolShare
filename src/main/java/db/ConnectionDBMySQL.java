@@ -44,7 +44,7 @@ public class ConnectionDBMySQL implements ConnectionDB{
     }
 
     /**
-     * Method return connection to tadatabase
+     * Method return connection to database
      * @return A connection (session) with a specific database
      */
     public Connection getDb(){

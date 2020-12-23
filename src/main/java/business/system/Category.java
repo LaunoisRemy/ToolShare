@@ -66,14 +66,10 @@ public class Category {
 
     /**
      * method that allows to format the object category
-     * @return
+     * @return String
      */
     @Override
     public String toString() {
-        return "Category{" +
-                "categoryId=" + categoryId +
-                ", categoryName='" + categoryName + '\'' +
-                ", isValidated=" + isValidated +
-                '}';
+        return categoryName;
     }
 }

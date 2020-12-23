@@ -8,6 +8,7 @@ import dao.structure.CategoryDAO;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CategoryDaoMySQL extends CategoryDAO {
     static final String ISVALIDATED = "isValidated";
@@ -165,8 +166,8 @@ public class CategoryDaoMySQL extends CategoryDAO {
      * method which find all categories from the db
      * @return the list of all the categories founded
      */
-    public ArrayList getAllCategories(){
-        ArrayList res = new ArrayList<Category>();
+    public List<Category> getAllCategories(){
+        List<Category> res = new ArrayList<>();
         try {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM category"
@@ -175,7 +176,7 @@ public class CategoryDaoMySQL extends CategoryDAO {
             ResultSet rs = prep.executeQuery();
 
             while(rs.next()){
-                res.add(this.createCategoryFromRs(rs));
+                res.add(CategoryDaoMySQL.createCategoryFromRs(rs));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

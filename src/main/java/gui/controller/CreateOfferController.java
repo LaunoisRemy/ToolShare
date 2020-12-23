@@ -2,6 +2,7 @@ package gui.controller;
 
 import business.exceptions.BadInsertionInBDDException;
 import business.exceptions.MissingParametersException;
+import business.facade.CategoryFacade;
 import business.facade.OfferFacade;
 import business.system.Category;
 import business.system.offer.Offer;
@@ -19,7 +20,8 @@ import java.util.ResourceBundle;
 
 public class CreateOfferController implements Initializable {
 
-    private OfferFacade facade = OfferFacade.getInstance();
+    private final OfferFacade offerFacade = OfferFacade.getInstance();
+    private final CategoryFacade categoryFacade = CategoryFacade.getInstance();
 
     @FXML
     private JFXButton createOffer;
@@ -73,11 +75,14 @@ public class CreateOfferController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         state.getItems().clear();
         state.getItems().addAll(ToolSate.values());
+
+        category.getItems().clear();
+        category.getItems().addAll(categoryFacade.getAllCategories());
     }
 
     public void handleNewOffer(javafx.event.ActionEvent actionEvent) {
         try {
-            Offer offer = facade.createOffer(title.getText(), Float.parseFloat(price.getText()), description.getText(), state.getValue(), isPriority.isSelected(), category.getValue().getCategoryName(), Date.from(dateStart.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), Date.from(dateEnd.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            Offer offer = offerFacade.createOffer(title.getText(), Float.parseFloat(price.getText()), description.getText(), state.getValue(), isPriority.isSelected(), category.getValue().getCategoryName(), Date.from(dateStart.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), Date.from(dateEnd.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
         } catch (NumberFormatException e) {
             System.err.println(e.toString());
             cast_msg.setVisible(true);
