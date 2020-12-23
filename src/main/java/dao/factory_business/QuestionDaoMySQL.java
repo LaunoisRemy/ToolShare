@@ -1,12 +1,20 @@
 package dao.factory_business;
 
+import business.system.faq.Answer;
 import business.system.faq.Question;
+import business.system.user.User;
 import dao.structure.QuestionDAO;
 
-import java.sql.Connection;
+import java.sql.*;
 
 public class QuestionDaoMySQL extends QuestionDAO {
     private final Connection connection;
+    public static final String QUESTION_ID = "question_id";
+    public static final String SCORE_COL = "questionScore";
+    public static final String CONTENT_COL = "questionContent";
+    public static final String USER_ID_COL = "user_id";
+    public static final String OFFER_ID_COL = "offer_id";
+    public static final String ANSWER_ID_COL = "answer_id";
 
     /**
      * Constructor of OfferDaoMySQL
@@ -18,21 +26,106 @@ public class QuestionDaoMySQL extends QuestionDAO {
 
     @Override
     public Question find(int id,int... others) {
-        return null;
+        Question question = null;
+        try {
+            String sql = "SELECT *  FROM question " +
+                    "JOIN user u on u."+UserDaoMySQL.ID_COL+" = question."+ USER_ID_COL +" "+
+                    "LEFT JOIN answer a on a."+AnswerDaoMySQL.ANSWER_ID+" = question."+ANSWER_ID_COL+" " +
+                    " WHERE "+ QUESTION_ID +" = ?";
+            PreparedStatement prep = this.connection.prepareStatement(sql);
+            prep.setInt(1,id);
+            ResultSet rs = prep.executeQuery();
+
+            if(rs.next()){
+                if(rs.getInt(1) == (id)){
+                    question = createQuestionFromRs(rs);
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return question;
     }
 
     @Override
     public Question create(Question obj) {
-        return null;
+        try {
+            String sql = "INSERT INTO question ("+
+                    SCORE_COL +","+
+                    CONTENT_COL+","+
+                    ANSWER_ID_COL+","+
+                    OFFER_ID_COL+","+
+                    USER_ID_COL+") "+
+                    "VALUES (?,?,?,?,?)";
+            PreparedStatement prep = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            prep.setInt(1,obj.getQuestionScore());
+            prep.setString(2,obj.getQuestionContent());
+            prep.setInt(3,obj.getAnswer().getAnswerId());
+            prep.setInt(4,obj.getOfferId());
+            prep.setInt(5,obj.getUser().getUser_id());
+
+
+            prep.executeUpdate();
+            ResultSet rs = prep.getGeneratedKeys();
+            int generatedKey = 0;
+            if (rs.next()) {
+                generatedKey = rs.getInt(1);
+            }
+            obj.setQuestionId(generatedKey);
+            return obj;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public Question update(Question obj) {
-        return null;
+        try {
+            String sql ="UPDATE question " +
+                    "SET "+SCORE_COL + " = ?, " +
+                    CONTENT_COL + " = ?, " +
+                    ANSWER_ID_COL + " = ? " +
+                    "WHERE "+ QUESTION_ID + " = ?";
+            PreparedStatement prep = connection.prepareStatement(sql);
+            prep.setInt(1,obj.getQuestionScore());
+            prep.setString(2,obj.getQuestionContent());
+            prep.setInt(3,obj.getAnswer().getAnswerId());
+            prep.setInt(4,obj.getQuestionId());
+            int rs = prep.executeUpdate();
+            return obj;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public boolean delete(Question obj) {
-        return false;
+        try {
+            String sql ="DELETE FROM question WHERE "+QUESTION_ID+" = ?";
+
+            PreparedStatement prep = this.connection.prepareStatement(sql);
+            prep.setInt(1,obj.getQuestionId());
+            ResultSet rs = prep.executeQuery();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+    public static Question createQuestionFromRs(ResultSet rs) throws SQLException {
+        Answer answer = AnswerDaoMySQL.createAnswerFromRs(rs);
+        User user = UserDaoMySQL.createUserFromRs(rs);
+        return  new Question(
+                rs.getInt(QUESTION_ID),
+                rs.getInt(SCORE_COL),
+                rs.getString(CONTENT_COL),
+                answer,
+                rs.getInt(OFFER_ID_COL),
+                user
+                );
     }
 }

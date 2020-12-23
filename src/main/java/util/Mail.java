@@ -5,7 +5,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 public class Mail {
-    public static final Properties MAIL = PropertiesResources.getDatabaseProperties("properties/mail.properties");
+    public static final Properties MAIL = PropertiesResources.getMailProperties();
     public static final Session SESSION = creerSession();
 
     private static Session creerSession () {
