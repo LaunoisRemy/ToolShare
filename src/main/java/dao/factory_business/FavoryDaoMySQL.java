@@ -1,10 +1,7 @@
 package dao.factory_business;
 
-import business.system.Category;
 import business.system.Favory;
 import business.system.offer.Offer;
-import business.system.offer.PriorityOffer;
-import business.system.offer.ToolSate;
 import business.system.user.User;
 import dao.structure.FavoryDAO;
 
@@ -39,7 +36,7 @@ public class FavoryDaoMySQL extends FavoryDAO {
                         "JOIN offer o on favory.offer_id = o.offer_id "+
                         "JOIN user u on favory.user_id = u.user_id "+
                         "LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL +
-                        " WHERE u."+UserDaoMySQL.ID_COL+" = ? AND o."+OfferDaoMySQL.OFFER_ID_COL+" = ?"
+                        " WHERE u."+UserDaoMySQL.USER_ID +" = ? AND o."+OfferDaoMySQL.OFFER_ID_COL+" = ?"
             );
             prep.setInt(1,user_id);
             prep.setInt(2,offer_id);
@@ -91,7 +88,7 @@ public class FavoryDaoMySQL extends FavoryDAO {
     public boolean delete(Favory obj) {
         try{
             PreparedStatement prep = this.connection.prepareStatement(
-                    "DELETE FROM favory WHERE "+UserDaoMySQL.ID_COL+" = ? AND "+OfferDaoMySQL.OFFER_ID_COL +" = ?"
+                    "DELETE FROM favory WHERE "+UserDaoMySQL.USER_ID +" = ? AND "+OfferDaoMySQL.OFFER_ID_COL +" = ?"
             );
             prep.setInt(1,obj.getUser().getUser_id());
             prep.setInt(2,obj.getOffer().getOffer_id());
@@ -109,9 +106,9 @@ public class FavoryDaoMySQL extends FavoryDAO {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT * FROM favory" +
                             " JOIN offer o on favory."+OFFER_ID_COL+" = o."+OFFER_ID_COL+
-                            " JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.ID_COL+
+                            " JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.USER_ID +
                             " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
-                            " WHERE favory."+UserDaoMySQL.ID_COL+" = ?"
+                            " WHERE favory."+UserDaoMySQL.USER_ID +" = ?"
             );
             prep.setInt(1,user.getUser_id());
             ResultSet rs = prep.executeQuery();
