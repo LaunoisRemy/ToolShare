@@ -1,6 +1,7 @@
 package gui;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 public class LoadView  extends Parent{
 
+
     public static Parent load(ViewPath view,Object... objects) throws IOException {
         URL urlPath = LoadView.class.getClassLoader().getResource(view.getUrl());
         if(urlPath == null){
@@ -26,12 +28,12 @@ public class LoadView  extends Parent{
         return (Parent)loader.load();
     }
 
-    public static void changeScreen(ActionEvent actionEvent, ViewPath view, Object... objects) {
+    public static void changeScreen(Event event, ViewPath view, Object... objects) {
         try{
 
             Parent parent = LoadView.load(view,objects);
             Scene newScene = new Scene(parent);
-            Stage window =(Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            Stage window =(Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(newScene);
             window.show();
 
