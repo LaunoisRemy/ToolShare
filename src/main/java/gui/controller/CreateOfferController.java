@@ -8,10 +8,14 @@ import business.system.Category;
 import business.system.offer.Offer;
 import business.system.offer.ToolSate;
 import com.jfoenix.controls.*;
+import gui.LoadView;
+import gui.ViewPath;
 import javafx.fxml.Initializable;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import util.AlertBox;
 
 import java.net.URL;
 import java.time.ZoneId;
@@ -22,15 +26,6 @@ public class CreateOfferController implements Initializable {
 
     private final OfferFacade offerFacade = OfferFacade.getInstance();
     private final CategoryFacade categoryFacade = CategoryFacade.getInstance();
-
-    @FXML
-    private JFXButton createOffer;
-
-    @FXML
-    private JFXButton addNewCategory;
-
-    @FXML
-    private JFXButton cancel;
 
     @FXML
     private JFXTextField title;
@@ -66,10 +61,10 @@ public class CreateOfferController implements Initializable {
     private Label priority_msg;
 
     @FXML
-    private JFXDatePicker dateStart;
+    private DatePicker dateStart;
 
     @FXML
-    private JFXDatePicker dateEnd;
+    private DatePicker dateEnd;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -80,7 +75,7 @@ public class CreateOfferController implements Initializable {
         category.getItems().addAll(categoryFacade.getAllCategories());
     }
 
-    public void handleNewOffer(javafx.event.ActionEvent actionEvent) {
+    public void handleNewOffer(ActionEvent actionEvent) {
         try {
             Offer offer = offerFacade.createOffer(title.getText(), Float.parseFloat(price.getText()), description.getText(), state.getValue(), isPriority.isSelected(), category.getValue().getCategoryName(), Date.from(dateStart.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), Date.from(dateEnd.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
         } catch (NumberFormatException e) {
@@ -94,7 +89,8 @@ public class CreateOfferController implements Initializable {
         }
     }
 
-    public void handleNewCategory(javafx.event.ActionEvent actionEvent) {
+    public void handleNewCategory(ActionEvent actionEvent) {
+        LoadView.changeScreen(actionEvent, ViewPath.POSTCATEGORY);
     }
 
     public void handleIsPriority(ActionEvent actionEvent) {
@@ -113,5 +109,13 @@ public class CreateOfferController implements Initializable {
             dateStart.setValue(null);
             dateEnd.setValue(null);
         }
+    }
+
+    public void cancel(ActionEvent actionEvent) {
+        LoadView.changeScreen(actionEvent, ViewPath.HOMEPAGE_VIEW);
+    }
+
+    public void handleAddPicture(ActionEvent actionEvent) {
+        AlertBox.showAlert("Add Picture","This functionality is not implemented yet.\nWe are sorry!");
     }
 }
