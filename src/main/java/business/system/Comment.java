@@ -11,6 +11,11 @@ public class Comment {
         this.commentScore = commentScore;
     }
 
+    public Comment(String comment, int commentScore) {
+        this.comment = comment;
+        this.commentScore = commentScore;
+    }
+
     public void setCommentId(int commentId) {
         this.commentId = commentId;
     }

@@ -131,7 +131,7 @@ public class OfferDaoMySQL extends OfferDAO {
                     USER_ID_COL+" = ?, "+
                     CATEGORY_ID_COL+" = ? " +
                     "WHERE "+OFFER_ID_COL+" = ?";
-            PreparedStatement prep = connection.prepareStatement(sql);
+            PreparedStatement prep = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 
             prep.setString(1,obj.getTitle());
             prep.setFloat(2,obj.getPricePerDay());
@@ -175,11 +175,14 @@ public class OfferDaoMySQL extends OfferDAO {
     @Override
     public boolean delete(Offer obj) {
         try {
-            String sql ="DELETE FROM offer WHERE "+OFFER_ID_COL+" = ?";
+            String sql =
+                    "DELETE FROM offer WHERE "+OFFER_ID_COL+" = ?";
 
-            PreparedStatement prep = this.connection.prepareStatement(sql);
+            PreparedStatement prep = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             prep.setInt(1,obj.getOffer_id());
-            ResultSet rs = prep.executeQuery();
+
+            prep.executeUpdate();
+            ResultSet rs = prep.getGeneratedKeys();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -190,11 +193,11 @@ public class OfferDaoMySQL extends OfferDAO {
 
     /**
      * method which communicate with the db in order to find offers with a specified user id
-     * @param user_id id of the user the system wants
+     * @param idUser id of the user the system wants
      * @return the list of Offers founded
      */
     @Override
-    public ArrayList getOffersFromUser(int user_id) {
+    public ArrayList getOffersFromUser(int idUser) {
         ArrayList res = new ArrayList<Offer>();
         try {
             PreparedStatement prep = this.connection.prepareStatement(
@@ -203,11 +206,11 @@ public class OfferDaoMySQL extends OfferDAO {
                             " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
                             " WHERE "+USER_ID_COL+" = ?"
             );
-            prep.setInt(1,user_id);
+            prep.setInt(1,idUser);
             ResultSet rs = prep.executeQuery();
 
             while(rs.next()){
-                if(rs.getInt(USER_ID_COL) == (user_id)){
+                if(rs.getInt(USER_ID_COL) == (idUser)){
                     res.add(this.createOfferFromRs(rs));
                 }
             }

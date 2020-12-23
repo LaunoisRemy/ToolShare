@@ -87,10 +87,23 @@ public class CommentDaoMySQL extends CommentDAO {
 
     @Override
     public boolean delete(Comment obj) {
-        return false;
+        try {
+            String sql ="DELETE FROM question WHERE "+COMMENT_ID+" = ?";
+
+            PreparedStatement prep = this.connection.prepareStatement(sql);
+            prep.setInt(1,obj.getCommentId());
+            ResultSet rs = prep.executeQuery();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
     }
 
     public static Comment createCommentFromRs(ResultSet rs) throws SQLException {
-        return  null;
+        return  new Comment(
+                rs.getString(COMMENT_CONTENT),
+                rs.getInt(COMMENT_SCORE)
+        );
     }
 }
