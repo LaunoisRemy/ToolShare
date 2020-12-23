@@ -38,7 +38,7 @@ public class UserDaoMySQL extends UserDAO {
      * @return a User if he exist in the DB, else return null
      */
     @Override
-    public User find(int id) {
+    public User find(int id,int... others) {
         User user = null;
         try {
             String sql = "SELECT *  FROM user WHERE "+ID_COL+" =?";

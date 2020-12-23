@@ -17,7 +17,8 @@ public class ScoreOfferDaoMySQL  extends ScoreOfferDAO {
     }
 
     @Override
-    public ScoreOffer find(int id) {
+    public ScoreOffer find(int id,int... others) {
+
         return null;
     }
 

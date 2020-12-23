@@ -17,7 +17,7 @@ public class QuestionDaoMySQL extends QuestionDAO {
     }
 
     @Override
-    public Question find(int id) {
+    public Question find(int id,int... others) {
         return null;
     }
 

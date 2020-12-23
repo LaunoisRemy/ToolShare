@@ -17,7 +17,7 @@ public class CommentDaoMySQL extends CommentDAO {
     }
 
     @Override
-    public Comment find(int id) {
+    public Comment find(int id,int... others) {
         return null;
     }
 

@@ -29,7 +29,7 @@ public class CategoryDaoMySQL extends CategoryDAO {
      * @return the founded category
      */
     @Override
-    public Category find(int id) {
+    public Category find(int id,int... others) {
         Category category = null;
         try {
             PreparedStatement prep = this.connection.prepareStatement(

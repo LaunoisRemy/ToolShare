@@ -17,7 +17,7 @@ public class ReservationDaoMySQL extends ReservationDAO {
     }
 
     @Override
-    public Reservation find(int id) {
+    public Reservation find(int id,int... others) {
         return null;
     }
 

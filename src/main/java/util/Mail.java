@@ -24,7 +24,6 @@ public class Mail {
 
     public static void sendMail (String subject, String text, String adrReceiver){
         try {
-
             Message message = new MimeMessage(SESSION);
             message.setFrom(new InternetAddress(MAIL.getProperty("ADDRESS")));
             message.setRecipients(Message.RecipientType.TO,

@@ -10,7 +10,7 @@ public interface DAO<T> {
      * @param id id of the object T the system wants
      * @return a object T if he exist in the DB, else return null
      */
-    T find(int id);
+    T find(int id,int... others);
 
     /**
      * Method which communicate with DB for create an obj T

@@ -17,7 +17,7 @@ public class AnswerDaoMySQL extends AnswerDAO {
     }
 
     @Override
-    public Answer find(int id) {
+    public Answer find(int id,int... others) {
         return null;
     }
 
