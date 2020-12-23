@@ -15,6 +15,10 @@ public class ScoreOffer {
         this.userId = userId;
     }
 
+    public void setScoreId(int scoreId) {
+        this.scoreId = scoreId;
+    }
+
     public int getScoreId() {
         return scoreId;
     }
