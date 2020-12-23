@@ -98,5 +98,4 @@ public class HistoryDaoMySQL extends HistoryDAO {
         Date endDate = rs.getDate(ReservationDaoMySQL.END_DATE);
         return new History(u,o,startDate,endDate);
     }
-
 }

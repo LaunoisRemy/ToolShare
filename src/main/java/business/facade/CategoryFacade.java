@@ -3,12 +3,20 @@ package business.facade;
 import business.exceptions.ObjectNotFoundException;
 import business.system.Category;
 import dao.structure.CategoryDAO;
-
 import java.util.List;
 
 public class CategoryFacade {
 
     private static final CategoryFacade INSTANCE = new CategoryFacade();
+    private CategoryDAO categoryDAO = CategoryDAO.getInstance();
+
+    /**
+     * getInstance will return the same correctly initialized INSTANCE
+     * @return instance of the class
+     */
+    public static CategoryFacade getInstance(){
+        return INSTANCE;
+    }
 
     public CategoryFacade(){ }
 
@@ -19,8 +27,7 @@ public class CategoryFacade {
      * @throws ObjectNotFoundException
      */
     public Category getCategory(int idCategory) throws ObjectNotFoundException {
-        CategoryDAO categoryDAO = CategoryDAO.getInstance();
-        Category category = categoryDAO.find(idCategory);
+        Category category = this.categoryDAO.find(idCategory);
         if(category != null){
             return category;
         } else {
@@ -35,19 +42,16 @@ public class CategoryFacade {
      * @return the new Category
      */
     public Category createCategory(String categoryName, boolean validated) {
-        CategoryDAO categoryDAO = CategoryDAO.getInstance();
         Category category = new Category(categoryName,validated);
-        return categoryDAO.create(category);
+        return this.categoryDAO.create(category);
     }
 
     /**
      * getAllCategories will return the list of all the categories present in the db
      * @return the list of all the categories
      */
-    public List getAllCategories() {
-        CategoryDAO categoryDAO = CategoryDAO.getInstance();
-        return categoryDAO.getAllCategories();
-
+    public List<Category> getAllCategories() {
+        return this.categoryDAO.getAllCategories();
     }
 
     /**
@@ -57,9 +61,8 @@ public class CategoryFacade {
      * @throws ObjectNotFoundException
      */
     public boolean deleteCategory(int idCategory) throws ObjectNotFoundException {
-        CategoryDAO categoryDAO = CategoryDAO.getInstance();
         Category category = this.getCategory(idCategory);
-        return categoryDAO.delete(category);
+        return this.categoryDAO.delete(category);
     }
 
     /**
@@ -71,14 +74,12 @@ public class CategoryFacade {
      * @throws ObjectNotFoundException
      */
     public Category updateCategory(int idCategory, String categoryName, boolean validated) throws ObjectNotFoundException {
-        CategoryDAO categoryDAO = CategoryDAO.getInstance();
-
         //check if the initial category exists
         Category category = this.getCategory(idCategory);
 
         category.setCategoryName(categoryName);
         category.setIsValidated(validated);
 
-        return categoryDAO.update(category);
+        return this.categoryDAO.update(category);
     }
 }

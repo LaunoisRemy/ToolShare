@@ -29,16 +29,15 @@ public class ScoreOfferDaoMySQL  extends ScoreOfferDAO {
         try {
             String sql = "SELECT *  FROM score_offer " +
                     "JOIN offer o on o."+OfferDaoMySQL.OFFER_ID_COL+" = score_offer."+OFFER_ID_COL+" " +
-                    " JOIN user u on u."+ UserDaoMySQL.ID_COL+" = score_offer."+USER_ID_COL+" "+
+                    " JOIN user u on u."+ UserDaoMySQL.USER_ID +" = score_offer."+USER_ID_COL+" "+
                     " WHERE "+ SCORE_OFFER_ID +" = ?";
             PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setInt(1,id);
             ResultSet rs = prep.executeQuery();
 
             if(rs.next()){
-                if(rs.getInt(1) == (id)){
-                    scoreOffer = createScoreOfferFromRs(rs);
-                }
+                scoreOffer = createScoreOfferFromRs(rs);
+
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -84,11 +83,17 @@ public class ScoreOfferDaoMySQL  extends ScoreOfferDAO {
     public ScoreOffer update(ScoreOffer obj) {
         try {
             String sql ="UPDATE score_offer " +
-                    "SET "+RATE_COL + " = ? " +
+                    "SET "+RATE_COL + " = ?, " +
+                    USER_ID_COL + " = ?, " +
+                    COMMENT_ID_COL + " = ?, " +
+                    OFFER_ID_COL + " = ? " +
                     "WHERE "+ SCORE_OFFER_ID + " = ?";
             PreparedStatement prep = connection.prepareStatement(sql);
             prep.setFloat(1,obj.getRate());
-            prep.setInt(2,obj.getScoreId());
+            prep.setInt(2,obj.getUser().getUser_id());
+            prep.setInt(3,obj.getCommentId());
+            prep.setInt(4,obj.getOffer().getOffer_id());
+            prep.setInt(5,obj.getScoreId());
             int rs = prep.executeUpdate();
             return obj;
         } catch (SQLException throwables) {

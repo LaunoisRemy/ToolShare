@@ -4,7 +4,7 @@ import business.system.user.User;
 
 public class Question {
     private int questionId;
-    private int questionScore; //TODO A reflechir si c'est pas a calculer
+    private int questionScore;
     private String questionContent;
     private Answer answer;
     private int offerId;

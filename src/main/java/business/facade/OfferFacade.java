@@ -12,11 +12,12 @@ import dao.structure.CategoryDAO;
 import dao.structure.OfferDAO;
 
 import java.util.Date;
-import java.util.List;
 
 public class OfferFacade {
     private User user = SessionFacade.getInstance().getUser();
     private static final OfferFacade INSTANCE = new OfferFacade();
+    private OfferDAO offerDAO = OfferDAO.getInstance();
+
 
     private OfferFacade() {
     }
@@ -36,8 +37,7 @@ public class OfferFacade {
      * @throws ObjectNotFoundException
      */
     public Offer getOffer(int offerId) throws ObjectNotFoundException {
-        OfferDAO offerDAO = OfferDAO.getInstance();
-        Offer offer = offerDAO.find(offerId);
+        Offer offer = this.offerDAO.find(offerId);
         if(offer != null){
             return offer;
         } else {
@@ -52,9 +52,8 @@ public class OfferFacade {
      * @throws ObjectNotFoundException throws if try to delete a not-existed object
      */
     public boolean deleteOffer(int offerId) throws ObjectNotFoundException {
-        OfferDAO offerDAO = OfferDAO.getInstance();
         Offer offer = this.getOffer(offerId);
-        return offerDAO.delete(offer);
+        return this.offerDAO.delete(offer);
     }
 
     /**
@@ -70,7 +69,6 @@ public class OfferFacade {
      * @return the instance of the new offer
      */
     public Offer createOffer(String title, float price, String description, ToolSate toolSate, boolean isPriority, String category, Date dateStartPriority, Date dateEndPriority) throws MissingParametersException, BadInsertionInBDDException {
-        OfferDAO offerDAO = OfferDAO.getInstance();
         CategoryDAO categoryDAO = CategoryDAO.getInstance();
 
         Category new_category = categoryDAO.getCategoryByName(category);
@@ -84,7 +82,7 @@ public class OfferFacade {
             throw new MissingParametersException("Missing parameters dates for a priority offer (start and end of booking)");
         }
 
-        Offer res = offerDAO.create(offer);
+        Offer res = this.offerDAO.create(offer);
 
         return res;
 
@@ -106,7 +104,6 @@ public class OfferFacade {
      * @throws MissingParametersException
      */
     public Offer updateOffer(int offerId, String title, float price, String description, String state, boolean isPriority, String category, Date dateStartPriority, Date dateEndPriority) throws ObjectNotFoundException, MissingParametersException {
-        OfferDAO offerDAO = OfferDAO.getInstance();
         CategoryDAO categoryDAO = CategoryDAO.getInstance();
 
         //check if the initial offer exists
@@ -134,11 +131,52 @@ public class OfferFacade {
             throw new MissingParametersException("Missing parameters dates for a priority offer (start and end of booking)");
         }
 
-        offer = offerDAO.update(offer);
+        offer = this.offerDAO.update(offer);
         return offer;
     }
-    public List<Offer> getAllOffers(){
-        OfferDAO offerDAO = OfferDAO.getInstance();
-        return offerDAO.getAllOffers();
+
+    /**
+     * Method that allows to return all the offers of the connected user
+     * @return the list of the user offers
+     */
+    public ArrayList getOffersFromUser(){
+        return this.offerDAO.getOffersFromUser(this.user.getUser_id());
     }
+
+    /**
+     * Method that allows to find offers with a specified city
+     * @param city city to filter by
+     * @return the list of Offers located in the given city
+     */
+    public ArrayList getOffersByCity(String city) {
+        return this.offerDAO.getOffersByCity(city);
+    }
+
+    /**
+     * Method that allows to search all the offers
+     * @return the list of all the offers
+     */
+    public ArrayList getAllOffers() {
+        return this.offerDAO.getAllOffers();
+    }
+
+    /**
+     * Method which finds offers with a specified category name
+     * @param categoryName category name for the research
+     * @return the list of Offers with the same category
+     */
+    public ArrayList getOffersByCategory(String categoryName) {
+        CategoryDAO categoryDAO = CategoryDAO.getInstance();
+        int idCategory = categoryDAO.getCategoryByName(categoryName).getCategoryId();
+        return this.offerDAO.getOffersByCategory(idCategory);
+    }
+
+    /**
+     * Method which finds priority offers
+     * @return the list of all the priority offers order by the start of priority (the most recent)
+     */
+    public ArrayList getPriorityOffer() {
+        return this.offerDAO.getPriorityOffer();
+    }
+
 }

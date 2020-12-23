@@ -8,6 +8,7 @@ import dao.structure.CategoryDAO;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CategoryDaoMySQL extends CategoryDAO {
     static final String ISVALIDATED = "isValidated";
@@ -58,12 +59,12 @@ public class CategoryDaoMySQL extends CategoryDAO {
     @Override
     public Category create(Category obj) {
         try {
-            PreparedStatement prep = connection.prepareStatement(
+            String sql =
                     "INSERT INTO category ("+CATEGORY_NAME_COL+","+
                             ISVALIDATED+") " +
-                            "VALUES (?,?)"
-            );
+                            "VALUES (?,?)";
 
+            PreparedStatement prep = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             prep.setString(1,obj.getCategoryName());
             prep.setBoolean(2,obj.getIsValidated());
 
@@ -90,12 +91,12 @@ public class CategoryDaoMySQL extends CategoryDAO {
     @Override
     public Category update(Category obj) {
         try {
-            PreparedStatement prep = connection.prepareStatement(
+            String sql =
                     "UPDATE offer " +
                             "SET "+CATEGORY_NAME_COL+" = ?, "+ISVALIDATED+" = ? " +
-                            "WHERE "+CATEGORY_ID_COL+" = ?"
-            );
+                            "WHERE "+CATEGORY_ID_COL+" = ?";
 
+            PreparedStatement prep = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             prep.setString(1,obj.getCategoryName());
             prep.setBoolean(2,obj.getIsValidated());
             prep.setInt(3,obj.getCategoryId());
@@ -123,9 +124,9 @@ public class CategoryDaoMySQL extends CategoryDAO {
     @Override
     public boolean delete(Category obj) {
         try {
-            PreparedStatement prep = this.connection.prepareStatement(
-                    "DELETE FROM offer WHERE "+CATEGORY_ID_COL+" = ?"
-            );
+            String sql =
+                    "DELETE FROM offer WHERE "+CATEGORY_ID_COL+" = ?";
+            PreparedStatement prep = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             prep.setInt(1,obj.getCategoryId());
             ResultSet rs = prep.executeQuery();
 
@@ -165,8 +166,8 @@ public class CategoryDaoMySQL extends CategoryDAO {
      * method which find all categories from the db
      * @return the list of all the categories founded
      */
-    public ArrayList getAllCategories(){
-        ArrayList res = new ArrayList<Category>();
+    public List<Category> getAllCategories(){
+        List<Category> res = new ArrayList<>();
         try {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM category"
@@ -175,7 +176,7 @@ public class CategoryDaoMySQL extends CategoryDAO {
             ResultSet rs = prep.executeQuery();
 
             while(rs.next()){
-                res.add(this.createCategoryFromRs(rs));
+                res.add(CategoryDaoMySQL.createCategoryFromRs(rs));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
