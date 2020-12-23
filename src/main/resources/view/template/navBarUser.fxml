@@ -54,12 +54,12 @@
                         <children>
                            <VBox alignment="CENTER" onMouseClicked="#homePage" prefHeight="58.0" prefWidth="58.0">
                               <children>
-                                 <ImageView fitHeight="29.0" fitWidth="31.0" onMouseClicked="#historyPage" pickOnBounds="true" preserveRatio="true">
+                                 <ImageView fitHeight="29.0" fitWidth="31.0" onMouseClicked="#homePage" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                        <Image url="@../../img/search.png" />
                                     </image>
                                  </ImageView>
-                                 <JFXButton onAction="#historyPage" prefHeight="14.0" prefWidth="58.0" text="Search" textAlignment="CENTER" underline="true">
+                                 <JFXButton onAction="#homePage" prefHeight="14.0" prefWidth="58.0" text="Search" textAlignment="CENTER" underline="true">
                                     <font>
                                        <Font name="Tahoma" size="12.0" />
                                     </font>
@@ -68,12 +68,12 @@
                            </VBox>
                            <VBox alignment="CENTER" onMouseClicked="#favoryPage" prefHeight="58.0" prefWidth="58.0">
                               <children>
-                                 <ImageView fitHeight="29.0" fitWidth="31.0" onMouseClicked="#historyPage" pickOnBounds="true" preserveRatio="true">
+                                 <ImageView fitHeight="29.0" fitWidth="31.0" onMouseClicked="#favoryPage" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                        <Image url="@../../img/favory.png" />
                                     </image>
                                  </ImageView>
-                                 <JFXButton onAction="#historyPage" prefHeight="14.0" prefWidth="58.0" text="Favory" textAlignment="CENTER" underline="true">
+                                 <JFXButton onAction="#favoryPage" prefHeight="14.0" prefWidth="58.0" text="Favory" textAlignment="CENTER" underline="true">
                                     <font>
                                        <Font name="Tahoma" size="12.0" />
                                     </font>

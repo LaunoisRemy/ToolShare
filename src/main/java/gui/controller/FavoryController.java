@@ -53,4 +53,9 @@ public class FavoryController {
             button.setGraphic(iv);
         }
     }
+
+    public void findAllFavories(ActionEvent actionEvent){
+        FavoryFacade favoryFacade = FavoryFacade.getInstance();
+
+    }
 }

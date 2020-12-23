@@ -342,7 +342,7 @@ public class OfferDaoMySQL extends OfferDAO {
     public static Offer createOfferFromRs(ResultSet rs) throws SQLException {
         String ts = rs.getString(TOOL_STATE_COL);
         ToolSate toolState = ToolSate.valueOf(ts);
-        User user = new User(rs.getInt(USER_ID_COL),rs.getString(UserDaoMySQL.FIRST_NAME_COL),rs.getString(UserDaoMySQL.LAST_NAME_COL),rs.getString(UserDaoMySQL.EMAIL_COL),rs.getString(UserDaoMySQL.PASSWORD_COL),rs.getString(UserDaoMySQL.USERCITY_COL),rs.getString(UserDaoMySQL.PHONENUMBER_COL),rs.getBoolean(UserDaoMySQL.ISADMIN),rs.getBoolean(UserDaoMySQL.ISBANNED),rs.getString(UserDaoMySQL.SALT_COL));
+        User user = UserDaoMySQL.createUserFromRs(rs);
         Category category = new Category(rs.getInt(CategoryDaoMySQL.CATEGORY_ID_COL),rs.getString(CategoryDaoMySQL.CATEGORY_NAME_COL),rs.getBoolean(CategoryDaoMySQL.ISVALIDATED));
 
         if (rs.getBoolean(ISPRIORITY)){
