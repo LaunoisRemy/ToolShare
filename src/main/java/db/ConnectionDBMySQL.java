@@ -1,12 +1,8 @@
 package db;
 
-import com.mysql.cj.MysqlConnection;
 import util.PropertiesResources;
 
 import javax.swing.*;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
@@ -29,7 +25,7 @@ public class ConnectionDBMySQL implements ConnectionDB{
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Properties p = PropertiesResources.getDatabaseProperties("properties/database.properties");
+            Properties p = PropertiesResources.getDatabaseProperties();
             this.connection = DriverManager.getConnection(p.getProperty("URL"),p.getProperty("USER"),p.getProperty("PASSWORD"));
 
         }
