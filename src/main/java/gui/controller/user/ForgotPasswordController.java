@@ -65,7 +65,6 @@ public class ForgotPasswordController implements Initializable {
             if(ConstantsRegex.match(Pattern.compile(ViewPath.FORGOTPASSWORDCHECKCODE_VIEW.getUrl()),location.getFile()) ||
                ConstantsRegex.match(Pattern.compile(ViewPath.CHANGEPASSWORD_VIEW.getUrl()),location.getFile())){ //Optimiser
                 this.stringMail=(String)resources.getObject("0");
-                System.out.println(stringMail);
             }
         }
     }

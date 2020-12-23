@@ -67,9 +67,11 @@ public class SessionFacade {
             //GET user salt
             String salt = userDAO.getSalt(email);
             //COMPARE user password
-            this.setUser(userManagement.comparePassword(user, password, salt));
-            if(this.user==null){
+            boolean goodPassword = userManagement.comparePassword(user, password, salt);
+            if(!goodPassword){
                 throw new WrongPasswordException("Wrong password");
+            }else{
+                this.setUser(user);
             }
         }
 
@@ -112,15 +114,12 @@ public class SessionFacade {
 
     public void sendMail(String mail) throws ObjectNotFoundException {
         User user = UserDAO.getInstance().getUserByEmail(mail);
-        System.out.println(user);
         if(user == null){
             throw new ObjectNotFoundException("User not found");
         }
     }
     public void updateProfile(String email, String firstName, String lastName, String city, String phoneNumber, String password){
-        //Get UserDAO
         UserDAO userDAO = UserDAO.getInstance();
-        //Get the user
         user.setEmail(email);
         user.setFirstName(firstName);
         user.setLastName(lastName);
@@ -137,18 +136,14 @@ public class SessionFacade {
         return code.equals(user.getRecoveryCode());
     }
 
-    public void changePassword(String password,String mail) throws BadInsertionInBDDException {
+    public void changePassword(String password,String mail){
         User user = UserDAO.getInstance().getUserByEmail(mail);
 
         String salt = userManagement.getRandomSalt();
         String hashedPassword = userManagement.getHashedPassword(password, salt);
         user.setSalt(salt);
         user.setPassword(hashedPassword);
-        //User registeredUser = new User(firstName, lastName, email, hashedPassword, city, phoneNumber, salt, isAdmin);
-        user = UserDAO.getInstance().update(user);
-        if(user == null) {
-            throw new BadInsertionInBDDException("The user is not registered in the app");
-        }
+        UserDAO.getInstance().update(user);
     }
 
 

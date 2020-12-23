@@ -35,12 +35,10 @@ public class UserManagement {
      * @param salt the salt of the user
      * @return the user if the password matched, else return null
      */
-    public User comparePassword(User user, String password, String salt) {
-        if (user != null && user.getPassword().equals(this.getHashedPassword(password, salt))) {
-            return user;
-        } else {
-            return null;
-        }
+    public boolean comparePassword(User user, String password, String salt) {
+//        System.out.println("mdp new: " + this.getHashedPassword(password, salt) + " "+password + "\nt salt:"+salt);
+//        System.out.println("mdp normalement new user: " + user.getPassword());
+        return user != null && user.getPassword().equals(this.getHashedPassword(password, salt));
     }
 
     /**

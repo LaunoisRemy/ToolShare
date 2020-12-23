@@ -125,7 +125,8 @@ public class UserDaoMySQL extends UserDAO {
                     USERCITY_COL + " = ?, " +
                     PHONENUMBER_COL + " = ?, " +
                     ISADMIN + " = ?, " +
-                    ISBANNED + " = ? " +
+                    ISBANNED + " = ?, " +
+                    SALT_COL + " = ? " +
                     "WHERE "+ ID_COL + " = ?";
             PreparedStatement prep = connection.prepareStatement(sql);
             prep.setString(1,obj.getEmail());
@@ -144,9 +145,11 @@ public class UserDaoMySQL extends UserDAO {
                 prep.setBoolean(7,true);
             }
             prep.setBoolean(8,obj.isBanned());
-            prep.setInt(9,obj.getUser_id());
-
+            prep.setString(9,obj.getSalt());
+            prep.setInt(10,obj.getUser_id());
+            System.out.println(prep);
             int rs = prep.executeUpdate();
+
             return obj;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
