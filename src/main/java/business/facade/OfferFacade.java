@@ -10,7 +10,9 @@ import business.system.offer.ToolSate;
 import business.system.user.User;
 import dao.structure.CategoryDAO;
 import dao.structure.OfferDAO;
+import dao.structure.UserDAO;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class OfferFacade {
@@ -135,5 +137,26 @@ public class OfferFacade {
 
         offer = offerDAO.update(offer);
         return offer;
+    }
+
+    public static void main(String[] args) {
+        OfferFacade facade = OfferFacade.getInstance();
+        OfferDAO offerDAO = OfferDAO.getInstance();
+        UserDAO userDAO = UserDAO.getInstance();
+        CategoryDAO categoryDAO = CategoryDAO.getInstance();
+        Offer offer = null;
+        try {
+            offer = facade.getOffer(1);
+        } catch (ObjectNotFoundException e) {
+            e.printStackTrace();
+        }
+        System.out.println(offer.toString());
+
+        ArrayList<Offer> offers = offerDAO.getAllOffers();
+        System.out.println(offers.toString());
+        Offer o = offerDAO.find(2);
+        o.setToolSate(ToolSate.EXCELLENT);
+        offer = offerDAO.update(o);
+        System.out.println(offer.toString());
     }
 }

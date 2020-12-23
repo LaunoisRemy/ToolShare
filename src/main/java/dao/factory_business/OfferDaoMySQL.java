@@ -68,8 +68,7 @@ public class OfferDaoMySQL extends OfferDAO {
     @Override
     public Offer create(Offer obj) {
         try {
-            PreparedStatement prep = connection.prepareStatement(
-                    "INSERT INTO offer ("+TITLE_COL+","+
+            String sql = "INSERT INTO offer ("+TITLE_COL+","+
                             PRICE_PER_DAY_COL+","+
                             DESCRPTION_COL+","+
                             ISPRIORITY+","+
@@ -78,8 +77,9 @@ public class OfferDaoMySQL extends OfferDAO {
                             TOOL_STATE_COL+","+
                             USER_ID_COL+","+
                             CATEGORY_ID_COL+") " +
-                            "VALUES (?,?,?,?,?,?,?,?,?)"
-            );
+                            "VALUES (?,?,?,?,?,?,?,?,?)";
+
+            PreparedStatement prep = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 
             prep.setString(1,obj.getTitle());
             prep.setFloat(2,obj.getPricePerDay());
@@ -122,11 +122,12 @@ public class OfferDaoMySQL extends OfferDAO {
     @Override
     public Offer update(Offer obj) {
         try {
-            PreparedStatement prep = connection.prepareStatement(
+            String sql =
                     "UPDATE offer " +
                             "SET "+TITLE_COL+" = ?, "+PRICE_PER_DAY_COL+" = ?, "+DESCRPTION_COL+" = ?, "+ISPRIORITY+" = ?, "+DATE_START_PRIORITY_COL+" = ?, "+DATE_END_PRIORITY_COL+" = ?, "+TOOL_STATE_COL+" = ?, "+USER_ID_COL+" = ?, "+CATEGORY_ID_COL+" = ? " +
-                            "WHERE "+OFFER_ID_COL+" = ?"
-            );
+                            "WHERE "+OFFER_ID_COL+" = ?";
+
+            PreparedStatement prep = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 
             prep.setString(1,obj.getTitle());
             prep.setFloat(2,obj.getPricePerDay());
@@ -149,11 +150,6 @@ public class OfferDaoMySQL extends OfferDAO {
 
             prep.executeUpdate();
             ResultSet rs = prep.getGeneratedKeys();
-            int generatedKey = 0;
-            if (rs.next()) {
-                generatedKey = rs.getInt(1);
-            }
-            obj.setOffer_id(generatedKey);
             return obj;
 
         } catch (SQLException throwables) {
