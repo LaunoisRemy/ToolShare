@@ -263,6 +263,31 @@ public class OfferDaoMySQL extends OfferDAO {
     }*/
 
     /**
+     * Method that allows to search all the offers in the db and returns them
+     * @return the list of all the offers
+     */
+    @Override
+    public ArrayList getAllOffers() {
+        ArrayList res = new ArrayList<Offer>();
+        try {
+            PreparedStatement prep = this.connection.prepareStatement(
+                    "SELECT *  FROM offer o " +
+                            "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.ID_COL+
+                            " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL
+            );
+
+            ResultSet rs = prep.executeQuery();
+
+            while(rs.next()){
+                res.add(this.createOfferFromRs(rs));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return res;
+    }
+
+    /**
      * method which communicate with the db in order to find offers with a specified category id
      * @param category_id category id of the offer the system wants
      * @return the list of Offers founded
@@ -328,7 +353,7 @@ public class OfferDaoMySQL extends OfferDAO {
         String ts = rs.getString(TOOL_STATE_COL);
         ToolSate toolState = ToolSate.valueOf(ts);
         User user = UserDaoMySQL.createUserFromRs(rs);
-        Category category = new Category(rs.getInt(CategoryDaoMySQL.CATEGORY_ID_COL),rs.getString(CategoryDaoMySQL.CATEGORY_NAME_COL),rs.getBoolean(CategoryDaoMySQL.ISVALIDATED));
+        Category category = CategoryDaoMySQL.createCategoryFromRs(rs);
 
         if (rs.getBoolean(ISPRIORITY)){
             return new PriorityOffer(rs.getInt(OFFER_ID_COL),rs.getString(TITLE_COL),rs.getFloat(PRICE_PER_DAY_COL),rs.getString(DESCRPTION_COL),toolState,rs.getBoolean(ISPRIORITY),user,category,rs.getDate(DATE_START_PRIORITY_COL),rs.getDate(DATE_END_PRIORITY_COL));

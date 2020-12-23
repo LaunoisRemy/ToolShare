@@ -189,7 +189,7 @@ public class CategoryDaoMySQL extends CategoryDAO {
      * @return new Category
      * @throws SQLException
      */
-    private Category createCategoryFromRs(ResultSet rs) throws SQLException {
+    public static Category createCategoryFromRs(ResultSet rs) throws SQLException {
         return new Category(rs.getInt(CATEGORY_ID_COL),rs.getString(CATEGORY_NAME_COL),rs.getBoolean(ISVALIDATED));
     }
 }
