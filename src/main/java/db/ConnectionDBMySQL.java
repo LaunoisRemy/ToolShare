@@ -1,6 +1,7 @@
 package db;
 
 import com.mysql.cj.MysqlConnection;
+import util.PropertiesResources;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class ConnectionDBMySQL implements ConnectionDB{
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Properties p = getDatabaseProperties();
+            Properties p = PropertiesResources.getDatabaseProperties("db/database.properties");
             this.connection = DriverManager.getConnection(p.getProperty("URL"),p.getProperty("USER"),p.getProperty("PASSWORD"));
 
         }
@@ -36,23 +37,6 @@ public class ConnectionDBMySQL implements ConnectionDB{
         {
             JOptionPane.showMessageDialog(null, e);
         }
-    }
-    private Properties getDatabaseProperties()
-    {
-        Properties p = new Properties();
-        try (InputStream in = MysqlConnection.class.getClassLoader().getResourceAsStream("db/database.properties"))
-        {
-            if (in == null)
-            {
-                throw new NullPointerException("You must specify a database.properties file");
-            }
-            p.load(new InputStreamReader(in));
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return p;
     }
 
     /**
