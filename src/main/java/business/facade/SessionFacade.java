@@ -105,7 +105,7 @@ public class SessionFacade {
 
         //true if the user is well inserted in the bdd, false otherwise
         registeredUser = userDAO.create(registeredUser);
-        if(registeredUser != null) {
+        if(registeredUser == null) {
             throw new BadInsertionInBDDException("The user is not registered in the app");
         }
     }
@@ -137,8 +137,19 @@ public class SessionFacade {
         return code.equals(user.getRecoveryCode());
     }
 
-    public void changePassword(String password,String mail) {
+    public void changePassword(String password,String mail) throws BadInsertionInBDDException {
         User user = UserDAO.getInstance().getUserByEmail(mail);
-        System.out.println("Youpi");
+
+        String salt = userManagement.getRandomSalt();
+        String hashedPassword = userManagement.getHashedPassword(password, salt);
+        user.setSalt(salt);
+        user.setPassword(hashedPassword);
+        //User registeredUser = new User(firstName, lastName, email, hashedPassword, city, phoneNumber, salt, isAdmin);
+        user = UserDAO.getInstance().update(user);
+        if(user == null) {
+            throw new BadInsertionInBDDException("The user is not registered in the app");
+        }
     }
+
+
 }
