@@ -7,6 +7,9 @@ import java.sql.Connection;
 
 public class ReservationDaoMySQL extends ReservationDAO {
     private final Connection connection;
+    static final String RESERVATION_ID="reservation_id";
+    static final String START_DATE="dateStartBooking";
+    static final String END_DATE="dateEndBooking";
 
     /**
      * Constructor of OfferDaoMySQL
