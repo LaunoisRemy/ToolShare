@@ -29,7 +29,8 @@ public class FavoryDaoMySQL extends FavoryDAO {
     }
 
     @Override
-    public Favory find(int user_id,int offer_id) {
+    public Favory find(int user_id,int... others) {
+        int offer_id = others[0];
         Favory fav = null;
         try {
             PreparedStatement prep = this.connection.prepareStatement(
@@ -46,7 +47,7 @@ public class FavoryDaoMySQL extends FavoryDAO {
             ResultSet rs = prep.executeQuery();
             if(rs.next()){
                 if(rs.getInt(OfferDaoMySQL.OFFER_ID_COL) == (offer_id)){
-                    fav = this.createFavoryFromRs(rs);
+                    fav = createFavoryFromRs(rs);
                 }
             }
         } catch (SQLException throwables) {
@@ -73,6 +74,17 @@ public class FavoryDaoMySQL extends FavoryDAO {
             throwables.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * Method which communicate with DB for update an obj T
+     *
+     * @param obj object to update in database
+     * @return true if the object is update in database, else return null.
+     */
+    @Override
+    public Favory update(Favory obj) {
+        return null;
     }
 
     @Override

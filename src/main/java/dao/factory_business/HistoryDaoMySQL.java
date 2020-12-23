@@ -17,7 +17,7 @@ public class HistoryDaoMySQL extends HistoryDAO {
     }
 
     @Override
-    public History find(int id) {
+    public History find(int id,int... others) {
         return null;
     }
 

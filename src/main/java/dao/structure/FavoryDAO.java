@@ -7,7 +7,7 @@ import dao.factory_business.AbstractFactoryDAO;
 
 import java.util.List;
 
-public abstract class FavoryDAO{
+public abstract class FavoryDAO implements DAO<Favory>{
     private static final FavoryDAO INSTANCE = AbstractFactoryDAO.getInstance().getFavoryDAO();
 
     /**
@@ -21,10 +21,10 @@ public abstract class FavoryDAO{
     /**
      * Method which communicate with DB for retrieve the data Favory with id
      * @param user_id id of the user the system wants
-     * @param offer_id id of the offer
+     * @param others id of the offer
      * @return a object T if he exist in the DB, else return null
      */
-    public abstract Favory find(int user_id,int offer_id);
+    public abstract Favory find(int user_id,int... others);
 
     /**
      * Method which communicate with DB for create an obj Favory

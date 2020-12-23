@@ -37,7 +37,7 @@ public class OfferDaoMySQL extends OfferDAO {
      * @return the Offer founded
      */
     @Override
-    public Offer find(int id) {
+    public Offer find(int id,int... others) {
         Offer offer = null;
         try {
             PreparedStatement prep = this.connection.prepareStatement(
