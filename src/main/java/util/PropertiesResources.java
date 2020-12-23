@@ -9,10 +9,11 @@ import java.net.URL;
 import java.util.Properties;
 
 public class PropertiesResources {
-    public static Properties getDatabaseProperties(String url)
+
+    private static Properties getFilesProperties(String url)
     {
         Properties p = new Properties();
-        try (InputStream in = MysqlConnection.class.getClassLoader().getResourceAsStream(url))
+        try (InputStream in = PropertiesResources.class.getClassLoader().getResourceAsStream(url))
         {
             if (in == null)
             {
@@ -27,4 +28,10 @@ public class PropertiesResources {
         return p;
     }
 
+    public static Properties getDatabaseProperties() {
+        return  PropertiesResources.getFilesProperties("properties/database.properties");
+    }
+    public static Properties getMailProperties() {
+        return  PropertiesResources.getFilesProperties("properties/mail.properties");
+    }
 }
