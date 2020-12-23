@@ -1,17 +1,19 @@
 package dao.factory_business;
 
 import business.system.ScoreOffer;
+import business.system.offer.Offer;
+import business.system.user.User;
 import dao.structure.ScoreOfferDAO;
 
 import java.sql.*;
 
 public class ScoreOfferDaoMySQL  extends ScoreOfferDAO {
     private final Connection connection;
-    static final String ID_COL = "scoreOffer_id";
-    static final String RATE_COL = "rate";
-    static final String USER_ID_COL = "user_id";
-    static final String COMMENT_ID_COL = "comment_id";
-    static final String OFFER_ID_COL = "offer_id";
+    public static final String SCORE_OFFER_ID = "scoreOffer_id";
+    public static final String RATE_COL = "rate";
+    public static final String USER_ID_COL = "user_id";
+    public static final String COMMENT_ID_COL = "comment_id";
+    public static final String OFFER_ID_COL = "offer_id";
 
     /**
      * Constructor of OfferDaoMySQL
@@ -25,7 +27,10 @@ public class ScoreOfferDaoMySQL  extends ScoreOfferDAO {
     public ScoreOffer find(int id,int... others) {
         ScoreOffer scoreOffer = null;
         try {
-            String sql = "SELECT *  FROM score_offer WHERE "+ID_COL+" =?";
+            String sql = "SELECT *  FROM score_offer " +
+                    "JOIN offer o on o."+OfferDaoMySQL.OFFER_ID_COL+" = score_offer."+OFFER_ID_COL+" " +
+                    " JOIN user u on u."+ UserDaoMySQL.ID_COL+" = score_offer."+USER_ID_COL+" "+
+                    " WHERE "+ SCORE_OFFER_ID +" = ?";
             PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setInt(1,id);
             ResultSet rs = prep.executeQuery();
@@ -54,9 +59,9 @@ public class ScoreOfferDaoMySQL  extends ScoreOfferDAO {
                     "VALUES (?,?,?,?)";
             PreparedStatement prep = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             prep.setFloat(1,obj.getRate());
-            prep.setInt(2,obj.getOfferId());
+            prep.setInt(2,obj.getOffer().getOffer_id());
             prep.setInt(3,obj.getCommentId());
-            prep.setInt(4,obj.getUserId());
+            prep.setInt(4,obj.getUser().getUser_id());
 
 
             prep.executeUpdate();
@@ -80,7 +85,7 @@ public class ScoreOfferDaoMySQL  extends ScoreOfferDAO {
         try {
             String sql ="UPDATE score_offer " +
                     "SET "+RATE_COL + " = ? " +
-                    "WHERE "+ ID_COL + " = ?";
+                    "WHERE "+ SCORE_OFFER_ID + " = ?";
             PreparedStatement prep = connection.prepareStatement(sql);
             prep.setFloat(1,obj.getRate());
             prep.setInt(2,obj.getScoreId());
@@ -94,7 +99,18 @@ public class ScoreOfferDaoMySQL  extends ScoreOfferDAO {
 
     @Override
     public boolean delete(ScoreOffer obj) {
-        return false;
+        try {
+            String sql ="DELETE FROM score_offer WHERE "+SCORE_OFFER_ID+" = ?";
+
+            PreparedStatement prep = this.connection.prepareStatement(sql);
+            prep.setInt(1,obj.getScoreId());
+            ResultSet rs = prep.executeQuery();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -104,12 +120,14 @@ public class ScoreOfferDaoMySQL  extends ScoreOfferDAO {
      * @throws SQLException
      */
     public static ScoreOffer createScoreOfferFromRs(ResultSet rs) throws SQLException {
+        Offer offer = OfferDaoMySQL.createOfferFromRs(rs);
+        User user = UserDaoMySQL.createUserFromRs(rs);
         return  new ScoreOffer(
-                rs.getInt(ID_COL),
+                rs.getInt(SCORE_OFFER_ID),
                 rs.getFloat(RATE_COL),
-                rs.getInt(OFFER_ID_COL),
+                offer,
                 rs.getInt(COMMENT_ID_COL),
-                rs.getInt(USER_ID_COL)
+                user
                 );
     }
 }

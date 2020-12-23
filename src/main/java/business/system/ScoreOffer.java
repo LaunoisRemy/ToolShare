@@ -1,18 +1,21 @@
 package business.system;
 
+import business.system.offer.Offer;
+import business.system.user.User;
+
 public class ScoreOffer {
     private int scoreId;
     private float rate;
-    private int offerId;
+    private Offer offer;
     private int commentId;
-    private int userId;
+    private User user;
 
-    public ScoreOffer(int scoreId, float rate, int offerId, int commentId, int userId) {
+    public ScoreOffer(int scoreId, float rate, Offer offer, int commentId, User user) {
         this.scoreId = scoreId;
         this.rate = rate;
-        this.offerId = offerId;
+        this.offer = offer;
         this.commentId = commentId;
-        this.userId = userId;
+        this.user = user;
     }
 
     public void setScoreId(int scoreId) {
@@ -27,15 +30,15 @@ public class ScoreOffer {
         return rate;
     }
 
-    public int getOfferId() {
-        return offerId;
+    public Offer getOffer() {
+        return offer;
     }
 
     public int getCommentId() {
         return commentId;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 }
