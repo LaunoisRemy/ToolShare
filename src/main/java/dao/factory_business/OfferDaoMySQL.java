@@ -263,6 +263,31 @@ public class OfferDaoMySQL extends OfferDAO {
     }*/
 
     /**
+     * Method that allows to search all the offers in the db and returns them
+     * @return the list of all the offers
+     */
+    @Override
+    public ArrayList getAllOffers() {
+        ArrayList res = new ArrayList<Offer>();
+        try {
+            PreparedStatement prep = this.connection.prepareStatement(
+                    "SELECT *  FROM offer o " +
+                            "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.ID_COL+
+                            " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL
+            );
+
+            ResultSet rs = prep.executeQuery();
+
+            while(rs.next()){
+                res.add(this.createOfferFromRs(rs));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return res;
+    }
+
+    /**
      * method which communicate with the db in order to find offers with a specified category id
      * @param category_id category id of the offer the system wants
      * @return the list of Offers founded
