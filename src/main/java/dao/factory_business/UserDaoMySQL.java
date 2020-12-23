@@ -126,7 +126,8 @@ public class UserDaoMySQL extends UserDAO {
                     PHONENUMBER_COL + " = ?, " +
                     ISADMIN + " = ?, " +
                     ISBANNED + " = ?, " +
-                    SALT_COL + " = ? " +
+                    SALT_COL + " = ?, " +
+                    RECOVERYCODE_COL + " = ? " +
                     "WHERE "+ ID_COL + " = ?";
             PreparedStatement prep = connection.prepareStatement(sql);
             prep.setString(1,obj.getEmail());
@@ -146,10 +147,9 @@ public class UserDaoMySQL extends UserDAO {
             }
             prep.setBoolean(8,obj.isBanned());
             prep.setString(9,obj.getSalt());
-            prep.setInt(10,obj.getUser_id());
-            System.out.println(prep);
+            prep.setString(10,obj.getRecoveryCode());
+            prep.setInt(11,obj.getUser_id());
             int rs = prep.executeUpdate();
-
             return obj;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -203,7 +203,6 @@ public class UserDaoMySQL extends UserDAO {
             PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setString(1,email);
             ResultSet rs = prep.executeQuery();
-            //String salt = rs.getString(1);
             String salt = null;
             if(rs.next()){
                 salt = rs.getString(1);
@@ -256,7 +255,8 @@ public class UserDaoMySQL extends UserDAO {
                 rs.getString(PHONENUMBER_COL),
                 rs.getBoolean(ISADMIN),
                 rs.getBoolean(ISBANNED),
-                rs.getString(SALT_COL));
+                rs.getString(SALT_COL),
+                rs.getString(RECOVERYCODE_COL));
      }
 
     @Override

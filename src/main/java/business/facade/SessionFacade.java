@@ -7,6 +7,12 @@ import business.system.user.User;
 import dao.factory_business.AbstractFactoryDAO;
 import dao.structure.UserDAO;
 
+import java.security.SecureRandom;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 public class SessionFacade {
 
     private User user;
@@ -112,12 +118,7 @@ public class SessionFacade {
         }
     }
 
-    public void sendMail(String mail) throws ObjectNotFoundException {
-        User user = UserDAO.getInstance().getUserByEmail(mail);
-        if(user == null){
-            throw new ObjectNotFoundException("User not found");
-        }
-    }
+
     public void updateProfile(String email, String firstName, String lastName, String city, String phoneNumber, String password){
         UserDAO userDAO = UserDAO.getInstance();
         user.setEmail(email);
@@ -131,6 +132,27 @@ public class SessionFacade {
 
     }
 
+    private String generateCode(int size){
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder(size);
+        String alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        int sizeAlpha = alphabet.length();
+        for(int i = 0; i < size; i++)
+            sb.append(alphabet.charAt(random.nextInt(alphabet.length())));
+        return sb.toString();
+
+    }
+
+    public void sendMail(String mail) throws ObjectNotFoundException {
+        User user = UserDAO.getInstance().getUserByEmail(mail);
+        if(user == null){
+            throw new ObjectNotFoundException("User not found");
+        }else{
+            user.setRecoveryCode(generateCode(6));
+            System.out.println(user.getRecoveryCode());
+            UserDAO.getInstance().update(user);
+        }
+    }
     public boolean checkCode(String code,String mail) {
         User user =  UserDAO.getInstance().getUserByEmail(mail);
         return code.equals(user.getRecoveryCode());
@@ -138,7 +160,6 @@ public class SessionFacade {
 
     public void changePassword(String password,String mail){
         User user = UserDAO.getInstance().getUserByEmail(mail);
-
         String salt = userManagement.getRandomSalt();
         String hashedPassword = userManagement.getHashedPassword(password, salt);
         user.setSalt(salt);
