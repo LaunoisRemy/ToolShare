@@ -18,7 +18,7 @@ public class UserDaoMySQL extends UserDAO {
     static final String USERCITY_COL = "userCity";
     static final String PHONENUMBER_COL = "phoneNumber";
     static final String ISADMIN = "isAdmin";
-    static final String ID_COL = "user_id";
+    static final String USER_ID = "user_id";
     static final String SALT_COL = "salt";
     static final String RECOVERYCODE_COL = "recoveryCode";
     private final Connection connection;
@@ -41,15 +41,13 @@ public class UserDaoMySQL extends UserDAO {
     public User find(int id,int... others) {
         User user = null;
         try {
-            String sql = "SELECT *  FROM user WHERE "+ID_COL+" =?";
+            String sql = "SELECT *  FROM user WHERE "+ USER_ID +" =?";
             PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setInt(1,id);
             ResultSet rs = prep.executeQuery();
 
             if(rs.next()){
-                if(rs.getInt(1) == (id)){
-                    user = createUserFromRs(rs);
-                }
+                user = createUserFromRs(rs);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -128,7 +126,7 @@ public class UserDaoMySQL extends UserDAO {
                     ISBANNED + " = ?, " +
                     SALT_COL + " = ?, " +
                     RECOVERYCODE_COL + " = ? " +
-                    "WHERE "+ ID_COL + " = ?";
+                    "WHERE "+ USER_ID + " = ?";
             PreparedStatement prep = connection.prepareStatement(sql);
             prep.setString(1,obj.getEmail());
             prep.setString(2,obj.getFirstName());
@@ -181,9 +179,7 @@ public class UserDaoMySQL extends UserDAO {
             prep.setString(1,email);
             ResultSet rs = prep.executeQuery();
             if(rs.next()){
-                if(rs.getString(EMAIL_COL).equals(email)){
-                    user = createUserFromRs(rs);
-                }
+                user = createUserFromRs(rs);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -246,7 +242,7 @@ public class UserDaoMySQL extends UserDAO {
      */
     public static User createUserFromRs(ResultSet rs) throws SQLException {
         return new User(
-                rs.getInt(ID_COL),
+                rs.getInt(USER_ID),
                 rs.getString(FIRST_NAME_COL),
                 rs.getString(LAST_NAME_COL),
                 rs.getString(EMAIL_COL),

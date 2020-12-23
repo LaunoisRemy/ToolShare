@@ -6,7 +6,6 @@ import business.system.offer.PriorityOffer;
 import business.system.offer.ToolSate;
 import business.system.user.User;
 import dao.structure.OfferDAO;
-import dao.structure.UserDAO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -41,7 +40,7 @@ public class OfferDaoMySQL extends OfferDAO {
         Offer offer = null;
         try {
             String sql = "SELECT *  FROM offer o " +
-                    "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.ID_COL+
+                    "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.USER_ID +
                     " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
                     " WHERE "+OFFER_ID_COL+" = ?";
             PreparedStatement prep = this.connection.prepareStatement(sql);
@@ -203,7 +202,7 @@ public class OfferDaoMySQL extends OfferDAO {
         try {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM offer o " +
-                            "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.ID_COL+
+                            "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.USER_ID +
                             " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
                             " WHERE "+USER_ID_COL+" = ?"
             );
@@ -232,7 +231,7 @@ public class OfferDaoMySQL extends OfferDAO {
         try {
             String sql =
                     "SELECT *  FROM offer o " +
-                            "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.ID_COL+
+                            "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.USER_ID +
                             " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
                             " WHERE "+UserDaoMySQL.USERCITY_COL+" = ?";
             PreparedStatement prep = this.connection.prepareStatement(sql);
@@ -281,7 +280,7 @@ public class OfferDaoMySQL extends OfferDAO {
         try {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM offer o " +
-                            "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.ID_COL+
+                            "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.USER_ID +
                             " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL
             );
 
@@ -307,7 +306,7 @@ public class OfferDaoMySQL extends OfferDAO {
         try {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM offer o " +
-                            "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.ID_COL+
+                            "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.USER_ID +
                             " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
                             " WHERE "+CATEGORY_ID_COL+" = ?"
             );
@@ -336,7 +335,7 @@ public class OfferDaoMySQL extends OfferDAO {
         try {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM offer o " +
-                            "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.ID_COL+
+                            "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.USER_ID +
                             " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
                             " WHERE "+ISPRIORITY+" = 1 ORDER BY "+DATE_START_PRIORITY_COL+" DESC"
             );

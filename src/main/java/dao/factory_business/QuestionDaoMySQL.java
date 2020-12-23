@@ -17,7 +17,7 @@ public class QuestionDaoMySQL extends QuestionDAO {
     public static final String ANSWER_ID_COL = "answer_id";
 
     /**
-     * Constructor of OfferDaoMySQL
+     * Constructor of QuestionDaoMySQL
      * @param connection to have a link of the connection
      */
     protected QuestionDaoMySQL(Connection connection) {
@@ -29,7 +29,7 @@ public class QuestionDaoMySQL extends QuestionDAO {
         Question question = null;
         try {
             String sql = "SELECT *  FROM question " +
-                    "JOIN user u on u."+UserDaoMySQL.ID_COL+" = question."+ USER_ID_COL +" "+
+                    "JOIN user u on u."+UserDaoMySQL.USER_ID +" = question."+ USER_ID_COL +" "+
                     "LEFT JOIN answer a on a."+AnswerDaoMySQL.ANSWER_ID+" = question."+ANSWER_ID_COL+" " +
                     " WHERE "+ QUESTION_ID +" = ?";
             PreparedStatement prep = this.connection.prepareStatement(sql);
@@ -37,9 +37,7 @@ public class QuestionDaoMySQL extends QuestionDAO {
             ResultSet rs = prep.executeQuery();
 
             if(rs.next()){
-                if(rs.getInt(1) == (id)){
-                    question = createQuestionFromRs(rs);
-                }
+                question = createQuestionFromRs(rs);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -86,13 +84,17 @@ public class QuestionDaoMySQL extends QuestionDAO {
             String sql ="UPDATE question " +
                     "SET "+SCORE_COL + " = ?, " +
                     CONTENT_COL + " = ?, " +
-                    ANSWER_ID_COL + " = ? " +
+                    ANSWER_ID_COL + " = ?, " +
+                    OFFER_ID_COL + " = ? ," +
+                    USER_ID_COL + " = ? " +
                     "WHERE "+ QUESTION_ID + " = ?";
             PreparedStatement prep = connection.prepareStatement(sql);
             prep.setInt(1,obj.getQuestionScore());
             prep.setString(2,obj.getQuestionContent());
             prep.setInt(3,obj.getAnswer().getAnswerId());
-            prep.setInt(4,obj.getQuestionId());
+            prep.setInt(4,obj.getOfferId());
+            prep.setInt(5,obj.getUser().getUser_id());
+            prep.setInt(6,obj.getQuestionId());
             int rs = prep.executeUpdate();
             return obj;
         } catch (SQLException throwables) {
@@ -109,12 +111,11 @@ public class QuestionDaoMySQL extends QuestionDAO {
             PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setInt(1,obj.getQuestionId());
             ResultSet rs = prep.executeQuery();
-
+            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return false;
         }
-        return true;
     }
     public static Question createQuestionFromRs(ResultSet rs) throws SQLException {
         Answer answer = AnswerDaoMySQL.createAnswerFromRs(rs);
