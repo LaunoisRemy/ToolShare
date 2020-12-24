@@ -1,6 +1,8 @@
 package gui.controller;
 
 import business.facade.SessionFacade;
+import business.system.user.OrdinaryUser;
+import business.system.user.Role;
 import business.system.user.User;
 import gui.LoadView;
 import gui.ViewPath;
@@ -23,8 +25,16 @@ public class NavBarUser implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        /*categories.setVisible(false);
-        categories.setManaged(false);*/
+        if(user.getRole().getNameRole().equals(OrdinaryUser.ORDINARY_USER)){
+            //categories.setVisible(false);
+            //categories.setManaged(false);
+        } else { //Admin
+            favory.setVisible(false);
+            favory.setManaged(false);
+            history.setVisible(false);
+            history.setManaged(false);
+        }
+
     }
 
     public void profilePage(ActionEvent actionEvent){

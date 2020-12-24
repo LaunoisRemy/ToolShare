@@ -5,6 +5,8 @@ import business.facade.CategoryFacade;
 import business.system.Category;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import gui.LoadView;
+import gui.ViewPath;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -49,7 +51,35 @@ public class CategoryController implements Initializable {
 
         deleteButton.setCellValueFactory(new PropertyValueFactory<>("categoryId"));
         updateButton.setCellValueFactory(new PropertyValueFactory<>("categoryId"));
+
         isValidated.setCellValueFactory(new PropertyValueFactory<>("isValidated"));
+        isValidated.setCellFactory(param -> new TableCell<>() {
+
+            private final CheckBox checkBox = new CheckBox();
+            {
+                checkBox.setOnAction(event -> {
+                    Category c = param.getTableView().getItems().get(getIndex());
+                    if(checkBox.isSelected()){
+                        c.setIsValidated(true);
+                    } else {
+                        c.setIsValidated(false);
+                    }
+                    handleSetValidated(event, c);
+                });
+            }
+            @Override
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                }
+                else {
+                    setGraphic(checkBox);
+                    checkBox.setSelected(item);
+                }
+            }
+        });
 
         updateButton.setCellFactory(param -> new TableCell<>() {
 
@@ -71,8 +101,6 @@ public class CategoryController implements Initializable {
                 }
             }
         });
-
-        isValidated.setCellFactory(column -> new CheckBoxTableCell());
 
         deleteButton.setCellFactory(param -> new TableCell<Category,Integer>() {
             Image img;
@@ -105,7 +133,12 @@ public class CategoryController implements Initializable {
 
     }
 
-    private void setValidated(ActionEvent event, Category category) {
+    private void handleSetValidated(ActionEvent event, Category category) {
+        try {
+            Category c = this.categoryFacade.updateCategory(category.getCategoryId(),category.getCategoryName(),category.getIsValidated());
+        } catch (ObjectNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void handleDeleteCategory(ActionEvent actionEvent, Category category,ObservableList data){
@@ -122,7 +155,9 @@ public class CategoryController implements Initializable {
     }
 
     public void handleNewCategory(ActionEvent actionEvent){
-        Category category = this.categoryFacade.createCategory(categoryName.getText(),false);
+        this.categoryFacade.createCategory(newCategoryName.getText(),false);
+        //refresh page to add the new cat
+        LoadView.changeScreen(actionEvent, ViewPath.CATEGORY_VIEW);
     }
 
     public void alertUpdate(ActionEvent actionEvent, Category category){
