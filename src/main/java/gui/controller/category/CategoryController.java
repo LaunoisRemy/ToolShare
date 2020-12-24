@@ -169,18 +169,15 @@ public class CategoryController implements Initializable {
 
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(name -> category.setCategoryName(name));
-        try {
-            this.categoryFacade.updateCategory(category.getCategoryId(),category.getCategoryName(),category.getIsValidated());
-        } catch (ObjectNotFoundException e) {
-            e.printStackTrace();
-        }
+        updateCategory(category);
+
         //refresh page to update the category
         LoadView.changeScreen(actionEvent, ViewPath.CATEGORY_VIEW);
     }
 
-    public void updateCategory(ActionEvent actionEvent, int idCategory){
+    public void updateCategory(Category category){
         try {
-            Category category = this.categoryFacade.updateCategory(idCategory,newCategoryName.getText(),false);
+            this.categoryFacade.updateCategory(category.getCategoryId(),category.getCategoryName(),category.getIsValidated());
         } catch (ObjectNotFoundException e) {
             e.printStackTrace();
         }
