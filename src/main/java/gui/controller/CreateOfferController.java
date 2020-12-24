@@ -16,8 +16,10 @@ import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import util.AlertBox;
+import util.ConstantsRegex;
 
 import java.net.URL;
+import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -76,8 +78,33 @@ public class CreateOfferController implements Initializable {
     }
 
     public void handleNewOffer(ActionEvent actionEvent) {
+        error_msg.setVisible(false);
+        cast_msg.setVisible(false);
         try {
-            Offer offer = offerFacade.createOffer(title.getText(), Float.parseFloat(price.getText()), description.getText(), state.getValue(), isPriority.isSelected(), category.getValue().getCategoryName(), Date.from(dateStart.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), Date.from(dateEnd.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            if(!ConstantsRegex.matchFloatRegex(price.getText())) throw new NumberFormatException();
+            if(!isPriority.isSelected()) {
+                Offer offer = offerFacade.createOffer(
+                        title.getText(),
+                        Float.parseFloat(price.getText()),
+                        description.getText(),
+                        state.getValue(),
+                        isPriority.isSelected(),
+                        category.getValue().getCategoryName(),
+                        null,
+                        null
+                );
+            } else {
+                Offer offer = offerFacade.createOffer(
+                        title.getText(),
+                        Float.parseFloat(price.getText()),
+                        description.getText(),
+                        state.getValue(),
+                        isPriority.isSelected(),
+                        category.getValue().getCategoryName(),
+                        Date.from(Instant.from(dateStart.getValue().atStartOfDay(ZoneId.systemDefault()))),
+                        Date.from(Instant.from(dateEnd.getValue().atStartOfDay(ZoneId.systemDefault())))
+                );
+            }
         } catch (NumberFormatException e) {
             System.err.println(e.toString());
             cast_msg.setVisible(true);
@@ -85,6 +112,7 @@ public class CreateOfferController implements Initializable {
             error_msg.setVisible(true);
             System.err.println(e.toString());
         } catch (MissingParametersException e) {
+            error_msg.setVisible(true);
             e.printStackTrace();
         }
     }

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 
 public class LoginController {
-    private SessionFacade facade=SessionFacade.getInstance();
+    private final SessionFacade facade = SessionFacade.getInstance();
     @FXML
     private JFXTextField mail;
     @FXML
