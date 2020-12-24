@@ -45,12 +45,14 @@ public class HomePageController implements Initializable {
 
 
     /**
-     *
+     * Initialize the view corresponding to what the user wanted,
+     * it can be the home page or only the favorties offers of the user
      * @param location
      * @param resources
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         FavoryFacade favoryFacade = FavoryFacade.getInstance();
         ArrayList<Offer> offerArrayList=new ArrayList<>();
         //Check if we are on the homepage or the favory page
@@ -148,14 +150,32 @@ public class HomePageController implements Initializable {
         table.setItems(data);
     }
 
-
+    /**
+     * Display the view of the offer when clicked on "see Offer"
+     * @param actionEvent
+     * @param offer
+     */
     public void seeOfferPage(ActionEvent actionEvent,Offer offer){
         //System.out.println(offer);
         //LoadView.changeScreen(actionEvent, ViewPath.LOGIN_VIEW,offer);
     }
+
+    /**
+     * Add the Offer to the favory list
+     * @param actionEvent
+     * @param offerID
+     * @param button
+     */
     public void addToFavory(ActionEvent actionEvent,int offerID,JFXButton button){
        favoryController.addToFavory(actionEvent,offerID,button);
     }
+
+    /**
+     * Delete the offer from the favory list
+     * @param actionEvent
+     * @param offerID
+     * @param button
+     */
     public void deleteFromFavory(ActionEvent actionEvent, int offerID,JFXButton button){
         favoryController.deleteFromFavory(actionEvent,offerID,button);
     }
