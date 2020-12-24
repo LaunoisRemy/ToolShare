@@ -1,6 +1,6 @@
 package dao.factory_business;
 
-import business.system.faq.Answer;
+import business.system.scorable.faq.Answer;
 import business.system.user.User;
 import dao.structure.AnswerDAO;
 

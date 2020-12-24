@@ -1,9 +1,6 @@
 package dao.factory_business;
 
-import business.system.Comment;
-import business.system.faq.Answer;
-import business.system.faq.Question;
-import business.system.user.User;
+import business.system.scorable.Comment;
 import dao.structure.CommentDAO;
 
 import java.sql.*;

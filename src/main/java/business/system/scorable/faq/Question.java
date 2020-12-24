@@ -1,8 +1,9 @@
-package business.system.faq;
+package business.system.scorable.faq;
 
+import business.system.scorable.Scorable;
 import business.system.user.User;
 
-public class Question {
+public class Question implements Scorable {
     private int questionId;
     private int questionScore;
     private String questionContent;
@@ -65,5 +66,10 @@ public class Question {
 
     public void setAnswer(Answer answer) {
         this.answer = answer;
+    }
+
+    @Override
+    public int getId() {
+        return getQuestionId();
     }
 }

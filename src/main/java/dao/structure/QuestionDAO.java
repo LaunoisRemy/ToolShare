@@ -1,6 +1,6 @@
 package dao.structure;
 
-import business.system.faq.Question;
+import business.system.scorable.faq.Question;
 import dao.factory_business.AbstractFactoryDAO;
 
 public abstract class QuestionDAO implements DAO<Question> {

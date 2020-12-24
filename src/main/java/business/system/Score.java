@@ -1,16 +1,17 @@
 package business.system;
 
+import business.system.scorable.Scorable;
 import business.system.user.User;
 
 public class Score {
     private User user;
-    private int object_id;
+    private Scorable object;
     private ScoreType scoreType;
     private int scoreValue;
 
-    public Score(User user, int object_id, ScoreType scoreType, int scoreValue) {
+    public Score(User user, Scorable object, ScoreType scoreType, int scoreValue) {
         this.user = user;
-        this.object_id = object_id;
+        this.object = object;
         this.scoreType = scoreType;
         this.scoreValue = scoreValue;
     }
@@ -23,12 +24,12 @@ public class Score {
         this.user = user;
     }
 
-    public int getObject_id() {
-        return object_id;
+    public Scorable getObject() {
+        return object;
     }
 
-    public void setObject_id(int object_id) {
-        this.object_id = object_id;
+    public void setObject(Scorable object) {
+        this.object = object;
     }
 
     public ScoreType getScoreType() {
