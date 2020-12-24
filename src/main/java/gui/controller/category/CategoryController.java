@@ -18,9 +18,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CategoryController implements Initializable {
@@ -156,12 +158,24 @@ public class CategoryController implements Initializable {
 
     public void handleNewCategory(ActionEvent actionEvent){
         this.categoryFacade.createCategory(newCategoryName.getText(),false);
-        //refresh page to add the new cat
+        //refresh page to add the new category
         LoadView.changeScreen(actionEvent, ViewPath.CATEGORY_VIEW);
     }
 
     public void alertUpdate(ActionEvent actionEvent, Category category){
+        TextInputDialog dialog = new TextInputDialog(category.getCategoryName());
+        dialog.setTitle("Update Category");
+        dialog.setContentText("Please enter the new category name:");
 
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(name -> category.setCategoryName(name));
+        try {
+            this.categoryFacade.updateCategory(category.getCategoryId(),category.getCategoryName(),category.getIsValidated());
+        } catch (ObjectNotFoundException e) {
+            e.printStackTrace();
+        }
+        //refresh page to update the category
+        LoadView.changeScreen(actionEvent, ViewPath.CATEGORY_VIEW);
     }
 
     public void updateCategory(ActionEvent actionEvent, int idCategory){
