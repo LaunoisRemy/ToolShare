@@ -55,6 +55,14 @@ public class CategoryFacade {
     }
 
     /**
+     * getAllValidatedCategories will return the list of all the validated categories present in the db
+     * @return the list of all the validated categories
+     */
+    public List<Category> getAllValidatedCategories() {
+        return this.categoryDAO.getAllValidatedCategories();
+    }
+
+    /**
      * deleteCategory will delete the category given by its id
      * @param idCategory the id category to delete
      * @return true if the category is well-deleted, false otherwise

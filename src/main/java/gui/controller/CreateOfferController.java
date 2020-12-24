@@ -74,7 +74,7 @@ public class CreateOfferController implements Initializable {
         state.getItems().addAll(ToolSate.values());
 
         category.getItems().clear();
-        category.getItems().addAll(categoryFacade.getAllCategories());
+        category.getItems().addAll(categoryFacade.getAllValidatedCategories());
     }
 
     public void handleNewOffer(ActionEvent actionEvent) {
@@ -118,7 +118,7 @@ public class CreateOfferController implements Initializable {
     }
 
     public void handleNewCategory(ActionEvent actionEvent) {
-        LoadView.changeScreen(actionEvent, ViewPath.POSTCATEGORY);
+        LoadView.changeScreen(actionEvent, ViewPath.POSTCATEGORY_VIEW);
     }
 
     public void handleIsPriority(ActionEvent actionEvent) {

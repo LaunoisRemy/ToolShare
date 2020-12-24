@@ -185,6 +185,28 @@ public class CategoryDaoMySQL extends CategoryDAO {
     }
 
     /**
+     * method which find all the validated categories from the db
+     * @return the list of all the validated categories founded
+     */
+    public List<Category> getAllValidatedCategories(){
+        List<Category> res = new ArrayList<>();
+        try {
+            PreparedStatement prep = this.connection.prepareStatement(
+                    "SELECT *  FROM category WHERE isValidated = 1"
+            );
+
+            ResultSet rs = prep.executeQuery();
+
+            while(rs.next()){
+                res.add(CategoryDaoMySQL.createCategoryFromRs(rs));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return res;
+    }
+
+    /**
      * Creates and returns a category from a query ResultSet
      * @param rs the ResultSet that contains category information
      * @return new Category
