@@ -1,6 +1,8 @@
-package business.system;
+package business.system.scorable;
 
-public class Comment {
+import business.system.scorable.Scorable;
+
+public class Comment implements Scorable {
     private int commentId;
     private String comment;
     private int commentScore;
@@ -34,5 +36,10 @@ public class Comment {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    @Override
+    public int getId() {
+        return getCommentId();
     }
 }

@@ -1,7 +1,7 @@
 package dao.factory_business;
 
-import business.system.faq.Answer;
-import business.system.faq.Question;
+import business.system.scorable.faq.Answer;
+import business.system.scorable.faq.Question;
 import business.system.user.User;
 import dao.structure.QuestionDAO;
 

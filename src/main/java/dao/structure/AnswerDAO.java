@@ -1,6 +1,6 @@
 package dao.structure;
 
-import business.system.faq.Answer;
+import business.system.scorable.faq.Answer;
 import dao.factory_business.AbstractFactoryDAO;
 
 public abstract class AnswerDAO implements DAO<Answer> {
