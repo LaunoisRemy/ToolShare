@@ -74,7 +74,7 @@ public class CreateOfferController implements Initializable {
         state.getItems().addAll(ToolSate.values());
 
         category.getItems().clear();
-        category.getItems().addAll(categoryFacade.getAllCategories());
+        category.getItems().addAll(categoryFacade.getAllValidatedCategories());
     }
 
     public void handleNewOffer(ActionEvent actionEvent) {
