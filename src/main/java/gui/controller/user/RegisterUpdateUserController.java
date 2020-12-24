@@ -69,6 +69,10 @@ public class RegisterUpdateUserController implements Initializable {
         }
     }
 
+    /**
+     * Method that allows to check every input of the register form
+     * @return true if every inputs are valid; else false
+     */
     private boolean checkInputs(){
         boolean checked = true;
         if(!ConstantsRegex.matchEmail((email.getText()))){
@@ -109,9 +113,12 @@ public class RegisterUpdateUserController implements Initializable {
         return checked;
     }
 
+    /**
+     * This method is called when the user submit his inputs.
+     * @param actionEvent when clicked on the submit button
+     * If the user has correct inputs, the view is changed to Login Page, else an error message is display
+     */
     public void handleRegister(ActionEvent actionEvent){
-
-
         try {
             if(checkInputs()){
                 facade.register(email.getText(), firstname.getText(), lastname.getText(), city.getText(), phone.getText(), password.getText(), false);
@@ -124,6 +131,11 @@ public class RegisterUpdateUserController implements Initializable {
             System.out.println(e.toString());
         }
     }
+
+    /**
+     * This method is called when an online user wants to update his profile
+     * @param actionEvent when clicked on the submit button
+     */
     public void handleUpdate(ActionEvent actionEvent){
         if(checkInputs()){
             facade.updateProfile(email.getText(), firstname.getText(), lastname.getText(), city.getText(), phone.getText(),password.getText());
@@ -133,6 +145,10 @@ public class RegisterUpdateUserController implements Initializable {
 
     }
 
+    /**
+     * Change the page to the view passed in parameters
+     * @param actionEvent
+     */
     public void loginPage(ActionEvent actionEvent){
         LoadView.changeScreen(actionEvent,ViewPath.LOGIN_VIEW);
     }

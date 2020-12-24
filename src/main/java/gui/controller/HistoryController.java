@@ -33,7 +33,7 @@ public class HistoryController implements Initializable {
 
 
     /**
-     *
+     * Initialize the view by getting all the offers the user has reserved
      * @param location
      * @param resources
      */
@@ -107,9 +107,20 @@ public class HistoryController implements Initializable {
 
     }
 
+    /**
+     * Display the view of the offer
+     * @param event
+     * @param offer
+     */
     public void seeOfferPage(Event event, Offer offer){
         System.out.println(offer);
     }
+
+    /**
+     * Display a pop-up to rate the selected offer
+     * @param event
+     * @param offer
+     */
     public void rateOffer(Event event, Offer offer){
         System.out.println(offer);
     }

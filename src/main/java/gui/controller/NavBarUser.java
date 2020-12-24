@@ -15,16 +15,16 @@ public class NavBarUser {
     public void profilePage(ActionEvent actionEvent){
         LoadView.changeScreen(actionEvent, ViewPath.REGISTERUPDATEUSER_VIEW,user,1);
     }
-    public void historyPage(Event event){
+    public void historyPage(ActionEvent event){
         LoadView.changeScreen(event, ViewPath.HISTORY_VIEW);
     }
-    public void favoryPage(Event event){
+    public void favoryPage(ActionEvent event){
         LoadView.changeScreen(event,ViewPath.HOMEPAGE_VIEW,1);
     }
-    public void homePage(Event event){
+    public void homePage(ActionEvent event){
         LoadView.changeScreen(event,ViewPath.HOMEPAGE_VIEW);
     }
-    public void postOfferPage(Event event){
+    public void postOfferPage(ActionEvent event){
         LoadView.changeScreen(event,ViewPath.POSTOFFER_VIEW);
     }
 
