@@ -24,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.FloatStringConverter;
 import util.ConstantsRegex;
+import util.MapRessourceBundle;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -43,24 +44,20 @@ public class HomePageController implements Initializable {
     private TableColumn<Offer,Float> price;
 
 
+    /**
+     *
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         FavoryFacade favoryFacade = FavoryFacade.getInstance();
-
-        //TODO Ici recupérer toutes les offres et non la 1ere
         ArrayList<Offer> offerArrayList=new ArrayList<>();
-        Offer offer =null;
         //Check if we are on the homepage or the favory page
-        if(ConstantsRegex.match(Pattern.compile(ViewPath.FAVORY_VIEW.getUrl()),location.getFile())){
+        if(((MapRessourceBundle)resources).size() != 0){
                 offerArrayList.addAll(favoryFacade.getAllFavories());
         }else{
-            try {
-                offer = OfferFacade.getInstance().getOffer(1);
-                offerArrayList.add(offer);
-
-            } catch (ObjectNotFoundException e) {
-                e.printStackTrace();
-            }
+            offerArrayList.addAll(OfferFacade.getInstance().getAllOffers());
         }
 
 

@@ -1,7 +1,6 @@
 package dao.structure;
 
 import business.system.offer.Offer;
-import business.system.offer.PriorityOffer;
 import dao.factory_business.AbstractFactoryDAO;
 
 import java.util.ArrayList;
@@ -26,6 +25,6 @@ public abstract class OfferDAO implements DAO<Offer> {
 
     public abstract ArrayList<Offer> getOffersByCategory(int category_id);
 
-    public abstract ArrayList<PriorityOffer> getPriorityOffer();
+    public abstract ArrayList<Offer> getPriorityOffer();
 }
 

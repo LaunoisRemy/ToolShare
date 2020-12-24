@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="901.0" prefWidth="1227.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.HomePageController">
+<AnchorPane prefHeight="901.0" prefWidth="1227.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.HistoryController">
    <children>
       <BorderPane prefHeight="901.0" prefWidth="1227.0" style="-fx-background-color: fafafa; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -60,12 +60,12 @@
                         <VBox prefHeight="2.0" prefWidth="1229.0" style="-fx-background-color: #212121;" />
                         <TableView fx:id="table" prefHeight="650.0" prefWidth="1229.0">
                            <columns>
-                              <TableColumn fx:id="title" prefWidth="405.0" style="-fx-alignment: CENTER;" text="Title" />
-                              <TableColumn fx:id="category" prefWidth="239.0" style="-fx-alignment: CENTER;" text="Category" />
-                              <TableColumn fx:id="price" prefWidth="154.0" style="-fx-alignment: CENTER;" text="Price" />
-                              <TableColumn fx:id="city" minWidth="0.0" prefWidth="196.0" style="-fx-alignment: CENTER;" text="City" />
-                              <TableColumn fx:id="offerButton" prefWidth="128.0" style="-fx-alignment: CENTER;" text="SeeOffer" />
-                              <TableColumn fx:id="favoryButton" prefWidth="98.0" style="-fx-alignment: CENTER;" text="Favory" />
+                              <TableColumn fx:id="title" prefWidth="365.0" style="-fx-alignment: CENTER;" text="Title" />
+                              <TableColumn fx:id="category" prefWidth="257.0" style="-fx-alignment: CENTER;" text="Category" />
+                              <TableColumn fx:id="price" prefWidth="121.0" style="-fx-alignment: CENTER;" text="Price" />
+                              <TableColumn fx:id="city" minWidth="0.0" prefWidth="161.0" style="-fx-alignment: CENTER;" text="City" />
+                              <TableColumn fx:id="rateButton" prefWidth="171.0" style="-fx-alignment: CENTER;" text="Rate" />
+                              <TableColumn fx:id="offerButton" prefWidth="138.0" style="-fx-alignment: CENTER;" text="SeeOffer" />
                            </columns></TableView>
                      </children>
                   </VBox>

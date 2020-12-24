@@ -8,8 +8,9 @@ public enum ViewPath {
     REGISTERUPDATEUSER_VIEW("view/user/registerUpdateUser.fxml"),
     POSTOFFER_VIEW("view/createOffer.fxml"),
     POSTCATEGORY_VIEW("view/createCategory.fxml"),
-    HOMEPAGE_VIEW("view/homePage.fxml"),
-    FAVORY_VIEW("view/favoryPage.fxml");
+    FAVORY_VIEW("view/favoryPage.fxml"),
+    HISTORY_VIEW("view/historyPage.fxml"),
+    HOMEPAGE_VIEW("view/homePage.fxml");
 
 
     private String url;
