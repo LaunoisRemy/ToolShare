@@ -118,7 +118,7 @@ public class CreateOfferController implements Initializable {
     }
 
     public void handleNewCategory(ActionEvent actionEvent) {
-        LoadView.changeScreen(actionEvent, ViewPath.POSTCATEGORY);
+        LoadView.changeScreen(actionEvent, ViewPath.POSTCATEGORY_VIEW);
     }
 
     public void handleIsPriority(ActionEvent actionEvent) {

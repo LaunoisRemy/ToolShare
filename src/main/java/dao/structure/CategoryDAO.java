@@ -29,5 +29,10 @@ public abstract class CategoryDAO implements DAO<Category> {
     public abstract List<Category> getAllCategories();
 
 
+    /**
+     * Find all the validated categories
+     * @return a list of all the categories
+     */
+    public abstract List<Category> getAllValidatedCategories();
 }
 
