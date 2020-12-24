@@ -51,8 +51,35 @@ public class CategoryController implements Initializable {
 
         deleteButton.setCellValueFactory(new PropertyValueFactory<>("categoryId"));
         updateButton.setCellValueFactory(new PropertyValueFactory<>("categoryId"));
+
         isValidated.setCellValueFactory(new PropertyValueFactory<>("isValidated"));
-        isValidated.setCellFactory(CheckBoxTableCell.forTableColumn(isValidated));
+        isValidated.setCellFactory(param -> new TableCell<>() {
+
+            private final CheckBox checkBox = new CheckBox();
+            {
+                checkBox.setOnAction(event -> {
+                    Category c = param.getTableView().getItems().get(getIndex());
+                    if(checkBox.isSelected()){
+                        c.setIsValidated(true);
+                    } else {
+                        c.setIsValidated(false);
+                    }
+                    handleSetValidated(event, c);
+                });
+            }
+            @Override
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                }
+                else {
+                    setGraphic(checkBox);
+                    checkBox.setSelected(item);
+                }
+            }
+        });
 
         updateButton.setCellFactory(param -> new TableCell<>() {
 
@@ -106,7 +133,12 @@ public class CategoryController implements Initializable {
 
     }
 
-    private void setValidated(ActionEvent event, Category category) {
+    private void handleSetValidated(ActionEvent event, Category category) {
+        try {
+            Category c = this.categoryFacade.updateCategory(category.getCategoryId(),category.getCategoryName(),category.getIsValidated());
+        } catch (ObjectNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void handleDeleteCategory(ActionEvent actionEvent, Category category,ObservableList data){
