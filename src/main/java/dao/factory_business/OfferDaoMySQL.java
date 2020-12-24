@@ -197,8 +197,8 @@ public class OfferDaoMySQL extends OfferDAO {
      * @return the list of Offers founded
      */
     @Override
-    public ArrayList getOffersFromUser(int idUser) {
-        ArrayList res = new ArrayList<Offer>();
+    public ArrayList<Offer> getOffersFromUser(int idUser) {
+        ArrayList<Offer> res = new ArrayList<Offer>();
         try {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM offer o " +
@@ -226,8 +226,8 @@ public class OfferDaoMySQL extends OfferDAO {
      * @return the list of Offers founded
      */
     @Override
-    public ArrayList getOffersByCity(String city) {
-        ArrayList res = new ArrayList<Offer>();
+    public ArrayList<Offer> getOffersByCity(String city) {
+        ArrayList<Offer> res = new ArrayList<Offer>();
         try {
             String sql =
                     "SELECT *  FROM offer o " +
@@ -275,8 +275,8 @@ public class OfferDaoMySQL extends OfferDAO {
      * @return the list of all the offers
      */
     @Override
-    public ArrayList getAllOffers() {
-        ArrayList res = new ArrayList<Offer>();
+    public ArrayList<Offer> getAllOffers() {
+        ArrayList<Offer> res = new ArrayList<Offer>();
         try {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM offer o " +
@@ -301,8 +301,8 @@ public class OfferDaoMySQL extends OfferDAO {
      * @return the list of Offers founded
      */
     @Override
-    public ArrayList getOffersByCategory(int category_id) {
-        ArrayList res = new ArrayList<Offer>();
+    public ArrayList<Offer> getOffersByCategory(int category_id) {
+        ArrayList<Offer> res = new ArrayList<>();
         try {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM offer o " +
@@ -330,8 +330,8 @@ public class OfferDaoMySQL extends OfferDAO {
      * @return the list of Offers founded
      */
     @Override
-    public ArrayList getPriorityOffer() {
-        ArrayList res = new ArrayList<PriorityOffer>();
+    public ArrayList<Offer> getPriorityOffer() {
+        ArrayList<Offer> res = new ArrayList<>();
         try {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM offer o " +

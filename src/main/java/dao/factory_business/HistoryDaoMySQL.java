@@ -32,10 +32,10 @@ public class HistoryDaoMySQL extends HistoryDAO {
         try {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM reservation " +
-                            "JOIN user u ON reservation."+UserDaoMySQL.ID_COL+" = u."+UserDaoMySQL.ID_COL+
+                            "JOIN user u ON reservation."+UserDaoMySQL.USER_ID+" = u."+UserDaoMySQL.USER_ID+
                             " JOIN offer o on o.offer_id = reservation.offer_id"+
                             " LEFT JOIN category c ON o."+CategoryDaoMySQL.CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
-                            " WHERE o."+OfferDaoMySQL.OFFER_ID_COL+" = ? AND u."+ UserDaoMySQL.ID_COL+"=?"
+                            " WHERE o."+OfferDaoMySQL.OFFER_ID_COL+" = ? AND u."+ UserDaoMySQL.USER_ID+"=?"
             );
             prep.setInt(1,idUser);
             prep.setInt(2,idOffer[0]);
@@ -72,10 +72,10 @@ public class HistoryDaoMySQL extends HistoryDAO {
         try {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM reservation " +
-                            "JOIN user u ON reservation."+UserDaoMySQL.ID_COL+" = u."+UserDaoMySQL.ID_COL+
+                            "JOIN user u ON reservation."+UserDaoMySQL.USER_ID+" = u."+UserDaoMySQL.USER_ID+
                             " JOIN offer o on o.offer_id = reservation.offer_id"+
                             " LEFT JOIN category c ON o."+CategoryDaoMySQL.CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
-                            " WHERE u."+ UserDaoMySQL.ID_COL+"=?"
+                            " WHERE u."+ UserDaoMySQL.USER_ID+"=?"
             );
             prep.setInt(1,user.getUser_id());
             ResultSet rs = prep.executeQuery();
@@ -91,7 +91,6 @@ public class HistoryDaoMySQL extends HistoryDAO {
 
 
     public static History createHistoryFromRs(ResultSet rs) throws SQLException {
-        History history = null;
         User u = UserDaoMySQL.createUserFromRs(rs);
         Offer o = OfferDaoMySQL.createOfferFromRs(rs);
         Date startDate = rs.getDate(ReservationDaoMySQL.START_DATE);

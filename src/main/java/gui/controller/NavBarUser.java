@@ -16,7 +16,7 @@ public class NavBarUser {
         LoadView.changeScreen(actionEvent, ViewPath.REGISTERUPDATEUSER_VIEW,user,1);
     }
     public void historyPage(Event event){
-        LoadView.changeScreen(event, ViewPath.LOGIN_VIEW);
+        LoadView.changeScreen(event, ViewPath.HISTORY_VIEW);
     }
     public void favoryPage(Event event){
         LoadView.changeScreen(event,ViewPath.HOMEPAGE_VIEW,1);

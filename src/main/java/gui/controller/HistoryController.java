@@ -82,10 +82,35 @@ public class HistoryController implements Initializable {
             }
 
         });
+        rateButton.setCellFactory(param -> new TableCell<>() {
+
+            private final Button seeOfferButton = new Button("Rate");
+            {
+                seeOfferButton.setOnAction(event -> {
+                    rateOffer(event, param.getTableView().getItems().get(getIndex()));
+                });
+            }
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                }
+                else {
+                    setGraphic(seeOfferButton);
+                }
+            }
+
+        });
+        table.setItems(data);
 
     }
 
     public void seeOfferPage(Event event, Offer offer){
-
+        System.out.println(offer);
+    }
+    public void rateOffer(Event event, Offer offer){
+        System.out.println(offer);
     }
 }
