@@ -1,9 +1,6 @@
 package dao.factory_business;
 
 import business.system.Category;
-import business.system.offer.Offer;
-import business.system.offer.PriorityOffer;
-import business.system.offer.ToolSate;
 import dao.structure.CategoryDAO;
 
 import java.sql.*;
@@ -17,7 +14,7 @@ public class CategoryDaoMySQL extends CategoryDAO {
     private final Connection connection;
 
     /**
-     * Constructor of OfferDaoMySQL
+     * Constructor of CategoryDaoMySQL
      * @param connection to have a link of the connection
      */
     protected CategoryDaoMySQL(Connection connection) {
@@ -92,7 +89,7 @@ public class CategoryDaoMySQL extends CategoryDAO {
     public Category update(Category obj) {
         try {
             String sql =
-                    "UPDATE offer " +
+                    "UPDATE category " +
                             "SET "+CATEGORY_NAME_COL+" = ?, "+ISVALIDATED+" = ? " +
                             "WHERE "+CATEGORY_ID_COL+" = ?";
 
@@ -125,10 +122,11 @@ public class CategoryDaoMySQL extends CategoryDAO {
     public boolean delete(Category obj) {
         try {
             String sql =
-                    "DELETE FROM offer WHERE "+CATEGORY_ID_COL+" = ?";
+                    "DELETE FROM category WHERE "+CATEGORY_ID_COL+" = ?";
             PreparedStatement prep = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             prep.setInt(1,obj.getCategoryId());
-            ResultSet rs = prep.executeQuery();
+            prep.executeUpdate();
+            ResultSet rs = prep.getGeneratedKeys();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

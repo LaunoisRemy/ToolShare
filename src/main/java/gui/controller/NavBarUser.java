@@ -6,11 +6,26 @@ import gui.LoadView;
 import gui.ViewPath;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 
-public class NavBarUser {
+public class NavBarUser implements Initializable {
     User user = SessionFacade.getInstance().getUser();
+
+    @FXML
+    private VBox search,history,favory,categories;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        /*categories.setVisible(false);
+        categories.setManaged(false);*/
+    }
 
     public void profilePage(ActionEvent actionEvent){
         LoadView.changeScreen(actionEvent, ViewPath.REGISTERUPDATEUSER_VIEW,user,1);
@@ -27,5 +42,9 @@ public class NavBarUser {
     public void postOfferPage(ActionEvent event){
         LoadView.changeScreen(event,ViewPath.POSTOFFER_VIEW);
     }
+    public void categoryPage(ActionEvent event){
+        LoadView.changeScreen(event,ViewPath.CATEGORY_VIEW);
+    }
+
 
 }

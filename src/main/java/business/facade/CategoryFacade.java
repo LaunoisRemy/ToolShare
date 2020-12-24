@@ -64,12 +64,11 @@ public class CategoryFacade {
 
     /**
      * deleteCategory will delete the category given by its id
-     * @param idCategory the id category to delete
+     * @param category the category to delete
      * @return true if the category is well-deleted, false otherwise
      * @throws ObjectNotFoundException
      */
-    public boolean deleteCategory(int idCategory) throws ObjectNotFoundException {
-        Category category = this.getCategory(idCategory);
+    public boolean deleteCategory(Category category) throws ObjectNotFoundException {
         return this.categoryDAO.delete(category);
     }
 
