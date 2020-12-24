@@ -5,6 +5,8 @@ import business.facade.CategoryFacade;
 import business.system.Category;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import gui.LoadView;
+import gui.ViewPath;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -50,6 +52,7 @@ public class CategoryController implements Initializable {
         deleteButton.setCellValueFactory(new PropertyValueFactory<>("categoryId"));
         updateButton.setCellValueFactory(new PropertyValueFactory<>("categoryId"));
         isValidated.setCellValueFactory(new PropertyValueFactory<>("isValidated"));
+        isValidated.setCellFactory(CheckBoxTableCell.forTableColumn(isValidated));
 
         updateButton.setCellFactory(param -> new TableCell<>() {
 
@@ -71,8 +74,6 @@ public class CategoryController implements Initializable {
                 }
             }
         });
-
-        isValidated.setCellFactory(column -> new CheckBoxTableCell());
 
         deleteButton.setCellFactory(param -> new TableCell<Category,Integer>() {
             Image img;
@@ -122,7 +123,9 @@ public class CategoryController implements Initializable {
     }
 
     public void handleNewCategory(ActionEvent actionEvent){
-        Category category = this.categoryFacade.createCategory(categoryName.getText(),false);
+        this.categoryFacade.createCategory(newCategoryName.getText(),false);
+        //refresh page to add the new cat
+        LoadView.changeScreen(actionEvent, ViewPath.CATEGORY_VIEW);
     }
 
     public void alertUpdate(ActionEvent actionEvent, Category category){
