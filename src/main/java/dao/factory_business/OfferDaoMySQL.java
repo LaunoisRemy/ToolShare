@@ -49,7 +49,7 @@ public class OfferDaoMySQL extends OfferDAO {
 
             if(rs.next()){
                 if(rs.getInt(OFFER_ID_COL) == (id)){
-                    offer = this.createOfferFromRs(rs);
+                    offer = createOfferFromRs(rs);
                 }
             }
         } catch (SQLException throwables) {
@@ -191,34 +191,6 @@ public class OfferDaoMySQL extends OfferDAO {
         return true;
     }
 
-    /**
-     * method which communicate with the db in order to find offers with a specified user id
-     * @param idUser id of the user the system wants
-     * @return the list of Offers founded
-     */
-    @Override
-    public ArrayList<Offer> getOffersFromUser(int idUser) {
-        ArrayList<Offer> res = new ArrayList<Offer>();
-        try {
-            PreparedStatement prep = this.connection.prepareStatement(
-                    "SELECT *  FROM offer o " +
-                            "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.USER_ID +
-                            " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
-                            " WHERE "+USER_ID_COL+" = ?"
-            );
-            prep.setInt(1,idUser);
-            ResultSet rs = prep.executeQuery();
-
-            while(rs.next()){
-                if(rs.getInt(USER_ID_COL) == (idUser)){
-                    res.add(this.createOfferFromRs(rs));
-                }
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return res;
-    }
 
     /**
      * method which communicate with the db in order to find offers with a specified city
@@ -227,7 +199,7 @@ public class OfferDaoMySQL extends OfferDAO {
      */
     @Override
     public ArrayList<Offer> getOffersByCity(String city) {
-        ArrayList<Offer> res = new ArrayList<Offer>();
+        ArrayList<Offer> res = new ArrayList<>();
         try {
             String sql =
                     "SELECT *  FROM offer o " +
@@ -241,7 +213,7 @@ public class OfferDaoMySQL extends OfferDAO {
 
             while(rs.next()){
                 if(rs.getString(4).equals(city)){
-                    res.add(this.createOfferFromRs(rs));
+                    res.add(createOfferFromRs(rs));
                 }
             }
         } catch (SQLException throwables) {
@@ -276,7 +248,7 @@ public class OfferDaoMySQL extends OfferDAO {
      */
     @Override
     public ArrayList<Offer> getAllOffers() {
-        ArrayList<Offer> res = new ArrayList<Offer>();
+        ArrayList<Offer> res = new ArrayList<>();
         try {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM offer o " +
@@ -287,12 +259,21 @@ public class OfferDaoMySQL extends OfferDAO {
             ResultSet rs = prep.executeQuery();
 
             while(rs.next()){
-                res.add(this.createOfferFromRs(rs));
+                res.add(createOfferFromRs(rs));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return res;
+    }
+    /**
+     * method which communicate with the db in order to find offers with a specified user id
+     * @param idUser id of the user the system wants
+     * @return the list of Offers founded
+     */
+    @Override
+    public ArrayList<Offer> getOffersFromUser(int idUser) {
+        return getOffers(idUser, USER_ID_COL);
     }
 
     /**
@@ -302,22 +283,25 @@ public class OfferDaoMySQL extends OfferDAO {
      */
     @Override
     public ArrayList<Offer> getOffersByCategory(int category_id) {
+        return getOffers(category_id, CATEGORY_ID_COL);
+    }
+
+    private ArrayList<Offer> getOffers(int id, String whereClause) {
         ArrayList<Offer> res = new ArrayList<>();
         try {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM offer o " +
-                            "JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.USER_ID +
-                            " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
-                            " WHERE "+CATEGORY_ID_COL+" = ?"
+                            "JOIN user u ON o."+USER_ID_COL+" = u."+ UserDaoMySQL.USER_ID +
+                            " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+ CategoryDaoMySQL.CATEGORY_ID_COL+
+                            " WHERE "+ whereClause +" = ?"
             );
 
-            prep.setInt(1,category_id);
+            prep.setInt(1,id);
             ResultSet rs = prep.executeQuery();
 
             while(rs.next()){
-                if(rs.getInt(CATEGORY_ID_COL) == (category_id)){
-                    res.add(this.createOfferFromRs(rs));
-                }
+                res.add(createOfferFromRs(rs));
+
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -343,7 +327,7 @@ public class OfferDaoMySQL extends OfferDAO {
             ResultSet rs = prep.executeQuery();
 
             while(rs.next()){
-                res.add(this.createOfferFromRs(rs));
+                res.add(createOfferFromRs(rs));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

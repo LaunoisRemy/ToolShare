@@ -106,16 +106,15 @@ public class ScoreOfferDaoMySQL  extends ScoreOfferDAO {
     public boolean delete(ScoreOffer obj) {
         try {
             String sql ="DELETE FROM score_offer WHERE "+SCORE_OFFER_ID+" = ?";
-
             PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setInt(1,obj.getScoreId());
             ResultSet rs = prep.executeQuery();
-
+            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return false;
         }
-        return true;
+
     }
 
     /**

@@ -59,4 +59,9 @@ public class FactoryDAOMySQL extends AbstractFactoryDAO {
         return new FavoryDaoMySQL(connection);
     }
 
+    @Override
+    public ReturnOfferDAO getReturnOfferDAO() {
+        return new ReturnOfferDaoMySQL(connection);
+    }
+
 }

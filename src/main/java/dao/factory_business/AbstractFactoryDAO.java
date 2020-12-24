@@ -58,6 +58,7 @@ public abstract class AbstractFactoryDAO {
     public abstract CommentDAO getCommentDAO();
     public abstract CategoryDAO getCategoryDAO();
     public abstract FavoryDAO getFavoryDAO();
+    public abstract ReturnOfferDAO getReturnOfferDAO();
 
 
 
