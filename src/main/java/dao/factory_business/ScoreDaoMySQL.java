@@ -44,7 +44,6 @@ public class ScoreDaoMySQL extends ScoreDAO {
 
             if(rs.next()){
                 ScoreType type = ScoreType.getType(rs.getString(OBJECT_TYPE));
-                System.out.println(type);
                 Scorable obj = switch (type) {
                     case QUESTION -> QuestionDaoMySQL.createQuestionFromRs(Objects.requireNonNull(joinScorable("question", QuestionDaoMySQL.QUESTION_ID, objectId)));
                     case ANSWER -> AnswerDaoMySQL.createAnswerFromRs(Objects.requireNonNull(joinScorable("answer", AnswerDaoMySQL.ANSWER_ID, objectId)));

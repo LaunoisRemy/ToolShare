@@ -2,6 +2,9 @@ package business.facade;
 
 import business.system.ScoreOffer;
 import business.system.offer.Offer;
+import business.system.scorable.Comment;
+import dao.factory_business.CommentDaoMySQL;
+import dao.structure.CommentDAO;
 import dao.structure.ScoreOfferDAO;
 
 public class EvaluationFacade {
@@ -9,15 +12,23 @@ public class EvaluationFacade {
         return INSTANCE;
     }
 
-    public void rate(Offer offer, int rate){
+    public ScoreOffer rate(Offer offer, int rate){
         ScoreOfferDAO scoreOfferDAO = ScoreOfferDAO.getInstance();
         SessionFacade sessionFacade = SessionFacade.getInstance();
         ScoreOffer scoreOffer = new ScoreOffer(rate,offer,null,sessionFacade.getUser());
         scoreOfferDAO.create(scoreOffer);
-        System.out.println(offer);
+        return scoreOffer;
+    }
+    public void comment(ScoreOffer scoreOffer, String commentText){
+        ScoreOfferDAO scoreOfferDAO = ScoreOfferDAO.getInstance();
+        CommentDAO commentDaoMySQL = CommentDaoMySQL.getInstance();
+        SessionFacade sessionFacade = SessionFacade.getInstance();
+        Comment comment = new Comment(commentText);
+        comment = commentDaoMySQL.create(comment);
+        scoreOffer.setComment(comment);
+        scoreOfferDAO.update(scoreOffer);
 
     }
-    public void comment(int offerId, String comment){}
     public void deleteComment(int commentId){}
     public void deleteRate(int idRate){}
     public void updateComment(int commentId, int idRate, int userID){}

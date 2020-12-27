@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="901.0" prefWidth="1227.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.EvaluationController">
+    <children>
+        <BorderPane prefHeight="901.0" prefWidth="1227.0" style="-fx-background-color: fafafa; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <top>
+
+            </top>
+            <bottom>
+                <Pane prefHeight="85.0" prefWidth="1227.0" style="-fx-background-color: #f50057;" BorderPane.alignment="CENTER" />
+            </bottom>
+            <top>
+                <fx:include source="../template/navBarUser.fxml" />
+            </top>
+            <center>
+                <Pane prefHeight="608.0" prefWidth="1227.0" style="-fx-background-color: #fafafa;" BorderPane.alignment="CENTER">
+                    <children>
+                        <VBox prefHeight="721.0" prefWidth="1229.0">
+                            <children>
+                                <HBox alignment="CENTER" prefHeight="69.0" prefWidth="1229.0">
+                                    <children>
+                                        <Label alignment="CENTER" contentDisplay="TOP" prefHeight="69.0" prefWidth="1182.0" text="Comment Offer">
+                                            <font>
+                                                <Font name="Tahoma Bold" size="18.0" />
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets right="150.0" />
+                                            </HBox.margin>
+                                        </Label>
+
+                                    </children>
+                                </HBox>
+                                <VBox prefHeight="2.0" prefWidth="1229.0" style="-fx-background-color: #212121;" />
+                        <Pane prefHeight="651.0" prefWidth="1230.0">
+                           <children>
+                              <Hyperlink fx:id="cancel" layoutX="738.0" layoutY="377.0" onAction="#historyPage" prefHeight="33.0" prefWidth="60.0" text="Cancel" underline="true">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Hyperlink>
+                              <Label layoutX="544.0" layoutY="134.0" prefHeight="33.0" prefWidth="469.0" text="What is the score you want to put on this offer?" />
+                              <VBox layoutX="329.0" layoutY="136.0" prefHeight="362.0" prefWidth="185.0">
+                                 <children>
+                                    <JFXTextField fx:id="titleOffer" prefHeight="45.0" prefWidth="281.0" promptText="Firstname" text="title name">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </JFXTextField>
+                                    <JFXTextArea fx:id="desc" />
+                                 </children>
+                              </VBox>
+                              <JFXButton fx:id="submitComment" layoutX="596.0" layoutY="371.0" onAction="#handleComment" prefHeight="45.0" prefWidth="129.0" style="-fx-background-color: #2f9acd; -fx-background-radius: 90;" text="Submit">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXTextArea fx:id="commentArea" layoutX="547.0" layoutY="167.0" />
+                              <JFXRadioButton fx:id="yesButton" layoutX="811.0" layoutY="142.0" onAction="#handleChoiceComment" text="Yes">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="choiceComment" />
+                                 </toggleGroup>
+                              </JFXRadioButton>
+                              <JFXRadioButton fx:id="noButton" layoutX="869.0" layoutY="142.0" onAction="#handleChoiceComment" text="No" toggleGroup="$choiceComment" />
+                           </children>
+                        </Pane>
+                            </children>
+                        </VBox>
+                    </children>
+                </Pane>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>

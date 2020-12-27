@@ -12,6 +12,7 @@ public enum ViewPath {
     HISTORY_VIEW("view/historyPage.fxml"),
     CATEGORY_VIEW("view/category/category.fxml"),
     HOMEPAGE_VIEW("view/homePage.fxml"),
+    COMMENT_VIEW("view/rate/comment.fxml"),
     RATE_VIEW("view/rate/rateOffer.fxml");
 
 

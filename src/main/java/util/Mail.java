@@ -31,7 +31,6 @@ public class Mail {
             message.setSubject(subject);
             message.setText(text);
             Transport.send(message);
-            System.out.println("Message_envoye");
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }

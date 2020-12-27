@@ -62,7 +62,6 @@ public class Cryptor {
 
     public static void main(String[] args) {
         String salt = getSaltRandom();
-        System.out.println(salt);
     }
 
 }

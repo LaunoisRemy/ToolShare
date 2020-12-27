@@ -156,7 +156,7 @@ public class HomePageController implements Initializable {
      * @param offer
      */
     public void seeOfferPage(ActionEvent actionEvent,Offer offer){
-        //System.out.println(offer);
+
         //LoadView.changeScreen(actionEvent, ViewPath.LOGIN_VIEW,offer);
     }
 

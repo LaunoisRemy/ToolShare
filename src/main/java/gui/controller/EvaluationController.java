@@ -3,19 +3,20 @@ package gui.controller;
 import business.facade.EvaluationFacade;
 import business.facade.HistoryFacade;
 import business.system.Category;
+import business.system.ScoreOffer;
 import business.system.offer.Offer;
 import business.system.user.User;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import gui.LoadView;
 import gui.ViewPath;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleGroup;
 import org.controlsfx.control.Rating;
+import util.ConstantsRegex;
 import util.MapRessourceBundle;
 
 import java.awt.event.ActionEvent;
@@ -23,6 +24,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 public class EvaluationController implements Initializable {
     @FXML
@@ -32,7 +34,11 @@ public class EvaluationController implements Initializable {
     @FXML
     private JFXComboBox<Integer> star;
     @FXML
-    private JFXButton submit;
+    private JFXButton submit, submitComment;
+    @FXML
+    private JFXRadioButton yesButton, noButton;
+    @FXML
+    private ToggleGroup choiceComment;
     @FXML
     private Hyperlink cancel;
     @FXML
@@ -40,7 +46,8 @@ public class EvaluationController implements Initializable {
     @FXML
     private JFXTextArea desc;
     private Offer offer;
-
+    private ScoreOffer scoreOffer;
+    private String commentText;
 
     public void handleRate(ActionEvent actionEvent){}
     public void handleComment(ActionEvent actionEvent){}
@@ -55,26 +62,64 @@ public class EvaluationController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if(((MapRessourceBundle)resources).size()!=0){
-            this.offer=(Offer) resources.getObject("0");
+
+        if(ConstantsRegex.match(Pattern.compile(ViewPath.RATE_VIEW.getUrl()),location.getFile())){
+            if(((MapRessourceBundle)resources).size()!=0){
+                this.offer=(Offer) resources.getObject("0");
+            }
+            titleOffer.setText(offer.getTitle());
+            desc.setEditable(false);
+            desc.setText(offer.getDescription());
+            star.getItems().clear();
+            star.getItems().addAll((new ArrayList<>(Arrays.asList(0,1, 2, 3, 4, 5))));
+        }else if(ConstantsRegex.match(Pattern.compile(ViewPath.COMMENT_VIEW.getUrl()),location.getFile())){
+            if(((MapRessourceBundle)resources).size()!=0){
+                this.scoreOffer=(ScoreOffer) resources.getObject("0");
+            }
+            noButton.setSelected(true);
+            yesButton.setSelected(false);
+            commentArea.setEditable(false);
+            commentArea.setVisible(false);
         }
-        System.out.println(offer.getTitle());
-        titleOffer.setText(offer.getTitle());
-        desc.setEditable(false);
-        desc.setText(offer.getDescription());
-        star.getItems().clear();
-        star.getItems().addAll((new ArrayList<>(Arrays.asList(0,1, 2, 3, 4, 5))));
+
+
+
+    }
+
+    public void handleChoiceComment(javafx.event.ActionEvent actionEvent){
+        if(yesButton.isSelected()){
+            commentArea.setEditable(true);
+            commentArea.setText(commentText);
+            commentArea.setVisible(true);
+        }else{
+            commentArea.setEditable(false);
+            commentText = commentArea.getText();
+            commentArea.clear();
+            commentArea.setVisible(false);
+
+        }
     }
     public void historyPage(javafx.event.ActionEvent actionEvent){
         LoadView.changeScreen(actionEvent, ViewPath.HISTORY_VIEW);
     }
+
+
     public void handleRate(javafx.event.ActionEvent actionEvent){
         int rate = star.getValue();
-        System.out.println(rate);
         EvaluationFacade evaluationFacade = EvaluationFacade.getInstance();
-        evaluationFacade.rate(offer,rate);
-        LoadView.changeScreen(actionEvent, ViewPath.HISTORY_VIEW);
+        ScoreOffer scoreOffer = evaluationFacade.rate(offer,rate);
+        LoadView.changeScreen(actionEvent, ViewPath.COMMENT_VIEW,scoreOffer);
     }
 
+
+    public void handleComment(javafx.event.ActionEvent actionEvent){
+
+        if(yesButton.isSelected()){
+            EvaluationFacade evaluationFacade = EvaluationFacade.getInstance();
+            evaluationFacade.comment(scoreOffer,commentArea.getText());
+
+        }
+        LoadView.changeScreen(actionEvent, ViewPath.HOMEPAGE_VIEW);
+    }
 
 }

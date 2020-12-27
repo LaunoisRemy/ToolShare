@@ -18,6 +18,11 @@ public class Comment implements Scorable {
         this.commentScore = commentScore;
     }
 
+    public Comment(String comment) {
+        this.comment = comment;
+        this.commentScore = 0;
+    }
+
     public void setCommentId(int commentId) {
         this.commentId = commentId;
     }

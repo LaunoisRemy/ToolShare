@@ -34,8 +34,6 @@ public class LoginController {
      * Displays the corresponding view whether the user had valid credentials or not
      */
     public void handleLogin(ActionEvent actionEvent) {
-//        System.out.println(mail.getText());
-//        System.out.println(password.getText());
 
         try {
             User user = facade.login(mail.getText(), password.getText());
@@ -43,11 +41,9 @@ public class LoginController {
         } catch (ObjectNotFoundException | WrongPasswordException e1){
             banned_msg.setVisible(false);
             error_msg.setVisible(true);
-            System.out.println(e1.toString());
         } catch (UserBannedException e2){
             error_msg.setVisible(false);
             banned_msg.setVisible(true);
-            System.out.println(e2.toString());
         }
 
     }
