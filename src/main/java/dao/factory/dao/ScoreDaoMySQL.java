@@ -4,6 +4,7 @@ import business.system.Score;
 import business.system.ScoreType;
 import business.system.scorable.Scorable;
 import business.system.user.User;
+import dao.factory.object.FactoryObject;
 import dao.structure.ScoreDAO;
 
 import java.sql.*;
@@ -136,7 +137,7 @@ public class ScoreDaoMySQL extends ScoreDAO {
     }
 
     public static Score createScoreFromRs(ResultSet rs,Scorable obj) throws SQLException {
-        User user = UserDaoMySQL.createUserFromRs(rs);
+        User user = FactoryObject.createUserFromResultSet(rs);
         return  new Score(
                 user,
                 obj,

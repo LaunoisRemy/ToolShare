@@ -3,6 +3,7 @@ package dao.factory.dao;
 import business.system.History;
 import business.system.offer.Offer;
 import business.system.user.User;
+import dao.factory.object.FactoryObject;
 import dao.structure.HistoryDAO;
 
 import java.sql.*;
@@ -90,7 +91,7 @@ public class HistoryDaoMySQL extends HistoryDAO {
 
 
     public static History createHistoryFromRs(ResultSet rs) throws SQLException {
-        User u = UserDaoMySQL.createUserFromRs(rs);
+        User u = FactoryObject.createUserFromResultSet(rs);
         Offer o = OfferDaoMySQL.createOfferFromRs(rs);
         Date startDate = rs.getDate(ReservationDaoMySQL.START_DATE);
         Date endDate = rs.getDate(ReservationDaoMySQL.END_DATE);

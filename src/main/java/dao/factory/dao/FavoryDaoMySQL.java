@@ -3,6 +3,7 @@ package dao.factory.dao;
 import business.system.Favory;
 import business.system.offer.Offer;
 import business.system.user.User;
+import dao.factory.object.FactoryObject;
 import dao.structure.FavoryDAO;
 
 import java.sql.Connection;
@@ -127,7 +128,7 @@ public class FavoryDaoMySQL extends FavoryDAO {
      * @throws SQLException
      */
     public static Favory createFavoryFromRs(ResultSet rs) throws SQLException {
-        User u = UserDaoMySQL.createUserFromRs(rs);
+        User u = FactoryObject.createUserFromResultSet(rs);
         Offer o = OfferDaoMySQL.createOfferFromRs(rs);
         return new Favory(u,o);
     }

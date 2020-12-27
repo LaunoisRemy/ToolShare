@@ -5,6 +5,7 @@ import business.system.offer.Offer;
 import business.system.offer.PriorityOffer;
 import business.system.offer.ToolSate;
 import business.system.user.User;
+import dao.factory.object.FactoryObject;
 import dao.structure.OfferDAO;
 
 import java.sql.*;
@@ -344,7 +345,7 @@ public class OfferDaoMySQL extends OfferDAO {
     public static Offer createOfferFromRs(ResultSet rs) throws SQLException {
         String ts = rs.getString(TOOL_STATE_COL);
         ToolSate toolState = ToolSate.valueOf(ts);
-        User user = UserDaoMySQL.createUserFromRs(rs);
+        User user = FactoryObject.createUserFromResultSet(rs);
         Category category = CategoryDaoMySQL.createCategoryFromRs(rs);
 
         if (rs.getBoolean(ISPRIORITY)){

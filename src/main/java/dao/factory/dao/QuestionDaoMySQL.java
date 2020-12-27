@@ -4,6 +4,7 @@ import business.system.scorable.Comment;
 import business.system.scorable.faq.Answer;
 import business.system.scorable.faq.Question;
 import business.system.user.User;
+import dao.factory.object.FactoryObject;
 import dao.structure.QuestionDAO;
 
 import java.sql.*;
@@ -152,7 +153,7 @@ public class QuestionDaoMySQL extends QuestionDAO {
     }
     public static Question createQuestionFromRs(ResultSet rs) throws SQLException {
         Answer answer = AnswerDaoMySQL.createAnswerFromRs(rs);
-        User user = UserDaoMySQL.createUserFromRs(rs);
+        User user = FactoryObject.createUserFromResultSet(rs);
         return  new Question(
                 rs.getInt(QUESTION_ID),
                 rs.getInt(SCORE_COL),

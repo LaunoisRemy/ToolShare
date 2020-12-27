@@ -94,6 +94,7 @@ public class User {
         this.recoveryCode = recoveryCode;
     }
 
+
     /**
      * getter of first name
      * @return firstName

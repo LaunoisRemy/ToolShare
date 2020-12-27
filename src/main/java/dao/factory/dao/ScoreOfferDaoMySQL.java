@@ -4,6 +4,7 @@ import business.system.ScoreOffer;
 import business.system.offer.Offer;
 import business.system.scorable.Comment;
 import business.system.user.User;
+import dao.factory.object.FactoryObject;
 import dao.structure.ScoreOfferDAO;
 
 import java.sql.*;
@@ -184,7 +185,7 @@ public class ScoreOfferDaoMySQL  extends ScoreOfferDAO {
      */
     public static ScoreOffer createScoreOfferFromRs(ResultSet rs) throws SQLException {
         Offer offer = OfferDaoMySQL.createOfferFromRs(rs);
-        User user = UserDaoMySQL.createUserFromRs(rs);
+        User user = FactoryObject.createUserFromResultSet(rs);
         Comment comment = null;
         int commentId = rs.getInt(COMMENT_ID_COL);
         if( !rs.wasNull() ){

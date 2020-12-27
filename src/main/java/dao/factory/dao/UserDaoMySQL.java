@@ -2,6 +2,8 @@ package dao.factory.dao;
 
 import business.system.user.OrdinaryUser;
 import business.system.user.User;
+import dao.factory.object.FactoryObject;
+import dao.factory.object.UserMySql;
 import dao.structure.UserDAO;
 
 import java.sql.*;
@@ -10,17 +12,17 @@ import java.sql.*;
  * Dao concrete of user using MySQL database
  */
 public class UserDaoMySQL extends UserDAO {
-    static final String LAST_NAME_COL = "lastname";
-    static final String FIRST_NAME_COL = "firstname";
-    static final String EMAIL_COL = "email";
-    static final String PASSWORD_COL = "password";
-    static final String ISBANNED = "isBanned";
-    static final String USERCITY_COL = "userCity";
-    static final String PHONENUMBER_COL = "phoneNumber";
-    static final String ISADMIN = "isAdmin";
-    static final String USER_ID = "user_id";
-    static final String SALT_COL = "salt";
-    static final String RECOVERYCODE_COL = "recoveryCode";
+    public static final String LAST_NAME_COL = "lastname";
+    public static final String FIRST_NAME_COL = "firstname";
+    public static final String EMAIL_COL = "email";
+    public static final String PASSWORD_COL = "password";
+    public static final String ISBANNED = "isBanned";
+    public static final String USERCITY_COL = "userCity";
+    public static final String PHONENUMBER_COL = "phoneNumber";
+    public static final String ISADMIN = "isAdmin";
+    public static final String USER_ID = "user_id";
+    public static final String SALT_COL = "salt";
+    public static final String RECOVERYCODE_COL = "recoveryCode";
     private final Connection connection;
 
     /**
@@ -41,13 +43,13 @@ public class UserDaoMySQL extends UserDAO {
     public User find(int id,int... others) {
         User user = null;
         try {
-            String sql = "SELECT *  FROM user WHERE "+ USER_ID +" =?";
+            String sql = "SELECT *  FROM user WHERE "+ UserMySql.USER_ID +" =?";
             PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setInt(1,id);
             ResultSet rs = prep.executeQuery();
 
             if(rs.next()){
-                user = createUserFromRs(rs);
+                user = FactoryObject.createUserFromResultSet(rs);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -63,15 +65,15 @@ public class UserDaoMySQL extends UserDAO {
     @Override
     public User create(User obj) {
         try {
-            String sql = "INSERT INTO user ("+LAST_NAME_COL +","+
-                    FIRST_NAME_COL+","+
-                    EMAIL_COL+","+
-                    PASSWORD_COL+","+
-                    USERCITY_COL+","+
-                    PHONENUMBER_COL+","+
-                    ISADMIN+","+
-                    ISBANNED+","
-                    + SALT_COL +") "+
+            String sql = "INSERT INTO user ("+UserMySql.LAST_NAME_COL +","+
+                    UserMySql.FIRST_NAME_COL+","+
+                    UserMySql.EMAIL_COL+","+
+                    UserMySql.PASSWORD_COL+","+
+                    UserMySql.USERCITY_COL+","+
+                    UserMySql.PHONENUMBER_COL+","+
+                    UserMySql.ISADMIN+","+
+                    UserMySql.ISBANNED+","
+                    + UserMySql.SALT_COL +") "+
                     "VALUES (?,?,?,?,?,?,?,?,?)";
             PreparedStatement prep = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             prep.setString(1,obj.getLastName());
@@ -116,17 +118,17 @@ public class UserDaoMySQL extends UserDAO {
     public User update(User obj) {
         try {
             String sql ="UPDATE user " +
-                    "SET "+EMAIL_COL + " = ?, " +
-                    FIRST_NAME_COL + " = ?, " +
-                    LAST_NAME_COL + " = ?, " +
-                    PASSWORD_COL + " = ?, " +
-                    USERCITY_COL + " = ?, " +
-                    PHONENUMBER_COL + " = ?, " +
-                    ISADMIN + " = ?, " +
-                    ISBANNED + " = ?, " +
-                    SALT_COL + " = ?, " +
-                    RECOVERYCODE_COL + " = ? " +
-                    "WHERE "+ USER_ID + " = ?";
+                    "SET "+UserMySql.EMAIL_COL + " = ?, " +
+                    UserMySql.FIRST_NAME_COL + " = ?, " +
+                    UserMySql.LAST_NAME_COL + " = ?, " +
+                    UserMySql.PASSWORD_COL + " = ?, " +
+                    UserMySql.USERCITY_COL + " = ?, " +
+                    UserMySql.PHONENUMBER_COL + " = ?, " +
+                    UserMySql.ISADMIN + " = ?, " +
+                    UserMySql.ISBANNED + " = ?, " +
+                    UserMySql.SALT_COL + " = ?, " +
+                    UserMySql.RECOVERYCODE_COL + " = ? " +
+                    "WHERE "+ UserMySql.USER_ID + " = ?";
             PreparedStatement prep = connection.prepareStatement(sql);
             prep.setString(1,obj.getEmail());
             prep.setString(2,obj.getFirstName());
@@ -174,12 +176,12 @@ public class UserDaoMySQL extends UserDAO {
         User user = null;
         try {
             PreparedStatement prep = connection.prepareStatement(
-                    "SELECT *  FROM user WHERE "+ EMAIL_COL +"  = ?"
+                    "SELECT *  FROM user WHERE "+ UserMySql.EMAIL_COL +"  = ?"
             );
             prep.setString(1,email);
             ResultSet rs = prep.executeQuery();
             if(rs.next()){
-                user = createUserFromRs(rs);
+                user = FactoryObject.createUserFromResultSet(rs);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -240,19 +242,9 @@ public class UserDaoMySQL extends UserDAO {
      * @return new User with rs information
      * @throws SQLException
      */
+    @Deprecated
     public static User createUserFromRs(ResultSet rs) throws SQLException {
-        return new User(
-                rs.getInt(USER_ID),
-                rs.getString(FIRST_NAME_COL),
-                rs.getString(LAST_NAME_COL),
-                rs.getString(EMAIL_COL),
-                rs.getString(PASSWORD_COL),
-                rs.getString(USERCITY_COL),
-                rs.getString(PHONENUMBER_COL),
-                rs.getBoolean(ISADMIN),
-                rs.getBoolean(ISBANNED),
-                rs.getString(SALT_COL),
-                rs.getString(RECOVERYCODE_COL));
+        return FactoryObject.createUserFromResultSet(rs);
      }
 
     @Override

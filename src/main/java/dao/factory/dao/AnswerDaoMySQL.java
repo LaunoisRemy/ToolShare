@@ -2,6 +2,7 @@ package dao.factory.dao;
 
 import business.system.scorable.faq.Answer;
 import business.system.user.User;
+import dao.factory.object.FactoryObject;
 import dao.structure.AnswerDAO;
 
 import java.sql.*;
@@ -108,7 +109,7 @@ public class AnswerDaoMySQL extends AnswerDAO {
     }
 
     public static Answer createAnswerFromRs(ResultSet rs) throws SQLException {
-        User user = UserDaoMySQL.createUserFromRs(rs);
+        User user = FactoryObject.createUserFromResultSet(rs);
         return new Answer(
                 rs.getInt(ANSWER_SCORE),
                 rs.getString(ANSWER_CONTENT),

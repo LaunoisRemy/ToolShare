@@ -126,6 +126,7 @@ public class OfferController implements Initializable {
 
         commentTable.setItems(data);
     }
+    //TODO : revenir dessus quand je serais plus fort
 //    private <A> TableCell createTableCell(String nameButton, TableColumn<A,Integer> param, Consumer<ActionEvent,A> function){
 //        return new TableCell<>() {
 //
