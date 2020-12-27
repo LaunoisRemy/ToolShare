@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
  * Controller which deals with rating an offer and comment it
  */
 public class EvaluationController implements Initializable {
+
     @FXML
     private JFXTextArea commentArea;
     @FXML
@@ -48,12 +49,11 @@ public class EvaluationController implements Initializable {
     private JFXTextField titleOffer;
     @FXML
     private JFXTextArea desc;
+
     private Offer offer;
     private ScoreOffer scoreOffer;
     private String commentText;
 
-    public void handleRate(ActionEvent actionEvent){}
-    public void handleComment(ActionEvent actionEvent){}
 
     /**
      * Called to initialize a controller after its root element has been
@@ -70,14 +70,14 @@ public class EvaluationController implements Initializable {
             if(((MapRessourceBundle)resources).size()!=0){
                 this.offer=(Offer) resources.getObject("0");
             }
-            titleOffer.setText(offer.getTitle());
-            desc.setEditable(false);
-            desc.setText(offer.getDescription());
+
             star.getItems().clear();
             star.getItems().addAll((new ArrayList<>(Arrays.asList(0,1, 2, 3, 4, 5))));
+            star.getSelectionModel().select(0);
         }else if(ConstantsRegex.match(Pattern.compile(ViewPath.COMMENT_VIEW.getUrl()),location.getFile())){
             if(((MapRessourceBundle)resources).size()!=0){
                 this.scoreOffer=(ScoreOffer) resources.getObject("0");
+                this.offer = scoreOffer.getOffer();
             }
             noButton.setSelected(true);
             yesButton.setSelected(false);
@@ -85,9 +85,12 @@ public class EvaluationController implements Initializable {
             commentArea.setVisible(false);
         }
 
-
+        titleOffer.setText(offer.getTitle());
+        desc.setEditable(false);
+        desc.setText(offer.getDescription());
 
     }
+
 
     /**
      * Handle text area depending of choice of user
@@ -134,7 +137,7 @@ public class EvaluationController implements Initializable {
             evaluationFacade.comment(scoreOffer,commentArea.getText());
 
         }
-        LoadView.changeScreen(actionEvent, ViewPath.HOMEPAGE_VIEW);
+        LoadView.changeScreen(actionEvent, ViewPath.HISTORY_VIEW);
     }
 
 }

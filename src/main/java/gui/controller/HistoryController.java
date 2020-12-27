@@ -3,6 +3,7 @@ package gui.controller;
 import business.facade.EvaluationFacade;
 import business.facade.HistoryFacade;
 import business.facade.SessionFacade;
+import business.system.ScoreOffer;
 import business.system.offer.Offer;
 import gui.LoadView;
 import gui.ViewPath;
@@ -44,8 +45,7 @@ public class HistoryController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         HistoryFacade historyFacade = HistoryFacade.getInstance();
-        ArrayList<Offer> offers = new ArrayList<>();
-        offers.addAll(historyFacade.getAllOffers());
+        ArrayList<Offer> offers = new ArrayList<>(historyFacade.getAllOffers());
 
         final ObservableList<Offer> data = FXCollections.observableArrayList(offers);
 
@@ -109,8 +109,16 @@ public class HistoryController implements Initializable {
                     setGraphic(seeOfferButton);
                     Offer offer= param.getTableView().getItems().get(getIndex());
                     EvaluationFacade evaluationFacade = EvaluationFacade.getInstance();
-                    if( evaluationFacade.findRate(offer.getOffer_id(), SessionFacade.getInstance().getUser().getUser_id()) != null){
-                        this.setDisable(true);
+                    ScoreOffer scoreOffer = evaluationFacade.findRate(offer.getOffer_id(), SessionFacade.getInstance().getUser().getUser_id());
+                    if(scoreOffer != null){
+                        if(scoreOffer.getComment() == null){
+                            seeOfferButton.setOnAction(event -> {
+                                commentOffer(event,scoreOffer);
+                            });
+                            seeOfferButton.setText("Comment");
+                        }else{
+                            this.setDisable(true);
+                        }
                     }
                 }
             }
@@ -130,12 +138,21 @@ public class HistoryController implements Initializable {
     }
 
     /**
-     * Display a pop-up to rate the selected offer
+     * Display a view to rate the selected offer
      * @param event
      * @param offer
      */
     public void rateOffer(Event event, Offer offer){
         LoadView.changeScreen(event, ViewPath.RATE_VIEW,offer);
+
+    }
+    /**
+     * Display a view to rate the selected offer
+     * @param event
+     * @param scoreOffer
+     */
+    public void commentOffer(Event event, ScoreOffer scoreOffer){
+        LoadView.changeScreen(event, ViewPath.COMMENT_VIEW,scoreOffer);
 
     }
 }
