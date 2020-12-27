@@ -4,15 +4,11 @@ import business.exceptions.*;
 import business.management.UserManagement;
 import business.system.user.OrdinaryUser;
 import business.system.user.User;
-import dao.factory_business.AbstractFactoryDAO;
+import dao.factory.dao.AbstractFactoryDAO;
 import dao.structure.UserDAO;
 import util.Mail;
 
 import java.security.SecureRandom;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
 
 public class SessionFacade {
 

@@ -3,7 +3,7 @@ package business.facade;
 import business.system.ScoreOffer;
 import business.system.offer.Offer;
 import business.system.scorable.Comment;
-import dao.factory_business.CommentDaoMySQL;
+import dao.factory.dao.CommentDaoMySQL;
 import dao.structure.CommentDAO;
 import dao.structure.ScoreOfferDAO;
 

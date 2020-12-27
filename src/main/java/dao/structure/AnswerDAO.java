@@ -1,7 +1,7 @@
 package dao.structure;
 
 import business.system.scorable.faq.Answer;
-import dao.factory_business.AbstractFactoryDAO;
+import dao.factory.dao.AbstractFactoryDAO;
 
 public abstract class AnswerDAO implements DAO<Answer> {
     private static final AnswerDAO INSTANCE = AbstractFactoryDAO.getInstance().getAnswerDAO();

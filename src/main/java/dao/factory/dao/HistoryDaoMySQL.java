@@ -1,4 +1,4 @@
-package dao.factory_business;
+package dao.factory.dao;
 
 import business.system.History;
 import business.system.offer.Offer;
@@ -6,7 +6,6 @@ import business.system.user.User;
 import dao.structure.HistoryDAO;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

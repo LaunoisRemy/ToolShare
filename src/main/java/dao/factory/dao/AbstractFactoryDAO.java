@@ -1,4 +1,4 @@
-package dao.factory_business;
+package dao.factory.dao;
 
 import dao.structure.*;
 import db.ConnectionDBMySQL;

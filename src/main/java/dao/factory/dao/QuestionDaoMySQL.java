@@ -1,6 +1,6 @@
-package dao.factory_business;
+package dao.factory.dao;
 
-import business.system.ScoreOffer;
+import business.system.scorable.Comment;
 import business.system.scorable.faq.Answer;
 import business.system.scorable.faq.Question;
 import business.system.user.User;

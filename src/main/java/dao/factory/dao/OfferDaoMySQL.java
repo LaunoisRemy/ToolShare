@@ -1,4 +1,4 @@
-package dao.factory_business;
+package dao.factory.dao;
 
 import business.system.Category;
 import business.system.offer.Offer;

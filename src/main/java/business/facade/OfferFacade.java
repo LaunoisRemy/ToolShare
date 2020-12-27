@@ -7,14 +7,14 @@ import business.system.Category;
 import business.system.offer.Offer;
 import business.system.offer.PriorityOffer;
 import business.system.offer.ToolSate;
+import business.system.scorable.Comment;
 import business.system.scorable.faq.Question;
 import business.system.user.User;
-import dao.factory_business.QuestionDaoMySQL;
 import dao.structure.CategoryDAO;
+import dao.structure.CommentDAO;
 import dao.structure.OfferDAO;
 import dao.structure.QuestionDAO;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -186,5 +186,9 @@ public class OfferFacade {
 
     public List<Question> getAllQuestions(Offer offer) {
         return QuestionDAO.getInstance().getAllQuestionsByIdOffer(offer.getOffer_id());
+    }
+
+    public List<Comment> getAllComments(Offer offer) {
+        return  CommentDAO.getInstance().getAllCommentsByIdOffer(offer.getOffer_id());
     }
 }

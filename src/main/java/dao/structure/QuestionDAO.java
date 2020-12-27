@@ -1,7 +1,8 @@
 package dao.structure;
 
+import business.system.scorable.Comment;
 import business.system.scorable.faq.Question;
-import dao.factory_business.AbstractFactoryDAO;
+import dao.factory.dao.AbstractFactoryDAO;
 
 import java.util.List;
 

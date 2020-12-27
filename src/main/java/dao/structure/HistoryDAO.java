@@ -3,7 +3,7 @@ package dao.structure;
 import business.system.History;
 import business.system.offer.Offer;
 import business.system.user.User;
-import dao.factory_business.AbstractFactoryDAO;
+import dao.factory.dao.AbstractFactoryDAO;
 
 import java.util.List;
 

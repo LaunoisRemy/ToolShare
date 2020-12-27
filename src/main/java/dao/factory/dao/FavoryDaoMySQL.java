@@ -1,4 +1,4 @@
-package dao.factory_business;
+package dao.factory.dao;
 
 import business.system.Favory;
 import business.system.offer.Offer;
@@ -11,8 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static dao.factory_business.OfferDaoMySQL.*;
 
 public class FavoryDaoMySQL extends FavoryDAO {
     private final Connection connection;
@@ -35,7 +33,7 @@ public class FavoryDaoMySQL extends FavoryDAO {
                         "FROM favory " +
                         "JOIN offer o on favory.offer_id = o.offer_id "+
                         "JOIN user u on favory.user_id = u.user_id "+
-                        "LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL +
+                        "LEFT JOIN category c ON o."+ OfferDaoMySQL.CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL +
                         " WHERE u."+UserDaoMySQL.USER_ID +" = ? AND o."+OfferDaoMySQL.OFFER_ID_COL+" = ?"
             );
             prep.setInt(1,user_id);
@@ -105,9 +103,9 @@ public class FavoryDaoMySQL extends FavoryDAO {
         try{
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT * FROM favory" +
-                            " JOIN offer o on favory."+OFFER_ID_COL+" = o."+OFFER_ID_COL+
-                            " JOIN user u ON o."+USER_ID_COL+" = u."+UserDaoMySQL.USER_ID +
-                            " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
+                            " JOIN offer o on favory."+ OfferDaoMySQL.OFFER_ID_COL+" = o."+ OfferDaoMySQL.OFFER_ID_COL+
+                            " JOIN user u ON o."+ OfferDaoMySQL.USER_ID_COL+" = u."+UserDaoMySQL.USER_ID +
+                            " LEFT JOIN category c ON o."+ OfferDaoMySQL.CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
                             " WHERE favory."+UserDaoMySQL.USER_ID +" = ?"
             );
             prep.setInt(1,user.getUser_id());

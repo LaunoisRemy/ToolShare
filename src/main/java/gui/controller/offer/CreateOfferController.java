@@ -1,4 +1,4 @@
-package gui.controller;
+package gui.controller.offer;
 
 import business.exceptions.BadInsertionInBDDException;
 import business.exceptions.MissingParametersException;

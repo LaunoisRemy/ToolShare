@@ -1,11 +1,8 @@
-package dao.factory_business;
+package dao.factory.dao;
 
-import business.system.offer.Offer;
 import business.system.offer.ToolSate;
 import business.system.reservation.Reservation;
 import business.system.reservation.ReturnOffer;
-import business.system.user.User;
-import dao.structure.ReservationDAO;
 import dao.structure.ReturnOfferDAO;
 
 import java.sql.*;

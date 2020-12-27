@@ -1,9 +1,12 @@
-package dao.factory_business;
+package dao.factory.dao;
 
 import business.system.scorable.Comment;
+import business.system.scorable.faq.Question;
 import dao.structure.CommentDAO;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommentDaoMySQL extends CommentDAO {
     private final Connection connection;
@@ -37,7 +40,34 @@ public class CommentDaoMySQL extends CommentDAO {
         }
         return comment;
     }
+    @Override
+    public List<Comment> getAllCommentsByIdOffer(int idOffer) {
+        return getComments(idOffer, ScoreOfferDaoMySQL.OFFER_ID_COL);
+    }
 
+    @Override
+    public List<Comment> getAllCommentsByIdUser(int idUser) {
+        return getComments(idUser, ScoreOfferDaoMySQL.USER_ID_COL);
+    }
+    private List<Comment> getComments(int id, String clause) {
+        ArrayList<Comment> res = new ArrayList<>();
+
+        try {
+            String sql = "SELECT *  FROM comment " +
+                    "JOIN score_offer so on comment."+COMMENT_ID+" = so."+ScoreOfferDaoMySQL.COMMENT_ID_COL+" " +
+                    " WHERE so."+ clause +" = ?";
+            PreparedStatement prep = this.connection.prepareStatement(sql);
+            prep.setInt(1,id);
+            ResultSet rs = prep.executeQuery();
+
+            if(rs.next()){
+                res.add(createCommentFromRs(rs));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return res;
+    }
     @Override
     public Comment create(Comment obj) {
         try {

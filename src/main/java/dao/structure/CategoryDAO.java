@@ -1,7 +1,7 @@
 package dao.structure;
 
 import business.system.Category;
-import dao.factory_business.AbstractFactoryDAO;
+import dao.factory.dao.AbstractFactoryDAO;
 import java.util.List;
 
 public abstract class CategoryDAO implements DAO<Category> {

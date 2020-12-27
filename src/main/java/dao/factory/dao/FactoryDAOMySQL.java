@@ -1,7 +1,7 @@
-package dao.factory_business;
+package dao.factory.dao;
 
 import dao.structure.*;
-//TODO JAVADOC
+
 /**
  * Factory concrete using MySQL database
  */

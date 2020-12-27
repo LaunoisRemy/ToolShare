@@ -1,7 +1,7 @@
 package dao.structure;
 
 import business.system.offer.Offer;
-import dao.factory_business.AbstractFactoryDAO;
+import dao.factory.dao.AbstractFactoryDAO;
 
 import java.util.ArrayList;
 

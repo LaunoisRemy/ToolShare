@@ -1,4 +1,4 @@
-package dao.factory_business;
+package dao.factory.dao;
 
 import business.system.scorable.faq.Answer;
 import business.system.user.User;

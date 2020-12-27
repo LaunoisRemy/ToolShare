@@ -1,6 +1,5 @@
-package dao.factory_business;
+package dao.factory.dao;
 
-import business.system.ScoreOffer;
 import business.system.offer.Offer;
 import business.system.reservation.Reservation;
 import business.system.user.User;
