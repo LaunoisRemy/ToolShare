@@ -11,7 +11,8 @@ public enum ViewPath {
     FAVORY_VIEW("view/favoryPage.fxml"),
     HISTORY_VIEW("view/historyPage.fxml"),
     CATEGORY_VIEW("view/category/category.fxml"),
-    HOMEPAGE_VIEW("view/homePage.fxml");
+    HOMEPAGE_VIEW("view/homePage.fxml"),
+    RATE_VIEW("view/rate/rateOffer.fxml");
 
 
     private String url;

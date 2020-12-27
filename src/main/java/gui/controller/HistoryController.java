@@ -1,7 +1,11 @@
 package gui.controller;
 
+import business.facade.EvaluationFacade;
 import business.facade.HistoryFacade;
+import business.facade.SessionFacade;
 import business.system.offer.Offer;
+import gui.LoadView;
+import gui.ViewPath;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -86,10 +90,14 @@ public class HistoryController implements Initializable {
 
             private final Button seeOfferButton = new Button("Rate");
             {
+                //Offer offer= param.getTableView().getItems().get(getIndex());
                 seeOfferButton.setOnAction(event -> {
-                    rateOffer(event, param.getTableView().getItems().get(getIndex()));
+                    rateOffer(event,param.getTableView().getItems().get(getIndex()) );
                 });
+
             }
+
+
             @Override
             protected void updateItem(Integer item, boolean empty) {
                 super.updateItem(item, empty);
@@ -99,6 +107,11 @@ public class HistoryController implements Initializable {
                 }
                 else {
                     setGraphic(seeOfferButton);
+                    Offer offer= param.getTableView().getItems().get(getIndex());
+                    EvaluationFacade evaluationFacade = EvaluationFacade.getInstance();
+                    if( evaluationFacade.findRate(offer.getOffer_id(), SessionFacade.getInstance().getUser().getUser_id()) != null){
+                        this.setDisable(true);
+                    }
                 }
             }
 
@@ -122,6 +135,7 @@ public class HistoryController implements Initializable {
      * @param offer
      */
     public void rateOffer(Event event, Offer offer){
-        System.out.println(offer);
+        LoadView.changeScreen(event, ViewPath.RATE_VIEW,offer);
+
     }
 }
