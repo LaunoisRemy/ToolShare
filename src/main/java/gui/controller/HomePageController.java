@@ -6,6 +6,7 @@ import business.facade.OfferFacade;
 import business.system.Favory;
 import business.system.offer.Offer;
 import com.jfoenix.controls.JFXButton;
+import gui.LoadView;
 import gui.ViewPath;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -157,7 +158,7 @@ public class HomePageController implements Initializable {
      */
     public void seeOfferPage(ActionEvent actionEvent,Offer offer){
 
-        //LoadView.changeScreen(actionEvent, ViewPath.LOGIN_VIEW,offer);
+        LoadView.changeScreen(actionEvent, ViewPath.OFFER_VIEW,offer);
     }
 
     /**
