@@ -18,4 +18,20 @@ public enum ScoreType {
             default -> null;
         };
     }
+
+    public static ScoreType getTypeByInt(int type){
+        return switch (type) {
+            case 0 -> QUESTION;
+            case 1 -> ANSWER;
+            case 2 -> COMMENT;
+            default -> null;
+        };
+    }
+    public static int getIntByType(ScoreType type){
+        return switch (type) {
+            case QUESTION -> 0;
+            case ANSWER -> 1;
+            case COMMENT -> 2;
+        };
+    }
 }

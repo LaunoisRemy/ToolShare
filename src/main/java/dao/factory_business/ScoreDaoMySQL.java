@@ -25,27 +25,37 @@ public class ScoreDaoMySQL extends ScoreDAO {
     }
 
     @Override
-    public Score find(int id, int... others) {
+    public Score find(int idUser, int... others) {
         Score score = null;
         try {
             String sql = "SELECT *  FROM score " +
-                    " WHERE "+ OBJECT_ID +" = ?";
+                    " WHERE "+ USER_ID +" = ? AND " + OBJECT_ID +" = ? AND " + OBJECT_TYPE +" = ?";
             PreparedStatement prep = this.connection.prepareStatement(sql);
-            prep.setInt(1,id);
+            prep.setInt(1,idUser);
+            if(others.length != 2){
+                throw new Exception("Problem of argument");
+            }
+            int objectId= others[0];
+            String objectType= ScoreType.getTypeByInt(others[1]).getString();
+            prep.setInt(1,idUser);
+            prep.setInt(2,objectId);
+            prep.setString(3,objectType);
             ResultSet rs = prep.executeQuery();
 
             if(rs.next()){
                 ScoreType type = ScoreType.getType(rs.getString(OBJECT_TYPE));
                 System.out.println(type);
                 Scorable obj = switch (type) {
-                    case QUESTION -> QuestionDaoMySQL.createQuestionFromRs(Objects.requireNonNull(joinScorable("question", QuestionDaoMySQL.QUESTION_ID, id)));
-                    case ANSWER -> AnswerDaoMySQL.createAnswerFromRs(Objects.requireNonNull(joinScorable("answer", AnswerDaoMySQL.ANSWER_ID, id)));
-                    case COMMENT -> CommentDaoMySQL.createCommentFromRs(Objects.requireNonNull(joinScorable("comment", CommentDaoMySQL.COMMENT_ID, id)));
+                    case QUESTION -> QuestionDaoMySQL.createQuestionFromRs(Objects.requireNonNull(joinScorable("question", QuestionDaoMySQL.QUESTION_ID, objectId)));
+                    case ANSWER -> AnswerDaoMySQL.createAnswerFromRs(Objects.requireNonNull(joinScorable("answer", AnswerDaoMySQL.ANSWER_ID, objectId)));
+                    case COMMENT -> CommentDaoMySQL.createCommentFromRs(Objects.requireNonNull(joinScorable("comment", CommentDaoMySQL.COMMENT_ID, objectId)));
                 };
                 score = createScoreFromRs(rs,obj);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return score;
     }
