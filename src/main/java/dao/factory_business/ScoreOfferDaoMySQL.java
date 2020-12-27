@@ -59,9 +59,13 @@ public class ScoreOfferDaoMySQL  extends ScoreOfferDAO {
 
         return scoreOffer;
     }
+
+    @Override
     public List<ScoreOffer> getScoreByUserId(int userId) {
         return getScoreOffers(userId, USER_ID_COL);
     }
+
+    @Override
     public List<ScoreOffer> getScoreByOfferId(int offerId) {
         return getScoreOffers(offerId, OFFER_ID_COL);
     }

@@ -7,15 +7,20 @@ import business.system.scorable.faq.Question;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import util.MapRessourceBundle;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class OfferController implements Initializable {
@@ -65,6 +70,14 @@ public class OfferController implements Initializable {
         category.setText(offer.getCategory().getCategoryName());
         state.setText(offer.getToolSate().getString());
         price.setText(String.valueOf(offer.getPricePerDay()));
+        desc.setEditable(false);
 
+        List<Question> questions = offerFacade.getAllQuestions(offer);
+        final ObservableList<Question> data = FXCollections.observableArrayList(questions);
+
+        questionFAQ.setCellValueFactory(new PropertyValueFactory<>("questionContent") );
+        questionFAQ.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        faqTable.setItems(data);
     }
 }

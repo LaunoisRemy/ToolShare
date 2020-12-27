@@ -3,6 +3,8 @@ package dao.structure;
 import business.system.ScoreOffer;
 import dao.factory_business.AbstractFactoryDAO;
 
+import java.util.List;
+
 public abstract class ScoreOfferDAO implements DAO<ScoreOffer> {
     private static final ScoreOfferDAO INSTANCE = AbstractFactoryDAO.getInstance().getScoreOfferDAO();
 
@@ -13,6 +15,9 @@ public abstract class ScoreOfferDAO implements DAO<ScoreOffer> {
     public static ScoreOfferDAO getInstance(){
         return INSTANCE;
     }
+
+    public abstract List<ScoreOffer> getScoreByUserId(int userId) ;
+    public abstract List<ScoreOffer> getScoreByOfferId(int offerId);
 
 
 }

@@ -7,12 +7,16 @@ import business.system.Category;
 import business.system.offer.Offer;
 import business.system.offer.PriorityOffer;
 import business.system.offer.ToolSate;
+import business.system.scorable.faq.Question;
 import business.system.user.User;
+import dao.factory_business.QuestionDaoMySQL;
 import dao.structure.CategoryDAO;
 import dao.structure.OfferDAO;
+import dao.structure.QuestionDAO;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class OfferFacade {
     private User user = SessionFacade.getInstance().getUser();
@@ -140,7 +144,7 @@ public class OfferFacade {
      * Method that allows to return all the offers of the connected user
      * @return the list of the user offers
      */
-    public ArrayList<Offer> getOffersFromUser(){
+    public List<Offer> getOffersFromUser(){
         return this.offerDAO.getOffersFromUser(this.user.getUser_id());
     }
 
@@ -149,7 +153,7 @@ public class OfferFacade {
      * @param city city to filter by
      * @return the list of Offers located in the given city
      */
-    public ArrayList<Offer> getOffersByCity(String city) {
+    public List<Offer> getOffersByCity(String city) {
         return this.offerDAO.getOffersByCity(city);
     }
 
@@ -157,7 +161,7 @@ public class OfferFacade {
      * Method that allows to search all the offers
      * @return the list of all the offers
      */
-    public ArrayList<Offer> getAllOffers() {
+    public List<Offer> getAllOffers() {
         return this.offerDAO.getAllOffers();
     }
 
@@ -166,7 +170,7 @@ public class OfferFacade {
      * @param categoryName category name for the research
      * @return the list of Offers with the same category
      */
-    public ArrayList<Offer> getOffersByCategory(String categoryName) {
+    public List<Offer> getOffersByCategory(String categoryName) {
         CategoryDAO categoryDAO = CategoryDAO.getInstance();
         int idCategory = categoryDAO.getCategoryByName(categoryName).getCategoryId();
         return this.offerDAO.getOffersByCategory(idCategory);
@@ -176,8 +180,11 @@ public class OfferFacade {
      * Method which finds priority offers
      * @return the list of all the priority offers order by the start of priority (the most recent)
      */
-    public ArrayList<Offer> getPriorityOffer() {
+    public List<Offer> getPriorityOffer() {
         return this.offerDAO.getPriorityOffer();
     }
 
+    public List<Question> getAllQuestions(Offer offer) {
+        return QuestionDAO.getInstance().getAllQuestionsByIdOffer(offer.getOffer_id());
+    }
 }

@@ -1,11 +1,14 @@
 package dao.factory_business;
 
+import business.system.ScoreOffer;
 import business.system.scorable.faq.Answer;
 import business.system.scorable.faq.Question;
 import business.system.user.User;
 import dao.structure.QuestionDAO;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class QuestionDaoMySQL extends QuestionDAO {
     private final Connection connection;
@@ -43,6 +46,36 @@ public class QuestionDaoMySQL extends QuestionDAO {
             throwables.printStackTrace();
         }
         return question;
+    }
+
+    @Override
+    public List<Question> getAllQuestionsByIdOffer(int idOffer) {
+        return getQuestions(idOffer, OFFER_ID_COL);
+    }
+    @Override
+    public List<Question> getAllQuestionsByIdUser(int idUser) {
+        return getQuestions(idUser, USER_ID_COL);
+    }
+
+    private List<Question> getQuestions(int id, String clause) {
+        ArrayList<Question> res = new ArrayList<>();
+
+        try {
+            String sql = "SELECT *  FROM question " +
+                    "JOIN user u on u."+ UserDaoMySQL.USER_ID +" = question."+ USER_ID_COL +" "+
+                    "LEFT JOIN answer a on a."+ AnswerDaoMySQL.ANSWER_ID+" = question."+ANSWER_ID_COL+" " +
+                    " WHERE "+ clause +" = ?";
+            PreparedStatement prep = this.connection.prepareStatement(sql);
+            prep.setInt(1,id);
+            ResultSet rs = prep.executeQuery();
+
+            if(rs.next()){
+                res.add(createQuestionFromRs(rs));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return res;
     }
 
     @Override

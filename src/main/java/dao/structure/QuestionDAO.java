@@ -3,6 +3,8 @@ package dao.structure;
 import business.system.scorable.faq.Question;
 import dao.factory_business.AbstractFactoryDAO;
 
+import java.util.List;
+
 public abstract class QuestionDAO implements DAO<Question> {
     private static final QuestionDAO INSTANCE = AbstractFactoryDAO.getInstance().getQuestionDAO();
 
@@ -13,6 +15,9 @@ public abstract class QuestionDAO implements DAO<Question> {
     public static QuestionDAO getInstance(){
         return INSTANCE;
     }
+
+    public abstract List<Question> getAllQuestionsByIdOffer(int idOffer);
+    public abstract List<Question> getAllQuestionsByIdUser(int idUser);
 
 
 }
