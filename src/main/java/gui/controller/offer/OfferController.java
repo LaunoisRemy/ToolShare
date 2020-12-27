@@ -1,9 +1,12 @@
 package gui.controller.offer;
 
 import business.facade.OfferFacade;
+import business.facade.SessionFacade;
 import business.system.offer.Offer;
 import business.system.scorable.Comment;
 import business.system.scorable.faq.Question;
+import business.system.user.Admin;
+import business.system.user.User;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.collections.FXCollections;
@@ -61,9 +64,26 @@ public class OfferController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         OfferFacade offerFacade = OfferFacade.getInstance();
+        SessionFacade sessionFacade = SessionFacade.getInstance();
+        User u = sessionFacade.getUser();
         if(((MapRessourceBundle)resources).size()!=0){
             this.offer=(Offer) resources.getObject("0");
         }
+        boolean isOwner =  u.getUser_id() == offer.getUser().getUser_id();
+        if( u.isAdmin() || isOwner){
+            editButton.setDisable(false);
+            editButton.setVisible(true);
+            if(isOwner){
+                setPriority.setVisible(true);
+                setPriority.setDisable(false);
+            }
+        }else{
+            editButton.setDisable(true);
+            editButton.setVisible(false);
+            setPriority.setVisible(false);
+            setPriority.setDisable(true);
+        }
+
         titleOffer.setText(offer.getTitle());
         desc.setText(offer.getDescription());
         category.setText(offer.getCategory().getCategoryName());
@@ -71,11 +91,126 @@ public class OfferController implements Initializable {
         price.setText(String.valueOf(offer.getPricePerDay()));
         desc.setEditable(false);
 
-        populateFAQTable(offerFacade);
+        populateFAQTable(offerFacade,isOwner);
         populateCommentTable(offerFacade);
 
     }
 
+
+//    private <A> TableCell createTableCell(String nameButton, TableColumn<A,Integer> param, Consumer<ActionEvent,A> function){
+//        return new TableCell<>() {
+//
+//            private final Button downVoteFAQButton = new Button("Up vote");
+//            {
+//                downVoteFAQButton.setOnAction(event -> {
+//                    function.accept(event,param.getTableView().getItems().get(getIndex()));
+//                    downVoteComment(event, );
+//                });
+//            }
+//            @Override
+//            protected void updateItem(Integer item, boolean empty) {
+//                super.updateItem(item, empty);
+//
+//                if (empty) {
+//                    setGraphic(null);
+//                }
+//                else {
+//                    setGraphic(downVoteFAQButton);
+//                }
+//            }
+//        }
+//
+//    }
+
+    /**
+     * Method to populate table of faq
+     * @param offerFacade
+     */
+    private void populateFAQTable(OfferFacade offerFacade,boolean isOwner) {
+        List<Question> questions = offerFacade.getAllQuestions(offer);
+        final ObservableList<Question> data = FXCollections.observableArrayList(questions);
+
+        questionFAQ.setCellValueFactory(new PropertyValueFactory<>("questionContent") );
+        questionFAQ.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        replyCol.setCellFactory(param -> new TableCell<>() {
+
+            private final Button replyButton = new Button("Reply");
+            {
+                replyButton.setOnAction(event -> {
+                    replyQuestion(event, param.getTableView().getItems().get(getIndex()));
+                });
+            }
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                }
+                else {
+                    if(isOwner){
+                        setGraphic(replyButton);
+
+                    }else{
+                        replyButton.setVisible(false);
+                    }
+                }
+            }
+        });
+        upVoteFAQ.setCellFactory(param -> new TableCell<>() {
+
+            private final Button upVoteFAQButton = new Button("Up vote");
+            {
+                upVoteFAQButton.setOnAction(event -> {
+                    upVoteQuestion(event, param.getTableView().getItems().get(getIndex()));
+                });
+            }
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                }
+                else {
+                    setGraphic(upVoteFAQButton);
+                }
+            }
+        });
+        downVoteFAQ.setCellFactory(param -> new TableCell<>() {
+
+            private final Button downVoteFAQButton = new Button("Up vote");
+            {
+                downVoteFAQButton.setOnAction(event -> {
+                    downVoteQuestion(event, param.getTableView().getItems().get(getIndex()));
+                });
+            }
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                }
+                else {
+                    setGraphic(downVoteFAQButton);
+                }
+            }
+        });
+
+
+        faqTable.setItems(data);
+    }
+
+    private void replyQuestion(ActionEvent event, Question question) {
+        System.out.println("Reply");
+    }
+
+    /**
+     * Method to populate table of comments
+     * @param offerFacade
+     */
     private void populateCommentTable(OfferFacade offerFacade) {
         List<Comment> questions = offerFacade.getAllComments(offer);
         final ObservableList<Comment> data = FXCollections.observableArrayList(questions);
@@ -126,80 +261,7 @@ public class OfferController implements Initializable {
 
         commentTable.setItems(data);
     }
-//    private <A> TableCell createTableCell(String nameButton, TableColumn<A,Integer> param, Consumer<ActionEvent,A> function){
-//        return new TableCell<>() {
-//
-//            private final Button downVoteFAQButton = new Button("Up vote");
-//            {
-//                downVoteFAQButton.setOnAction(event -> {
-//                    function.accept(event,param.getTableView().getItems().get(getIndex()));
-//                    downVoteComment(event, );
-//                });
-//            }
-//            @Override
-//            protected void updateItem(Integer item, boolean empty) {
-//                super.updateItem(item, empty);
-//
-//                if (empty) {
-//                    setGraphic(null);
-//                }
-//                else {
-//                    setGraphic(downVoteFAQButton);
-//                }
-//            }
-//        }
-//
-//    }
-    private void populateFAQTable(OfferFacade offerFacade) {
-        List<Question> questions = offerFacade.getAllQuestions(offer);
-        final ObservableList<Question> data = FXCollections.observableArrayList(questions);
 
-        questionFAQ.setCellValueFactory(new PropertyValueFactory<>("questionContent") );
-        questionFAQ.setCellFactory(TextFieldTableCell.forTableColumn());
-
-        upVoteFAQ.setCellFactory(param -> new TableCell<>() {
-
-            private final Button upVoteFAQButton = new Button("Up vote");
-            {
-                upVoteFAQButton.setOnAction(event -> {
-                    upVoteQuestion(event, param.getTableView().getItems().get(getIndex()));
-                });
-            }
-            @Override
-            protected void updateItem(Integer item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty) {
-                    setGraphic(null);
-                }
-                else {
-                    setGraphic(upVoteFAQButton);
-                }
-            }
-        });
-        downVoteFAQ.setCellFactory(param -> new TableCell<>() {
-
-            private final Button downVoteFAQButton = new Button("Up vote");
-            {
-                downVoteFAQButton.setOnAction(event -> {
-                    downVoteQuestion(event, param.getTableView().getItems().get(getIndex()));
-                });
-            }
-            @Override
-            protected void updateItem(Integer item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty) {
-                    setGraphic(null);
-                }
-                else {
-                    setGraphic(downVoteFAQButton);
-                }
-            }
-        });
-
-        faqTable.setItems(data);
-    }
     private void upVoteComment(ActionEvent event, Comment comment) {
         System.out.println(comment.getCommentScore()-1);
     }

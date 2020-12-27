@@ -214,6 +214,10 @@ public class User {
         this.recoveryCode = recoveryCode;
     }
 
+    public boolean isAdmin(){
+        return getRole().getNameRole().equals(Admin.ADMIN);
+    }
+
     @Override
     public String toString() {
         return "User : " +
