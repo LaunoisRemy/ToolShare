@@ -26,6 +26,9 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
+/**
+ * Controller which deals with rating an offer and comment it
+ */
 public class EvaluationController implements Initializable {
     @FXML
     private JFXTextArea commentArea;
@@ -86,6 +89,12 @@ public class EvaluationController implements Initializable {
 
     }
 
+    /**
+     * Handle text area depending of choice of user
+     * Yes -> textarea visible, editable with text
+     * No -> textArea not accessible
+     * @param actionEvent
+     */
     public void handleChoiceComment(javafx.event.ActionEvent actionEvent){
         if(yesButton.isSelected()){
             commentArea.setEditable(true);
@@ -103,7 +112,10 @@ public class EvaluationController implements Initializable {
         LoadView.changeScreen(actionEvent, ViewPath.HISTORY_VIEW);
     }
 
-
+    /**
+     * Handle action if the user click on submit for rate Page
+     * @param actionEvent
+     */
     public void handleRate(javafx.event.ActionEvent actionEvent){
         int rate = star.getValue();
         EvaluationFacade evaluationFacade = EvaluationFacade.getInstance();
@@ -111,7 +123,10 @@ public class EvaluationController implements Initializable {
         LoadView.changeScreen(actionEvent, ViewPath.COMMENT_VIEW,scoreOffer);
     }
 
-
+    /**
+     * Handle action if the user click on submit for comment Page
+     * @param actionEvent
+     */
     public void handleComment(javafx.event.ActionEvent actionEvent){
 
         if(yesButton.isSelected()){

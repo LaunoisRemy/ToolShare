@@ -12,6 +12,12 @@ public class EvaluationFacade {
         return INSTANCE;
     }
 
+    /**
+     * Method which deal with create rate
+     * @param offer offer that receives a rating
+     * @param rate rating of the offer
+     * @return scoreOffer create to pass if the user need to {@link #comment(ScoreOffer, String)}comment
+     */
     public ScoreOffer rate(Offer offer, int rate){
         ScoreOfferDAO scoreOfferDAO = ScoreOfferDAO.getInstance();
         SessionFacade sessionFacade = SessionFacade.getInstance();
@@ -19,6 +25,12 @@ public class EvaluationFacade {
         scoreOfferDAO.create(scoreOffer);
         return scoreOffer;
     }
+
+    /**
+     * Method which deal with create comme,t
+     * @param scoreOffer score offer that receives a comment
+     * @param commentText comment of the score
+     */
     public void comment(ScoreOffer scoreOffer, String commentText){
         ScoreOfferDAO scoreOfferDAO = ScoreOfferDAO.getInstance();
         CommentDAO commentDaoMySQL = CommentDaoMySQL.getInstance();
