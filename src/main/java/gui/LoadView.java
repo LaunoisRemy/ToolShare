@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 import util.MapRessourceBundle;
 
@@ -32,7 +33,10 @@ public class LoadView  extends Parent{
         try{
 
             Parent parent = LoadView.load(view,objects);
-            Scene newScene = new Scene(parent);
+            ScrollPane scrollPane = new ScrollPane(parent);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            Scene newScene = new Scene(scrollPane);
             Stage window =(Stage)((Node)event.getSource()).getScene().getWindow();
             window.setScene(newScene);
             window.show();
