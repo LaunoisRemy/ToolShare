@@ -15,22 +15,22 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1109.0" prefWidth="1238.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.offer.OfferController">
+<AnchorPane prefHeight="901.0" prefWidth="1227.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.offer.OfferController">
     <children>
         <BorderPane prefHeight="901.0" prefWidth="1227.0" style="-fx-background-color: fafafa; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <top>
 
             </top>
             <bottom>
-                <Pane prefHeight="85.0" prefWidth="1236.0" style="-fx-background-color: #f50057;" BorderPane.alignment="CENTER" />
+                <Pane prefHeight="65.0" prefWidth="1236.0" style="-fx-background-color: #f50057;" BorderPane.alignment="CENTER" />
             </bottom>
             <top>
                 <fx:include source="../template/navBarUser.fxml" />
             </top>
             <center>
-                <Pane prefHeight="608.0" prefWidth="1227.0" style="-fx-background-color: #fafafa;" BorderPane.alignment="CENTER">
+                <Pane prefHeight="852.0" prefWidth="1236.0" style="-fx-background-color: #fafafa;" BorderPane.alignment="CENTER">
                     <children>
-                        <VBox prefHeight="721.0" prefWidth="1229.0">
+                        <VBox prefHeight="947.0" prefWidth="1229.0">
                             <children>
                                 <HBox alignment="CENTER" prefHeight="69.0" prefWidth="1229.0">
                                     <children>
@@ -58,81 +58,60 @@
 
                                     </children>
                                 </HBox>
-                        <ScrollPane prefHeight="656.0" prefWidth="1229.0">
+                        <ScrollPane prefHeight="873.0" prefWidth="1229.0">
                           <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="950.0" prefWidth="1234.0">
-                                  <Label fx:id="offerLabelComment" contentDisplay="TOP" layoutX="386.0" layoutY="449.0"
-                                         prefHeight="55.0" prefWidth="199.0" text="Offers comments">
+                                  <Label fx:id="offerLabelComment" contentDisplay="TOP" layoutX="386.0" layoutY="449.0" prefHeight="55.0" prefWidth="199.0" text="Offers comments">
                                       <font>
-                                        <Font name="Tahoma Bold" size="18.0"/>
+                                        <Font name="Tahoma Bold" size="18.0" />
                                       </font>
                                   </Label>
                                   <VBox prefHeight="1452.0" prefWidth="1238.0">
                                       <Pane prefHeight="392.0" prefWidth="1217.0">
-                                          <Label fx:id="offerLabelDesc" contentDisplay="TOP" layoutX="129.0"
-                                                 layoutY="31.0" prefHeight="55.0" prefWidth="199.0"
-                                                 text="Offer description">
+                                          <Label fx:id="offerLabelDesc" contentDisplay="TOP" layoutX="129.0" layoutY="31.0" prefHeight="55.0" prefWidth="199.0" text="Offer description">
                                               <font>
-                                                  <Font name="Tahoma Bold" size="18.0"/>
+                                                  <Font name="Tahoma Bold" size="18.0" />
                                               </font>
                                           </Label>
-                                          <ImageView fx:id="imgOffer" fitHeight="209.0" fitWidth="270.0"
-                                                     layoutX="143.0" layoutY="92.0" pickOnBounds="true"
-                                                     preserveRatio="true"/>
-                                          <Label fx:id="category" contentDisplay="TOP" layoutX="214.0"
-                                                 layoutY="310.0" prefHeight="55.0" prefWidth="199.0"
-                                                 text="Offer category">
+                                          <ImageView fx:id="imgOffer" fitHeight="209.0" fitWidth="270.0" layoutX="143.0" layoutY="92.0" pickOnBounds="true" preserveRatio="true" />
+                                          <Label fx:id="category" contentDisplay="TOP" layoutX="214.0" layoutY="310.0" prefHeight="55.0" prefWidth="199.0" text="Offer category">
                                               <font>
-                                                  <Font name="Tahoma Bold" size="18.0"/>
+                                                  <Font name="Tahoma Bold" size="18.0" />
                                               </font>
                                           </Label>
-                                          <Label fx:id="state" contentDisplay="TOP" layoutX="951.0"
-                                                 layoutY="310.0" prefHeight="55.0" prefWidth="199.0"
-                                                 text="Offer state">
+                                          <Label fx:id="state" contentDisplay="TOP" layoutX="951.0" layoutY="310.0" prefHeight="55.0" prefWidth="199.0" text="Offer state">
                                               <font>
-                                                  <Font name="Tahoma Bold" size="18.0"/>
+                                                  <Font name="Tahoma Bold" size="18.0" />
                                               </font>
                                           </Label>
-                                          <JFXTextArea fx:id="desc" layoutX="458.0" layoutY="94.0"
-                                                       prefHeight="209.0" prefWidth="545.0"/>
+                                          <JFXTextArea fx:id="desc" layoutX="458.0" layoutY="94.0" prefHeight="209.0" prefWidth="545.0" />
                                       </Pane>
                                       <Pane prefHeight="370.0" prefWidth="1238.0">
-                                          <Label fx:id="faqLabel" contentDisplay="TOP" prefHeight="55.0"
-                                                 prefWidth="199.0" text="FAQ">
+                                          <Label fx:id="faqLabel" contentDisplay="TOP" prefHeight="55.0" prefWidth="199.0" text="FAQ">
                                               <font>
-                                                  <Font name="Tahoma Bold" size="18.0"/>
+                                                  <Font name="Tahoma Bold" size="18.0" />
                                               </font>
                                           </Label>
-                                          <TableView fx:id="faqTable" layoutX="2.0" layoutY="42.0"
-                                                     prefHeight="327.0" prefWidth="1214.0">
+                                          <TableView fx:id="faqTable" layoutX="2.0" layoutY="42.0" prefHeight="327.0" prefWidth="1214.0">
                                               <columns>
-                                                  <TableColumn fx:id="questionFAQ" prefWidth="836.0"
-                                                               text="question"/>
-                                                  <TableColumn fx:id="replyCol" minWidth="0.0" prefWidth="65.0"
-                                                               text="reply"/>
-                                                  <TableColumn fx:id="upVoteFAQ" minWidth="0.0" prefWidth="65.0"
-                                                               text="upVote"/>
-                                                  <TableColumn fx:id="downVoteFAQ" minWidth="0.0" prefWidth="65.0"
-                                                               text="downVote"/>
+                                                  <TableColumn fx:id="questionFAQ" prefWidth="836.0" text="question" />
+                                                  <TableColumn fx:id="replyCol" minWidth="0.0" prefWidth="65.0" text="reply" />
+                                                  <TableColumn fx:id="upVoteFAQ" minWidth="0.0" prefWidth="65.0" text="upVote" />
+                                                  <TableColumn fx:id="downVoteFAQ" minWidth="0.0" prefWidth="65.0" text="downVote" />
                                               </columns>
                                           </TableView>
                                       </Pane>
                                       <Pane prefHeight="444.0" prefWidth="1238.0">
-                                          <TableView fx:id="commentTable" layoutY="61.0" prefHeight="387.0"
-                                                     prefWidth="1214.0">
+                                          <TableView fx:id="commentTable" layoutY="61.0" prefHeight="387.0" prefWidth="1214.0">
                                               <columns>
-                                                  <TableColumn fx:id="commentCol" prefWidth="836.0"
-                                                               text="comments"/>
-                                                  <TableColumn fx:id="upVoteComment" minWidth="0.0"
-                                                               prefWidth="65.0" text="upVote"/>
-                                                  <TableColumn fx:id="downVoteComment" minWidth="0.0"
-                                                               prefWidth="65.0" text="downVote"/>
+                                                  <TableColumn fx:id="commentCol" prefWidth="836.0" text="comments" />
+                                                  <TableColumn fx:id="upVoteComment" minWidth="0.0" prefWidth="65.0" text="upVote" />
+                                                  <TableColumn fx:id="downVoteComment" minWidth="0.0" prefWidth="65.0" text="downVote" />
                                               </columns>
                                           </TableView>
-                                          <Label fx:id="commentLabel" contentDisplay="TOP" prefHeight="55.0"
-                                                 prefWidth="199.0" text="Offers comments">
+                                          <Label fx:id="commentLabel" contentDisplay="TOP" prefHeight="55.0" prefWidth="199.0" text="Offers comments">
                                               <font>
-                                                  <Font name="Tahoma Bold" size="18.0"/>
+                                                  <Font name="Tahoma Bold" size="18.0" />
                                               </font>
                                           </Label>
                                       </Pane>
