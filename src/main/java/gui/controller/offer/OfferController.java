@@ -50,8 +50,6 @@ public class OfferController implements Initializable {
     private TableColumn<Comment,String> commentCol;
     @FXML
     private TableColumn<Comment,Integer> upVoteComment,downVoteComment;
-
-
     private Offer offer;
     /**
      * Called to initialize a controller after its root element has been

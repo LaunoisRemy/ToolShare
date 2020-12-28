@@ -1,36 +1,40 @@
 package gui.controller;
 
 import business.exceptions.ObjectNotFoundException;
+import business.facade.CategoryFacade;
 import business.facade.FavoryFacade;
 import business.facade.OfferFacade;
+import business.system.Category;
 import business.system.Favory;
 import business.system.offer.Offer;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import gui.LoadView;
 import gui.ViewPath;
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.FloatStringConverter;
-import util.ConstantsRegex;
 import util.MapRessourceBundle;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 public class HomePageController implements Initializable {
     private FavoryController favoryController = new FavoryController();
@@ -43,6 +47,10 @@ public class HomePageController implements Initializable {
     private TableColumn<Offer,Integer> offerButton,favoryButton;
     @FXML
     private TableColumn<Offer,Float> price;
+    @FXML
+    private ChoiceBox<Category> categoryBox;
+    @FXML
+    private JFXTextField textField;
 
 
     /**
@@ -55,18 +63,51 @@ public class HomePageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         FavoryFacade favoryFacade = FavoryFacade.getInstance();
-        ArrayList<Offer> offerArrayList=new ArrayList<>();
         //Check if we are on the homepage or the favory page
+        FilteredList<Offer> offerFilteredList;
         if(((MapRessourceBundle)resources).size() != 0){
-                offerArrayList.addAll(favoryFacade.getAllFavories());
+            offerFilteredList = new FilteredList<Offer>(FXCollections.observableArrayList(favoryFacade.getAllFavories()));
         }else{
-            offerArrayList.addAll(OfferFacade.getInstance().getAllOffers());
+            offerFilteredList = new FilteredList<Offer>(FXCollections.observableArrayList(OfferFacade.getInstance().getAllOffers()),p->true);
         }
+        //add All categories to the choiceBox
+        Category noCategory = new Category("No Category",false);
+        List<Category> categoryList = new ArrayList<>();
+        categoryList.add(noCategory);
+        categoryList.addAll(CategoryFacade.getInstance().getAllValidatedCategories());
+        categoryBox.getItems().addAll(categoryList);
 
+        categoryBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                offerFilteredList.setPredicate(offer -> {
+                    Category selectedCategory = categoryList.get((Integer) newValue);
+                    if(selectedCategory.getCategoryName().equals("No Category")){
+                        return true;
+                    }
+                    else{
+                        // We compare what he entered (in lower case)
+                        String lowerCaseFilter = selectedCategory.getCategoryName().toLowerCase();
+                        // If the filter matches the name of the category
+                        if (offer.getCategory().getCategoryName().toLowerCase().contains(lowerCaseFilter)) {
+                            // The category is displayed
+                            return true;
+                        } else {
+                            // The name doesn't match, not displayed
+                            return false;
+                        }
+                    }
+                });
+            }
+        } );
 
-        final ObservableList<Offer> data = FXCollections.observableArrayList(offerArrayList);
+        //allow the user to type in the search bar
+        textField.textProperty().addListener((observable, oldValue, newValue) -> this.filterTitle(observable,oldValue,newValue,offerFilteredList));
 
-        title.setCellValueFactory(new PropertyValueFactory<>("title") );
+        SortedList<Offer> sortedData = new SortedList<>(offerFilteredList);
+        sortedData.comparatorProperty().bind(table.comparatorProperty());
+
+        title.setCellValueFactory(new PropertyValueFactory<>("title"));
         title.setCellFactory(TextFieldTableCell.forTableColumn());
 
         category.setCellValueFactory(cellData -> Bindings.select(cellData.getValue(),"category","categoryName"));
@@ -125,30 +166,28 @@ public class HomePageController implements Initializable {
                     Favory fav = favoryFacade.findFavory(offer);
 
                     if(fav==null){
-                        Image img= new Image("img/favory.png") ;
-                        ImageView iv= new ImageView(img);
+                        img= new Image("img/favory.png") ;
+                        iv= new ImageView(img);
                         favoryButton.setOnAction(event -> {
                             addToFavory(event, item,favoryButton);
                         });
-                        iv.setFitHeight(35);
-                        iv.setFitWidth(35);
-                        favoryButton.setGraphic(iv);
+
                     }else{
-                        Image img= new Image("img/favoryFilled.png") ;
-                        ImageView iv= new ImageView(img);
+                        img= new Image("img/favoryFilled.png") ;
+                        iv= new ImageView(img);
                         favoryButton.setOnAction(event -> {
                             deleteFromFavory(event, item,favoryButton);
                         });
-                        iv.setFitHeight(35);
-                        iv.setFitWidth(35);
-                        favoryButton.setGraphic(iv);
                     }
+                    iv.setFitHeight(35);
+                    iv.setFitWidth(35);
+                    favoryButton.setGraphic(iv);
 
                     setGraphic(favoryButton);
                 }
             }
         });
-        table.setItems(data);
+        table.setItems(sortedData);
     }
 
     /**
@@ -179,5 +218,25 @@ public class HomePageController implements Initializable {
      */
     public void deleteFromFavory(ActionEvent actionEvent, int offerID,JFXButton button){
         favoryController.deleteFromFavory(actionEvent,offerID,button);
+    }
+    private void filterTitle(ObservableValue<? extends String> observable, String oldValue, String newValue, FilteredList<Offer> filteredData){
+        // We check for each category
+        filteredData.setPredicate(offer -> {
+
+                // If the text field is empty, we display all the categories
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                // We compare what he entered (in lower case)
+                String lowerCaseFilter = newValue.toLowerCase();
+                // If the filter matches the name of the category
+                if (offer.getTitle().toLowerCase().contains(lowerCaseFilter)) {
+                    // The category is displayed
+                    return true;
+                } else {
+                    // The name doesn't match, not displayed
+                    return false;
+                }
+        });
     }
 }
