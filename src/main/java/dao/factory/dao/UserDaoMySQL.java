@@ -5,6 +5,8 @@ import business.system.user.User;
 import dao.structure.UserDAO;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Dao concrete of user using MySQL database
@@ -88,7 +90,7 @@ public class UserDaoMySQL extends UserDAO {
                 prep.setString(6,null);
                 prep.setBoolean(7,true);
             }
-            prep.setBoolean(8,obj.isBanned());
+            prep.setBoolean(8,obj.getIsBanned());
             prep.setString(9, obj.getSalt());
 
             prep.executeUpdate();
@@ -143,7 +145,7 @@ public class UserDaoMySQL extends UserDAO {
                 prep.setString(6,null);
                 prep.setBoolean(7,true);
             }
-            prep.setBoolean(8,obj.isBanned());
+            prep.setBoolean(8,obj.getIsBanned());
             prep.setString(9,obj.getSalt());
             prep.setString(10,obj.getRecoveryCode());
             prep.setInt(11,obj.getUser_id());
@@ -161,7 +163,19 @@ public class UserDaoMySQL extends UserDAO {
      */
     @Override
     public boolean delete(User obj) {
-        return false;
+        try {
+            String sql =
+                    "DELETE FROM user WHERE "+USER_ID+" = ?";
+            PreparedStatement prep = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+            prep.setInt(1,obj.getUser_id());
+            prep.executeUpdate();
+            ResultSet rs = prep.getGeneratedKeys();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -232,6 +246,26 @@ public class UserDaoMySQL extends UserDAO {
             throwables.printStackTrace();
         }
         return code;
+    }
+
+
+    @Override
+    public List<User> getAllUsers() {
+        List<User> res = new ArrayList<>();
+        try {
+            PreparedStatement prep = this.connection.prepareStatement(
+                    "SELECT * FROM user"
+            );
+
+            ResultSet rs = prep.executeQuery();
+
+            while(rs.next()){
+                res.add(UserDaoMySQL.createUserFromRs(rs));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return res;
     }
 
     /**

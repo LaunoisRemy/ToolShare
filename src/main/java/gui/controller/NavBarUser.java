@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
+import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -21,7 +22,7 @@ public class NavBarUser implements Initializable {
     User user = SessionFacade.getInstance().getUser();
 
     @FXML
-    private VBox search,history,favory,categories;
+    private VBox search,history,favory,categories,allUsers;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -54,6 +55,9 @@ public class NavBarUser implements Initializable {
     }
     public void categoryPage(ActionEvent event){
         LoadView.changeScreen(event,ViewPath.CATEGORY_VIEW);
+    }
+    public void userListPage(ActionEvent event) {
+        LoadView.changeScreen(event,ViewPath.USERLIST_VIEW);
     }
 
 

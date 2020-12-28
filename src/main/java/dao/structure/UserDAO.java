@@ -1,7 +1,11 @@
 package dao.structure;
 
+import business.system.Category;
 import business.system.user.User;
 import dao.factory.dao.AbstractFactoryDAO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class UserDAO implements DAO<User> {
     private static final UserDAO INSTANCE = AbstractFactoryDAO.getInstance().getUserDAO();
@@ -26,5 +30,7 @@ public abstract class UserDAO implements DAO<User> {
      * @return recovery code
      */
     public abstract String getRecoveryCodeByMail(String mail);
+
+    public abstract List<User> getAllUsers();
 }
 

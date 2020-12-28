@@ -6,6 +6,8 @@ public enum ViewPath {
     FORGOTPASSWORDCHECKCODE_VIEW("view/user/forgot_password/forgot_password_check_code.fxml"),
     CHANGEPASSWORD_VIEW("view/user/forgot_password/change_password.fxml"),
     REGISTERUPDATEUSER_VIEW("view/user/registerUpdateUser.fxml"),
+    USERLIST_VIEW("view/user/allUsers.fxml"),
+    ADDADMIN_VIEW("view/user/createAdmin.fxml"),
 
     POSTOFFER_VIEW("view/offer/createOffer.fxml"),
     CATEGORY_VIEW("view/category/category.fxml"),

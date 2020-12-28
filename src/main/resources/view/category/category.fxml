@@ -74,9 +74,9 @@
                               <TableView fx:id="table" layoutX="60.0" layoutY="94.0" prefHeight="466.0" prefWidth="680.0">
                                 <columns>
                                   <TableColumn fx:id="categoryName" prefWidth="358.4000244140625" text="Category Name" />
-                                  <TableColumn fx:id="deleteButton" prefWidth="117.5999755859375" text="Delete" />
-                                  <TableColumn fx:id="updateButton" prefWidth="110.4000244140625" text="Update" />
-                                  <TableColumn fx:id="isValidated" prefWidth="93.60003662109375" text="Validated" />
+                                  <TableColumn fx:id="deleteButton" prefWidth="117.5999755859375" style="-fx-alignment: CENTER;" text="Delete" />
+                                  <TableColumn fx:id="updateButton" prefWidth="110.4000244140625" style="-fx-alignment: CENTER;" text="Update" />
+                                  <TableColumn fx:id="isValidated" prefWidth="93.60003662109375" style="-fx-alignment: CENTER;" text="Validated" />
                                 </columns>
                               </TableView>
                            </children>

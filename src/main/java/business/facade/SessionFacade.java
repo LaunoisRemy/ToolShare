@@ -9,6 +9,8 @@ import dao.structure.UserDAO;
 import util.Mail;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SessionFacade {
 
@@ -64,7 +66,7 @@ public class SessionFacade {
 
         if(user==null){
             throw new ObjectNotFoundException("User is not found");
-        } else if (user.isBanned()){
+        } else if (user.getIsBanned()){
             throw new UserBannedException("User is banned");
         } else {
             //GET user salt
@@ -129,6 +131,10 @@ public class SessionFacade {
 
     }
 
+    public void updateUser(User user){
+        UserDAO.getInstance().update(user);
+    }
+
     private String generateCode(int size){
         SecureRandom random = new SecureRandom();
         StringBuilder sb = new StringBuilder(size);
@@ -167,5 +173,12 @@ public class SessionFacade {
         UserDAO.getInstance().update(user);
     }
 
+    public List<User> getAllUsers(){
+        return UserDAO.getInstance().getAllUsers();
+    }
+
+    public boolean deleteUser(User u){
+        return UserDAO.getInstance().delete(u);
+    }
 
 }

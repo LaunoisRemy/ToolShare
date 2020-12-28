@@ -13,12 +13,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -42,7 +40,7 @@ public class CategoryController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ArrayList<Category> categoryArrayList = new ArrayList<Category>();
+        ArrayList<Category> categoryArrayList = new ArrayList<>();
 
         categoryArrayList.addAll(this.categoryFacade.getAllCategories());
 
@@ -104,7 +102,7 @@ public class CategoryController implements Initializable {
             }
         });
 
-        deleteButton.setCellFactory(param -> new TableCell<Category,Integer>() {
+        deleteButton.setCellFactory(param -> new TableCell<>() {
             Image img;
             ImageView iv;
 
@@ -121,7 +119,7 @@ public class CategoryController implements Initializable {
                     Image img= new Image("img/red_trash.png") ;
                     ImageView iv= new ImageView(img);
                     deleteButton.setOnAction(event -> {
-                        handleDeleteCategory(event, category,data);
+                        alertDelete(event, category,data);
                     });
                     iv.setFitHeight(25);
                     iv.setFitWidth(25);
@@ -143,7 +141,7 @@ public class CategoryController implements Initializable {
         }
     }
 
-    public void handleDeleteCategory(ActionEvent actionEvent, Category category,ObservableList data){
+    private void handleDeleteCategory(Category category,ObservableList data){
         boolean deleted = false;
         try {
             deleted = this.categoryFacade.deleteCategory(category);
@@ -157,14 +155,17 @@ public class CategoryController implements Initializable {
     }
 
     public void handleNewCategory(ActionEvent actionEvent){
-        this.categoryFacade.createCategory(newCategoryName.getText(),false);
-        //refresh page to add the new category
-        LoadView.changeScreen(actionEvent, ViewPath.CATEGORY_VIEW);
+        if(!newCategoryName.getText().isEmpty()){
+            this.categoryFacade.createCategory(newCategoryName.getText(),false);
+            //refresh page to add the new category
+            LoadView.changeScreen(actionEvent, ViewPath.CATEGORY_VIEW);
+        }
     }
 
-    public void alertUpdate(ActionEvent actionEvent, Category category){
+    private void alertUpdate(ActionEvent actionEvent, Category category){
         TextInputDialog dialog = new TextInputDialog(category.getCategoryName());
         dialog.setTitle("Update Category");
+        dialog.setHeaderText(null);
         dialog.setContentText("Please enter the new category name:");
 
         Optional<String> result = dialog.showAndWait();
@@ -175,7 +176,19 @@ public class CategoryController implements Initializable {
         LoadView.changeScreen(actionEvent, ViewPath.CATEGORY_VIEW);
     }
 
-    public void updateCategory(Category category){
+    private void alertDelete(ActionEvent actionEvent, Category category,ObservableList data){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Deletion");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure to delete this category ?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            handleDeleteCategory(category,data);
+        }
+    }
+
+    private void updateCategory(Category category){
         try {
             this.categoryFacade.updateCategory(category.getCategoryId(),category.getCategoryName(),category.getIsValidated());
         } catch (ObjectNotFoundException e) {

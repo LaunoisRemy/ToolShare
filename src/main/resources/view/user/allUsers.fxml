@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="901.0" prefWidth="1227.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.user.UserListController">
+    <children>
+        <BorderPane prefHeight="901.0" prefWidth="1227.0" style="-fx-background-color: fafafa; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <top>
+
+            </top>
+            <bottom>
+                <Pane prefHeight="85.0" prefWidth="1227.0" style="-fx-background-color: #f50057;" BorderPane.alignment="CENTER" />
+            </bottom>
+            <top>
+                <fx:include source="../template/navBarUser.fxml" />
+            </top>
+            <center>
+                <Pane prefHeight="608.0" prefWidth="1227.0" style="-fx-background-color: #fafafa;" BorderPane.alignment="CENTER">
+                    <children>
+                        <VBox prefHeight="721.0" prefWidth="1229.0">
+                            <children>
+                                <HBox alignment="CENTER" prefHeight="69.0" prefWidth="1229.0">
+                                    <children>
+                                        <Label alignment="CENTER" contentDisplay="TOP" prefHeight="23.0" prefWidth="158.0" text="All Users">
+                                            <font>
+                                                <Font name="Tahoma Bold" size="18.0" />
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets right="150.0" />
+                                            </HBox.margin>
+                                        </Label>
+                              <JFXButton fx:id="addAdmin" alignment="CENTER" onAction="#addAdminPage" prefHeight="26.0" prefWidth="135.0" style="-fx-background-color: #2f9acd;" text="Add new Admin" />
+                                    </children>
+                                </HBox>
+                                <VBox prefHeight="2.0" prefWidth="1229.0" style="-fx-background-color: #212121;" />
+                                <TableView fx:id="table" prefHeight="650.0" prefWidth="1229.0">
+                                    <columns>
+                                        <TableColumn fx:id="name" prefWidth="311.20000606775284" style="-fx-alignment: CENTER;" text="Name" />
+                                        <TableColumn fx:id="email" prefWidth="361.5999755859375" style="-fx-alignment: CENTER;" text="Email" />
+                                        <TableColumn fx:id="role" minWidth="0.0" prefWidth="264.0" style="-fx-alignment: CENTER;" text="Role" />
+                                        <TableColumn fx:id="isBanned" prefWidth="156.0" style="-fx-alignment: CENTER;" text="Banned" />
+                                        <TableColumn fx:id="delete" prefWidth="138.39990234375" style="-fx-alignment: CENTER;" text="Delete" />
+                                    </columns></TableView>
+                            </children>
+                        </VBox>
+                    </children>
+                </Pane>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>
