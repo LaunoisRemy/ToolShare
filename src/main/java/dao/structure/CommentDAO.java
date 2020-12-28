@@ -1,6 +1,7 @@
 package dao.structure;
 
 import business.system.scorable.Comment;
+import business.system.scorable.Scorable;
 import dao.factory.dao.AbstractFactoryDAO;
 
 import java.util.List;
@@ -15,8 +16,8 @@ public abstract class CommentDAO implements DAO<Comment> {
     public static CommentDAO getInstance(){
         return INSTANCE;
     }
-    public abstract List<Comment> getAllCommentsByIdOffer(int idOffer);
-    public abstract List<Comment> getAllCommentsByIdUser(int idUser);
+    public abstract List<Scorable> getAllCommentsByIdOffer(int idOffer);
+    public abstract List<Scorable> getAllCommentsByIdUser(int idUser);
 
 }
 

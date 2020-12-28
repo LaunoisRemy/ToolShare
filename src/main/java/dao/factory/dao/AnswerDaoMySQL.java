@@ -110,6 +110,7 @@ public class AnswerDaoMySQL extends AnswerDAO {
     public static Answer createAnswerFromRs(ResultSet rs) throws SQLException {
         User user = UserDaoMySQL.createUserFromRs(rs);
         return new Answer(
+                rs.getInt(ANSWER_ID),
                 rs.getInt(ANSWER_SCORE),
                 rs.getString(ANSWER_CONTENT),
                 user

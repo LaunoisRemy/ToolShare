@@ -8,6 +8,7 @@ import business.system.offer.Offer;
 import business.system.offer.PriorityOffer;
 import business.system.offer.ToolSate;
 import business.system.scorable.Comment;
+import business.system.scorable.Scorable;
 import business.system.scorable.faq.Question;
 import business.system.user.User;
 import dao.structure.CategoryDAO;
@@ -184,11 +185,11 @@ public class OfferFacade {
         return this.offerDAO.getPriorityOffer();
     }
 
-    public List<Question> getAllQuestions(Offer offer) {
+    public List<Scorable> getAllQuestions(Offer offer) {
         return QuestionDAO.getInstance().getAllQuestionsByIdOffer(offer.getOffer_id());
     }
 
-    public List<Comment> getAllComments(Offer offer) {
+    public List<Scorable> getAllComments(Offer offer) {
         return  CommentDAO.getInstance().getAllCommentsByIdOffer(offer.getOffer_id());
     }
 }
