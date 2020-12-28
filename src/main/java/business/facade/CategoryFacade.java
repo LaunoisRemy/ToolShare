@@ -8,7 +8,7 @@ import java.util.List;
 public class CategoryFacade {
 
     private static final CategoryFacade INSTANCE = new CategoryFacade();
-    private CategoryDAO categoryDAO = CategoryDAO.getInstance();
+    private final CategoryDAO categoryDAO = CategoryDAO.getInstance();
 
     /**
      * getInstance will return the same correctly initialized INSTANCE

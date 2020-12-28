@@ -20,8 +20,6 @@ public class PriorityOffer extends Offer {
     /**
      * Constructors
      */
-    public PriorityOffer() {}
-
     public PriorityOffer(int offer_id, String title, float pricePerDay, String description, ToolSate toolSate, boolean isPriority, User user, Category category, Date dateStartPriority, Date dateEndPriority) {
         super(offer_id, title, pricePerDay, description, toolSate, isPriority, user, category);
         this.dateStartPriority = dateStartPriority;
@@ -71,7 +69,12 @@ public class PriorityOffer extends Offer {
      * @return true if expired, else false
      */
     public boolean isExpired() {
-        //TODO
+        if(new Date().compareTo(this.getDateEndPriority()) > 0) {
+            this.setDateEndPriority(null);
+            this.setDateStartPriority(null);
+            this.setIsPriority(false);
+            return true;
+        }
         return false;
     }
 }
