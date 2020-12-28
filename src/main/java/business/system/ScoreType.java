@@ -10,6 +10,7 @@ public enum ScoreType {
     public String getString(){
         return String.valueOf(this).toLowerCase(Locale.ROOT);
     }
+
     public static ScoreType getType(String type){
         return switch (type.toLowerCase(Locale.ROOT)) {
             case "question" -> QUESTION;
@@ -27,8 +28,8 @@ public enum ScoreType {
             default -> null;
         };
     }
-    public static int getIntByType(ScoreType type){
-        return switch (type) {
+    public int getIntByType(){
+        return switch (this) {
             case QUESTION -> 0;
             case ANSWER -> 1;
             case COMMENT -> 2;

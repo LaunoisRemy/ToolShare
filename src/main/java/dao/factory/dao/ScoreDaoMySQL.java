@@ -29,13 +29,14 @@ public class ScoreDaoMySQL extends ScoreDAO {
         Score score = null;
         try {
             String sql = "SELECT *  FROM score " +
-                    " WHERE "+ USER_ID +" = ? AND " + OBJECT_ID +" = ? AND " + OBJECT_TYPE +" = ?";
+                    "JOIN user u on u."+UserDaoMySQL.USER_ID+" = score."+USER_ID+" " +
+                    " WHERE  u."+ USER_ID +" = ? AND " + OBJECT_ID +" = ? AND " + OBJECT_TYPE +" = ?";
             PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setInt(1,idUser);
             if(others.length != 2){
                 throw new Exception("Problem of argument");
             }
-            int objectId= others[0];
+            int objectId = others[0];
             String objectType= ScoreType.getTypeByInt(others[1]).getString();
             prep.setInt(1,idUser);
             prep.setInt(2,objectId);
@@ -45,9 +46,9 @@ public class ScoreDaoMySQL extends ScoreDAO {
             if(rs.next()){
                 ScoreType type = ScoreType.getType(rs.getString(OBJECT_TYPE));
                 Scorable obj = switch (type) {
-                    case QUESTION -> QuestionDaoMySQL.createQuestionFromRs(Objects.requireNonNull(joinScorable("question", QuestionDaoMySQL.QUESTION_ID, objectId)));
-                    case ANSWER -> AnswerDaoMySQL.createAnswerFromRs(Objects.requireNonNull(joinScorable("answer", AnswerDaoMySQL.ANSWER_ID, objectId)));
-                    case COMMENT -> CommentDaoMySQL.createCommentFromRs(Objects.requireNonNull(joinScorable("comment", CommentDaoMySQL.COMMENT_ID, objectId)));
+                    case QUESTION -> QuestionDaoMySQL.createQuestionFromRs(Objects.requireNonNull(joinFAQ("question", QuestionDaoMySQL.QUESTION_ID, objectId)));
+                    case ANSWER -> AnswerDaoMySQL.createAnswerFromRs(Objects.requireNonNull(joinFAQ("answer", AnswerDaoMySQL.ANSWER_ID, objectId)));
+                    case COMMENT -> CommentDaoMySQL.createCommentFromRs(Objects.requireNonNull(joinComment(objectId)));
                 };
                 score = createScoreFromRs(rs,obj);
             }
@@ -58,14 +59,38 @@ public class ScoreDaoMySQL extends ScoreDAO {
         }
         return score;
     }
-
-    private ResultSet joinScorable(String table, String nameClause, int idClause){
+    private ResultSet joinFAQ(String table, String nameClause, int idClause){
         try {
-            String sql = "SELECT * FROM " +table+" "+
+            String sql = "SELECT * FROM " +table+" " +
+                    "JOIN user u on u."+UserDaoMySQL.USER_ID+" = "+table+"."+USER_ID+" " +
                     "WHERE "+nameClause +" = ?";
             PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setInt(1,idClause);
-            return prep.executeQuery();
+            ResultSet rs = prep.executeQuery();
+            if(rs.next()){
+                return rs;
+            }else{
+                throw new SQLException();
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+
+    }
+
+    private ResultSet joinComment(int idClause){
+        try {
+            String sql = "SELECT * FROM " + "comment" +" "+
+                    "WHERE "+ CommentDaoMySQL.COMMENT_ID +" = ?";
+            PreparedStatement prep = this.connection.prepareStatement(sql);
+            prep.setInt(1,idClause);
+            ResultSet rs = prep.executeQuery();
+            if(rs.next()){
+                return rs;
+            }else{
+                throw new SQLException();
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return null;
@@ -111,7 +136,7 @@ public class ScoreDaoMySQL extends ScoreDAO {
             prep.setInt(1,obj.getScoreValue());
             prep.setInt(2,obj.getUser().getUser_id());
             prep.setInt(3,obj.getObject().getId());
-            prep.setString(3,obj.getScoreType().getString());
+            prep.setString(4,obj.getScoreType().getString());
             int rs = prep.executeUpdate();
             return obj;
         } catch (SQLException throwables) {

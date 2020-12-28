@@ -164,7 +164,12 @@ public class QuestionDaoMySQL extends QuestionDAO {
         if(!rs.wasNull()){
             answer = AnswerDaoMySQL.createAnswerFromRs(rs);
         }
-        User user = UserDaoMySQL.createUserFromRs(rs);
+        rs.getInt(USER_ID_COL);
+        User user = null;
+
+        if(!rs.wasNull()){
+            user = UserDaoMySQL.createUserFromRs(rs);
+        }
         return  new Question(
                 rs.getInt(QUESTION_ID),
                 rs.getInt(SCORE_COL),

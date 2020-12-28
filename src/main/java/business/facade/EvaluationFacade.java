@@ -8,7 +8,9 @@ import business.system.scorable.Comment;
 import business.system.scorable.Scorable;
 import business.system.scorable.faq.Answer;
 import business.system.scorable.faq.Question;
+import business.system.user.User;
 import dao.factory.dao.CommentDaoMySQL;
+import dao.factory.dao.ScoreDaoMySQL;
 import dao.structure.*;
 
 public class EvaluationFacade {
@@ -57,9 +59,14 @@ public class EvaluationFacade {
 
     public void vote(Scorable scorable, int i) {
         SessionFacade sessionFacade = SessionFacade.getInstance();
-        Score score = new Score(sessionFacade.getUser(),scorable, scorable.getScoreType(),i);
-
-        score = ScoreDAO.getInstance().create(score);
+        Score score = findScorable(scorable);
+        if( score == null){
+            score = new Score(sessionFacade.getUser(),scorable, scorable.getScoreType(),i);
+            score = ScoreDAO.getInstance().create(score);
+        }else {
+            score.setScoreValue(i);
+            ScoreDAO.getInstance().update(score);
+        }
 
         scorable.setScore(scorable.getScore()+score.getScoreValue());
 
@@ -72,4 +79,9 @@ public class EvaluationFacade {
         }
     }
 
+    public Score findScorable(Scorable scorable) {
+        User user = SessionFacade.getInstance().getUser();
+        return ScoreDAO.getInstance().find(user.getUser_id(), scorable.getId(),scorable.getScoreType().getIntByType());
+//        return ScoreDAO.getInstance().find(0,0,0);
+    }
 }

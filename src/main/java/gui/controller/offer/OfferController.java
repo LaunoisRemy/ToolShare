@@ -3,6 +3,7 @@ package gui.controller.offer;
 import business.facade.EvaluationFacade;
 import business.facade.OfferFacade;
 import business.facade.SessionFacade;
+import business.system.Score;
 import business.system.offer.Offer;
 import business.system.scorable.Scorable;
 import business.system.user.User;
@@ -115,7 +116,6 @@ public class OfferController implements Initializable {
         questionFAQ.setCellFactory(TextFieldTableCell.forTableColumn());
 
         replyCol.setCellFactory(param -> new TableCell<>() {
-
             private final Button replyButton = new Button("Reply");
             {
                 replyButton.setOnAction(event -> {
@@ -153,19 +153,27 @@ public class OfferController implements Initializable {
             private final Button upVoteFAQButton = new Button("Up vote");
             {
                 upVoteFAQButton.setOnAction(event -> {
-                    voteScorable(event,param.getTableView().getItems().get(getIndex()) ,1);
+                    voteScorable(event, param.getTableView().getItems().get(getIndex()) ,1);
                 });
             }
             @Override
             protected void updateItem(Integer item, boolean empty) {
                 super.updateItem(item, empty);
-
-                if (empty) {
+                if (empty ) {
                     setGraphic(null);
                 }
                 else {
                     setGraphic(upVoteFAQButton);
+                    Score score = EvaluationFacade.getInstance().findScorable(param.getTableView().getItems().get(getIndex()));
+                    if( score != null){
+                        if(score.getScoreValue() == 1){
+                            upVoteFAQButton.setDisable(true);
+                        }
+                    }else{
+                        upVoteFAQButton.setDisable(true);
+                    }
                 }
+
             }
         });
     }
@@ -188,6 +196,14 @@ public class OfferController implements Initializable {
                 }
                 else {
                     setGraphic(downVoteFAQButton);
+                    Score score = EvaluationFacade.getInstance().findScorable(param.getTableView().getItems().get(getIndex()));
+                    if( score != null){
+                        if(score.getScoreValue() == -1){
+                            downVoteFAQButton.setDisable(true);
+                        }
+                    }else{
+                        downVoteFAQButton.setDisable(true);
+                    }
                 }
             }
         });
