@@ -60,7 +60,7 @@ public class User {
             this.role = new OrdinaryUser(userCity, phoneNumber);
         }
         this.setSalt(salt);
-        this.setBanned(false);
+        this.setIsBanned(false);
     }
 
     public User(int id, String firstName, String lastName, String email, String password, String userCity, String phoneNumber, boolean isAdmin, boolean isBanned, String salt) {
@@ -74,7 +74,7 @@ public class User {
         }else{
             this.role= new OrdinaryUser(userCity,phoneNumber);
         }
-        this.setBanned(isBanned);
+        this.setIsBanned(isBanned);
         this.setSalt(salt);
     }
 
@@ -178,13 +178,13 @@ public class User {
      * if the user is banned
      * @return true if banned, else false
      */
-    public boolean isBanned() { return this.isBanned; }
+    public boolean getIsBanned() { return this.isBanned; }
 
     /**
      * setter of boolean isBanned
      * @param banned true if the user is banned, else false
      */
-    public void setBanned(boolean banned) { this.isBanned = banned; }
+    public void setIsBanned(boolean banned) { this.isBanned = banned; }
 
     /**
      * getter of salt
@@ -226,7 +226,7 @@ public class User {
                 ", lastName = '" + this.getLastName() + '\'' +
                 ", email = '" + this.getEmail() + '\'' +
                 ", password = '" + this.getPassword() + '\'' +
-                ", isBanned = " + this.isBanned() + '\''+
+                ", isBanned = " + this.getIsBanned() + '\''+
                 this.role.toString();
     }
 

@@ -41,13 +41,13 @@
                                     <Insets right="150.0" />
                                  </HBox.margin>
                               </Label>
-                              <ChoiceBox prefWidth="150.0" />
-                              <JFXTextField prefHeight="25.0" prefWidth="388.0" promptText="Search">
+                              <ChoiceBox fx:id="categoryBox" prefWidth="150.0" />
+                              <JFXTextField fx:id="textField" prefHeight="25.0" prefWidth="388.0" promptText="Search Here !">
                                  <HBox.margin>
                                     <Insets left="30.0" />
                                  </HBox.margin>
                               </JFXTextField>
-                              <JFXButton text="Search">
+                              <JFXButton  text="Search ">
                                  <HBox.margin>
                                     <Insets left="20.0" />
                                  </HBox.margin>

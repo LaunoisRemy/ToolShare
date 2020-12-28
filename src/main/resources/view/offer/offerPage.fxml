@@ -58,9 +58,9 @@
 
                                     </children>
                                 </HBox>
-                        <ScrollPane prefHeight="873.0" prefWidth="1229.0">
+                        <ScrollPane fx:id="scrollPane" prefHeight="782.0" prefWidth="1229.0">
                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="950.0" prefWidth="1234.0">
+                              <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="1234.0">
                                   <Label fx:id="offerLabelComment" contentDisplay="TOP" layoutX="386.0" layoutY="449.0" prefHeight="55.0" prefWidth="199.0" text="Offers comments">
                                       <font>
                                         <Font name="Tahoma Bold" size="18.0" />
