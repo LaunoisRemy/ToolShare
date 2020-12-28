@@ -1,7 +1,6 @@
 package gui.controller.offer;
 
 import business.facade.CategoryFacade;
-import business.facade.OfferFacade;
 import business.system.Category;
 import com.jfoenix.controls.JFXTextField;
 import gui.LoadView;
