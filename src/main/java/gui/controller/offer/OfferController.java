@@ -1,11 +1,10 @@
 package gui.controller.offer;
 
+import business.facade.EvaluationFacade;
 import business.facade.OfferFacade;
 import business.facade.SessionFacade;
 import business.system.offer.Offer;
-import business.system.scorable.Comment;
-import business.system.scorable.faq.Question;
-import business.system.user.Admin;
+import business.system.scorable.Scorable;
 import business.system.user.User;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
@@ -23,7 +22,6 @@ import util.MapRessourceBundle;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 
 public class OfferController implements Initializable {
 
@@ -38,18 +36,18 @@ public class OfferController implements Initializable {
     private JFXButton setPriority,editButton,deleteButton;
 
     @FXML
-    private TableView<Question> faqTable;
+    private TableView<Scorable> faqTable;
     @FXML
-    private TableColumn<Question,String> questionFAQ;
+    private TableColumn<Scorable,String> questionFAQ;
     @FXML
-    private TableColumn<Question,Integer> replyCol,upVoteFAQ,downVoteFAQ;
+    private TableColumn<Scorable,Integer> replyCol,upVoteFAQ,downVoteFAQ;
 
     @FXML
-    private TableView<Comment> commentTable;
+    private TableView<Scorable> commentTable;
     @FXML
-    private TableColumn<Comment,String> commentCol;
+    private TableColumn<Scorable,String> commentCol;
     @FXML
-    private TableColumn<Comment,Integer> upVoteComment,downVoteComment;
+    private TableColumn<Scorable,Integer> upVoteComment,downVoteComment;
 
 
     private Offer offer;
@@ -73,6 +71,9 @@ public class OfferController implements Initializable {
         if( u.isAdmin() || isOwner){
             editButton.setDisable(false);
             editButton.setVisible(true);
+
+            deleteButton.setVisible(true);
+            deleteButton.setDisable(false);
             if(isOwner){
                 setPriority.setVisible(true);
                 setPriority.setDisable(false);
@@ -80,8 +81,12 @@ public class OfferController implements Initializable {
         }else{
             editButton.setDisable(true);
             editButton.setVisible(false);
+
             setPriority.setVisible(false);
             setPriority.setDisable(true);
+
+            deleteButton.setVisible(false);
+            deleteButton.setDisable(true);
         }
 
         titleOffer.setText(offer.getTitle());
@@ -97,38 +102,14 @@ public class OfferController implements Initializable {
     }
 
 
-//    private <A> TableCell createTableCell(String nameButton, TableColumn<A,Integer> param, Consumer<ActionEvent,A> function){
-//        return new TableCell<>() {
-//
-//            private final Button downVoteFAQButton = new Button("Up vote");
-//            {
-//                downVoteFAQButton.setOnAction(event -> {
-//                    function.accept(event,param.getTableView().getItems().get(getIndex()));
-//                    downVoteComment(event, );
-//                });
-//            }
-//            @Override
-//            protected void updateItem(Integer item, boolean empty) {
-//                super.updateItem(item, empty);
-//
-//                if (empty) {
-//                    setGraphic(null);
-//                }
-//                else {
-//                    setGraphic(downVoteFAQButton);
-//                }
-//            }
-//        }
-//
-//    }
-
     /**
      * Method to populate table of faq
-     * @param offerFacade
+     * @param offerFacade facade offer
+     * @param isOwner if user is owner
      */
     private void populateFAQTable(OfferFacade offerFacade,boolean isOwner) {
-        List<Question> questions = offerFacade.getAllQuestions(offer);
-        final ObservableList<Question> data = FXCollections.observableArrayList(questions);
+        List<Scorable> questions = offerFacade.getAllQuestions(offer);
+        final ObservableList<Scorable> data = FXCollections.observableArrayList(questions);
 
         questionFAQ.setCellValueFactory(new PropertyValueFactory<>("questionContent") );
         questionFAQ.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -158,12 +139,21 @@ public class OfferController implements Initializable {
                 }
             }
         });
-        upVoteFAQ.setCellFactory(param -> new TableCell<>() {
+
+        upVoteButton(upVoteFAQ);
+        downVoteButton(downVoteFAQ);
+
+
+        faqTable.setItems(data);
+    }
+
+    private void upVoteButton(TableColumn<Scorable,Integer> upVoteCol){
+        upVoteCol.setCellFactory(param -> new TableCell<>() {
 
             private final Button upVoteFAQButton = new Button("Up vote");
             {
                 upVoteFAQButton.setOnAction(event -> {
-                    upVoteQuestion(event, param.getTableView().getItems().get(getIndex()));
+                    voteScorable(event,param.getTableView().getItems().get(getIndex()) ,1);
                 });
             }
             @Override
@@ -178,12 +168,15 @@ public class OfferController implements Initializable {
                 }
             }
         });
-        downVoteFAQ.setCellFactory(param -> new TableCell<>() {
+    }
 
-            private final Button downVoteFAQButton = new Button("Up vote");
+    private void downVoteButton(TableColumn<Scorable,Integer> downVoteCol){
+        downVoteCol.setCellFactory(param -> new TableCell<>() {
+
+            private final Button downVoteFAQButton = new Button("Down vote");
             {
                 downVoteFAQButton.setOnAction(event -> {
-                    downVoteQuestion(event, param.getTableView().getItems().get(getIndex()));
+                    voteScorable(event, param.getTableView().getItems().get(getIndex()),-1);
                 });
             }
             @Override
@@ -198,12 +191,10 @@ public class OfferController implements Initializable {
                 }
             }
         });
-
-
-        faqTable.setItems(data);
     }
 
-    private void replyQuestion(ActionEvent event, Question question) {
+
+    private void replyQuestion(ActionEvent event, Scorable question) {
         System.out.println("Reply");
     }
 
@@ -212,66 +203,20 @@ public class OfferController implements Initializable {
      * @param offerFacade
      */
     private void populateCommentTable(OfferFacade offerFacade) {
-        List<Comment> questions = offerFacade.getAllComments(offer);
-        final ObservableList<Comment> data = FXCollections.observableArrayList(questions);
+        List<Scorable> comments = offerFacade.getAllComments(offer);
+        final ObservableList<Scorable> data = FXCollections.observableArrayList(comments);
 
         commentCol.setCellValueFactory(new PropertyValueFactory<>("comment") );
         commentCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        upVoteComment.setCellFactory(param -> new TableCell<>() {
-
-            private final Button upVoteFAQButton = new Button("Up vote");
-            {
-                upVoteFAQButton.setOnAction(event -> {
-                    upVoteComment(event, param.getTableView().getItems().get(getIndex()));
-                });
-            }
-            @Override
-            protected void updateItem(Integer item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty) {
-                    setGraphic(null);
-                }
-                else {
-                    setGraphic(upVoteFAQButton);
-                }
-            }
-        });
-        downVoteComment.setCellFactory(param -> new TableCell<>() {
-
-            private final Button downVoteFAQButton = new Button("Up vote");
-            {
-                downVoteFAQButton.setOnAction(event -> {
-                    downVoteComment(event, param.getTableView().getItems().get(getIndex()));
-                });
-            }
-            @Override
-            protected void updateItem(Integer item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty) {
-                    setGraphic(null);
-                }
-                else {
-                    setGraphic(downVoteFAQButton);
-                }
-            }
-        });
+        upVoteButton(upVoteComment);
+        downVoteButton(downVoteComment);
 
         commentTable.setItems(data);
     }
 
-    private void upVoteComment(ActionEvent event, Comment comment) {
-        System.out.println(comment.getCommentScore()-1);
+    private void voteScorable(ActionEvent event, Scorable scorable, int i) {
+        EvaluationFacade.getInstance().vote(scorable,i);
     }
-    private void downVoteComment(ActionEvent event, Comment comment) {
-        System.out.println(comment.getCommentScore()+1);
-    }
-    private void upVoteQuestion(ActionEvent event, Question question) {
-        System.out.println(question.getQuestionScore()-1);
-    }
-    private void downVoteQuestion(ActionEvent event, Question question) {
-        System.out.println(question.getQuestionScore()+1);
-    }
+
 }

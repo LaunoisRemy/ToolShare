@@ -82,7 +82,7 @@ public class ScoreDaoMySQL extends ScoreDAO {
                     OBJECT_TYPE +","+
                     SCORE_VALUE+") "+
                     "VALUES (?,?,?,?)";
-            PreparedStatement prep = connection.prepareStatement(sql);
+            PreparedStatement prep = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             prep.setInt(1,obj.getUser().getUser_id());
             prep.setInt(2,obj.getObject().getId());
             prep.setString(3,obj.getScoreType().getString());

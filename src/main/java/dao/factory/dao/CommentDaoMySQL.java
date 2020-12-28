@@ -1,6 +1,7 @@
 package dao.factory.dao;
 
 import business.system.scorable.Comment;
+import business.system.scorable.Scorable;
 import business.system.scorable.faq.Question;
 import dao.structure.CommentDAO;
 
@@ -41,16 +42,16 @@ public class CommentDaoMySQL extends CommentDAO {
         return comment;
     }
     @Override
-    public List<Comment> getAllCommentsByIdOffer(int idOffer) {
+    public List<Scorable> getAllCommentsByIdOffer(int idOffer) {
         return getComments(idOffer, ScoreOfferDaoMySQL.OFFER_ID_COL);
     }
 
     @Override
-    public List<Comment> getAllCommentsByIdUser(int idUser) {
+    public List<Scorable> getAllCommentsByIdUser(int idUser) {
         return getComments(idUser, ScoreOfferDaoMySQL.USER_ID_COL);
     }
-    private List<Comment> getComments(int id, String clause) {
-        ArrayList<Comment> res = new ArrayList<>();
+    private List<Scorable> getComments(int id, String clause) {
+        ArrayList<Scorable> res = new ArrayList<>();
 
         try {
             String sql = "SELECT *  FROM comment " +
@@ -61,7 +62,9 @@ public class CommentDaoMySQL extends CommentDAO {
             ResultSet rs = prep.executeQuery();
 
             if(rs.next()){
-                res.add(createCommentFromRs(rs));
+                Scorable s = createCommentFromRs(rs);
+                System.out.println("Id : " + s.getId());
+                res.add(s);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -129,6 +132,7 @@ public class CommentDaoMySQL extends CommentDAO {
 
     public static Comment createCommentFromRs(ResultSet rs) throws SQLException {
         return  new Comment(
+                rs.getInt(COMMENT_ID),
                 rs.getString(COMMENT_CONTENT),
                 rs.getInt(COMMENT_SCORE)
         );

@@ -39,7 +39,7 @@ public class CategoryDaoMySQL extends CategoryDAO {
 
             if(rs.next()){
                 if(rs.getInt(CATEGORY_ID_COL) == (id)){
-                    category = this.createCategoryFromRs(rs);
+                    category = createCategoryFromRs(rs);
                 }
             }
         } catch (SQLException throwables) {

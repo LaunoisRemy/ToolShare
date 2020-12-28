@@ -1,5 +1,6 @@
 package business.system.scorable.faq;
 
+import business.system.ScoreType;
 import business.system.scorable.Scorable;
 import business.system.user.User;
 
@@ -71,5 +72,20 @@ public class Question implements Scorable {
     @Override
     public int getId() {
         return getQuestionId();
+    }
+
+    @Override
+    public void setScore(int score) {
+        setQuestionScore(score);
+    }
+
+    @Override
+    public int getScore() {
+        return getQuestionScore();
+    }
+
+    @Override
+    public ScoreType getScoreType() {
+        return ScoreType.QUESTION;
     }
 }

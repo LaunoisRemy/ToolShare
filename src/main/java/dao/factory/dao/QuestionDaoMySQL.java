@@ -1,6 +1,7 @@
 package dao.factory.dao;
 
 import business.system.scorable.Comment;
+import business.system.scorable.Scorable;
 import business.system.scorable.faq.Answer;
 import business.system.scorable.faq.Question;
 import business.system.user.User;
@@ -49,16 +50,16 @@ public class QuestionDaoMySQL extends QuestionDAO {
     }
 
     @Override
-    public List<Question> getAllQuestionsByIdOffer(int idOffer) {
+    public List<Scorable> getAllQuestionsByIdOffer(int idOffer) {
         return getQuestions(idOffer, OFFER_ID_COL);
     }
     @Override
-    public List<Question> getAllQuestionsByIdUser(int idUser) {
+    public List<Scorable> getAllQuestionsByIdUser(int idUser) {
         return getQuestions(idUser, USER_ID_COL);
     }
 
-    private List<Question> getQuestions(int id, String clause) {
-        ArrayList<Question> res = new ArrayList<>();
+    private List<Scorable> getQuestions(int id, String clause) {
+        ArrayList<Scorable> res = new ArrayList<>();
 
         try {
             String sql = "SELECT *  FROM question " +
@@ -124,7 +125,14 @@ public class QuestionDaoMySQL extends QuestionDAO {
             PreparedStatement prep = connection.prepareStatement(sql);
             prep.setInt(1,obj.getQuestionScore());
             prep.setString(2,obj.getQuestionContent());
-            prep.setInt(3,obj.getAnswer().getAnswerId());
+            Answer answer = obj.getAnswer();
+            System.out.println("Reponse =========" + answer);
+            if(answer != null){
+                prep.setInt(3,obj.getAnswer().getAnswerId());
+
+            }else{
+                prep.setNull(3,java.sql.Types.INTEGER);
+            }
             prep.setInt(4,obj.getOfferId());
             prep.setInt(5,obj.getUser().getUser_id());
             prep.setInt(6,obj.getQuestionId());
@@ -151,7 +159,11 @@ public class QuestionDaoMySQL extends QuestionDAO {
         }
     }
     public static Question createQuestionFromRs(ResultSet rs) throws SQLException {
-        Answer answer = AnswerDaoMySQL.createAnswerFromRs(rs);
+        Answer answer = null;
+        rs.getInt(ANSWER_ID_COL);
+        if(!rs.wasNull()){
+            answer = AnswerDaoMySQL.createAnswerFromRs(rs);
+        }
         User user = UserDaoMySQL.createUserFromRs(rs);
         return  new Question(
                 rs.getInt(QUESTION_ID),

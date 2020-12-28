@@ -1,5 +1,6 @@
 package business.system.scorable;
 
+import business.system.ScoreType;
 import business.system.scorable.Scorable;
 
 public class Comment implements Scorable {
@@ -46,5 +47,33 @@ public class Comment implements Scorable {
     @Override
     public int getId() {
         return getCommentId();
+    }
+
+    @Override
+    public void setScore(int score) {
+        setCommentScore(score);
+    }
+
+    @Override
+    public int getScore() {
+        return getCommentScore();
+    }
+
+    @Override
+    public ScoreType getScoreType() {
+        return ScoreType.COMMENT;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "commentId=" + commentId +
+                ", comment='" + comment + '\'' +
+                ", commentScore=" + commentScore +
+                '}';
+    }
+
+    public void setCommentScore(int commentScore) {
+        this.commentScore = commentScore;
     }
 }
