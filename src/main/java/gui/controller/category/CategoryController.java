@@ -40,9 +40,7 @@ public class CategoryController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ArrayList<Category> categoryArrayList = new ArrayList<>();
-
-        categoryArrayList.addAll(this.categoryFacade.getAllCategories());
+        ArrayList<Category> categoryArrayList = new ArrayList<>(this.categoryFacade.getAllCategories());
 
         final ObservableList<Category> data = FXCollections.observableArrayList(categoryArrayList);
 
@@ -169,7 +167,7 @@ public class CategoryController implements Initializable {
         dialog.setContentText("Please enter the new category name:");
 
         Optional<String> result = dialog.showAndWait();
-        result.ifPresent(name -> category.setCategoryName(name));
+        result.ifPresent(category::setCategoryName);
         updateCategory(category);
 
         //refresh page to update the category

@@ -1,6 +1,7 @@
 package dao.structure;
 
 import business.system.scorable.Comment;
+import business.system.scorable.Scorable;
 import business.system.scorable.faq.Question;
 import dao.factory.dao.AbstractFactoryDAO;
 
@@ -17,8 +18,8 @@ public abstract class QuestionDAO implements DAO<Question> {
         return INSTANCE;
     }
 
-    public abstract List<Question> getAllQuestionsByIdOffer(int idOffer);
-    public abstract List<Question> getAllQuestionsByIdUser(int idUser);
+    public abstract List<Scorable> getAllQuestionsByIdOffer(int idOffer);
+    public abstract List<Scorable> getAllQuestionsByIdUser(int idUser);
 
 
 }

@@ -1,11 +1,15 @@
 package business.facade;
 
+import business.system.Score;
 import business.system.ScoreOffer;
+import business.system.ScoreType;
 import business.system.offer.Offer;
 import business.system.scorable.Comment;
+import business.system.scorable.Scorable;
+import business.system.scorable.faq.Answer;
+import business.system.scorable.faq.Question;
 import dao.factory.dao.CommentDaoMySQL;
-import dao.structure.CommentDAO;
-import dao.structure.ScoreOfferDAO;
+import dao.structure.*;
 
 public class EvaluationFacade {
     public static EvaluationFacade getInstance(){
@@ -51,5 +55,21 @@ public class EvaluationFacade {
     }
 
 
+    public void vote(Scorable scorable, int i) {
+        SessionFacade sessionFacade = SessionFacade.getInstance();
+        Score score = new Score(sessionFacade.getUser(),scorable, scorable.getScoreType(),i);
+
+        score = ScoreDAO.getInstance().create(score);
+
+        scorable.setScore(scorable.getScore()+score.getScoreValue());
+
+        if(scorable instanceof  Comment){
+            CommentDAO.getInstance().update((Comment) scorable);
+        }else if(scorable instanceof Question){
+            QuestionDAO.getInstance().update((Question) scorable);
+        }else if(scorable instanceof Answer){
+            AnswerDAO.getInstance().update((Answer) scorable);
+        }
+    }
 
 }
