@@ -1,20 +1,16 @@
 package gui.controller;
 
 import business.facade.EvaluationFacade;
-import business.facade.HistoryFacade;
-import business.system.Category;
 import business.system.ScoreOffer;
 import business.system.offer.Offer;
-import business.system.user.User;
 import com.jfoenix.controls.*;
 import gui.LoadView;
 import gui.ViewPath;
-import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.ToggleGroup;;
 import org.controlsfx.control.Rating;
 import util.ConstantsRegex;
 import util.MapRessourceBundle;
@@ -111,7 +107,7 @@ public class EvaluationController implements Initializable {
 
         }
     }
-    public void historyPage(javafx.event.ActionEvent actionEvent){
+    public void historyPage(Event actionEvent){
         LoadView.changeScreen(actionEvent, ViewPath.HISTORY_VIEW);
     }
 
@@ -119,7 +115,7 @@ public class EvaluationController implements Initializable {
      * Handle action if the user click on submit for rate Page
      * @param actionEvent
      */
-    public void handleRate(javafx.event.ActionEvent actionEvent){
+    public void handleRate(Event actionEvent){
         int rate = star.getValue();
         EvaluationFacade evaluationFacade = EvaluationFacade.getInstance();
         ScoreOffer scoreOffer = evaluationFacade.rate(offer,rate);
@@ -130,7 +126,7 @@ public class EvaluationController implements Initializable {
      * Handle action if the user click on submit for comment Page
      * @param actionEvent
      */
-    public void handleComment(javafx.event.ActionEvent actionEvent){
+    public void handleComment(Event actionEvent){
 
         if(yesButton.isSelected()){
             EvaluationFacade evaluationFacade = EvaluationFacade.getInstance();

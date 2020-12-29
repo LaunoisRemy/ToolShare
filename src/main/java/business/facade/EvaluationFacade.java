@@ -82,6 +82,5 @@ public class EvaluationFacade {
     public Score findScorable(Scorable scorable) {
         User user = SessionFacade.getInstance().getUser();
         return ScoreDAO.getInstance().find(user.getUser_id(), scorable.getId(),scorable.getScoreType().getIntByType());
-//        return ScoreDAO.getInstance().find(0,0,0);
     }
 }
