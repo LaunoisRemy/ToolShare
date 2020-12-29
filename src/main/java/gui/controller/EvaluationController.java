@@ -15,7 +15,6 @@ import org.controlsfx.control.Rating;
 import util.ConstantsRegex;
 import util.MapRessourceBundle;
 
-import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;

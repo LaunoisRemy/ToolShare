@@ -9,7 +9,6 @@ import dao.structure.UserDAO;
 import util.Mail;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SessionFacade {
@@ -135,12 +134,12 @@ public class SessionFacade {
         UserDAO.getInstance().update(user);
     }
 
-    private String generateCode(int size){
+    private String generateCode(){
         SecureRandom random = new SecureRandom();
-        StringBuilder sb = new StringBuilder(size);
+        StringBuilder sb = new StringBuilder(6);
         String alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         int sizeAlpha = alphabet.length();
-        for(int i = 0; i < size; i++)
+        for(int i = 0; i < 6; i++)
             sb.append(alphabet.charAt(random.nextInt(alphabet.length())));
         return sb.toString();
 
@@ -151,7 +150,7 @@ public class SessionFacade {
         if(user == null){
             throw new ObjectNotFoundException("User not found");
         }else{
-            user.setRecoveryCode(generateCode(6));
+            user.setRecoveryCode(generateCode());
             UserDAO.getInstance().update(user);
             Mail.sendMail("New password",
                     "Here your code to change password :  " + user.getRecoveryCode(),

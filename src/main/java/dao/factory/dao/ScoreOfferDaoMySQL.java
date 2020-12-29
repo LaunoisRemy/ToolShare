@@ -20,10 +20,9 @@ public class ScoreOfferDaoMySQL  extends ScoreOfferDAO {
 
     /**
      * Constructor of OfferDaoMySQL
-     * @param connection to have a link of the connection
      */
-    protected ScoreOfferDaoMySQL(Connection connection) {
-        this.connection = connection;
+    protected ScoreOfferDaoMySQL() {
+        this.connection = AbstractFactoryDAO.connection;
     }
 
     @Override

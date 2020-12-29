@@ -108,9 +108,6 @@ public class CreateOfferController implements Initializable {
         } catch (NumberFormatException e) {
             System.err.println(e.toString());
             cast_msg.setVisible(true);
-        } catch (BadInsertionInBDDException e) {
-            error_msg.setVisible(true);
-            System.err.println(e.toString());
         } catch (MissingParametersException e) {
             error_msg.setVisible(true);
             e.printStackTrace();

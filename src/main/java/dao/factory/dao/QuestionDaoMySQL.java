@@ -1,6 +1,5 @@
 package dao.factory.dao;
 
-import business.system.scorable.Comment;
 import business.system.scorable.Scorable;
 import business.system.scorable.faq.Answer;
 import business.system.scorable.faq.Question;
@@ -22,10 +21,9 @@ public class QuestionDaoMySQL extends QuestionDAO {
 
     /**
      * Constructor of QuestionDaoMySQL
-     * @param connection to have a link of the connection
      */
-    protected QuestionDaoMySQL(Connection connection) {
-        this.connection = connection;
+    protected QuestionDaoMySQL() {
+        this.connection = AbstractFactoryDAO.connection;
     }
 
     @Override

@@ -3,7 +3,6 @@ package business.system;
 import business.system.offer.Offer;
 import business.system.user.User;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 public class History {

@@ -2,8 +2,6 @@ package gui.controller.user;
 
 import business.exceptions.BadInsertionInBDDException;
 import business.facade.SessionFacade;
-import business.system.user.User;
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import gui.LoadView;
@@ -12,7 +10,6 @@ import gui.ViewPath;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Paint;
 import util.ConstantsRegex;

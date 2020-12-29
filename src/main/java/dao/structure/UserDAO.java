@@ -1,10 +1,8 @@
 package dao.structure;
 
-import business.system.Category;
 import business.system.user.User;
 import dao.factory.dao.AbstractFactoryDAO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class UserDAO implements DAO<User> {

@@ -2,7 +2,6 @@ package business.facade;
 
 import business.system.Score;
 import business.system.ScoreOffer;
-import business.system.ScoreType;
 import business.system.offer.Offer;
 import business.system.scorable.Comment;
 import business.system.scorable.Scorable;
@@ -10,7 +9,6 @@ import business.system.scorable.faq.Answer;
 import business.system.scorable.faq.Question;
 import business.system.user.User;
 import dao.factory.dao.CommentDaoMySQL;
-import dao.factory.dao.ScoreDaoMySQL;
 import dao.structure.*;
 
 public class EvaluationFacade {

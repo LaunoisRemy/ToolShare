@@ -26,10 +26,9 @@ public class OfferDaoMySQL extends OfferDAO {
 
     /**
      * Constructor of OfferDaoMySQL
-     * @param connection to have a link of the connection
      */
-    protected OfferDaoMySQL(Connection connection) {
-        this.connection = connection;
+    protected OfferDaoMySQL() {
+        this.connection = AbstractFactoryDAO.connection;
     }
     /**
      * method which communicate with the db in order to find an offer with the specified id

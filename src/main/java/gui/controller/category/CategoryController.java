@@ -136,11 +136,7 @@ public class CategoryController implements Initializable {
 
     private void handleDeleteCategory(Category category,ObservableList<Category> data){
         boolean deleted = false;
-        try {
-            deleted = this.categoryFacade.deleteCategory(category);
-        } catch (ObjectNotFoundException e) {
-            e.printStackTrace();
-        }
+        deleted = this.categoryFacade.deleteCategory(category);
 
         if(deleted){
             data.removeAll(category);

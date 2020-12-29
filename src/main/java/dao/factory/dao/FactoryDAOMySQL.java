@@ -11,62 +11,62 @@ public class FactoryDAOMySQL extends AbstractFactoryDAO {
 
     @Override
     public OfferDAO getOfferDAO() {
-        return new OfferDaoMySQL(connection);
+        return new OfferDaoMySQL();
     }
 
     @Override
     public ReservationDAO getReservationDao() {
-        return new ReservationDaoMySQL(connection);
+        return new ReservationDaoMySQL();
     }
 
     @Override
     public UserDAO getUserDAO() {
-        return new UserDaoMySQL(connection);
+        return new UserDaoMySQL();
     }
 
     @Override
     public HistoryDAO getHistoryDAO() {
-        return new HistoryDaoMySQL(connection);
+        return new HistoryDaoMySQL();
     }
 
     @Override
     public QuestionDAO getQuestionDAO() {
-        return new QuestionDaoMySQL(connection);
+        return new QuestionDaoMySQL();
     }
 
     @Override
     public AnswerDAO getAnswerDAO() {
-        return new AnswerDaoMySQL(connection);
+        return new AnswerDaoMySQL();
     }
 
     @Override
     public ScoreOfferDAO getScoreOfferDAO() {
-        return new ScoreOfferDaoMySQL(connection);
+        return new ScoreOfferDaoMySQL();
     }
 
     @Override
     public CommentDAO getCommentDAO() {
-        return new CommentDaoMySQL(connection);
+        return new CommentDaoMySQL();
     }
 
     @Override
     public CategoryDAO getCategoryDAO() {
-        return new CategoryDaoMySQL(connection);
+        return new CategoryDaoMySQL();
     }
 
     @Override
     public FavoryDAO getFavoryDAO() {
-        return new FavoryDaoMySQL(connection);
+        return new FavoryDaoMySQL();
     }
 
     @Override
     public ReturnOfferDAO getReturnOfferDAO() {
-        return new ReturnOfferDaoMySQL(connection);
+        return new ReturnOfferDaoMySQL();
     }
 
     @Override
     public ScoreDAO getScoreDAO() {
-        return new ScoreDaoMySQL(connection);
+        return new ScoreDaoMySQL();
     }
 
 }

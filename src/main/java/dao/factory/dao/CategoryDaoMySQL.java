@@ -15,10 +15,9 @@ public class CategoryDaoMySQL extends CategoryDAO {
 
     /**
      * Constructor of CategoryDaoMySQL
-     * @param connection to have a link of the connection
      */
-    protected CategoryDaoMySQL(Connection connection) {
-        this.connection = connection;
+    protected CategoryDaoMySQL() {
+        this.connection = AbstractFactoryDAO.connection;
     }
 
     /**

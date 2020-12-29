@@ -1,6 +1,5 @@
 package business.system.reservation;
 
-import business.system.offer.Offer;
 import business.system.offer.ToolSate;
 
 import java.util.Date;

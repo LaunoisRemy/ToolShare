@@ -1,7 +1,5 @@
 package business.system.offer;
 
-import business.system.ScoreType;
-
 import java.util.Locale;
 
 public enum ToolSate {

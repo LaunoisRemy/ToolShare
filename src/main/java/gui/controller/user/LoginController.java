@@ -14,8 +14,6 @@ import javafx.event.ActionEvent;
 import business.facade.SessionFacade;
 import javafx.scene.control.Label;
 
-import java.util.ArrayList;
-
 
 public class LoginController {
     private final SessionFacade facade = SessionFacade.getInstance();

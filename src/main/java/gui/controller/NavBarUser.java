@@ -2,24 +2,20 @@ package gui.controller;
 
 import business.facade.SessionFacade;
 import business.system.user.OrdinaryUser;
-import business.system.user.Role;
 import business.system.user.User;
 import gui.LoadView;
 import gui.ViewPath;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
-import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 
 public class NavBarUser implements Initializable {
-    User user = SessionFacade.getInstance().getUser();
+    final User user = SessionFacade.getInstance().getUser();
 
     @FXML
     private VBox search,history,favory,categories,allUsers;

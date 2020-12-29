@@ -1,6 +1,5 @@
 package dao.structure;
 
-import business.system.scorable.Comment;
 import business.system.scorable.Scorable;
 import business.system.scorable.faq.Question;
 import dao.factory.dao.AbstractFactoryDAO;

@@ -3,7 +3,6 @@ package dao.structure;
 import business.system.offer.Offer;
 import dao.factory.dao.AbstractFactoryDAO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class OfferDAO implements DAO<Offer> {

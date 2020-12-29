@@ -15,10 +15,9 @@ public class AnswerDaoMySQL extends AnswerDAO {
 
     /**
      * Constructor of OfferDaoMySQL
-     * @param connection to have a link of the connection
      */
-    protected AnswerDaoMySQL(Connection connection) {
-        this.connection = connection;
+    protected AnswerDaoMySQL() {
+        this.connection = AbstractFactoryDAO.connection;
     }
 
     @Override

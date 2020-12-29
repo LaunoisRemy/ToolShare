@@ -18,10 +18,9 @@ public class HistoryDaoMySQL extends HistoryDAO {
 
     /**
      * Constructor of OfferDaoMySQL
-     * @param connection to have a link of the connection
      */
-    protected HistoryDaoMySQL(Connection connection) {
-        this.connection = connection;
+    protected HistoryDaoMySQL() {
+        this.connection = AbstractFactoryDAO.connection;
     }
 
 

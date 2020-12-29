@@ -1,6 +1,5 @@
 package gui;
 
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -13,7 +12,6 @@ import util.MapRessourceBundle;
 import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class LoadView  extends Parent{
 

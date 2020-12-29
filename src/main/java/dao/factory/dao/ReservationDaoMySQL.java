@@ -17,10 +17,9 @@ public class ReservationDaoMySQL extends ReservationDAO {
 
     /**
      * Constructor of OfferDaoMySQL
-     * @param connection to have a link of the connection
      */
-    protected ReservationDaoMySQL(Connection connection) {
-        this.connection = connection;
+    protected ReservationDaoMySQL() {
+        this.connection = AbstractFactoryDAO.connection;
     }
 
     @Override

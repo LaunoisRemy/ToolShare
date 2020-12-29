@@ -66,9 +66,8 @@ public class CategoryFacade {
      * deleteCategory will delete the category given by its id
      * @param category the category to delete
      * @return true if the category is well-deleted, false otherwise
-     * @throws ObjectNotFoundException
      */
-    public boolean deleteCategory(Category category) throws ObjectNotFoundException {
+    public boolean deleteCategory(Category category) {
         return this.categoryDAO.delete(category);
     }
 

@@ -1,10 +1,7 @@
 package gui.controller.user;
 
-import business.exceptions.ObjectNotFoundException;
 import business.facade.SessionFacade;
-import business.system.Category;
 import business.system.user.Admin;
-import business.system.user.OrdinaryUser;
 import business.system.user.User;
 import com.jfoenix.controls.JFXButton;
 import gui.LoadView;
@@ -42,9 +39,8 @@ public class UserListController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        List<User> usersArrayList = new ArrayList<>();
 
-        usersArrayList.addAll(this.sessionFacade.getAllUsers());
+        List<User> usersArrayList = new ArrayList<>(this.sessionFacade.getAllUsers());
 
         final ObservableList<User> data = FXCollections.observableArrayList(usersArrayList);
 
@@ -134,7 +130,7 @@ public class UserListController implements Initializable {
         alert.setContentText("Are you sure to delete this user ?");
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
+        if ( result.isPresent() && result.get() == ButtonType.OK){
             handleDeleteUser(user,data);
         }
     }
@@ -160,7 +156,7 @@ public class UserListController implements Initializable {
             alert.setContentText("Are you sure to ban this user ?");
         }
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
+        if (result.isPresent() && result.get() == ButtonType.OK){
             handleSetBanned(u);
             //refresh page to see changes
             LoadView.changeScreen(event, ViewPath.USERLIST_VIEW);

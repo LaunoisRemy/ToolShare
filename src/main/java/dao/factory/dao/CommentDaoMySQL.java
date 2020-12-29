@@ -16,10 +16,9 @@ public class CommentDaoMySQL extends CommentDAO {
 
     /**
      * Constructor of OfferDaoMySQL
-     * @param connection to have a link of the connection
      */
-    protected CommentDaoMySQL(Connection connection) {
-        this.connection = connection;
+    protected CommentDaoMySQL() {
+        this.connection = AbstractFactoryDAO.connection;
     }
 
     @Override

@@ -1,9 +1,5 @@
 package dao.structure;
 
-import db.ConnectionDBMySQL;
-
-import java.sql.Connection;
-
 public interface DAO<T> {
     /**
      * Method which communicate with DB for retrieve the data T with id

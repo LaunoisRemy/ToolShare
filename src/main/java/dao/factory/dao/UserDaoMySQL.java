@@ -27,10 +27,9 @@ public class UserDaoMySQL extends UserDAO {
 
     /**
      * Constructor of UserDaoMySQL
-     * @param connection to have a link of the connection
      */
-    protected UserDaoMySQL(Connection connection) {
-        this.connection = connection;
+    protected UserDaoMySQL() {
+        this.connection = AbstractFactoryDAO.connection;
     }
 
 

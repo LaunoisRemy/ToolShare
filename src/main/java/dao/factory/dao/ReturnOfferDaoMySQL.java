@@ -16,10 +16,9 @@ public class ReturnOfferDaoMySQL extends ReturnOfferDAO {
 
     /**
      * Constructor of OfferDaoMySQL
-     * @param connection to have a link of the connection
      */
-    protected ReturnOfferDaoMySQL(Connection connection) {
-        this.connection = connection;
+    protected ReturnOfferDaoMySQL() {
+        this.connection = AbstractFactoryDAO.connection;
     }
 
     @Override

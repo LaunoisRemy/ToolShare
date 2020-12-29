@@ -7,9 +7,7 @@ import business.system.Category;
 import business.system.offer.Offer;
 import business.system.offer.PriorityOffer;
 import business.system.offer.ToolSate;
-import business.system.scorable.Comment;
 import business.system.scorable.Scorable;
-import business.system.scorable.faq.Question;
 import business.system.user.User;
 import dao.structure.CategoryDAO;
 import dao.structure.CommentDAO;
@@ -74,7 +72,7 @@ public class OfferFacade {
      * @param dateEndPriority null if the offer is not priority, end date of the priority otherwise
      * @return the instance of the new offer
      */
-    public Offer createOffer(String title, float price, String description, ToolSate toolSate, boolean isPriority, String category, Date dateStartPriority, Date dateEndPriority) throws MissingParametersException, BadInsertionInBDDException {
+    public Offer createOffer(String title, float price, String description, ToolSate toolSate, boolean isPriority, String category, Date dateStartPriority, Date dateEndPriority) throws MissingParametersException {
         CategoryDAO categoryDAO = CategoryDAO.getInstance();
 
         Category new_category = categoryDAO.getCategoryByName(category);

@@ -17,10 +17,9 @@ public class FavoryDaoMySQL extends FavoryDAO {
 
     /**
      * Constructor of OfferDaoMySQL
-     * @param connection to have a link of the connection
      */
-    protected FavoryDaoMySQL(Connection connection) {
-        this.connection = connection;
+    protected FavoryDaoMySQL() {
+        this.connection = AbstractFactoryDAO.connection;
     }
 
     @Override
