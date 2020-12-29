@@ -18,7 +18,7 @@ import javafx.scene.paint.Paint;
 import util.ConstantsRegex;
 
 public class CreateAdminController {
-    private SessionFacade sessionFacade = SessionFacade.getInstance();
+    private final SessionFacade sessionFacade = SessionFacade.getInstance();
 
     @FXML
     private JFXTextField email,firstname,lastname;

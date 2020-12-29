@@ -8,7 +8,7 @@ import dao.structure.FavoryDAO;
 import java.util.List;
 
 public class FavoryFacade {
-    private User user = SessionFacade.getInstance().getUser();
+    private final User user = SessionFacade.getInstance().getUser();
     private static final FavoryFacade INSTANCE = new FavoryFacade();
 
     private FavoryFacade() {

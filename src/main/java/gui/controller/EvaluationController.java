@@ -10,7 +10,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.ToggleGroup;;
+import javafx.scene.control.ToggleGroup;
 import org.controlsfx.control.Rating;
 import util.ConstantsRegex;
 import util.MapRessourceBundle;

@@ -119,9 +119,7 @@ public class OfferController implements Initializable {
         replyCol.setCellFactory(param -> new TableCell<>() {
             private final Button replyButton = new Button("Reply");
             {
-                replyButton.setOnAction(event -> {
-                    replyQuestion(event, param.getTableView().getItems().get(getIndex()));
-                });
+                replyButton.setOnAction(event -> replyQuestion(event, param.getTableView().getItems().get(getIndex())));
             }
             @Override
             protected void updateItem(Integer item, boolean empty) {

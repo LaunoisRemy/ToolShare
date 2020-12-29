@@ -8,7 +8,7 @@ import java.util.List;
 
 public class HistoryFacade {
     private static final HistoryFacade INSTANCE = new HistoryFacade();
-    private User user = SessionFacade.getInstance().getUser();
+    private final User user = SessionFacade.getInstance().getUser();
 
     private HistoryFacade() {
     }
@@ -25,5 +25,5 @@ public class HistoryFacade {
         HistoryDAO historyDAO = HistoryDAO.getInstance();
         return historyDAO.getHistory(user);
 
-    };
+    }
 }

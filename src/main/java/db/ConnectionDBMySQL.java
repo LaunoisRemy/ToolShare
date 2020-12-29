@@ -49,5 +49,5 @@ public class ConnectionDBMySQL implements ConnectionDB{
      */
     public Connection getDb(){
         return connection;
-    };
+    }
 }

@@ -25,9 +25,7 @@ public class FavoryController {
         if(favAdded!=null){
             Image img= new Image("img/favoryFilled.png") ;
             ImageView iv= new ImageView(img);
-            button.setOnAction(event -> {
-                deleteFromFavory(event, offerID,button);
-            });
+            button.setOnAction(event -> deleteFromFavory(event, offerID,button));
             iv.setFitHeight(35);
             iv.setFitWidth(35);
             button.setGraphic(iv);
@@ -45,9 +43,7 @@ public class FavoryController {
         if(deleted){
             Image img= new Image("img/favory.png") ;
             ImageView iv= new ImageView(img);
-            button.setOnAction(event -> {
-                addToFavory(event, offerID,button);
-            });
+            button.setOnAction(event -> addToFavory(event, offerID,button));
             iv.setFitHeight(35);
             iv.setFitWidth(35);
             button.setGraphic(iv);

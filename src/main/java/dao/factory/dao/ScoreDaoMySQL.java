@@ -34,7 +34,7 @@ public class ScoreDaoMySQL extends ScoreDAO {
             PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setInt(1,idUser);
             if(others.length != 2){
-                throw new Exception("Problem of argument");
+                throw new Exception("Problem of argument"); //TODO create exception length parameters
             }
             int objectId = others[0];
             String objectType= ScoreType.getTypeByInt(others[1]).getString();

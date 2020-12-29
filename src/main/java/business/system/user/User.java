@@ -42,7 +42,7 @@ public class User {
     /**
      * The role of an user, ordinary or admin
      */
-    private Role role;
+    private final Role role;
 
     private String recoveryCode;
 

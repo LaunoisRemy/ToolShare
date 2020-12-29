@@ -15,7 +15,7 @@ import java.util.List;
 public class SessionFacade {
 
     private User user;
-    private UserManagement userManagement = new UserManagement();
+    private final UserManagement userManagement = new UserManagement();
     private static final SessionFacade INSTANCE = new SessionFacade();
 
     private SessionFacade() {

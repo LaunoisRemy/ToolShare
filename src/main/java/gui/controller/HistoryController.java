@@ -70,9 +70,7 @@ public class HistoryController implements Initializable {
 
             private final Button seeOfferButton = new Button("See Offer");
             {
-                seeOfferButton.setOnAction(event -> {
-                    seeOfferPage(event, param.getTableView().getItems().get(getIndex()));
-                });
+                seeOfferButton.setOnAction(event -> seeOfferPage(event, param.getTableView().getItems().get(getIndex())));
             }
             @Override
             protected void updateItem(Integer item, boolean empty) {
@@ -92,9 +90,7 @@ public class HistoryController implements Initializable {
             private final Button seeOfferButton = new Button("Rate");
             {
                 //Offer offer= param.getTableView().getItems().get(getIndex());
-                seeOfferButton.setOnAction(event -> {
-                    rateOffer(event,param.getTableView().getItems().get(getIndex()) );
-                });
+                seeOfferButton.setOnAction(event -> rateOffer(event,param.getTableView().getItems().get(getIndex()) ));
 
             }
 
@@ -113,9 +109,7 @@ public class HistoryController implements Initializable {
                     ScoreOffer scoreOffer = evaluationFacade.findRate(offer.getOffer_id(), SessionFacade.getInstance().getUser().getUser_id());
                     if(scoreOffer != null){
                         if(scoreOffer.getComment() == null){
-                            seeOfferButton.setOnAction(event -> {
-                                commentOffer(event,scoreOffer);
-                            });
+                            seeOfferButton.setOnAction(event -> commentOffer(event,scoreOffer));
                             seeOfferButton.setText("Comment");
                         }else{
                             this.setDisable(true);

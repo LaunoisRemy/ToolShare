@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
 
 public class CategoryController implements Initializable {
 
-    private CategoryFacade categoryFacade = CategoryFacade.getInstance();
+    private final CategoryFacade categoryFacade = CategoryFacade.getInstance();
 
     @FXML
     private TableView<Category> table;
@@ -58,11 +58,7 @@ public class CategoryController implements Initializable {
             {
                 checkBox.setOnAction(event -> {
                     Category c = param.getTableView().getItems().get(getIndex());
-                    if(checkBox.isSelected()){
-                        c.setIsValidated(true);
-                    } else {
-                        c.setIsValidated(false);
-                    }
+                    c.setIsValidated(checkBox.isSelected());
                     handleSetValidated(event, c);
                 });
             }
@@ -84,9 +80,9 @@ public class CategoryController implements Initializable {
 
             private final Button updateButton = new Button("Update");
             {
-                updateButton.setOnAction(event -> {
-                    alertUpdate(event, param.getTableView().getItems().get(getIndex()));
-                });
+                updateButton.setOnAction(event ->
+                        alertUpdate(event, param.getTableView().getItems().get(getIndex()))
+                );
             }
             @Override
             protected void updateItem(Integer item, boolean empty) {
@@ -117,9 +113,7 @@ public class CategoryController implements Initializable {
                     Category category= getTableView().getItems().get(getIndex());
                     Image img= new Image("img/red_trash.png") ;
                     ImageView iv= new ImageView(img);
-                    deleteButton.setOnAction(event -> {
-                        alertDelete(event, category,data);
-                    });
+                    deleteButton.setOnAction(event -> alertDelete(event, category,data));
                     iv.setFitHeight(25);
                     iv.setFitWidth(25);
                     deleteButton.setGraphic(iv);
@@ -140,7 +134,7 @@ public class CategoryController implements Initializable {
         }
     }
 
-    private void handleDeleteCategory(Category category,ObservableList data){
+    private void handleDeleteCategory(Category category,ObservableList<Category> data){
         boolean deleted = false;
         try {
             deleted = this.categoryFacade.deleteCategory(category);
@@ -175,14 +169,14 @@ public class CategoryController implements Initializable {
         LoadView.changeScreen(actionEvent, ViewPath.CATEGORY_VIEW);
     }
 
-    private void alertDelete(ActionEvent actionEvent, Category category,ObservableList data){
+    private void alertDelete(ActionEvent actionEvent, Category category,ObservableList<Category> data){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Deletion");
         alert.setHeaderText(null);
         alert.setContentText("Are you sure to delete this category ?");
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
+        if(result.isPresent() && result.get() == ButtonType.OK){
             handleDeleteCategory(category,data);
         }
     }

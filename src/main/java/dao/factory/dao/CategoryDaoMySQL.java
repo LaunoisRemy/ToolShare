@@ -151,7 +151,7 @@ public class CategoryDaoMySQL extends CategoryDAO {
 
             while(rs.next()){
                 if(rs.getString(2).equals(name)){
-                    category=this.createCategoryFromRs(rs);
+                    category= createCategoryFromRs(rs);
                 }
             }
         } catch (SQLException throwables) {

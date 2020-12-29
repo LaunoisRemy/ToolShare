@@ -4,8 +4,8 @@ import business.system.offer.Offer;
 import business.system.user.User;
 
 public class Favory {
-    private User user;
-    private Offer offer;
+    private final User user;
+    private final Offer offer;
 
     public Favory(User user,Offer offer){
         this.user = user;

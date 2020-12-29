@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 
 public class RegisterUpdateUserController implements Initializable {
 
-    private SessionFacade facade=SessionFacade.getInstance();;
+    private final SessionFacade facade=SessionFacade.getInstance();
     private User user=null;
     private int action=0;
     @FXML

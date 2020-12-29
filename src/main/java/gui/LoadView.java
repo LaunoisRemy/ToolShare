@@ -26,7 +26,7 @@ public class LoadView  extends Parent{
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(urlPath);
         loader.setResources(new MapRessourceBundle(objects));
-        return (Parent)loader.load();
+        return loader.load();
     }
 
     public static void changeScreen(Event event, ViewPath view, Object... objects) {

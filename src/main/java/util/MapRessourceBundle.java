@@ -3,7 +3,7 @@ package util;
 import java.util.*;
 
 public class MapRessourceBundle extends ResourceBundle {
-    private Map<String,Object> info;
+    private final Map<String,Object> info;
 
     public MapRessourceBundle(Object[] objects){
         info = new HashMap<>();
@@ -27,6 +27,6 @@ public class MapRessourceBundle extends ResourceBundle {
 
     @Override
     public Enumeration<String> getKeys() {
-        return (Enumeration<String>) info.keySet();
+        return Collections.enumeration(info.keySet());
     }
 }

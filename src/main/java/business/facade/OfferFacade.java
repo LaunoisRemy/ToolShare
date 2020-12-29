@@ -20,9 +20,9 @@ import java.util.Date;
 import java.util.List;
 
 public class OfferFacade {
-    private User user = SessionFacade.getInstance().getUser();
+    private final User user = SessionFacade.getInstance().getUser();
     private static final OfferFacade INSTANCE = new OfferFacade();
-    private OfferDAO offerDAO = OfferDAO.getInstance();
+    private final OfferDAO offerDAO = OfferDAO.getInstance();
 
 
     private OfferFacade() {

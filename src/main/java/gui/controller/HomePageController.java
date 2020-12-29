@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class HomePageController implements Initializable {
-    private FavoryController favoryController = new FavoryController();
+    private final FavoryController favoryController = new FavoryController();
 
     @FXML
     private TableView<Offer> table;
@@ -66,9 +66,9 @@ public class HomePageController implements Initializable {
         //Check if we are on the homepage or the favory page
         FilteredList<Offer> offerFilteredList;
         if(((MapRessourceBundle)resources).size() != 0){
-            offerFilteredList = new FilteredList<Offer>(FXCollections.observableArrayList(favoryFacade.getAllFavories()));
+            offerFilteredList = new FilteredList<>(FXCollections.observableArrayList(favoryFacade.getAllFavories()));
         }else{
-            offerFilteredList = new FilteredList<Offer>(FXCollections.observableArrayList(OfferFacade.getInstance().getAllOffers()),p->true);
+            offerFilteredList = new FilteredList<>(FXCollections.observableArrayList(OfferFacade.getInstance().getAllOffers()), p -> true);
         }
         //add All categories to the choiceBox
         Category noCategory = new Category("No Category",false);
@@ -77,29 +77,19 @@ public class HomePageController implements Initializable {
         categoryList.addAll(CategoryFacade.getInstance().getAllValidatedCategories());
         categoryBox.getItems().addAll(categoryList);
 
-        categoryBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                offerFilteredList.setPredicate(offer -> {
-                    Category selectedCategory = categoryList.get((Integer) newValue);
-                    if(selectedCategory.getCategoryName().equals("No Category")){
-                        return true;
-                    }
-                    else{
-                        // We compare what he entered (in lower case)
-                        String lowerCaseFilter = selectedCategory.getCategoryName().toLowerCase();
-                        // If the filter matches the name of the category
-                        if (offer.getCategory().getCategoryName().toLowerCase().contains(lowerCaseFilter)) {
-                            // The category is displayed
-                            return true;
-                        } else {
-                            // The name doesn't match, not displayed
-                            return false;
-                        }
-                    }
-                });
+        categoryBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> offerFilteredList.setPredicate(offer -> {
+            Category selectedCategory = categoryList.get((Integer) newValue);
+            if (selectedCategory.getCategoryName().equals("No Category")) {
+                return true;
+            } else {
+                // We compare what he entered (in lower case)
+                String lowerCaseFilter = selectedCategory.getCategoryName().toLowerCase();
+                // If the filter matches the name of the category
+                // The category is displayed
+                // The name doesn't match, not displayed
+                return offer.getCategory().getCategoryName().toLowerCase().contains(lowerCaseFilter);
             }
-        } );
+        }));
 
         //allow the user to type in the search bar
         textField.textProperty().addListener((observable, oldValue, newValue) -> this.filterTitle(observable,oldValue,newValue,offerFilteredList));
@@ -127,9 +117,7 @@ public class HomePageController implements Initializable {
 
             private final Button seeOfferButton = new Button("See Offer");
             {
-                seeOfferButton.setOnAction(event -> {
-                    seeOfferPage(event, param.getTableView().getItems().get(getIndex()));
-                });
+                seeOfferButton.setOnAction(event -> seeOfferPage(event, param.getTableView().getItems().get(getIndex())));
             }
             @Override
             protected void updateItem(Integer item, boolean empty) {
@@ -168,16 +156,12 @@ public class HomePageController implements Initializable {
                     if(fav==null){
                         img= new Image("img/favory.png") ;
                         iv= new ImageView(img);
-                        favoryButton.setOnAction(event -> {
-                            addToFavory(event, item,favoryButton);
-                        });
+                        favoryButton.setOnAction(event -> addToFavory(event, item,favoryButton));
 
                     }else{
                         img= new Image("img/favoryFilled.png") ;
                         iv= new ImageView(img);
-                        favoryButton.setOnAction(event -> {
-                            deleteFromFavory(event, item,favoryButton);
-                        });
+                        favoryButton.setOnAction(event -> deleteFromFavory(event, item,favoryButton));
                     }
                     iv.setFitHeight(35);
                     iv.setFitWidth(35);
@@ -230,13 +214,9 @@ public class HomePageController implements Initializable {
                 // We compare what he entered (in lower case)
                 String lowerCaseFilter = newValue.toLowerCase();
                 // If the filter matches the name of the category
-                if (offer.getTitle().toLowerCase().contains(lowerCaseFilter)) {
-                    // The category is displayed
-                    return true;
-                } else {
-                    // The name doesn't match, not displayed
-                    return false;
-                }
+            // The category is displayed
+            // The name doesn't match, not displayed
+            return offer.getTitle().toLowerCase().contains(lowerCaseFilter);
         });
     }
 }

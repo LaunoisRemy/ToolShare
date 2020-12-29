@@ -23,7 +23,7 @@ public enum ViewPath {
     ;
 
 
-    private String url;
+    private final String url;
 
     ViewPath(String envUrl){
         this.url=envUrl;

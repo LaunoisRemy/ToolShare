@@ -2,7 +2,6 @@ package dao.factory.dao;
 
 import business.system.scorable.Comment;
 import business.system.scorable.Scorable;
-import business.system.scorable.faq.Question;
 import dao.structure.CommentDAO;
 
 import java.sql.*;
@@ -117,7 +116,7 @@ public class CommentDaoMySQL extends CommentDAO {
     @Override
     public boolean delete(Comment obj) {
         try {
-            String sql ="DELETE FROM question WHERE "+COMMENT_ID+" = ?";
+            String sql ="DELETE FROM comment WHERE "+COMMENT_ID+" = ?";
 
             PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setInt(1,obj.getCommentId());

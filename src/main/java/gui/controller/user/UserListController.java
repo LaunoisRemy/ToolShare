@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
 
 public class UserListController implements Initializable {
 
-    private SessionFacade sessionFacade = SessionFacade.getInstance();
+    private final SessionFacade sessionFacade = SessionFacade.getInstance();
 
     @FXML
     private TableView<User> table;
@@ -73,9 +73,7 @@ public class UserListController implements Initializable {
             private final Button banButton = new Button();
 
             {
-                banButton.setOnAction(event -> {
-                    alertBanned(event, param.getTableView().getItems().get(getIndex()));
-                });
+                banButton.setOnAction(event -> alertBanned(event, param.getTableView().getItems().get(getIndex())));
             }
             @Override
             protected void updateItem(Boolean item, boolean empty) {
@@ -113,9 +111,7 @@ public class UserListController implements Initializable {
                     Image img= new Image("img/red_trash.png") ;
                     ImageView iv= new ImageView(img);
                     if(!user.getRole().getNameRole().equals(Admin.ADMIN)){
-                        deleteButton.setOnAction(event -> {
-                            alertDelete(event, user ,data);
-                        });
+                        deleteButton.setOnAction(event -> alertDelete(event, user ,data));
                     } else {
                         deleteButton.setDisable(true);
                     }
@@ -172,11 +168,7 @@ public class UserListController implements Initializable {
     }
 
     private void handleSetBanned(User u) {
-        if(u.getIsBanned()){
-            u.setIsBanned(false);
-        } else {
-            u.setIsBanned(true);
-        }
+        u.setIsBanned(!u.getIsBanned());
         this.sessionFacade.updateUser(u);
     }
 

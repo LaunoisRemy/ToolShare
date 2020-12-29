@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 public class ForgotPasswordController implements Initializable {
-    private SessionFacade facade = SessionFacade.getInstance();
+    private final SessionFacade facade = SessionFacade.getInstance();
     @FXML
     private URL location;
 

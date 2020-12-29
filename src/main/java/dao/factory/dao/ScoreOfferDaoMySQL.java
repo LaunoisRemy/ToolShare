@@ -163,7 +163,7 @@ public class ScoreOfferDaoMySQL  extends ScoreOfferDAO {
     public boolean delete(ScoreOffer obj) {
         try {
             String sql ="DELETE FROM score_offer " +
-                    "WHERE "+ USER_ID_COL + " = ? AND "+OFFER_ID_COL + " = ? " ;;
+                    "WHERE "+ USER_ID_COL + " = ? AND "+OFFER_ID_COL + " = ? " ;
             PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setInt(1,obj.getUser().getUser_id());
             prep.setInt(2,obj.getOffer().getOffer_id());

@@ -9,8 +9,8 @@ public class Question implements Scorable {
     private int questionScore;
     private String questionContent;
     private Answer answer;
-    private int offerId;
-    private User user;
+    private final int offerId;
+    private final User user;
 
     public Question(int questionId, int questionScore, String questionContent, Answer answer, int offerId, User user) {
         this.questionId = questionId;

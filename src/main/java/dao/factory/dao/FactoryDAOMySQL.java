@@ -6,7 +6,7 @@ import dao.structure.*;
  * Factory concrete using MySQL database
  */
 public class FactoryDAOMySQL extends AbstractFactoryDAO {
-    protected FactoryDAOMySQL(){};
+    protected FactoryDAOMySQL(){}
 
 
     @Override
