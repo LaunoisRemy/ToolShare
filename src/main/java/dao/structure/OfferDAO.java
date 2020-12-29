@@ -4,6 +4,7 @@ import business.system.offer.Offer;
 import dao.factory.dao.AbstractFactoryDAO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class OfferDAO implements DAO<Offer> {
     private static final OfferDAO INSTANCE = AbstractFactoryDAO.getInstance().getOfferDAO();
@@ -16,15 +17,15 @@ public abstract class OfferDAO implements DAO<Offer> {
         return INSTANCE;
     }
 
-    public abstract ArrayList<Offer> getOffersFromUser(int user_id);
+    public abstract List<Offer> getOffersFromUser(int user_id);
 
-    public abstract ArrayList<Offer> getOffersByCity(String city);
+    public abstract List<Offer> getOffersByCity(String city);
 
     //public abstract ArrayList<Offer> getLatestOffers();
-    public abstract  ArrayList<Offer> getAllOffers();
+    public abstract  List<Offer> getAllOffers();
 
-    public abstract ArrayList<Offer> getOffersByCategory(int category_id);
+    public abstract List<Offer> getOffersByCategory(int category_id);
 
-    public abstract ArrayList<Offer> getPriorityOffer();
+    public abstract List<Offer> getPriorityOffer();
 }
 

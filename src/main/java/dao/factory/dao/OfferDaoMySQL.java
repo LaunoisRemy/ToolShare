@@ -9,6 +9,7 @@ import dao.structure.OfferDAO;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class OfferDaoMySQL extends OfferDAO {
     static final String TITLE_COL = "title";
@@ -198,8 +199,8 @@ public class OfferDaoMySQL extends OfferDAO {
      * @return the list of Offers founded
      */
     @Override
-    public ArrayList<Offer> getOffersByCity(String city) {
-        ArrayList<Offer> res = new ArrayList<>();
+    public List<Offer> getOffersByCity(String city) {
+        List<Offer> res = new ArrayList<>();
         try {
             String sql =
                     "SELECT *  FROM offer o " +
@@ -223,8 +224,8 @@ public class OfferDaoMySQL extends OfferDAO {
     }
 
     /*@Override
-    public ArrayList getLatestOffers() {
-        ArrayList res = new ArrayList<Offer>();
+    public List getLatestOffers() {
+        List res = new ArrayList<Offer>();
         try {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM offer ORDER BY ?"
@@ -247,8 +248,8 @@ public class OfferDaoMySQL extends OfferDAO {
      * @return the list of all the offers
      */
     @Override
-    public ArrayList<Offer> getAllOffers() {
-        ArrayList<Offer> res = new ArrayList<>();
+    public List<Offer> getAllOffers() {
+        List<Offer> res = new ArrayList<>();
         try {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM offer o " +
@@ -272,7 +273,7 @@ public class OfferDaoMySQL extends OfferDAO {
      * @return the list of Offers founded
      */
     @Override
-    public ArrayList<Offer> getOffersFromUser(int idUser) {
+    public List<Offer> getOffersFromUser(int idUser) {
         return getOffers(idUser, USER_ID_COL);
     }
 
@@ -282,12 +283,12 @@ public class OfferDaoMySQL extends OfferDAO {
      * @return the list of Offers founded
      */
     @Override
-    public ArrayList<Offer> getOffersByCategory(int category_id) {
+    public List<Offer> getOffersByCategory(int category_id) {
         return getOffers(category_id, CATEGORY_ID_COL);
     }
 
-    private ArrayList<Offer> getOffers(int id, String whereClause) {
-        ArrayList<Offer> res = new ArrayList<>();
+    private List<Offer> getOffers(int id, String whereClause) {
+        List<Offer> res = new ArrayList<>();
         try {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM offer o " +
@@ -314,8 +315,8 @@ public class OfferDaoMySQL extends OfferDAO {
      * @return the list of Offers founded
      */
     @Override
-    public ArrayList<Offer> getPriorityOffer() {
-        ArrayList<Offer> res = new ArrayList<>();
+    public List<Offer> getPriorityOffer() {
+        List<Offer> res = new ArrayList<>();
         try {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM offer o " +

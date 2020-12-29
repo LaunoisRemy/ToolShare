@@ -24,6 +24,7 @@ import javafx.util.converter.FloatStringConverter;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class HistoryController implements Initializable {
@@ -45,7 +46,7 @@ public class HistoryController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         HistoryFacade historyFacade = HistoryFacade.getInstance();
-        ArrayList<Offer> offers = new ArrayList<>(historyFacade.getAllOffers());
+        List<Offer> offers = new ArrayList<>(historyFacade.getAllOffers());
 
         final ObservableList<Offer> data = FXCollections.observableArrayList(offers);
 
@@ -134,7 +135,8 @@ public class HistoryController implements Initializable {
      * @param offer
      */
     public void seeOfferPage(Event event, Offer offer){
-        System.out.println(offer);
+        LoadView.changeScreen(event, ViewPath.OFFER_VIEW,offer);
+
     }
 
     /**

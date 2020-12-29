@@ -41,9 +41,9 @@ public class OfferController implements Initializable {
     @FXML
     private TableView<Scorable> faqTable;
     @FXML
-    private TableColumn<Scorable,String> questionFAQ;
+    private TableColumn<Scorable,String> contentScorable;
     @FXML
-    private TableColumn<Scorable,Integer> replyCol, voteFAQ;
+    private TableColumn<Scorable,Integer> replyCol, voteCol;
     @FXML
     private ScrollPane scrollPane;
 
@@ -113,8 +113,8 @@ public class OfferController implements Initializable {
         List<Scorable> questions = offerFacade.getAllQuestions(offer);
         final ObservableList<Scorable> data = FXCollections.observableArrayList(questions);
 
-        questionFAQ.setCellValueFactory(new PropertyValueFactory<>("questionContent") );
-        questionFAQ.setCellFactory(TextFieldTableCell.forTableColumn());
+        contentScorable.setCellValueFactory(new PropertyValueFactory<>("questionContent") );
+        contentScorable.setCellFactory(TextFieldTableCell.forTableColumn());
 
         replyCol.setCellFactory(param -> new TableCell<>() {
             private final Button replyButton = new Button("Reply");
@@ -141,7 +141,7 @@ public class OfferController implements Initializable {
             }
         });
 
-        voteButton(voteFAQ);
+        voteButton(voteCol);
 
 
         faqTable.setItems(data);
@@ -154,10 +154,10 @@ public class OfferController implements Initializable {
         List<Scorable> comments = offerFacade.getAllComments(offer);
         final ObservableList<Scorable> data = FXCollections.observableArrayList(comments);
 
-        questionFAQ.setCellValueFactory(new PropertyValueFactory<>("comment") );
-        questionFAQ.setCellFactory(TextFieldTableCell.forTableColumn());
+        contentScorable.setCellValueFactory(new PropertyValueFactory<>("comment") );
+        contentScorable.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        voteButton(voteFAQ);
+        voteButton(voteCol);
 
         faqTable.setItems(data);
     }

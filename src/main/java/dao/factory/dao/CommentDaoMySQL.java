@@ -51,7 +51,7 @@ public class CommentDaoMySQL extends CommentDAO {
         return getComments(idUser, ScoreOfferDaoMySQL.USER_ID_COL);
     }
     private List<Scorable> getComments(int id, String clause) {
-        ArrayList<Scorable> res = new ArrayList<>();
+        List<Scorable> res = new ArrayList<>();
 
         try {
             String sql = "SELECT *  FROM comment " +

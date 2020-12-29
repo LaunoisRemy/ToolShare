@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -40,7 +41,7 @@ public class CategoryController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ArrayList<Category> categoryArrayList = new ArrayList<>(this.categoryFacade.getAllCategories());
+        List<Category> categoryArrayList = new ArrayList<>(this.categoryFacade.getAllCategories());
 
         final ObservableList<Category> data = FXCollections.observableArrayList(categoryArrayList);
 
