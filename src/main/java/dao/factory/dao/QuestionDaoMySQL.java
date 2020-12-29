@@ -126,7 +126,6 @@ public class QuestionDaoMySQL extends QuestionDAO {
             prep.setInt(1,obj.getQuestionScore());
             prep.setString(2,obj.getQuestionContent());
             Answer answer = obj.getAnswer();
-            System.out.println("Reponse =========" + answer);
             if(answer != null){
                 prep.setInt(3,obj.getAnswer().getAnswerId());
 

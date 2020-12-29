@@ -4,14 +4,11 @@ import business.facade.EvaluationFacade;
 import business.facade.OfferFacade;
 import business.facade.SessionFacade;
 import business.system.Score;
-import business.system.ScoreOffer;
 import business.system.offer.Offer;
 import business.system.scorable.Scorable;
 import business.system.user.User;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
-import gui.LoadView;
-import gui.ViewPath;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,6 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import util.MapRessourceBundle;
 
 import java.net.URL;
@@ -169,18 +167,60 @@ public class OfferController implements Initializable {
 
             private final Button upVoteFAQButton = new Button("Up vote");
             private final Button downVoteFAQButton = new Button("Down vote");
-            private final HBox pane = new HBox(upVoteFAQButton, downVoteFAQButton);
+            private final Label scoreLabel = new Label("");
+
+            private final HBox pane = new HBox(upVoteFAQButton,scoreLabel, downVoteFAQButton );
 
             {
+
                 upVoteFAQButton.setOnAction(event -> {
-                    voteScorable(event, param.getTableView().getItems().get(getIndex()) ,1);
-                    upVoteFAQButton.setDisable(true);
-                    downVoteFAQButton.setDisable(false);
+                    Scorable s = param.getTableView().getItems().get(getIndex());
+                    Score score = EvaluationFacade.getInstance().findScorable(param.getTableView().getItems().get(getIndex()));
+                    if(score != null){
+                        if(score.getScoreValue() != 1){
+                            voteScorable(event,s  ,1);
+
+                            upVoteFAQButton.setStyle("-fx-background-color: green");
+                            downVoteFAQButton.setStyle("-fx-background-color: white");
+
+                            scoreLabel.setText(String.valueOf(s.getScore()));
+                            scoreLabel.setTextFill(Color.web("#008000"));
+                        }else{
+                            voteScorable(event,s,0);
+
+                            upVoteFAQButton.setStyle("-fx-background-color: white");
+                            downVoteFAQButton.setStyle("-fx-background-color: white");
+                            scoreLabel.setTextFill(Color.web("#000000"));
+                        }
+                        scoreLabel.setText(String.valueOf(s.getScore()));
+
+                    }
+
                 });
                 downVoteFAQButton.setOnAction(event -> {
-                    voteScorable(event, param.getTableView().getItems().get(getIndex()),-1);
-                    downVoteFAQButton.setDisable(true);
-                    upVoteFAQButton.setDisable(false);
+                    Scorable s = param.getTableView().getItems().get(getIndex());
+                    Score score = EvaluationFacade.getInstance().findScorable(param.getTableView().getItems().get(getIndex()));
+                    scoreLabel.setText(String.valueOf(s.getScore()));
+
+                    if(score != null){
+                        if(score.getScoreValue() != -1){
+                            voteScorable(event, s,-1);
+                            downVoteFAQButton.setStyle("-fx-background-color: red");
+                            upVoteFAQButton.setStyle("-fx-background-color: white");
+
+                            scoreLabel.setTextFill(Color.web("#FF0000"));
+                        }else{
+                            voteScorable(event,s,0);
+
+                            upVoteFAQButton.setStyle("-fx-background-color: white");
+                            downVoteFAQButton.setStyle("-fx-background-color: white");
+
+                            scoreLabel.setTextFill(Color.web("#000000"));
+                        }
+                        scoreLabel.setText(String.valueOf(s.getScore()));
+
+                    }
+
                 });
             }
 
@@ -194,13 +234,17 @@ public class OfferController implements Initializable {
                 else {
                     setGraphic(pane);
                     Score score = EvaluationFacade.getInstance().findScorable(param.getTableView().getItems().get(getIndex()));
+                    scoreLabel.setText(String.valueOf(param.getTableView().getItems().get(getIndex()).getScore()));
                     if( score != null){
                         if(score.getScoreValue() == 1){
-                            upVoteFAQButton.setDisable(true);
-                            downVoteFAQButton.setDisable(false);
+                            upVoteFAQButton.setStyle("-fx-background-color: green");
+                            downVoteFAQButton.setStyle("-fx-background-color: white");
+                            scoreLabel.setTextFill(Color.web("#008000"));
+
                         }else if(score.getScoreValue() == -1){
-                            downVoteFAQButton.setDisable(true);
-                            upVoteFAQButton.setDisable(false);
+                            downVoteFAQButton.setStyle("-fx-background-color: red");
+                            upVoteFAQButton.setStyle("-fx-background-color: white");
+                            scoreLabel.setTextFill(Color.web("#FF0000"));
                         }
                     }else{
                         upVoteFAQButton.setDisable(true);
@@ -210,6 +254,8 @@ public class OfferController implements Initializable {
             }
         });
     }
+
+
     public void showFAQTable(ActionEvent actionEvent){
         SessionFacade sessionFacade = SessionFacade.getInstance();
         User u = sessionFacade.getUser();

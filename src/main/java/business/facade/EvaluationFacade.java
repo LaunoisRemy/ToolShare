@@ -58,17 +58,25 @@ public class EvaluationFacade {
 
 
     public void vote(Scorable scorable, int i) {
+
         SessionFacade sessionFacade = SessionFacade.getInstance();
         Score score = findScorable(scorable);
+
         if( score == null){
             score = new Score(sessionFacade.getUser(),scorable, scorable.getScoreType(),i);
             score = ScoreDAO.getInstance().create(score);
+            scorable.setScore(scorable.getScore()+score.getScoreValue());
         }else {
+            int value = score.getScoreValue();
             score.setScoreValue(i);
             ScoreDAO.getInstance().update(score);
-        }
+            if( i == 0 ){
+                scorable.setScore(scorable.getScore()-value);
+            }else{
+                scorable.setScore(scorable.getScore()+score.getScoreValue());
+            }
 
-        scorable.setScore(scorable.getScore()+score.getScoreValue());
+        }
 
         if(scorable instanceof  Comment){
             CommentDAO.getInstance().update((Comment) scorable);
@@ -77,11 +85,14 @@ public class EvaluationFacade {
         }else if(scorable instanceof Answer){
             AnswerDAO.getInstance().update((Answer) scorable);
         }
-        System.out.println(scorable.getScore());
     }
 
     public Score findScorable(Scorable scorable) {
         User user = SessionFacade.getInstance().getUser();
         return ScoreDAO.getInstance().find(user.getUser_id(), scorable.getId(),scorable.getScoreType().getIntByType());
+    }
+
+    public void delScore(Score score) {
+        ScoreDAO.getInstance().delete(score);
     }
 }

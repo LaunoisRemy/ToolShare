@@ -5,11 +5,14 @@ import business.exceptions.ObjectNotFoundException;
 import business.facade.SessionFacade;
 import business.system.user.OrdinaryUser;
 import business.system.user.User;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+
 import gui.LoadView;
 import gui.ViewPath;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,10 +21,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
+
 import util.ConstantsRegex;
 import util.MapRessourceBundle;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -151,7 +154,6 @@ public class RegisterUpdateUserController implements Initializable {
         }else{
             error_msg.setVisible(true);
         }
-
     }
 
     /**

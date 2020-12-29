@@ -63,7 +63,6 @@ public class CommentDaoMySQL extends CommentDAO {
 
             if(rs.next()){
                 Scorable s = createCommentFromRs(rs);
-                System.out.println("Id : " + s.getId());
                 res.add(s);
             }
         } catch (SQLException throwables) {
