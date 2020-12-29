@@ -1,6 +1,5 @@
 package gui.controller.offer;
 
-import business.exceptions.BadInsertionInBDDException;
 import business.exceptions.MissingParametersException;
 import business.facade.CategoryFacade;
 import business.facade.OfferFacade;
@@ -81,9 +80,10 @@ public class CreateOfferController implements Initializable {
         error_msg.setVisible(false);
         cast_msg.setVisible(false);
         try {
+            Offer offer = new Offer();
             if(!ConstantsRegex.matchFloatRegex(price.getText())) throw new NumberFormatException();
             if(!isPriority.isSelected()) {
-                Offer offer = offerFacade.createOffer(
+                offer = offerFacade.createOffer(
                         title.getText(),
                         Float.parseFloat(price.getText()),
                         description.getText(),
@@ -94,7 +94,8 @@ public class CreateOfferController implements Initializable {
                         null
                 );
             } else {
-                Offer offer = offerFacade.createOffer(
+                if(Date.from(Instant.from(dateStart.getValue().atStartOfDay(ZoneId.systemDefault()))).compareTo(Date.from(Instant.from(dateEnd.getValue().atStartOfDay(ZoneId.systemDefault())))) > 0) throw new MissingParametersException("Wrong date format");
+                offer = offerFacade.createOffer(
                         title.getText(),
                         Float.parseFloat(price.getText()),
                         description.getText(),
@@ -105,6 +106,7 @@ public class CreateOfferController implements Initializable {
                         Date.from(Instant.from(dateEnd.getValue().atStartOfDay(ZoneId.systemDefault())))
                 );
             }
+            LoadView.changeScreen(actionEvent, ViewPath.OFFER_VIEW, offer);
         } catch (NumberFormatException e) {
             System.err.println(e.toString());
             cast_msg.setVisible(true);

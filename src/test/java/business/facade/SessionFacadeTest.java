@@ -17,6 +17,7 @@ class SessionFacadeTest {
         // Assert
         assertTrue(check);
     }
+
     @Test
     public void checkCode2() {
         // Arrange
