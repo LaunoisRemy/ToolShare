@@ -53,23 +53,6 @@
                      <children>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../img/password_32.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets right="20.0" />
-                           </HBox.margin>
-                        </ImageView>
-                        <JFXPasswordField fx:id="password" prefHeight="45.0" prefWidth="281.0" promptText="Password">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </JFXPasswordField>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="68.0" prefWidth="417.0">
-                     <children>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
                               <Image url="@../../img/name_tag_32.png" />
                            </image>
                            <HBox.margin>
@@ -132,6 +115,32 @@
                               <Font size="18.0" />
                            </font>
                         </JFXTextField>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="hBoxPassword" alignment="CENTER" prefHeight="68.0" prefWidth="417.0">
+                     <children>
+                        <ImageView fx:id="imgPassword" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../img/password_32.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <JFXPasswordField fx:id="password" prefHeight="45.0" prefWidth="281.0" promptText="Password">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXPasswordField>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="hBoxPassword2" alignment="CENTER" prefHeight="40.0" prefWidth="417.0" visible="false">
+                     <children>
+                        <Hyperlink fx:id="chgPassword" onAction="#changePassword" prefHeight="33.0" prefWidth="130.0" text="Change Password" underline="true">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Hyperlink>
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="74.0" prefWidth="201.0">

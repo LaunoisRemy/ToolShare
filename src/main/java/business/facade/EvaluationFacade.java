@@ -77,6 +77,7 @@ public class EvaluationFacade {
         }else if(scorable instanceof Answer){
             AnswerDAO.getInstance().update((Answer) scorable);
         }
+        System.out.println(scorable.getScore());
     }
 
     public Score findScorable(Scorable scorable) {

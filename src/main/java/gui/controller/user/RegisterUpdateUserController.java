@@ -1,6 +1,7 @@
 package gui.controller.user;
 
 import business.exceptions.BadInsertionInBDDException;
+import business.exceptions.ObjectNotFoundException;
 import business.facade.SessionFacade;
 import business.system.user.OrdinaryUser;
 import business.system.user.User;
@@ -14,10 +15,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
 import util.ConstantsRegex;
 import util.MapRessourceBundle;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -35,7 +39,11 @@ public class RegisterUpdateUserController implements Initializable {
     @FXML
     private JFXButton submit;
     @FXML
-    private Hyperlink cancel;
+    private Hyperlink cancel,chgPassword;
+    @FXML
+    private HBox hBoxPassword,hBoxPassword2;
+    @FXML
+    private ImageView imgPassword;
 
     /**
      *
@@ -64,7 +72,8 @@ public class RegisterUpdateUserController implements Initializable {
             phone.setText(((OrdinaryUser)user.getRole()).getPhoneNumber());
             submit.setOnAction(this::handleUpdate);
             cancel.setOnAction(this::homePage);
-
+            hBoxPassword.setVisible(false);
+            hBoxPassword2.setVisible(true);
 
         }
     }
@@ -151,6 +160,15 @@ public class RegisterUpdateUserController implements Initializable {
      */
     public void loginPage(ActionEvent actionEvent){
         LoadView.changeScreen(actionEvent,ViewPath.LOGIN_VIEW);
+    }
+    public void changePassword(ActionEvent actionEvent){
+        try {
+            String mail = user.getEmail();
+            facade.sendMail( mail);
+            LoadView.changeScreen(actionEvent,ViewPath.FORGOTPASSWORDCHECKCODE_VIEW,mail);
+        } catch (ObjectNotFoundException e) {
+            e.printStackTrace();
+        }
     }
     public void homePage(ActionEvent actionEvent){
         LoadView.changeScreen(actionEvent,ViewPath.HOMEPAGE_VIEW);
