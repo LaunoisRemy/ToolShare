@@ -134,6 +134,10 @@ public class SessionFacade {
         UserDAO.getInstance().update(user);
     }
 
+    /**
+     * Method which create a code of size 6 with number and characters
+     * @return code with a length of six
+     */
     private String generateCode(){
         SecureRandom random = new SecureRandom();
         StringBuilder sb = new StringBuilder(6);
@@ -145,6 +149,11 @@ public class SessionFacade {
 
     }
 
+    /**
+     * Method to send an email to the user
+     * @param mail
+     * @throws ObjectNotFoundException
+     */
     public void sendMail(String mail) throws ObjectNotFoundException {
         User user = UserDAO.getInstance().getUserByEmail(mail);
         if(user == null){
@@ -158,6 +167,8 @@ public class SessionFacade {
             );
         }
     }
+
+
     public boolean checkCode(String code,String mail) {
         User user =  UserDAO.getInstance().getUserByEmail(mail);
         return code.equals(user.getRecoveryCode());
