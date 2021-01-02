@@ -17,7 +17,7 @@ public enum ToolSate {
         return switch (type.toLowerCase(Locale.ROOT)) {
             case "excellent" -> EXCELLENT;
             case "good" -> GOOD;
-            case "user" -> USED;
+            case "used" -> USED;
             case "bad" -> BAD;
             case "damaged" -> DAMAGED;
             default -> null;

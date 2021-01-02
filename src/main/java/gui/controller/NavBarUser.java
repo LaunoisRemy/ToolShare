@@ -1,6 +1,7 @@
 package gui.controller;
 
 import business.facade.SessionFacade;
+import business.system.user.Admin;
 import business.system.user.OrdinaryUser;
 import business.system.user.User;
 import gui.LoadView;
@@ -18,18 +19,22 @@ public class NavBarUser implements Initializable {
     final User user = SessionFacade.getInstance().getUser();
 
     @FXML
-    private VBox search,history,favory,categories,allUsers;
+    private VBox search,history,favory,categories,userList,myOffers;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if(user.getRole().getNameRole().equals(OrdinaryUser.ORDINARY_USER)){
-            //categories.setVisible(false);
-            //categories.setManaged(false);
-        } else { //Admin
+        if(user.getRole().getNameRole().equals(Admin.ADMIN)){
             favory.setVisible(false);
             favory.setManaged(false);
             history.setVisible(false);
             history.setManaged(false);
+            myOffers.setVisible(false);
+            myOffers.setManaged(false);
+        } else { //Ordinary User
+            /*categories.setVisible(false);
+            categories.setManaged(false);
+            userList.setVisible(false);
+            userList.setManaged(false);*/
         }
 
     }
@@ -54,6 +59,9 @@ public class NavBarUser implements Initializable {
     }
     public void userListPage(ActionEvent event) {
         LoadView.changeScreen(event,ViewPath.USERLIST_VIEW);
+    }
+    public void myOffersPage(ActionEvent event){
+        LoadView.changeScreen(event,ViewPath.MYOFFERS_VIEW);
     }
 
 

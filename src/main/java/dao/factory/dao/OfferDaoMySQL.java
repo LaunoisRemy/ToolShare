@@ -140,8 +140,8 @@ public class OfferDaoMySQL extends OfferDAO {
 
             if(obj.getIsPriority()){
                 PriorityOffer o = (PriorityOffer) obj;
-                prep.setDate(5, (Date) o.getDateStartPriority());
-                prep.setDate(6, (Date) o.getDateEndPriority());
+                prep.setDate(5, new Date(o.getDateStartPriority().getTime()));
+                prep.setDate(6, new Date(o.getDateEndPriority().getTime()));
             } else {
                 prep.setDate(5,null);
                 prep.setDate(6,null);
@@ -293,7 +293,7 @@ public class OfferDaoMySQL extends OfferDAO {
                     "SELECT *  FROM offer o " +
                             "JOIN user u ON o."+USER_ID_COL+" = u."+ UserDaoMySQL.USER_ID +
                             " LEFT JOIN category c ON o."+CATEGORY_ID_COL+" = c."+ CategoryDaoMySQL.CATEGORY_ID_COL+
-                            " WHERE "+ whereClause +" = ?"
+                            " WHERE o."+ whereClause +" = ?"
             );
 
             prep.setInt(1,id);

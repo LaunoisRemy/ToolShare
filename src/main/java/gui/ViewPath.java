@@ -13,6 +13,7 @@ public enum ViewPath {
     CATEGORY_VIEW("view/category/category.fxml"),
     POSTCATEGORY_VIEW("view/offer/createCategory.fxml"),
     OFFER_VIEW("view/offer/offerPage.fxml"),
+    MYOFFERS_VIEW("view/offer/myOffers.fxml"),
 
     HOMEPAGE_VIEW("view/homePage.fxml"),
     FAVORY_VIEW("view/favoryPage.fxml"),
