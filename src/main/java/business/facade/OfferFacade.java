@@ -1,6 +1,5 @@
 package business.facade;
 
-import business.exceptions.BadInsertionInBDDException;
 import business.exceptions.MissingParametersException;
 import business.exceptions.ObjectNotFoundException;
 import business.system.Category;
@@ -9,7 +8,10 @@ import business.system.offer.PriorityOffer;
 import business.system.offer.ToolSate;
 import business.system.scorable.Scorable;
 import business.system.user.User;
-import dao.structure.*;
+import dao.structure.CommentDAO;
+import dao.structure.OfferDAO;
+import dao.structure.CategoryDAO;
+import dao.structure.QuestionDAO;
 
 import java.util.Date;
 import java.util.List;
