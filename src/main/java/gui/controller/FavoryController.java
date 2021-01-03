@@ -31,6 +31,8 @@ public class FavoryController {
             button.setGraphic(iv);
         }
     }
+
+    
     public void deleteFromFavory(ActionEvent actionEvent, int offerID,JFXButton button){
         FavoryFacade favoryFacade = FavoryFacade.getInstance();
         Offer offer = null;

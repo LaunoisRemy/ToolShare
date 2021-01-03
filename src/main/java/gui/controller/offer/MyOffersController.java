@@ -25,6 +25,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Pair;
 import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.FloatStringConverter;
+import util.AlertBox;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -33,7 +34,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class MyOffersController implements Initializable {
-    private final OfferFacade offerFacade = OfferFacade.getInstance();;
+    private final OfferFacade offerFacade = OfferFacade.getInstance();
 
     @FXML
     private TableView<Offer> table;
@@ -55,7 +56,7 @@ public class MyOffersController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        List<Offer> offerArrayList = new ArrayList(this.offerFacade.getOffersFromUser());
+        List<Offer> offerArrayList = new ArrayList<>(this.offerFacade.getOffersFromUser());
 
         final ObservableList<Offer> data = FXCollections.observableArrayList(offerArrayList);
 
@@ -169,8 +170,7 @@ public class MyOffersController implements Initializable {
     public void handleUpdateOffer(ActionEvent event, Offer offer) {
     }
 
-    private void alertPriority(ActionEvent event, Offer offer) {
-        // Create the custom dialog.
+    public  Dialog<Pair<Date, Date>> dialogPriority(){
         Dialog<Pair<Date, Date>> dialog = new Dialog<>();
         dialog.setTitle("Priority");
         dialog.setHeaderText(null);
@@ -198,23 +198,29 @@ public class MyOffersController implements Initializable {
         grid.add(error,1,2);
         error.setVisible(false);
 
-        listenerDatePicker(dialog, grid, startDate, error, startDate.getValue(), endDate.getValue());
-        listenerDatePicker(dialog, grid, endDate, error, startDate.getValue(), endDate.getValue());
+        this.listenerDatePicker(dialog, grid, startDate, error, startDate.getValue(), endDate.getValue());
+        this.listenerDatePicker(dialog, grid, endDate, error, startDate.getValue(), endDate.getValue());
 
         dialog.getDialogPane().setContent(grid);
 
         // Convert the result to a date-date-pair when the ok button is clicked.
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == okButton) {
-                boolean res = checkDates(startDate.getValue(), endDate.getValue());
+                boolean res = this.checkDates(startDate.getValue(), endDate.getValue());
                 if(res){
                     Date start = Date.from(startDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
                     Date end = Date.from(endDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                    return new Pair(start, end);
+                    return new Pair<>(start, end);
                 }
             }
             return null;
         });
+        return dialog;
+    }
+
+
+    private void alertPriority(ActionEvent event, Offer offer) {
+        Dialog<Pair<Date, Date>> dialog = dialogPriority();
 
         Optional<Pair<Date, Date>> result = dialog.showAndWait();
 
@@ -226,15 +232,10 @@ public class MyOffersController implements Initializable {
     }
 
     public void listenerDatePicker(Dialog<Pair<Date, Date>> dialog, GridPane grid, DatePicker value, Label error,LocalDate start, LocalDate end) {
-        value.setOnAction((EventHandler) t -> {
+        value.setOnAction((EventHandler<ActionEvent>) t -> {
             boolean res = checkDates(start, end);
-            if(!res){
-                error.setVisible(true);
-                dialog.getDialogPane().setContent(grid);
-            } else {
-                error.setVisible(false);
-                dialog.getDialogPane().setContent(grid);
-            }
+            error.setVisible(!res);
+            dialog.getDialogPane().setContent(grid);
         });
     }
 
@@ -244,11 +245,7 @@ public class MyOffersController implements Initializable {
     }
 
     public boolean checkDates(LocalDate start, LocalDate end) {
-        if(start == null || end == null || start.isBefore(LocalDate.now()) || end.isBefore(start)){
-            return false;
-        } else {
-            return true;
-        }
+        return start != null && end != null && !start.isBefore(LocalDate.now()) && !end.isBefore(start);
     }
 
     /**
@@ -261,11 +258,7 @@ public class MyOffersController implements Initializable {
     }
 
     private void alertDelete(ActionEvent event, Offer offer, ObservableList<Offer> data) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation Deletion");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure to delete this offer ?");
-
+        Alert alert = AlertBox.showAlertConfirmationDeletion();
         Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent() && result.get() == ButtonType.OK){
             handleDeleteOffer(offer,data);

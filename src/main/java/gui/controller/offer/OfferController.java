@@ -26,6 +26,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.util.Pair;
+import util.AlertBox;
 import util.MapRessourceBundle;
 
 import java.net.URL;
@@ -309,10 +310,7 @@ public class OfferController implements Initializable {
     }
 
     private void alertDelete(ActionEvent event, Offer offer) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation Deletion");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure to delete this offer ?");
+        Alert alert = AlertBox.showAlertConfirmationDeletion();
 
         Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent() && result.get() == ButtonType.OK){
@@ -334,51 +332,7 @@ public class OfferController implements Initializable {
     }
 
     private void alertPriority(ActionEvent event, Offer offer, MyOffersController myc) {
-        // Create the custom dialog.
-        Dialog<Pair<Date, Date>> dialog = new Dialog<>();
-        dialog.setTitle("Priority");
-        dialog.setHeaderText(null);
-
-        // Set the button types.
-        ButtonType okButton = ButtonType.OK;
-        dialog.getDialogPane().getButtonTypes().addAll(okButton, ButtonType.CANCEL);
-
-        // Create the username and password labels and fields.
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
-
-        DatePicker startDate = new DatePicker(LocalDate.now());
-        DatePicker endDate = new DatePicker(LocalDate.now().plus(1, ChronoUnit.DAYS));
-
-        grid.add(new Label("Start date:"), 0, 0);
-        grid.add(startDate, 1, 0);
-        grid.add(new Label("End date:"), 0, 1);
-        grid.add(endDate, 1, 1);
-
-        Label error = new Label("Wrong dates : if you click on OK, nothing will be done");
-        error.setTextFill(Color.RED);
-        grid.add(error,1,2);
-        error.setVisible(false);
-
-        myc.listenerDatePicker(dialog, grid, startDate, error, startDate.getValue(), endDate.getValue());
-        myc.listenerDatePicker(dialog, grid, endDate, error, startDate.getValue(), endDate.getValue());
-
-        dialog.getDialogPane().setContent(grid);
-
-        // Convert the result to a date-date-pair when the ok button is clicked.
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == okButton) {
-                boolean res = myc.checkDates(startDate.getValue(), endDate.getValue());
-                if(res){
-                    Date start = Date.from(startDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                    Date end = Date.from(endDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                    return new Pair(start, end);
-                }
-            }
-            return null;
-        });
+        Dialog<Pair<Date, Date>> dialog = myc.dialogPriority();
 
         Optional<Pair<Date, Date>> result = dialog.showAndWait();
 
