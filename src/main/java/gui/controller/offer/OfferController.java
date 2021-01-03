@@ -334,4 +334,7 @@ public class OfferController implements Initializable {
         });
     }
 
+    public void handleEditOffer(ActionEvent actionEvent) {
+        LoadView.changeScreen(actionEvent, ViewPath.POSTOFFER_VIEW, this.offer, 1);
+    }
 }

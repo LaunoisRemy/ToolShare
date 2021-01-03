@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import util.AlertBox;
 import util.ConstantsRegex;
+import util.MapRessourceBundle;
 
 import java.net.URL;
 import java.time.Instant;
@@ -27,6 +28,17 @@ public class CreateOfferController implements Initializable {
 
     private final OfferFacade offerFacade = OfferFacade.getInstance();
     private final CategoryFacade categoryFacade = CategoryFacade.getInstance();
+    private Offer offer = null;
+    private int action = 0;
+
+    @FXML
+    private JFXButton cancel;
+
+    @FXML
+    private Label head;
+
+    @FXML
+    private JFXButton submit;
 
     @FXML
     private JFXTextField title;
@@ -67,6 +79,13 @@ public class CreateOfferController implements Initializable {
     @FXML
     private DatePicker dateEnd;
 
+    /**
+     *
+     * @param location
+     * @param resources got two resources
+     *                 - the Offer : Offer
+     *                 - the Action : Int = 0 to register a new offer or 1 to update an offer
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         state.getItems().clear();
@@ -74,6 +93,22 @@ public class CreateOfferController implements Initializable {
 
         category.getItems().clear();
         category.getItems().addAll(categoryFacade.getAllValidatedCategories());
+
+        if(((MapRessourceBundle)resources).size()!=0){
+            this.offer =(Offer)resources.getObject("0");
+            this.action = (Integer) resources.getObject("1");
+        }
+        if(this.action == 0) {
+            head.setText("Post an Offer");
+            submit.setOnAction(this::handleNewOffer);
+            submit.setText("Create");
+            cancel.setOnAction(this::cancel);
+        } else {
+            head.setText("Update Offer");
+            submit.setText("Update");
+            submit.setOnAction(this::handleUpdateOffer);
+            cancel.setOnAction(this::cancelUpdate);
+        }
     }
 
     public void handleNewOffer(ActionEvent actionEvent) {
@@ -116,6 +151,10 @@ public class CreateOfferController implements Initializable {
         }
     }
 
+    public void handleUpdateOffer(ActionEvent actionEvent) {
+
+    }
+
     public void handleNewCategory(ActionEvent actionEvent) {
         LoadView.changeScreen(actionEvent, ViewPath.POSTCATEGORY_VIEW);
     }
@@ -140,6 +179,10 @@ public class CreateOfferController implements Initializable {
 
     public void cancel(ActionEvent actionEvent) {
         LoadView.changeScreen(actionEvent, ViewPath.HOMEPAGE_VIEW);
+    }
+
+    public void cancelUpdate(ActionEvent actionEvent) {
+        LoadView.changeScreen(actionEvent, ViewPath.OFFER_VIEW, offer);
     }
 
     public void handleAddPicture(ActionEvent actionEvent) {

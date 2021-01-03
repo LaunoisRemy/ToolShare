@@ -36,7 +36,7 @@
                            <font>
                               <Font size="14.0" />
                            </font></JFXCheckBox>
-                        <Label alignment="CENTER" layoutY="51.0" prefHeight="49.0" prefWidth="406.0" text="Post an Offer" AnchorPane.bottomAnchor="801.8" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
+                        <Label fx:id="head" alignment="CENTER" layoutY="51.0" prefHeight="49.0" prefWidth="406.0" text="Post an Offer" AnchorPane.bottomAnchor="801.8" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
                            <font>
                               <Font name="Tahoma Bold" size="36.0" />
                            </font>
@@ -63,11 +63,11 @@
                            <font>
                               <Font size="14.0" />
                            </font></JFXButton>
-                        <JFXButton buttonType="RAISED" defaultButton="true" layoutX="344.0" layoutY="756.0" onAction="#handleNewOffer" prefHeight="30.0" prefWidth="166.0" style="-fx-background-radius: 90; -fx-background-color: #2f9acd;" text="Create" AnchorPane.leftAnchor="344.0" AnchorPane.rightAnchor="120.0">
+                        <JFXButton fx:id="cancel" buttonType="RAISED" cancelButton="true" layoutX="120.0" layoutY="756.0" onAction="#cancel" prefHeight="30.0" prefWidth="166.0" style="-fx-background-radius: 90; -fx-background-color: #3f4b4b;" text="Cancel" textFill="WHITE" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="344.0">
                            <font>
                               <Font size="14.0" />
                            </font></JFXButton>
-                        <JFXButton buttonType="RAISED" cancelButton="true" layoutX="120.0" layoutY="756.0" onAction="#cancel" prefHeight="30.0" prefWidth="166.0" style="-fx-background-radius: 90; -fx-background-color: #3f4b4b;" text="Cancel" textFill="WHITE" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="344.0">
+                        <JFXButton fx:id="submit" buttonType="RAISED" defaultButton="true" layoutX="344.0" layoutY="756.0" onAction="#handleNewOffer" prefHeight="30.0" prefWidth="166.0" style="-fx-background-radius: 90; -fx-background-color: #2f9acd;" text="Create" AnchorPane.leftAnchor="344.0" AnchorPane.rightAnchor="120.0">
                            <font>
                               <Font size="14.0" />
                            </font></JFXButton>
