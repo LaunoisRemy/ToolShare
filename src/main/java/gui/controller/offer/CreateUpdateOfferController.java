@@ -21,11 +21,12 @@ import util.ConstantsRegex;
 import util.MapRessourceBundle;
 
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class CreateUpdateOfferController implements Initializable {
@@ -99,7 +100,7 @@ public class CreateUpdateOfferController implements Initializable {
         category.getItems().addAll(categoryFacade.getAllValidatedCategories());
 
         if(((MapRessourceBundle)resources).size()!=0){
-            this.offer =(PriorityOffer)resources.getObject("0");
+            this.offer = (Offer)resources.getObject("0");
             this.action = (Integer)resources.getObject("1");
         }
         if(this.action == 0) {
@@ -121,19 +122,20 @@ public class CreateUpdateOfferController implements Initializable {
             isPriority.setSelected(this.offer.getIsPriority());
             if(this.offer.getIsPriority()) {
                 this.handleIsPriority();
-                //todo : prefill the date
-//                dateStart.setValue(
-//                        ((PriorityOffer)this.offer)
-//                                .getDateStartPriority()
-//                                .toInstant()
-//                                .atZone(ZoneId.systemDefault())
-//                                .toLocalDate());
-//                dateEnd.setValue(
-//                        ((PriorityOffer)this.offer)
-//                                .getDateEndPriority()
-//                                .toInstant()
-//                                .atZone(ZoneId.systemDefault())
-//                                .toLocalDate());
+                Date dateS = ((PriorityOffer)this.offer).getDateStartPriority();
+                Date dateE = ((PriorityOffer)this.offer).getDateEndPriority();
+                DateFormat dtf = new SimpleDateFormat("yyyy-MM-dd");
+                dateStart.setValue(LocalDate.parse(dtf.format(dateS)));
+                dateEnd.setValue(LocalDate.parse(dtf.format(dateE)));
+                if(new Date().compareTo(dateS) > 0) {
+                    dateStart.getEditor().setDisable(true);
+                    dateStart.getEditor().setEditable(false);
+                }
+                if(new Date().compareTo(dateE) > 0) {
+                    dateEnd.getEditor().setDisable(true);
+                    dateEnd.getEditor().setDisable(false);
+                }
+
             }
         }
     }
