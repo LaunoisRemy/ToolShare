@@ -206,4 +206,8 @@ public class OfferFacade {
     public List<Scorable> getAllComments(Offer offer) {
         return  CommentDAO.getInstance().getAllCommentsByIdOffer(offer.getOffer_id());
     }
+
+    public Offer updateOfferFromObj(Offer offer){
+        return this.offerDAO.update(offer);
+    }
 }
