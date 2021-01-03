@@ -9,9 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -25,7 +22,7 @@ class SessionFacadeTest {
     }
 
     @Test
-    public void login_badPassword_throwWrongPassword() throws WrongPasswordException, ObjectNotFoundException, UserBannedException {
+    public void login_badPassword_throwWrongPassword(){
         try(MockedStatic<UserDAO> userDAOMockedStatic = mockStatic(UserDAO.class)){
             User u = new User("test","test","test","RAaIRIIvNeeeEAvEANeIRNvvRNdvAiASIASeeNRieeiEAReSnnVeNRVSvIiERARVRNAIdieNIRIdeeeaAvAViReNSvvneevIevAVEAISeaIveeReAedARRvnndiidRAV","test","test","EIeeSVRARInSadadIVnAEARvENdReAdI",true);
             when(mockUserDao.getUserByEmail("test@gmail.com")).thenReturn(u);

@@ -48,6 +48,7 @@ public class FavoryFacade {
 
     }
 
+
     /**
      * Find if the offer is a favory for the user
      * @param offer Offer we want know if is a favory for the user

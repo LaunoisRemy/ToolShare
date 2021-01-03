@@ -8,9 +8,9 @@ import business.system.offer.PriorityOffer;
 import business.system.offer.ToolSate;
 import business.system.scorable.Scorable;
 import business.system.user.User;
-import dao.structure.CategoryDAO;
 import dao.structure.CommentDAO;
 import dao.structure.OfferDAO;
+import dao.structure.CategoryDAO;
 import dao.structure.QuestionDAO;
 
 import java.util.Date;
@@ -125,7 +125,7 @@ public class OfferFacade {
         offer.setIsPriority(isPriority);
 
         Category new_category = categoryDAO.getCategoryByName(category);
-        ToolSate toolSate = ToolSate.valueOf(state);
+        ToolSate toolSate = ToolSate.getType(state);
 
         offer.setToolSate(toolSate);
         offer.setCategory(new_category);
@@ -143,6 +143,10 @@ public class OfferFacade {
 
         offer = this.offerDAO.update(offer);
         return offer;
+    }
+
+    public Offer updateOfferFromObj(Offer offer){
+        return this.offerDAO.update(offer);
     }
 
     /**
@@ -205,9 +209,5 @@ public class OfferFacade {
      */
     public List<Scorable> getAllComments(Offer offer) {
         return  CommentDAO.getInstance().getAllCommentsByIdOffer(offer.getOffer_id());
-    }
-
-    public Offer updateOfferFromObj(Offer offer){
-        return this.offerDAO.update(offer);
     }
 }

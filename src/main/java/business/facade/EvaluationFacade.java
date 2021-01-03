@@ -8,8 +8,8 @@ import business.system.scorable.Scorable;
 import business.system.scorable.faq.Answer;
 import business.system.scorable.faq.Question;
 import business.system.user.User;
-import dao.factory.dao.CommentDaoMySQL;
 import dao.structure.*;
+import dao.factory.dao.CommentDaoMySQL;
 
 /**
  * Facade of all actions on evaluations
@@ -19,6 +19,7 @@ public class EvaluationFacade {
     public static EvaluationFacade getInstance(){
         return INSTANCE;
     }
+    private static final EvaluationFacade INSTANCE = new EvaluationFacade();
 
     private static final EvaluationFacade INSTANCE = new EvaluationFacade();
 
