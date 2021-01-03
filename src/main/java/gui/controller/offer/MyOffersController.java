@@ -12,6 +12,7 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -216,7 +217,7 @@ public class MyOffersController implements Initializable {
     }
 
     public void listenerDatePicker(Dialog<Pair<Date, Date>> dialog, GridPane grid, DatePicker value, Label error,LocalDate start, LocalDate end) {
-        value.setOnAction(t -> {
+        value.setOnAction((EventHandler<ActionEvent>) t -> {
             boolean res = checkDates(start, end);
             error.setVisible(!res);
             dialog.getDialogPane().setContent(grid);
