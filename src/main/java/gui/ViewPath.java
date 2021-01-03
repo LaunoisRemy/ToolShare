@@ -1,5 +1,8 @@
 package gui;
 
+/**
+ * Class to store all the url(Location) of the view(Fxml)
+ */
 public enum ViewPath {
     LOGIN_VIEW("view/user/login.fxml"),
     FORGOTPASSWORD_VIEW("view/user/forgot_password/forgot_password.fxml"),

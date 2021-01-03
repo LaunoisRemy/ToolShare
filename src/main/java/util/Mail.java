@@ -4,10 +4,18 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
+
+/**
+ * Class to send mail
+ */
 public class Mail {
     public static final Properties MAIL = PropertiesResources.getMailProperties();
     public static final Session SESSION = creerSession();
 
+    /**
+     * Save properties of the session to send mail
+     * @return
+     */
     private static Session creerSession () {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -22,12 +30,18 @@ public class Mail {
                 });
     }
 
-    public static void sendMail (String subject, String text, String adrReceiver){
+    /**
+     * Method to send mail with session
+     * @param subject Object of the mail
+     * @param text Content of the mail
+     * @param mailReceveir Adress mail of the receiver
+     */
+    public static void sendMail (String subject, String text, String mailReceveir){
         try {
             Message message = new MimeMessage(SESSION);
             message.setFrom(new InternetAddress(MAIL.getProperty("ADDRESS")));
             message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(adrReceiver));
+                    InternetAddress.parse(mailReceveir));
             message.setSubject(subject);
             message.setText(text);
             Transport.send(message);

@@ -6,6 +6,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
+/**
+ * Class to generate salt and hash a password
+ */
 public class Cryptor {
     private static final char[] HEX_ARRAY = "AnNiveRSaIRedEVAleNtIn17041998".toCharArray();
 
