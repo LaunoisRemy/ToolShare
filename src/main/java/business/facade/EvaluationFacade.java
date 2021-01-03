@@ -11,10 +11,15 @@ import business.system.user.User;
 import dao.structure.*;
 import dao.factory.dao.CommentDaoMySQL;
 
+/**
+ * Facade of all actions on evaluations
+ * Evaluation is about : rate an offer, comment, faq and rate the last two
+ */
 public class EvaluationFacade {
     public static EvaluationFacade getInstance(){
         return INSTANCE;
     }
+    private static final EvaluationFacade INSTANCE = new EvaluationFacade();
 
     /**
      * Method which deal with create rate
@@ -45,16 +50,22 @@ public class EvaluationFacade {
         scoreOfferDAO.update(scoreOffer);
 
     }
-    public void deleteComment(int commentId){}
-    public void deleteRate(int idRate){}
-    public void updateComment(int commentId, int idRate, int userID){}
-    private static final EvaluationFacade INSTANCE = new EvaluationFacade();
 
+    /**
+     * Method to find a rate of an offer
+     * @param offerId offer we need to find the rate
+     * @param userId The id of the user who have rate the offer of the first param
+     * @return {@link business.system.ScoreOffer}
+     */
     public ScoreOffer findRate(int offerId,int userId){
         return ScoreOfferDAO.getInstance().find(userId,offerId);
     }
 
-
+    /**
+     * Create an object scorable({@link business.system.scorable.Scorable}
+     * @param scorable the scorable we want to save in database
+     * @param i the score of the scorable
+     */
     public void vote(Scorable scorable, int i) {
 
         SessionFacade sessionFacade = SessionFacade.getInstance();
@@ -85,6 +96,11 @@ public class EvaluationFacade {
         }
     }
 
+    /**
+     * get the Score in the database
+     * @param scorable The scorable we want the score
+     * @return Score
+     */
     public Score findScorable(Scorable scorable) {
         User user = SessionFacade.getInstance().getUser();
         return ScoreDAO.getInstance().find(user.getUser_id(), scorable.getId(),scorable.getScoreType().getIntByType());

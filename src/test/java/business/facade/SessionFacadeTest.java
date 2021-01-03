@@ -22,7 +22,7 @@ class SessionFacadeTest {
     }
 
     @Test
-    public void login_badPassword_throwWrongPassword() throws WrongPasswordException, ObjectNotFoundException, UserBannedException {
+    public void login_badPassword_throwWrongPassword(){
         try(MockedStatic<UserDAO> userDAOMockedStatic = mockStatic(UserDAO.class)){
             User u = new User("test","test","test","RAaIRIIvNeeeEAvEANeIRNvvRNdvAiASIASeeNRieeiEAReSnnVeNRVSvIiERARVRNAIdieNIRIdeeeaAvAViReNSvvneevIevAVEAISeaIveeReAedARRvnndiidRAV","test","test","EIeeSVRARInSadadIVnAEARvENdReAdI",true);
             when(mockUserDao.getUserByEmail("test@gmail.com")).thenReturn(u);
@@ -37,7 +37,7 @@ class SessionFacadeTest {
 
     }
     @Test
-    public void login_goodPassword_dontThrow() throws WrongPasswordException, ObjectNotFoundException, UserBannedException {
+    public void login_goodPassword_returnUser() throws WrongPasswordException, ObjectNotFoundException, UserBannedException {
         try(MockedStatic<UserDAO> userDAOMockedStatic = mockStatic(UserDAO.class)){
             User u = new User("test","test","test","RAaIRIIvNeeeEAvEANeIRNvvRNdvAiASIASeeNRieeiEAReSnnVeNRVSvIiERARVRNAIdieNIRIdeeeaAvAViReNSvvneevIevAVEAISeaIveeReAedARRvnndiidRAV","test","test","EIeeSVRARInSadadIVnAEARvENdReAdI",true);
             when(mockUserDao.getUserByEmail("test@gmail.com")).thenReturn(u);

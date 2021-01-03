@@ -16,6 +16,10 @@ import dao.structure.QuestionDAO;
 import java.util.Date;
 import java.util.List;
 
+
+/**
+ * Facade of all actions on offers
+ */
 public class OfferFacade {
     private final User user = SessionFacade.getInstance().getUser();
     private static final OfferFacade INSTANCE = new OfferFacade();
@@ -186,10 +190,20 @@ public class OfferFacade {
         return this.offerDAO.getPriorityOffer();
     }
 
+    /**
+     * Method which finds all questions about one offer
+     * @param offer The offer we want to have questions
+     * @return  A list of {@link business.system.scorable.faq.Question}
+     */
     public List<Scorable> getAllQuestions(Offer offer) {
         return QuestionDAO.getInstance().getAllQuestionsByIdOffer(offer.getOffer_id());
     }
 
+    /**
+     * Method which finds all comments about one offer
+     * @param offer The offer we want to have comments
+     * @return  A list of {@link business.system.scorable.Comment}
+     */
     public List<Scorable> getAllComments(Offer offer) {
         return  CommentDAO.getInstance().getAllCommentsByIdOffer(offer.getOffer_id());
     }
