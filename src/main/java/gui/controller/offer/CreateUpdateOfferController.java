@@ -22,8 +22,10 @@ import util.MapRessourceBundle;
 
 import java.net.URL;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class CreateUpdateOfferController implements Initializable {
@@ -97,8 +99,8 @@ public class CreateUpdateOfferController implements Initializable {
         category.getItems().addAll(categoryFacade.getAllValidatedCategories());
 
         if(((MapRessourceBundle)resources).size()!=0){
-            this.offer =(Offer)resources.getObject("0");
-            this.action = (Integer) resources.getObject("1");
+            this.offer =(PriorityOffer)resources.getObject("0");
+            this.action = (Integer)resources.getObject("1");
         }
         if(this.action == 0) {
             head.setText("Post an Offer");
@@ -119,19 +121,19 @@ public class CreateUpdateOfferController implements Initializable {
             isPriority.setSelected(this.offer.getIsPriority());
             if(this.offer.getIsPriority()) {
                 this.handleIsPriority();
-                //todo : can't cast PO to O
-                dateStart.setValue(
-                        ((PriorityOffer)this.offer)
-                                .getDateStartPriority()
-                                .toInstant()
-                                .atZone(ZoneId.systemDefault())
-                                .toLocalDate());
-                dateEnd.setValue(
-                        ((PriorityOffer)this.offer)
-                                .getDateEndPriority()
-                                .toInstant()
-                                .atZone(ZoneId.systemDefault())
-                                .toLocalDate());
+                //todo : prefill the date
+//                dateStart.setValue(
+//                        ((PriorityOffer)this.offer)
+//                                .getDateStartPriority()
+//                                .toInstant()
+//                                .atZone(ZoneId.systemDefault())
+//                                .toLocalDate());
+//                dateEnd.setValue(
+//                        ((PriorityOffer)this.offer)
+//                                .getDateEndPriority()
+//                                .toInstant()
+//                                .atZone(ZoneId.systemDefault())
+//                                .toLocalDate());
             }
         }
     }
@@ -152,8 +154,8 @@ public class CreateUpdateOfferController implements Initializable {
                         null,
                         null
                 );
-            } else {
-                if(Date.from(Instant.from(dateStart.getValue().atStartOfDay(ZoneId.systemDefault()))).compareTo(Date.from(Instant.from(dateEnd.getValue().atStartOfDay(ZoneId.systemDefault())))) > 0) throw new MissingParametersException("Wrong date format");
+            } else if(isPriority.isSelected() && dateStart.getValue() != null && dateEnd.getValue() != null){
+                if(dateStart.getValue().compareTo(dateEnd.getValue()) > 0 || LocalDate.now(ZoneId.systemDefault()).compareTo(dateStart.getValue()) > 0) throw new MissingParametersException("Wrong date format");
                 this.offer = offerFacade.createOffer(
                         title.getText(),
                         Float.parseFloat(price.getText()),
@@ -164,7 +166,7 @@ public class CreateUpdateOfferController implements Initializable {
                         Date.from(Instant.from(dateStart.getValue().atStartOfDay(ZoneId.systemDefault()))),
                         Date.from(Instant.from(dateEnd.getValue().atStartOfDay(ZoneId.systemDefault())))
                 );
-            }
+            } else throw new MissingParametersException("Dates not specified");
             LoadView.changeScreen(actionEvent, ViewPath.OFFER_VIEW, this.offer);
         } catch (NumberFormatException e) {
             System.err.println(e.toString());
@@ -192,8 +194,8 @@ public class CreateUpdateOfferController implements Initializable {
                         null,
                         null
                 );
-            } else {
-                if(Date.from(Instant.from(dateStart.getValue().atStartOfDay(ZoneId.systemDefault()))).compareTo(Date.from(Instant.from(dateEnd.getValue().atStartOfDay(ZoneId.systemDefault())))) > 0) throw new MissingParametersException("Wrong date format");
+            } else if(isPriority.isSelected() && dateStart.getValue() != null && dateEnd.getValue() != null) {
+                if(dateStart.getValue().compareTo(dateEnd.getValue()) > 0 || LocalDate.now(ZoneId.systemDefault()).compareTo(dateStart.getValue()) > 0) throw new MissingParametersException("Wrong date format");
                 this.offer = offerFacade.updateOffer(
                         this.offer.getOffer_id(),
                         title.getText(),
@@ -205,15 +207,12 @@ public class CreateUpdateOfferController implements Initializable {
                         Date.from(Instant.from(dateStart.getValue().atStartOfDay(ZoneId.systemDefault()))),
                         Date.from(Instant.from(dateEnd.getValue().atStartOfDay(ZoneId.systemDefault())))
                 );
-            }
+            } else throw new MissingParametersException("Dates not specified");
             LoadView.changeScreen(actionEvent, ViewPath.OFFER_VIEW, this.offer);
         } catch (NumberFormatException e) {
             System.err.println(e.toString());
             cast_msg.setVisible(true);
-        } catch (MissingParametersException e) {
-            error_msg.setVisible(true);
-            e.printStackTrace();
-        } catch (ObjectNotFoundException e) {
+        } catch (MissingParametersException | ObjectNotFoundException e) {
             error_msg.setVisible(true);
             e.printStackTrace();
         }
@@ -249,7 +248,7 @@ public class CreateUpdateOfferController implements Initializable {
         LoadView.changeScreen(actionEvent, ViewPath.OFFER_VIEW, offer);
     }
 
-    public void handleAddPicture(ActionEvent actionEvent) {
+    public void handleAddPicture() {
         AlertBox.showAlert("Add Picture","This functionality is not implemented yet.\nWe are sorry!");
     }
 }
