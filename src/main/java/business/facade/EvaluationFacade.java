@@ -21,8 +21,6 @@ public class EvaluationFacade {
     }
     private static final EvaluationFacade INSTANCE = new EvaluationFacade();
 
-    private static final EvaluationFacade INSTANCE = new EvaluationFacade();
-
     /**
      * Method which deal with create rate
      * @param offer offer that receives a rating
