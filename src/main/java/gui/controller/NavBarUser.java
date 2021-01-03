@@ -51,7 +51,7 @@ public class NavBarUser implements Initializable {
         LoadView.changeScreen(event,ViewPath.HOMEPAGE_VIEW);
     }
     public void postOfferPage(ActionEvent event){
-        LoadView.changeScreen(event,ViewPath.POSTOFFER_VIEW, null, 0);
+        LoadView.changeScreen(event,ViewPath.POSTUPDATEOFFER_VIEW, null, 0);
     }
     public void categoryPage(ActionEvent event){
         LoadView.changeScreen(event,ViewPath.CATEGORY_VIEW);

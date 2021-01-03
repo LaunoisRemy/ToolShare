@@ -153,7 +153,7 @@ public class MyOffersController implements Initializable {
     }
 
     public void handleUpdateOffer(ActionEvent event, Offer offer) {
-        LoadView.changeScreen(event, ViewPath.POSTOFFER_VIEW, offer, 1);
+        LoadView.changeScreen(event, ViewPath.POSTUPDATEOFFER_VIEW, offer, 1);
     }
 
     public  Dialog<Pair<Date, Date>> dialogPriority(){

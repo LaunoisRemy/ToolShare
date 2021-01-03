@@ -21,12 +21,12 @@ public class CreateCategoryController {
     public Label error_msg;
 
     public void cancel(ActionEvent actionEvent) {
-        LoadView.changeScreen(actionEvent, ViewPath.POSTOFFER_VIEW);
+        LoadView.changeScreen(actionEvent, ViewPath.POSTUPDATEOFFER_VIEW);
     }
 
     public void handleNewCategory(ActionEvent actionEvent) {
         Category category = categoryFacade.createCategory(categoryName.getText(), false);
         AlertBox.showAlert("Add Category","Thanks for your submission!\nAn admin will add your category soon.");
-        LoadView.changeScreen(actionEvent, ViewPath.POSTOFFER_VIEW);
+        LoadView.changeScreen(actionEvent, ViewPath.POSTUPDATEOFFER_VIEW);
     }
 }

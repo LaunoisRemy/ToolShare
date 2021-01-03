@@ -26,7 +26,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class CreateOfferController implements Initializable {
+public class CreateUpdateOfferController implements Initializable {
 
     private final OfferFacade offerFacade = OfferFacade.getInstance();
     private final CategoryFacade categoryFacade = CategoryFacade.getInstance();
