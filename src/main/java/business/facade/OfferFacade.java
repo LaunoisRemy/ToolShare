@@ -83,7 +83,7 @@ public class OfferFacade {
 
         Category new_category = categoryDAO.getCategoryByName(category);
 
-        Offer offer = null;
+        Offer offer;
         if(isPriority && dateStartPriority!=null && dateEndPriority!=null){
             offer = new PriorityOffer(title,description,price,toolSate, true,this.user,new_category,dateStartPriority,dateEndPriority);
         } else if (!isPriority){
@@ -111,36 +111,27 @@ public class OfferFacade {
      * @throws ObjectNotFoundException
      * @throws MissingParametersException
      */
-    public Offer updateOffer(int offerId, String title, float price, String description, String state, boolean isPriority, String category, Date dateStartPriority, Date dateEndPriority) throws ObjectNotFoundException, MissingParametersException {
+    public Offer updateOffer(int offerId, String title, float price, String description, ToolSate state, boolean isPriority, String category, Date dateStartPriority, Date dateEndPriority) throws ObjectNotFoundException, MissingParametersException {
         CategoryDAO categoryDAO = CategoryDAO.getInstance();
 
-        //check if the initial offer exists
+        Category new_category = categoryDAO.getCategoryByName(category);
+
+
         Offer offer = this.getOffer(offerId);
 
-        offer.setTitle(title);
-        offer.setPricePerDay(price);
-        offer.setDescription(description);
-        offer.setIsPriority(isPriority);
-
-        Category new_category = categoryDAO.getCategoryByName(category);
-        ToolSate toolSate = ToolSate.getType(state);
-
-        offer.setToolSate(toolSate);
-        offer.setCategory(new_category);
-        offer.setUser(this.user);
-
-        if (isPriority && dateStartPriority != null && dateEndPriority != null) {
-            ((PriorityOffer) offer).setDateStartPriority(dateStartPriority);
-            ((PriorityOffer) offer).setDateEndPriority(dateEndPriority);
-        } else if (!isPriority) {
-            ((PriorityOffer) offer).setDateStartPriority(null);
-            ((PriorityOffer) offer).setDateEndPriority(null);
+        if(isPriority && dateStartPriority!=null && dateEndPriority!=null) {
+            offer = new PriorityOffer(offerId, title, price, description, state, true, this.user, new_category, dateStartPriority, dateEndPriority);
         } else {
-            throw new MissingParametersException("Missing parameters dates for a priority offer (start and end of booking)");
+            offer.setTitle(title);
+            offer.setPricePerDay(price);
+            offer.setDescription(description);
+            offer.setIsPriority(false);
+            offer.setToolSate(state);
+            offer.setCategory(new_category);
+            offer.setUser(this.user);
         }
 
-        offer = this.offerDAO.update(offer);
-        return offer;
+        return this.offerDAO.update(offer);
     }
 
     public Offer updateOfferFromObj(Offer offer){

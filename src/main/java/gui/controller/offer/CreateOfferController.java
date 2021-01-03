@@ -1,10 +1,12 @@
 package gui.controller.offer;
 
 import business.exceptions.MissingParametersException;
+import business.exceptions.ObjectNotFoundException;
 import business.facade.CategoryFacade;
 import business.facade.OfferFacade;
 import business.system.Category;
 import business.system.offer.Offer;
+import business.system.offer.PriorityOffer;
 import business.system.offer.ToolSate;
 import com.jfoenix.controls.*;
 import gui.LoadView;
@@ -108,6 +110,29 @@ public class CreateOfferController implements Initializable {
             submit.setText("Update");
             submit.setOnAction(this::handleUpdateOffer);
             cancel.setOnAction(this::cancelUpdate);
+            //prefilling
+            title.setText(this.offer.getTitle());
+            description.setText(this.offer.getDescription());
+            state.setValue(this.offer.getToolSate());
+            price.setText(String.valueOf(this.offer.getPricePerDay()));
+            category.setValue(this.offer.getCategory());
+            isPriority.setSelected(this.offer.getIsPriority());
+            if(this.offer.getIsPriority()) {
+                this.handleIsPriority();
+                //todo : can't cast PO to O
+                dateStart.setValue(
+                        ((PriorityOffer)this.offer)
+                                .getDateStartPriority()
+                                .toInstant()
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDate());
+                dateEnd.setValue(
+                        ((PriorityOffer)this.offer)
+                                .getDateEndPriority()
+                                .toInstant()
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDate());
+            }
         }
     }
 
@@ -115,10 +140,9 @@ public class CreateOfferController implements Initializable {
         error_msg.setVisible(false);
         cast_msg.setVisible(false);
         try {
-            Offer offer;
             if(!ConstantsRegex.matchFloatRegex(price.getText())) throw new NumberFormatException();
             if(!isPriority.isSelected()) {
-                offer = offerFacade.createOffer(
+                this.offer = offerFacade.createOffer(
                         title.getText(),
                         Float.parseFloat(price.getText()),
                         description.getText(),
@@ -130,7 +154,7 @@ public class CreateOfferController implements Initializable {
                 );
             } else {
                 if(Date.from(Instant.from(dateStart.getValue().atStartOfDay(ZoneId.systemDefault()))).compareTo(Date.from(Instant.from(dateEnd.getValue().atStartOfDay(ZoneId.systemDefault())))) > 0) throw new MissingParametersException("Wrong date format");
-                offer = offerFacade.createOffer(
+                this.offer = offerFacade.createOffer(
                         title.getText(),
                         Float.parseFloat(price.getText()),
                         description.getText(),
@@ -141,7 +165,7 @@ public class CreateOfferController implements Initializable {
                         Date.from(Instant.from(dateEnd.getValue().atStartOfDay(ZoneId.systemDefault())))
                 );
             }
-            LoadView.changeScreen(actionEvent, ViewPath.OFFER_VIEW, offer);
+            LoadView.changeScreen(actionEvent, ViewPath.OFFER_VIEW, this.offer);
         } catch (NumberFormatException e) {
             System.err.println(e.toString());
             cast_msg.setVisible(true);
@@ -152,14 +176,54 @@ public class CreateOfferController implements Initializable {
     }
 
     public void handleUpdateOffer(ActionEvent actionEvent) {
-
+        error_msg.setVisible(false);
+        cast_msg.setVisible(false);
+        try {
+            if(!ConstantsRegex.matchFloatRegex(price.getText())) throw new NumberFormatException();
+            if(!isPriority.isSelected()) {
+                this.offer = offerFacade.updateOffer(
+                        this.offer.getOffer_id(),
+                        title.getText(),
+                        Float.parseFloat(price.getText()),
+                        description.getText(),
+                        state.getValue(),
+                        isPriority.isSelected(),
+                        category.getValue().getCategoryName(),
+                        null,
+                        null
+                );
+            } else {
+                if(Date.from(Instant.from(dateStart.getValue().atStartOfDay(ZoneId.systemDefault()))).compareTo(Date.from(Instant.from(dateEnd.getValue().atStartOfDay(ZoneId.systemDefault())))) > 0) throw new MissingParametersException("Wrong date format");
+                this.offer = offerFacade.updateOffer(
+                        this.offer.getOffer_id(),
+                        title.getText(),
+                        Float.parseFloat(price.getText()),
+                        description.getText(),
+                        state.getValue(),
+                        isPriority.isSelected(),
+                        category.getValue().getCategoryName(),
+                        Date.from(Instant.from(dateStart.getValue().atStartOfDay(ZoneId.systemDefault()))),
+                        Date.from(Instant.from(dateEnd.getValue().atStartOfDay(ZoneId.systemDefault())))
+                );
+            }
+            LoadView.changeScreen(actionEvent, ViewPath.OFFER_VIEW, this.offer);
+        } catch (NumberFormatException e) {
+            System.err.println(e.toString());
+            cast_msg.setVisible(true);
+        } catch (MissingParametersException e) {
+            error_msg.setVisible(true);
+            e.printStackTrace();
+        } catch (ObjectNotFoundException e) {
+            error_msg.setVisible(true);
+            e.printStackTrace();
+        }
     }
 
     public void handleNewCategory(ActionEvent actionEvent) {
         LoadView.changeScreen(actionEvent, ViewPath.POSTCATEGORY_VIEW);
     }
 
-    public void handleIsPriority(ActionEvent actionEvent) {
+    public void handleIsPriority() {
         if(isPriority.isSelected()) {
             priority_msg.setVisible(true);
             dateStartPriorityLabel.setVisible(true);
