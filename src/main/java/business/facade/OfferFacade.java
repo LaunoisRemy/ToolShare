@@ -85,16 +85,14 @@ public class OfferFacade {
 
         Offer offer = null;
         if(isPriority && dateStartPriority!=null && dateEndPriority!=null){
-            offer = new PriorityOffer(title,description,price,toolSate,isPriority,this.user,new_category,dateStartPriority,dateEndPriority);
+            offer = new PriorityOffer(title,description,price,toolSate, true,this.user,new_category,dateStartPriority,dateEndPriority);
         } else if (!isPriority){
-            offer = new Offer(title,price,description,toolSate,isPriority,this.user,new_category);
+            offer = new Offer(title,price,description,toolSate, false,this.user,new_category);
         } else {
             throw new MissingParametersException("Missing parameters dates for a priority offer (start and end of booking)");
         }
 
-        Offer res = this.offerDAO.create(offer);
-
-        return res;
+        return this.offerDAO.create(offer);
 
     }
 

@@ -18,7 +18,6 @@ public abstract class UserDAO implements DAO<User> {
 
     public abstract User getUserByEmail(String mail);
 
-    public abstract boolean userExists(String mail);
 
     public abstract String getSalt(String mail);
 

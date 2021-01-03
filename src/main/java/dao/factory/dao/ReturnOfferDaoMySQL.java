@@ -45,7 +45,7 @@ public class ReturnOfferDaoMySQL extends ReturnOfferDAO {
     @Override
     public ReturnOffer create(ReturnOffer obj) {
         try {
-            String sql = "INSERT INTO reservation ("+
+            String sql = "INSERT INTO return_offer ("+
                     TOOLSTATE_COL +","+
                     RETURN_DATE+","+
                     RESERVATION_ID+") "+

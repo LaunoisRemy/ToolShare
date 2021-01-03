@@ -80,7 +80,7 @@ public class CreateOfferController implements Initializable {
         error_msg.setVisible(false);
         cast_msg.setVisible(false);
         try {
-            Offer offer = new Offer();
+            Offer offer;
             if(!ConstantsRegex.matchFloatRegex(price.getText())) throw new NumberFormatException();
             if(!isPriority.isSelected()) {
                 offer = offerFacade.createOffer(

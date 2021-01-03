@@ -11,7 +11,7 @@ public class ReservationDaoMySQL extends ReservationDAO {
     private final Connection connection;
     public static final String RESERVATION_ID="reservation_id";
     public static final String START_DATE="dateStartBooking";
-    public static final String END_DATE="dateEndBooking";
+    public static final String END_DATE="dateEndBoorking";
     public static final String USER_ID="user_id";
     public static final String OFFER_ID="offer_id";
 
@@ -51,7 +51,7 @@ public class ReservationDaoMySQL extends ReservationDAO {
                     START_DATE +","+
                     END_DATE+","+
                     OFFER_ID+","+
-                    USER_ID+") "+
+                    USER_ID+" ) "+
                     "VALUES (?,?,?,?)";
             PreparedStatement prep = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             prep.setDate(1, (Date) obj.getDateStartBooking());

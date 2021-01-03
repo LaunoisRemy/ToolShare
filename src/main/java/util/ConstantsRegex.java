@@ -1,7 +1,5 @@
 package util;
 
-import business.facade.SessionFacade;
-
 import java.util.regex.Pattern;
 
 /**

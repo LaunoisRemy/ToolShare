@@ -110,24 +110,7 @@ public class HomePageController implements Initializable {
         favoryButton.setCellValueFactory(new PropertyValueFactory<>("offer_id"));
 
 
-        offerButton.setCellFactory(param -> new TableCell<>() {
-
-            private final Button seeOfferButton = new Button("See Offer");
-            {
-                seeOfferButton.setOnAction(event -> seeOfferPage(event, param.getTableView().getItems().get(getIndex())));
-            }
-            @Override
-            protected void updateItem(Integer item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty) {
-                    setGraphic(null);
-                }
-                else {
-                    setGraphic(seeOfferButton);
-                }
-            }
-        });
+        buttonSeeOffer(offerButton);
 
         favoryButton.setCellFactory(param -> new TableCell<>() {
             Image img;
@@ -148,6 +131,7 @@ public class HomePageController implements Initializable {
                     } catch (ObjectNotFoundException e) {
                         e.printStackTrace();
                     }
+                    assert offer != null;
                     Favory fav = favoryFacade.findFavory(offer);
 
                     if(fav==null){
@@ -176,7 +160,7 @@ public class HomePageController implements Initializable {
      * @param actionEvent
      * @param offer
      */
-    public void seeOfferPage(ActionEvent actionEvent,Offer offer){
+    public static void seeOfferPage(ActionEvent actionEvent,Offer offer){
 
         LoadView.changeScreen(actionEvent, ViewPath.OFFER_VIEW,offer);
     }
@@ -214,6 +198,27 @@ public class HomePageController implements Initializable {
             // The category is displayed
             // The name doesn't match, not displayed
             return offer.getTitle().toLowerCase().contains(lowerCaseFilter);
+        });
+    }
+
+    public static void buttonSeeOffer(TableColumn<Offer,Integer> offerButton){
+        offerButton.setCellFactory(param -> new TableCell<>() {
+
+            private final Button seeOfferButton = new Button("See Offer");
+            {
+                seeOfferButton.setOnAction(event -> seeOfferPage(event, param.getTableView().getItems().get(getIndex())));
+            }
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                }
+                else {
+                    setGraphic(seeOfferButton);
+                }
+            }
         });
     }
 }

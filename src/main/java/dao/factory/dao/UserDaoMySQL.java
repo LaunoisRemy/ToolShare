@@ -288,8 +288,4 @@ public class UserDaoMySQL extends UserDAO {
                 rs.getString(RECOVERYCODE_COL));
      }
 
-    @Override
-    public boolean userExists(String email){
-        return false;
-    }
 }

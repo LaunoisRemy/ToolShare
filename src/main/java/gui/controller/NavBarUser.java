@@ -2,7 +2,6 @@ package gui.controller;
 
 import business.facade.SessionFacade;
 import business.system.user.Admin;
-import business.system.user.OrdinaryUser;
 import business.system.user.User;
 import gui.LoadView;
 import gui.ViewPath;

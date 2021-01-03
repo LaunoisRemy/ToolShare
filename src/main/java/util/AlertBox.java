@@ -13,4 +13,11 @@ public class AlertBox {
 
         alert.showAndWait();
     }
+    public static Alert showAlertConfirmationDeletion(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Deletion");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure to delete this offer ?");
+        return alert;
+    }
 }
