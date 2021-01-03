@@ -1,6 +1,5 @@
 package business.facade;
 
-import business.exceptions.BadInsertionInBDDException;
 import business.exceptions.MissingParametersException;
 import business.exceptions.ObjectNotFoundException;
 import business.system.Category;
@@ -9,12 +8,22 @@ import business.system.offer.PriorityOffer;
 import business.system.offer.ToolSate;
 import business.system.scorable.Scorable;
 import business.system.user.User;
-import dao.structure.*;
+import dao.structure.CategoryDAO;
+import dao.structure.CommentDAO;
+import dao.structure.OfferDAO;
+import dao.structure.QuestionDAO;
 
 import java.util.Date;
 import java.util.List;
 
+
+/**
+ * Facade of all actions on offers
+ */
 public class OfferFacade {
+    /**
+     * User connected
+     */
     private final User user = SessionFacade.getInstance().getUser();
     private static final OfferFacade INSTANCE = new OfferFacade();
     private final OfferDAO offerDAO = OfferDAO.getInstance();
@@ -116,7 +125,7 @@ public class OfferFacade {
         offer.setIsPriority(isPriority);
 
         Category new_category = categoryDAO.getCategoryByName(category);
-        ToolSate toolSate = ToolSate.getType(state);
+        ToolSate toolSate = ToolSate.valueOf(state);
 
         offer.setToolSate(toolSate);
         offer.setCategory(new_category);
@@ -134,10 +143,6 @@ public class OfferFacade {
 
         offer = this.offerDAO.update(offer);
         return offer;
-    }
-
-    public Offer updateOfferFromObj(Offer offer){
-        return this.offerDAO.update(offer);
     }
 
     /**
@@ -184,10 +189,20 @@ public class OfferFacade {
         return this.offerDAO.getPriorityOffer();
     }
 
+    /**
+     * Method which finds all questions about one offer
+     * @param offer The offer we want to have questions
+     * @return  A list of {@link business.system.scorable.faq.Question}
+     */
     public List<Scorable> getAllQuestions(Offer offer) {
         return QuestionDAO.getInstance().getAllQuestionsByIdOffer(offer.getOffer_id());
     }
 
+    /**
+     * Method which finds all comments about one offer
+     * @param offer The offer we want to have comments
+     * @return  A list of {@link business.system.scorable.Comment}
+     */
     public List<Scorable> getAllComments(Offer offer) {
         return  CommentDAO.getInstance().getAllCommentsByIdOffer(offer.getOffer_id());
     }
