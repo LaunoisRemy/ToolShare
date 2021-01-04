@@ -12,7 +12,7 @@ public enum ViewPath {
     USERLIST_VIEW("view/user/allUsers.fxml"),
     ADDADMIN_VIEW("view/user/createAdmin.fxml"),
 
-    POSTOFFER_VIEW("view/offer/createOffer.fxml"),
+    POSTUPDATEOFFER_VIEW("view/offer/createUpdateOffer.fxml"),
     CATEGORY_VIEW("view/category/category.fxml"),
     POSTCATEGORY_VIEW("view/offer/createCategory.fxml"),
     OFFER_VIEW("view/offer/offerPage.fxml"),

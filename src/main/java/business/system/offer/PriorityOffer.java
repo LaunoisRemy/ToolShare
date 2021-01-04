@@ -32,6 +32,10 @@ public class PriorityOffer extends Offer {
         this.dateEndPriority = dateEndPriority;
     }
 
+    public PriorityOffer() {
+
+    }
+
     /**
      * getter of priority offer starting date
      * @return the starting date of the priority privilege

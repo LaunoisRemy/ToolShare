@@ -2,10 +2,13 @@ package dao.factory.dao;
 
 import business.system.offer.Offer;
 import business.system.reservation.Reservation;
+import business.system.scorable.Scorable;
 import business.system.user.User;
 import dao.structure.ReservationDAO;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReservationDaoMySQL extends ReservationDAO {
     private final Connection connection;
@@ -111,6 +114,37 @@ public class ReservationDaoMySQL extends ReservationDAO {
             throwables.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public List<Reservation> getReservationsByOffer(int id_offer) {
+        return getReservations(id_offer, OFFER_ID);
+    }
+
+    @Override
+    public List<Reservation> getReservationsByUser(int id_user) {
+        return getReservations(id_user, USER_ID);
+    }
+
+    private List<Reservation> getReservations(int id, String clause) {
+        ArrayList<Reservation> res = new ArrayList<>();
+
+        try {
+            String sql = "SELECT *  FROM reservation " +
+                    "JOIN user u on u."+ UserDaoMySQL.USER_ID +" = reservation."+ USER_ID+" " +
+                    " JOIN offer o on o."+OfferDaoMySQL.OFFER_ID_COL+" = reservation."+OFFER_ID+" " +
+                    " WHERE "+ clause +" = ?";
+            PreparedStatement prep = this.connection.prepareStatement(sql);
+            prep.setInt(1,id);
+            ResultSet rs = prep.executeQuery();
+
+            if(rs.next()){
+                res.add(createReservationFromRs(rs));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return res;
     }
 
     public static Reservation createReservationFromRs(ResultSet rs) throws SQLException {

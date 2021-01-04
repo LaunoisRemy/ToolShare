@@ -3,6 +3,8 @@ package dao.structure;
 import business.system.reservation.Reservation;
 import dao.factory.dao.AbstractFactoryDAO;
 
+import java.util.List;
+
 public abstract class ReservationDAO implements DAO<Reservation> {
     private static final ReservationDAO INSTANCE = AbstractFactoryDAO.getInstance().getReservationDao();
 
@@ -13,6 +15,9 @@ public abstract class ReservationDAO implements DAO<Reservation> {
     public static ReservationDAO getInstance(){
         return INSTANCE;
     }
+
+    public abstract List<Reservation> getReservationsByOffer(int id_offer);
+    public abstract  List<Reservation> getReservationsByUser(int id_user);
 
 }
 
