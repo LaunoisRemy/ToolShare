@@ -10,12 +10,17 @@ import gui.ViewPath;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.util.Callback;
 import util.MapRessourceBundle;
 
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,10 +46,37 @@ public class CreateUpdateReservationController implements Initializable {
         if(((MapRessourceBundle)resources).size()!=0) {
             this.offer = (Offer) resources.getObject("0");
         }
-        List<Reservation> reservations = new ArrayList<Reservation>(this.reservationFacade.getReservationsByOffer(this.offer.getOffer_id()));
-        for(Reservation reservation : reservations) {
 
-        }
+        List<Reservation> reservations = new ArrayList<>(this.reservationFacade.getReservationsByOffer(this.offer.getOffer_id()));
+        DateFormat dtf = new SimpleDateFormat("yyyy-MM-dd");
+        Callback<DatePicker, DateCell> dayCellFactory = this.getDayCellFactory(reservations, dtf);
+        dateStart.setDayCellFactory(dayCellFactory);
+    }
+
+    // Factory to create Cell of DatePicker
+    private Callback<DatePicker, DateCell> getDayCellFactory(List<Reservation> reservations, DateFormat dtf) {
+
+        return new Callback<DatePicker, DateCell>() {
+
+            @Override
+            public DateCell call(final DatePicker datePicker) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate date, boolean empty) {
+                        super.updateItem(date, empty);
+                        for(Reservation reservation : reservations) {
+                            LocalDate dateS = LocalDate.parse(dtf.format(reservation.getDateStartBooking()));
+                            LocalDate dateE = LocalDate.parse(dtf.format(reservation.getDateEndBooking()));
+                            if(!(date.isBefore(dateS) || date.isAfter(dateE))) {
+                                this.setDisable(true);
+                                this.setStyle("-fx-background-color: #ffc0cb;");
+
+                            }
+                        }
+                    }
+                };
+            }
+        };
     }
 
     public void cancel(ActionEvent actionEvent) {

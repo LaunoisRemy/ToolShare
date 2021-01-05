@@ -2,7 +2,6 @@ package dao.factory.dao;
 
 import business.system.offer.Offer;
 import business.system.reservation.Reservation;
-import business.system.scorable.Scorable;
 import business.system.user.User;
 import dao.structure.ReservationDAO;
 
@@ -93,7 +92,7 @@ public class ReservationDaoMySQL extends ReservationDAO {
             prep.setInt(3,obj.getOffer().getOffer_id());
             prep.setInt(4,obj.getUser().getUser_id());
             prep.setInt(5,obj.getReservationId());
-            int rs = prep.executeUpdate();
+            int     rs = prep.executeUpdate();
             return obj;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -132,8 +131,9 @@ public class ReservationDaoMySQL extends ReservationDAO {
         try {
             String sql = "SELECT *  FROM reservation " +
                     "JOIN user u on u."+ UserDaoMySQL.USER_ID +" = reservation."+ USER_ID+" " +
-                    " JOIN offer o on o."+OfferDaoMySQL.OFFER_ID_COL+" = reservation."+OFFER_ID+" " +
-                    " WHERE "+ clause +" = ?";
+                    "JOIN offer o on o."+OfferDaoMySQL.OFFER_ID_COL+" = reservation."+OFFER_ID+" " +
+                    "JOIN category c on c."+ CategoryDaoMySQL.CATEGORY_ID_COL+" = o."+ OfferDaoMySQL.CATEGORY_ID_COL+ " " +
+                    " WHERE reservation."+ clause +" = ?";
             PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setInt(1,id);
             ResultSet rs = prep.executeQuery();
