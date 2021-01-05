@@ -55,6 +55,7 @@
                               <JFXButton fx:id="setPriority" text="setPriority" />
                               <JFXButton fx:id="editButton" onAction="#handleEditOffer" text="Edit" />
                               <JFXButton fx:id="deleteButton" text="Delete" />
+                              <JFXButton fx:id="bookButton" onAction="#handleBookOffer" text="Book" />
 
                                     </children>
                                 </HBox>

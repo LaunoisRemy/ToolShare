@@ -25,7 +25,8 @@ public enum ViewPath {
     RATE_VIEW("view/rate/rateOffer.fxml"),
     COMMENT_VIEW("view/rate/comment.fxml"),
 
-    MYRESERVATIONS("view/reservation/myReservations.fxml"),
+    MYRESERVATIONS_VIEW("view/reservation/myReservations.fxml"),
+    POSTUPDATERESERVATION_VIEW("view/reservation/CreateUpdateReservation.fxml")
     ;
 
 
