@@ -179,7 +179,7 @@
                                  </JFXButton>
                               </children>
                            </VBox>
-                           <JFXButton onAction="#profilePage" text="." textFill="WHITE">
+                           <JFXButton onAction="#profilePage" prefHeight="73.0" prefWidth="82.0" text="." textFill="WHITE">
                               <graphic>
                                  <ImageView fitHeight="65.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -191,6 +191,24 @@
                                  <Font />
                               </font>
                            </JFXButton>
+                           <VBox fx:id="logout" alignment="CENTER" layoutX="218.0" layoutY="10.0" prefHeight="74.0" prefWidth="62.0">
+                              <children>
+                                 <Button ellipsisString="" mnemonicParsing="false" onAction="#logOutPage" style="-fx-background-color: transparent;">
+                                    <graphic>
+                                       <ImageView fitHeight="29.0" fitWidth="37.0" onMouseClicked="#myReservationsPage" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: transparent;">
+                                          <image>
+                                             <Image url="@../../img/logout.png" />
+                                          </image>
+                                       </ImageView>
+                                    </graphic>
+                                 </Button>
+                                 <JFXButton onAction="#logOutPage" prefHeight="23.0" prefWidth="131.0" text="Log Out" textAlignment="CENTER" underline="true">
+                                    <font>
+                                       <Font name="Tahoma" size="12.0" />
+                                    </font>
+                                 </JFXButton>
+                              </children>
+                           </VBox>
                         </children>
                      </HBox>
                   </children>

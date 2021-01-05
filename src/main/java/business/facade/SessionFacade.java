@@ -191,4 +191,8 @@ public class SessionFacade {
         return UserDAO.getInstance().delete(u);
     }
 
+    public void logOut(){
+        setUser(null);
+    }
+
 }

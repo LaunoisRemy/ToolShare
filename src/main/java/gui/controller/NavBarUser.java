@@ -15,7 +15,8 @@ import java.util.ResourceBundle;
 
 
 public class NavBarUser implements Initializable {
-    final User user = SessionFacade.getInstance().getUser();
+    private SessionFacade sessionFacade = SessionFacade.getInstance();
+    private User user = sessionFacade.getUser();
 
     @FXML
     private VBox search,history,favory,categories,userList,myOffers;
@@ -64,6 +65,11 @@ public class NavBarUser implements Initializable {
     }
     public void myReservationsPage(ActionEvent event){
         LoadView.changeScreen(event,ViewPath.MYRESERVATIONS);
+    }
+    public void logOutPage(ActionEvent event){
+        user = null;
+        sessionFacade.logOut();
+        LoadView.changeScreen(event,ViewPath.LOGIN_VIEW);
     }
 
 
