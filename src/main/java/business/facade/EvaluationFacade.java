@@ -117,4 +117,10 @@ public class EvaluationFacade {
         q.setAnswer(a);
         QuestionDAO.getInstance().update(q);
     }
+
+    public Question postQuestion(Offer offer, String content) {
+        Question q = new Question(0,content,null,offer.getOffer_id(),SessionFacade.getInstance().getUser());
+        q = QuestionDAO.getInstance().create(q);
+        return q;
+    }
 }

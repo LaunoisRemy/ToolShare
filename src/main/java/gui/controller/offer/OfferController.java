@@ -48,7 +48,7 @@ public class OfferController implements Initializable {
     @FXML
     private Label titleOffer,category, state,price,offerLabelDesc,offerLabelComment;
     @FXML
-    private JFXButton setPriority,editButton,deleteButton,faqButton,offersCommentButton;
+    private JFXButton setPriority,editButton,deleteButton,faqButton,offersCommentButton,PostQuestion;
 
     @FXML
     private TableView<Scorable> faqTable;
@@ -103,8 +103,12 @@ public class OfferController implements Initializable {
             deleteButton.setVisible(true);
             deleteButton.setDisable(false);
             if(isOwner){
-                setPriority.setDisable(this.offer.getIsPriority());
+                setPriority.setDisable(false);
                 setPriority.setVisible(true);
+            }else {
+                setPriority.setDisable(true);
+                setPriority.setVisible(false);
+
             }
         }else{
             editButton.setDisable(true);
@@ -181,6 +185,8 @@ public class OfferController implements Initializable {
 
         faqTable.setItems(data);
     }
+
+
     /**
      * Method to populate table of comments
      * @param offerFacade
@@ -195,6 +201,8 @@ public class OfferController implements Initializable {
         voteButton(voteCol);
 
         faqTable.setItems(data);
+
+
     }
 
     private void voteButton(TableColumn<Scorable,Integer> upVoteCol){
@@ -310,30 +318,14 @@ public class OfferController implements Initializable {
 
     public void showCommentsTable(ActionEvent actionEvent){
         replyCol.setVisible(false);
+
         populateCommentTable(offerFacade);
 
     }
 
 
     private void replyQuestion(ActionEvent event, Scorable question) {
-        Dialog<String> dialog = new Dialog<>();
-        dialog.setTitle("Reply dialog");
-        dialog.setHeaderText("Enter you reply below :");
-        ButtonType validate = new ButtonType("Validate", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(validate, ButtonType.CANCEL);
-        GridPane grid = new GridPane();
-        TextArea textArea = new TextArea();
-        textArea.setEditable(true);
-        grid.add(textArea, 0, 1);
-        dialog.getDialogPane().setContent(grid);
-//        dialog.showAndWait();
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == validate) {
-                return textArea.getText();
-            }
-            return null;
-        });
-        Optional<String> result = dialog.showAndWait();
+        Optional<String> result = dialogFAQ("Reply dialog","Enter you reply below :");
         result.ifPresent(s -> EvaluationFacade.getInstance().reply(question, s));
     }
 
@@ -379,5 +371,34 @@ public class OfferController implements Initializable {
 
     public void handleEditOffer(ActionEvent actionEvent) {
         LoadView.changeScreen(actionEvent, ViewPath.POSTUPDATEOFFER_VIEW, this.offer, 1);
+    }
+    public void handlePostQuestion(ActionEvent actionEvent) {
+        Optional<String> result = dialogFAQ("Question dialog","Enter you question below :");
+
+        if(result.isPresent()){
+            Question q = EvaluationFacade.getInstance().postQuestion(offer, result.get());
+            populateFAQTable(offerFacade, SessionFacade.getInstance().getUser().getUser_id() == offer.getUser().getUser_id());
+        }
+    }
+
+    private Optional<String> dialogFAQ(String title,String header){
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle(title);
+        dialog.setHeaderText(header);
+        ButtonType validate = new ButtonType("Validate", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(validate, ButtonType.CANCEL);
+        GridPane grid = new GridPane();
+        TextArea textArea = new TextArea();
+        textArea.setEditable(true);
+        grid.add(textArea, 0, 1);
+        dialog.getDialogPane().setContent(grid);
+//        dialog.showAndWait();
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == validate) {
+                return textArea.getText();
+            }
+            return null;
+        });
+        return dialog.showAndWait();
     }
 }
