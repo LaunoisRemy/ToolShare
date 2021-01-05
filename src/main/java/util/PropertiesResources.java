@@ -15,7 +15,7 @@ public class PropertiesResources {
      * @param url location of the file
      * @return all properties of the files
      */
-    public static Properties getFilesProperties(String url)
+    private static Properties getFilesProperties(String url)
     {
         Properties p = new Properties();
         try (InputStream in = PropertiesResources.class.getClassLoader().getResourceAsStream(url))
