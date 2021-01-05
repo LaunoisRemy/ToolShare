@@ -122,18 +122,22 @@ public class CreateUpdateOfferController implements Initializable {
             isPriority.setSelected(this.offer.getIsPriority());
             if(this.offer.getIsPriority()) {
                 this.handleIsPriority();
+
                 Date dateS = ((PriorityOffer)this.offer).getDateStartPriority();
                 Date dateE = ((PriorityOffer)this.offer).getDateEndPriority();
+
                 DateFormat dtf = new SimpleDateFormat("yyyy-MM-dd");
+
                 dateStart.setValue(LocalDate.parse(dtf.format(dateS)));
                 dateEnd.setValue(LocalDate.parse(dtf.format(dateE)));
+
                 if(new Date().compareTo(dateS) > 0) {
                     dateStart.getEditor().setDisable(true);
                     dateStart.getEditor().setEditable(false);
                 }
                 if(new Date().compareTo(dateE) > 0) {
                     dateEnd.getEditor().setDisable(true);
-                    dateEnd.getEditor().setDisable(false);
+                    dateEnd.getEditor().setEditable(false);
                 }
 
             }
