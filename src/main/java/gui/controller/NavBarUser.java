@@ -63,7 +63,7 @@ public class NavBarUser implements Initializable {
         LoadView.changeScreen(event,ViewPath.MYOFFERS_VIEW);
     }
     public void myReservationsPage(ActionEvent event){
-        LoadView.changeScreen(event,ViewPath.MYRESERVATIONS);
+        LoadView.changeScreen(event,ViewPath.MYRESERVATIONS_VIEW);
     }
 
 

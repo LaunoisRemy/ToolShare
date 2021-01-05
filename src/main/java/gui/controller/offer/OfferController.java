@@ -35,7 +35,6 @@ import java.util.ResourceBundle;
 
 public class OfferController implements Initializable {
 
-
     @FXML
     private JFXTextArea desc;
     @FXML
@@ -43,7 +42,7 @@ public class OfferController implements Initializable {
     @FXML
     private Label titleOffer,category, state,price,offerLabelDesc,offerLabelComment;
     @FXML
-    private JFXButton setPriority,editButton,deleteButton,faqButton,offersCommentButton;
+    private JFXButton setPriority,editButton,deleteButton,faqButton,offersCommentButton, bookButton;
 
     @FXML
     private TableView<Scorable> faqTable;
@@ -97,9 +96,13 @@ public class OfferController implements Initializable {
 
             deleteButton.setVisible(true);
             deleteButton.setDisable(false);
+
             if(isOwner){
                 setPriority.setDisable(this.offer.getIsPriority());
                 setPriority.setVisible(true);
+
+                bookButton.setDisable(true);
+                bookButton.setVisible(true);
             }
         }else{
             editButton.setDisable(true);
@@ -336,5 +339,9 @@ public class OfferController implements Initializable {
 
     public void handleEditOffer(ActionEvent actionEvent) {
         LoadView.changeScreen(actionEvent, ViewPath.POSTUPDATEOFFER_VIEW, this.offer, 1);
+    }
+
+    public void handleBookOffer(ActionEvent actionEvent) {
+        LoadView.changeScreen(actionEvent, ViewPath.POSTUPDATERESERVATION_VIEW, this.offer);
     }
 }
