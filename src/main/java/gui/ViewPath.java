@@ -23,7 +23,9 @@ public enum ViewPath {
     HISTORY_VIEW("view/historyPage.fxml"),
 
     RATE_VIEW("view/rate/rateOffer.fxml"),
-    COMMENT_VIEW("view/rate/comment.fxml")
+    COMMENT_VIEW("view/rate/comment.fxml"),
+
+    MYRESERVATIONS("view/reservation/myReservations.fxml"),
     ;
 
 

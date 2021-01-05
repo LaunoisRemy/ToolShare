@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="901.0" prefWidth="1227.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.reservation.MyReservationsController">
+    <children>
+        <BorderPane prefHeight="901.0" prefWidth="1227.0" style="-fx-background-color: fafafa; -fx-border-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <top>
+
+            </top>
+            <bottom>
+                <Pane prefHeight="85.0" prefWidth="1227.0" style="-fx-background-color: #f50057;" BorderPane.alignment="CENTER" />
+            </bottom>
+            <top>
+                <fx:include source="../template/navBarUser.fxml" />
+            </top>
+            <center>
+                <Pane prefHeight="608.0" prefWidth="1227.0" style="-fx-background-color: #fafafa;" BorderPane.alignment="CENTER">
+                    <children>
+                        <VBox prefHeight="721.0" prefWidth="1229.0">
+                            <children>
+                                <HBox alignment="CENTER" prefHeight="69.0" prefWidth="1229.0">
+                                    <children>
+                                        <Label alignment="CENTER" contentDisplay="TOP" prefHeight="23.0" prefWidth="158.0" text="My Reservations">
+                                            <font>
+                                                <Font name="Tahoma Bold" size="18.0" />
+                                            </font>
+                                            <HBox.margin>
+                                                <Insets right="150.0" />
+                                            </HBox.margin>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <VBox prefHeight="2.0" prefWidth="1229.0" style="-fx-background-color: #212121;" />
+                                <TableView fx:id="table" prefHeight="650.0" prefWidth="1229.0">
+                                    <columns>
+                                        <TableColumn fx:id="title" prefWidth="414.4000182747841" style="-fx-alignment: CENTER;" text="Title" />
+                                        <TableColumn fx:id="price" minWidth="0.0" prefWidth="140.79998779296875" style="-fx-alignment: CENTER;" text="Price" />
+                                        <TableColumn fx:id="dates" prefWidth="280.0" style="-fx-alignment: CENTER;" text="Dates" />
+                                        <TableColumn fx:id="returnButton" prefWidth="224.0" style="-fx-alignment: CENTER;" text="Return Offer" />
+                                        <TableColumn fx:id="offerButton" prefWidth="169.60009765625" style="-fx-alignment: CENTER;" text="See Offer" />
+                                    </columns></TableView>
+                            </children>
+                        </VBox>
+                    </children>
+                </Pane>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>
