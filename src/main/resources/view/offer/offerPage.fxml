@@ -88,7 +88,12 @@
                                           <JFXTextArea fx:id="desc" layoutX="458.0" layoutY="94.0" prefHeight="209.0" prefWidth="545.0" />
                                       </Pane>
                                       <Pane prefHeight="427.0" prefWidth="1229.0" style="-fx-border-color: black;">
-                                       <HBox layoutX="2.0" layoutY="14.0" prefHeight="44.0" prefWidth="400.0">
+                                       <JFXButton fx:id="postQuestion" layoutX="884.0" layoutY="20.0" onAction="#handlePostQuestion" prefHeight="33.0" prefWidth="201.0" text="Post question">
+                                          <font>
+                                             <Font name="Tahoma Bold" size="18.0" />
+                                          </font>
+                                       </JFXButton>
+                                       <HBox layoutX="2.0" layoutY="14.0" prefHeight="44.0" prefWidth="555.0">
                                           <children>
                                              <JFXButton fx:id="faqButton" onAction="#showFAQTable" prefHeight="43.0" prefWidth="94.0" text="FAQ">
                                                 <font>

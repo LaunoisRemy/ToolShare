@@ -68,7 +68,7 @@ public class QuestionDaoMySQL extends QuestionDAO {
             prep.setInt(1,id);
             ResultSet rs = prep.executeQuery();
 
-            if(rs.next()){
+            while(rs.next()){
                 res.add(createQuestionFromRs(rs));
             }
         } catch (SQLException throwables) {
@@ -90,7 +90,15 @@ public class QuestionDaoMySQL extends QuestionDAO {
             PreparedStatement prep = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             prep.setInt(1,obj.getQuestionScore());
             prep.setString(2,obj.getQuestionContent());
-            prep.setInt(3,obj.getAnswer().getAnswerId());
+            Answer a = obj.getAnswer();
+            if(a != null){
+                prep.setInt(3,obj.getAnswer().getAnswerId());
+            }else{
+                prep.setNull(3,java.sql.Types.INTEGER);
+
+
+            }
+
             prep.setInt(4,obj.getOfferId());
             prep.setInt(5,obj.getUser().getUser_id());
 

@@ -109,4 +109,18 @@ public class EvaluationFacade {
     public void delScore(Score score) {
         ScoreDAO.getInstance().delete(score);
     }
+
+    public void reply(Scorable question, String s) {
+        Question q = (Question)question;
+        Answer a = new Answer(0,s,SessionFacade.getInstance().getUser());
+        AnswerDAO.getInstance().create(a);
+        q.setAnswer(a);
+        QuestionDAO.getInstance().update(q);
+    }
+
+    public Question postQuestion(Offer offer, String content) {
+        Question q = new Question(0,content,null,offer.getOffer_id(),SessionFacade.getInstance().getUser());
+        q = QuestionDAO.getInstance().create(q);
+        return q;
+    }
 }

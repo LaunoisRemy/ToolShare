@@ -59,7 +59,7 @@ public class CommentDaoMySQL extends CommentDAO {
             prep.setInt(1,id);
             ResultSet rs = prep.executeQuery();
 
-            if(rs.next()){
+            while (rs.next()){
                 Scorable s = createCommentFromRs(rs);
                 res.add(s);
             }

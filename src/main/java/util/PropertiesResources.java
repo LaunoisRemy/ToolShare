@@ -15,14 +15,14 @@ public class PropertiesResources {
      * @param url location of the file
      * @return all properties of the files
      */
-    private static Properties getFilesProperties(String url)
+    public static Properties getFilesProperties(String url)
     {
         Properties p = new Properties();
         try (InputStream in = PropertiesResources.class.getClassLoader().getResourceAsStream(url))
         {
             if (in == null)
             {
-                throw new NullPointerException("You must specify a database.properties file");
+                throw new NullPointerException("You must specify a files.properties file");
             }
             p.load(new InputStreamReader(in));
         }

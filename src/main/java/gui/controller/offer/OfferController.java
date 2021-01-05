@@ -7,6 +7,8 @@ import business.facade.SessionFacade;
 import business.system.Score;
 import business.system.offer.Offer;
 import business.system.scorable.Scorable;
+import business.system.scorable.faq.Answer;
+import business.system.scorable.faq.Question;
 import business.system.user.User;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
@@ -17,11 +19,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.util.Pair;
 import util.AlertBox;
@@ -42,7 +47,7 @@ public class OfferController implements Initializable {
     @FXML
     private Label titleOffer,category, state,price,offerLabelDesc,offerLabelComment;
     @FXML
-    private JFXButton setPriority,editButton,deleteButton,faqButton,offersCommentButton, bookButton;
+    private JFXButton setPriority,editButton,deleteButton,faqButton,offersCommentButton, bookButton, PostQuestion;
 
     @FXML
     private TableView<Scorable> faqTable;
@@ -98,7 +103,7 @@ public class OfferController implements Initializable {
             deleteButton.setDisable(false);
 
             if(isOwner){
-                setPriority.setDisable(this.offer.getIsPriority());
+                setPriority.setDisable(false);
                 setPriority.setVisible(true);
 
                 bookButton.setDisable(true);
@@ -140,9 +145,12 @@ public class OfferController implements Initializable {
         contentScorable.setCellFactory(TextFieldTableCell.forTableColumn());
 
         replyCol.setCellFactory(param -> new TableCell<>() {
+
             private final Button replyButton = new Button("Reply");
             {
-                replyButton.setOnAction(event -> replyQuestion(event, param.getTableView().getItems().get(getIndex())));
+                if(isOwner){
+                    replyButton.setOnAction(event -> replyQuestion(event, param.getTableView().getItems().get(getIndex())));
+                }
             }
             @Override
             protected void updateItem(Integer item, boolean empty) {
@@ -152,11 +160,20 @@ public class OfferController implements Initializable {
                     setGraphic(null);
                 }
                 else {
-                    if(isOwner){
+                    Question q = (Question)param.getTableView().getItems().get(getIndex());
+                    Answer a =  q.getAnswer();
+                    if(isOwner && a == null){
                         setGraphic(replyButton);
 
                     }else{
-                        replyButton.setVisible(false);
+                        Label tf = new Label();
+
+                        if(a != null){
+                            tf.setText(a.getAnswerContent());
+                        }else{
+                            tf.setText("No reponse");
+                        }
+                        setGraphic(tf);
                     }
                 }
             }
@@ -167,6 +184,8 @@ public class OfferController implements Initializable {
 
         faqTable.setItems(data);
     }
+
+
     /**
      * Method to populate table of comments
      * @param offerFacade
@@ -181,6 +200,8 @@ public class OfferController implements Initializable {
         voteButton(voteCol);
 
         faqTable.setItems(data);
+
+
     }
 
     private void voteButton(TableColumn<Scorable,Integer> upVoteCol){
@@ -204,7 +225,6 @@ public class OfferController implements Initializable {
                             upVoteFAQButton.setStyle("-fx-background-color: green");
                             downVoteFAQButton.setStyle("-fx-background-color: white");
 
-                            scoreLabel.setText(String.valueOf(s.getScore()));
                             scoreLabel.setTextFill(Color.web("#008000"));
                         }else{
                             voteScorable(event,s,0);
@@ -212,11 +232,16 @@ public class OfferController implements Initializable {
                             upVoteFAQButton.setStyle("-fx-background-color: white");
                             downVoteFAQButton.setStyle("-fx-background-color: white");
                             scoreLabel.setTextFill(Color.web("#000000"));
+
                         }
-                        scoreLabel.setText(String.valueOf(s.getScore()));
 
+                    }else{
+                        voteScorable(event,s  ,1);
+                        upVoteFAQButton.setStyle("-fx-background-color: green");
+                        downVoteFAQButton.setStyle("-fx-background-color: white");
+                        scoreLabel.setTextFill(Color.web("#008000"));
                     }
-
+                    scoreLabel.setText(String.valueOf(s.getScore()));
                 });
                 downVoteFAQButton.setOnAction(event -> {
                     Scorable s = param.getTableView().getItems().get(getIndex());
@@ -238,9 +263,15 @@ public class OfferController implements Initializable {
 
                             scoreLabel.setTextFill(Color.web("#000000"));
                         }
-                        scoreLabel.setText(String.valueOf(s.getScore()));
 
+                    }else{
+                        voteScorable(event, s,-1);
+                        downVoteFAQButton.setStyle("-fx-background-color: red");
+                        upVoteFAQButton.setStyle("-fx-background-color: white");
+
+                        scoreLabel.setTextFill(Color.web("#FF0000"));
                     }
+                    scoreLabel.setText(String.valueOf(s.getScore()));
 
                 });
             }
@@ -267,8 +298,6 @@ public class OfferController implements Initializable {
                             upVoteFAQButton.setStyle("-fx-background-color: white");
                             scoreLabel.setTextFill(Color.web("#FF0000"));
                         }
-                    }else{
-                        upVoteFAQButton.setDisable(true);
                     }
                 }
 
@@ -288,13 +317,15 @@ public class OfferController implements Initializable {
 
     public void showCommentsTable(ActionEvent actionEvent){
         replyCol.setVisible(false);
+
         populateCommentTable(offerFacade);
 
     }
 
 
     private void replyQuestion(ActionEvent event, Scorable question) {
-        System.out.println("Reply");
+        Optional<String> result = dialogFAQ("Reply dialog","Enter you reply below :");
+        result.ifPresent(s -> EvaluationFacade.getInstance().reply(question, s));
     }
 
 
@@ -339,6 +370,35 @@ public class OfferController implements Initializable {
 
     public void handleEditOffer(ActionEvent actionEvent) {
         LoadView.changeScreen(actionEvent, ViewPath.POSTUPDATEOFFER_VIEW, this.offer, 1);
+    }
+    public void handlePostQuestion(ActionEvent actionEvent) {
+        Optional<String> result = dialogFAQ("Question dialog","Enter you question below :");
+
+        if(result.isPresent()){
+            Question q = EvaluationFacade.getInstance().postQuestion(offer, result.get());
+            populateFAQTable(offerFacade, SessionFacade.getInstance().getUser().getUser_id() == offer.getUser().getUser_id());
+        }
+    }
+
+    private Optional<String> dialogFAQ(String title,String header){
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle(title);
+        dialog.setHeaderText(header);
+        ButtonType validate = new ButtonType("Validate", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(validate, ButtonType.CANCEL);
+        GridPane grid = new GridPane();
+        TextArea textArea = new TextArea();
+        textArea.setEditable(true);
+        grid.add(textArea, 0, 1);
+        dialog.getDialogPane().setContent(grid);
+//        dialog.showAndWait();
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == validate) {
+                return textArea.getText();
+            }
+            return null;
+        });
+        return dialog.showAndWait();
     }
 
     public void handleBookOffer(ActionEvent actionEvent) {
