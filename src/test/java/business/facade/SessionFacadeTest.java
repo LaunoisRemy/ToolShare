@@ -52,7 +52,7 @@ class SessionFacadeTest {
 
     }
     @Test
-    public void login_userisBan_throwUserBannedException() {
+    public void login_userIsBan_throwUserBannedException() {
         try(MockedStatic<UserDAO> userDAOMockedStatic = mockStatic(UserDAO.class)){
             User u = new User("test","test","test","RAaIRIIvNeeeEAvEANeIRNvvRNdvAiASIASeeNRieeiEAReSnnVeNRVSvIiERARVRNAIdieNIRIdeeeaAvAViReNSvvneevIevAVEAISeaIveeReAedARRvnndiidRAV","test","test","EIeeSVRARInSadadIVnAEARvENdReAdI",true);
             u.setIsBanned(true);
