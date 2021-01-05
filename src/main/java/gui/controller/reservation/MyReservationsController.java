@@ -1,27 +1,26 @@
 package gui.controller.reservation;
 
-import business.facade.OfferFacade;
 import business.facade.ReservationFacade;
-import business.system.offer.Offer;
 import business.system.reservation.Reservation;
-import gui.controller.HomePageController;
+import gui.LoadView;
+import gui.ViewPath;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.FloatStringConverter;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MyReservationsController implements Initializable {
@@ -32,9 +31,7 @@ public class MyReservationsController implements Initializable {
     @FXML
     private TableColumn<Reservation,String> title, dates;
     @FXML
-    private TableColumn<Reservation,Integer> returnButton;
-    @FXML
-    private TableColumn<Offer,Integer> offerButton;
+    private TableColumn<Reservation,Integer> returnButton,offerButton;
     @FXML
     private TableColumn<Reservation,Float> price;
 
@@ -47,14 +44,14 @@ public class MyReservationsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        List<Reservation> resArrayList = new ArrayList<>(this.reservationFacade.getReservationsByUser());
+        List<Reservation> resArrayList = new ArrayList<>(this.reservationFacade.getReservationsByUserNotReturned());
 
         final ObservableList<Reservation> data = FXCollections.observableArrayList(resArrayList);
 
-        title.setCellValueFactory(new PropertyValueFactory<>("title"));
-        title.setCellFactory(TextFieldTableCell.forTableColumn());
+        title.setCellValueFactory(cellData -> Bindings.select(cellData.getValue(),"offer","title"));
+        title.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
 
-        price.setCellValueFactory(new PropertyValueFactory<>("pricePerDay") );
+        price.setCellValueFactory(cellData -> Bindings.select(cellData.getValue(),"offer","pricePerDay"));
         price.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
 
         dates.setCellValueFactory(param -> {
@@ -67,10 +64,27 @@ public class MyReservationsController implements Initializable {
         });
         dates.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        offerButton.setCellValueFactory(new PropertyValueFactory<>("offer_id"));
-        HomePageController.buttonSeeOffer(offerButton);
+        offerButton.setCellValueFactory(cellData -> Bindings.select(cellData.getValue(),"offer","offer_id"));
+        offerButton.setCellFactory(param -> new TableCell<>() {
 
-        returnButton.setCellValueFactory(new PropertyValueFactory<>("offer_id"));
+            private final Button seeOfferButton = new Button("See Offer");
+            {
+                seeOfferButton.setOnAction(event -> seeOfferPage(event, param.getTableView().getItems().get(getIndex())));
+            }
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                }
+                else {
+                    setGraphic(seeOfferButton);
+                }
+            }
+        });
+
+        returnButton.setCellValueFactory(cellData -> Bindings.select(cellData.getValue(),"offer","offer_id"));
         returnButton.setCellFactory(param -> new TableCell<>() {
 
             private final Button returnButton = new Button("Return Offer");
@@ -96,7 +110,23 @@ public class MyReservationsController implements Initializable {
 
     }
 
-    private void alertReturnOffer(ActionEvent event, Reservation reservation) {
+    private void seeOfferPage(ActionEvent event, Reservation reservation) {
+        LoadView.changeScreen(event, ViewPath.OFFER_VIEW,reservation.getOffer());
+    }
 
+    private void alertReturnOffer(ActionEvent event, Reservation reservation) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Return the offer");
+        alert.setHeaderText(null);
+        int nbJour = this.reservationFacade.nbJoursForReturn(reservation);
+        if(nbJour < 0){
+            alert.setContentText("EN RETARD");
+        } else if (nbJour == 0){
+            alert.setContentText("A L'HEURE");
+        } else {
+            alert.setContentText("EN AVANCE");
+        }
+
+        Optional<ButtonType> result = alert.showAndWait();
     }
 }

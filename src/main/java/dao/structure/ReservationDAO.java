@@ -18,6 +18,8 @@ public abstract class ReservationDAO implements DAO<Reservation> {
 
     public abstract List<Reservation> getReservationsByOffer(int id_offer);
     public abstract  List<Reservation> getReservationsByUser(int id_user);
+    public abstract  List<Reservation> getReservationsByUserNotReturned(int id_user);
+    public abstract int nbJoursForReservation(Reservation reservation);
 
 }
 

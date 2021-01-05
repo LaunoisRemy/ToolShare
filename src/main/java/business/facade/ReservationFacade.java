@@ -3,9 +3,12 @@ package business.facade;
 import business.exceptions.ObjectNotFoundException;
 import business.system.offer.Offer;
 import business.system.reservation.Reservation;
+import business.system.reservation.ReturnOffer;
 import business.system.user.User;
+import dao.factory.dao.ReturnOfferDaoMySQL;
 import dao.structure.OfferDAO;
 import dao.structure.ReservationDAO;
+import dao.structure.ReturnOfferDAO;
 
 import java.util.Date;
 import java.util.List;
@@ -60,6 +63,14 @@ public class ReservationFacade {
     }
 
     /**
+     * getReservationsByUser find all the reservation of the connected user
+     * @return a List of all reservations
+     */
+    public List<Reservation> getReservationsByUserNotReturned() {
+        return this.ReservationDAO.getReservationsByUserNotReturned(this.user.getUser_id());
+    }
+
+    /**
      * deleteResservationById delete a reservation with the specified id
      * @param reservationId id of the reservation
      * @return true if the reservation is deleted, else false
@@ -80,7 +91,8 @@ public class ReservationFacade {
     public Reservation createReservation(Date dateStartBooking, Date dateEndBooking, int offerId) {
         OfferDAO offerDAO = OfferDAO.getInstance();
         Offer offer = offerDAO.find(offerId);
-        Reservation reservation = new Reservation(dateStartBooking, dateEndBooking, offer, this.user);
+        ReturnOffer returnOffer = null;
+        Reservation reservation = new Reservation(dateStartBooking, dateEndBooking, offer, this.user, returnOffer);
         return this.ReservationDAO.create(reservation);
     }
 
@@ -97,5 +109,9 @@ public class ReservationFacade {
         reservation.setDateStartBooking(dateStartBooking);
         reservation.setDateEndBooking(dateEndBooking);
         return this.ReservationDAO.update(reservation);
+    }
+
+    public int nbJoursForReturn (Reservation reservation){
+        return this.ReservationDAO.nbJoursForReservation(reservation);
     }
 }

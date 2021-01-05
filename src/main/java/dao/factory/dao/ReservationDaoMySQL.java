@@ -2,6 +2,8 @@ package dao.factory.dao;
 
 import business.system.offer.Offer;
 import business.system.reservation.Reservation;
+import business.system.reservation.ReturnOffer;
+import business.system.scorable.Comment;
 import business.system.scorable.Scorable;
 import business.system.user.User;
 import dao.structure.ReservationDAO;
@@ -17,6 +19,7 @@ public class ReservationDaoMySQL extends ReservationDAO {
     public static final String END_DATE="dateEndBoorking";
     public static final String USER_ID="user_id";
     public static final String OFFER_ID="offer_id";
+    public static final String RETURN_ID="return_id";
 
     /**
      * Constructor of OfferDaoMySQL
@@ -32,7 +35,8 @@ public class ReservationDaoMySQL extends ReservationDAO {
             String sql = "SELECT *  FROM reservation " +
                     "JOIN user u on u."+ UserDaoMySQL.USER_ID +" = reservation."+ USER_ID+" " +
                     " JOIN offer o on o."+OfferDaoMySQL.OFFER_ID_COL+" = reservation."+OFFER_ID+" " +
-                    " WHERE "+ RESERVATION_ID +" = ?";
+                    " JOIN return_offer ro on ro."+ReturnOfferDaoMySQL.RETURN_ID+" = reservation."+RETURN_ID+" " +
+                    " WHERE reservation."+ RESERVATION_ID +" = ?";
             PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setInt(1,id);
             ResultSet rs = prep.executeQuery();
@@ -54,14 +58,20 @@ public class ReservationDaoMySQL extends ReservationDAO {
                     START_DATE +","+
                     END_DATE+","+
                     OFFER_ID+","+
-                    USER_ID+" ) "+
-                    "VALUES (?,?,?,?)";
+                    USER_ID+" , "+
+                    RETURN_ID+" ) "+
+                    "VALUES (?,?,?,?,?)";
             PreparedStatement prep = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             prep.setDate(1, (Date) obj.getDateStartBooking());
             prep.setDate(2, (Date) obj.getDateEndBooking());
             prep.setInt(3,obj.getOffer().getOffer_id());
             prep.setInt(4,obj.getUser().getUser_id());
-
+            ReturnOffer returnOffer = obj.getReturnOffer();
+            if(returnOffer == null){
+                prep.setNull(5, java.sql.Types.INTEGER);
+            }else{
+                prep.setInt(5,returnOffer.getReturnId());
+            }
 
             prep.executeUpdate();
             ResultSet rs = prep.getGeneratedKeys();
@@ -85,14 +95,21 @@ public class ReservationDaoMySQL extends ReservationDAO {
                     "SET "+START_DATE + " = ?, " +
                     END_DATE + " = ?, " +
                     OFFER_ID + " = ?, " +
-                    USER_ID + " = ? " +
+                    USER_ID + " = ?, " +
+                    RETURN_ID + " = ? " +
                     "WHERE "+ RESERVATION_ID + " = ?";
             PreparedStatement prep = connection.prepareStatement(sql);
             prep.setDate(1, (Date) obj.getDateStartBooking());
             prep.setDate(2, (Date) obj.getDateEndBooking());
             prep.setInt(3,obj.getOffer().getOffer_id());
             prep.setInt(4,obj.getUser().getUser_id());
-            prep.setInt(5,obj.getReservationId());
+            ReturnOffer returnOffer = obj.getReturnOffer();
+            if(returnOffer == null){
+                prep.setNull(5, java.sql.Types.INTEGER);
+            }else{
+                prep.setInt(5,returnOffer.getReturnId());
+            }
+            prep.setInt(6,obj.getReservationId());
             int rs = prep.executeUpdate();
             return obj;
         } catch (SQLException throwables) {
@@ -133,7 +150,9 @@ public class ReservationDaoMySQL extends ReservationDAO {
             String sql = "SELECT *  FROM reservation " +
                     "JOIN user u on u."+ UserDaoMySQL.USER_ID +" = reservation."+ USER_ID+" " +
                     " JOIN offer o on o."+OfferDaoMySQL.OFFER_ID_COL+" = reservation."+OFFER_ID+" " +
-                    " WHERE "+ clause +" = ?";
+                    " JOIN category c on o."+OfferDaoMySQL.CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+" " +
+                    " JOIN return_offer ro on ro."+ReturnOfferDaoMySQL.RETURN_ID+" = reservation."+RETURN_ID+" " +
+                    " WHERE reservation."+ clause +" = ?";
             PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setInt(1,id);
             ResultSet rs = prep.executeQuery();
@@ -147,14 +166,62 @@ public class ReservationDaoMySQL extends ReservationDAO {
         return res;
     }
 
+    @Override
+    public List<Reservation> getReservationsByUserNotReturned(int id_user) {
+        ArrayList<Reservation> res = new ArrayList<>();
+
+        try {
+            String sql = "SELECT *  FROM reservation " +
+                    "JOIN user u on u."+ UserDaoMySQL.USER_ID +" = reservation."+ USER_ID+" " +
+                    " JOIN offer o on o."+OfferDaoMySQL.OFFER_ID_COL+" = reservation."+OFFER_ID+" " +
+                    " JOIN category c on o."+OfferDaoMySQL.CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+" " +
+                    " LEFT JOIN return_offer ro on ro."+ReturnOfferDaoMySQL.RETURN_ID+" = reservation."+RETURN_ID+" " +
+                    " WHERE reservation."+ USER_ID +" = ? AND reservation."+RETURN_ID+" IS NULL";
+            PreparedStatement prep = this.connection.prepareStatement(sql);
+            prep.setInt(1,id_user);
+            ResultSet rs = prep.executeQuery();
+
+            while(rs.next()){
+                res.add(createReservationFromRs(rs));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return res;
+    }
+
+    @Override
+    public int nbJoursForReservation(Reservation reservation) {
+        int nbJours = 0;
+
+        try {
+            String sql = "SELECT DATEDIFF("+END_DATE+", NOW()) FROM reservation";
+            PreparedStatement prep = this.connection.prepareStatement(sql);
+            ResultSet rs = prep.executeQuery();
+
+            if(rs.next()){
+                nbJours = rs.getInt(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return nbJours;
+    }
+
     public static Reservation createReservationFromRs(ResultSet rs) throws SQLException {
         Offer offer = OfferDaoMySQL.createOfferFromRs(rs);
         User user = UserDaoMySQL.createUserFromRs(rs);
+        ReturnOffer returnOffer = null;
+        rs.getInt(RETURN_ID);
+        if( !rs.wasNull() ){
+            returnOffer = ReturnOfferDaoMySQL.createReturnOfferFromRs(rs);
+        }
         return  new Reservation(
                 rs.getDate(START_DATE),
                 rs.getDate(END_DATE),
                 offer,
-                user
+                user,
+                returnOffer
         );
     }
 }
