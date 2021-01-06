@@ -56,8 +56,8 @@ public class ReservationDaoMySQL extends ReservationDAO {
                     USER_ID+" ) "+
                     "VALUES (?,?,?,?)";
             PreparedStatement prep = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            prep.setDate(1, (Date) obj.getDateStartBooking());
-            prep.setDate(2, (Date) obj.getDateEndBooking());
+            prep.setDate(1, new Date(obj.getDateStartBooking().getTime()) );
+            prep.setDate(2, new Date(obj.getDateEndBooking().getTime()) );
             prep.setInt(3,obj.getOffer().getOffer_id());
             prep.setInt(4,obj.getUser().getUser_id());
 
@@ -138,7 +138,7 @@ public class ReservationDaoMySQL extends ReservationDAO {
             prep.setInt(1,id);
             ResultSet rs = prep.executeQuery();
 
-            if(rs.next()){
+            while(rs.next()){
                 res.add(createReservationFromRs(rs));
             }
         } catch (SQLException throwables) {

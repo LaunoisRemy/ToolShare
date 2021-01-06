@@ -15,7 +15,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.util.Callback;
 import util.MapRessourceBundle;
-
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -48,15 +47,18 @@ public class CreateUpdateReservationController implements Initializable {
         }
 
         List<Reservation> reservations = new ArrayList<>(this.reservationFacade.getReservationsByOffer(this.offer.getOffer_id()));
-        DateFormat dtf = new SimpleDateFormat("yyyy-MM-dd");
-        Callback<DatePicker, DateCell> dayCellFactory = this.getDayCellFactory(reservations, dtf);
+        for (Reservation res : reservations) System.out.println(res.getReservationId());
+        Callback<DatePicker, DateCell> dayCellFactory = this.getDayCellFactory(reservations);
         dateStart.setDayCellFactory(dayCellFactory);
     }
 
     // Factory to create Cell of DatePicker
-    private Callback<DatePicker, DateCell> getDayCellFactory(List<Reservation> reservations, DateFormat dtf) {
+    private Callback<DatePicker, DateCell> getDayCellFactory(List<Reservation> reservations) {
 
-        return new Callback<DatePicker, DateCell>() {
+        DateFormat dtf = new SimpleDateFormat("yyyy-MM-dd");
+        LocalDate now = LocalDate.now();
+
+        return new Callback<>() {
 
             @Override
             public DateCell call(final DatePicker datePicker) {
@@ -64,13 +66,17 @@ public class CreateUpdateReservationController implements Initializable {
                     @Override
                     public void updateItem(LocalDate date, boolean empty) {
                         super.updateItem(date, empty);
-                        for(Reservation reservation : reservations) {
-                            LocalDate dateS = LocalDate.parse(dtf.format(reservation.getDateStartBooking()));
-                            LocalDate dateE = LocalDate.parse(dtf.format(reservation.getDateEndBooking()));
-                            if(!(date.isBefore(dateS) || date.isAfter(dateE))) {
-                                this.setDisable(true);
-                                this.setStyle("-fx-background-color: #ffc0cb;");
-
+                        if (date.compareTo(now) < 0) {
+                            this.setDisable(true);
+                            this.setStyle("-fx-background-color: #ffc0cb;");
+                        } else {
+                            for (Reservation reservation : reservations) {
+                                LocalDate dateS = LocalDate.parse(dtf.format(reservation.getDateStartBooking()));
+                                LocalDate dateE = LocalDate.parse(dtf.format(reservation.getDateEndBooking()));
+                                if (!(date.isBefore(dateS) || date.isAfter(dateE))) {
+                                    this.setDisable(true);
+                                    this.setStyle("-fx-background-color: #ffc0cb;");
+                                }
                             }
                         }
                     }
@@ -95,6 +101,7 @@ public class CreateUpdateReservationController implements Initializable {
         } catch (MissingParametersException e) {
             error_msg.setVisible(true);
         }
+        LoadView.changeScreen(actionEvent, ViewPath.MYRESERVATIONS_VIEW);
     }
 
 }
