@@ -47,9 +47,9 @@ public class CreateUpdateReservationController implements Initializable {
         }
 
         List<Reservation> reservations = new ArrayList<>(this.reservationFacade.getReservationsByOffer(this.offer.getOffer_id()));
-        for (Reservation res : reservations) System.out.println(res.getReservationId());
         Callback<DatePicker, DateCell> dayCellFactory = this.getDayCellFactory(reservations);
         dateStart.setDayCellFactory(dayCellFactory);
+        dateEnd.setDayCellFactory(dayCellFactory);
     }
 
     // Factory to create Cell of DatePicker
@@ -93,6 +93,7 @@ public class CreateUpdateReservationController implements Initializable {
         error_msg.setVisible(false);
         try {
             if(dateStart.getValue() == null || dateEnd.getValue() == null) throw new MissingParametersException("No date have been entered");
+            if(dateStart.getValue().compareTo(dateEnd.getValue()) > 0 || LocalDate.now(ZoneId.systemDefault()).compareTo(dateStart.getValue()) > 0) throw new MissingParametersException("Wrong date format");
             Reservation reservation = this.reservationFacade.createReservation(
                     Date.from(Instant.from(this.dateStart.getValue().atStartOfDay(ZoneId.systemDefault()))),
                     Date.from(Instant.from(this.dateEnd.getValue().atStartOfDay(ZoneId.systemDefault()))),
