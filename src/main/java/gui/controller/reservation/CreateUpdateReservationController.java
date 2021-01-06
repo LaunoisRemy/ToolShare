@@ -30,6 +30,8 @@ public class CreateUpdateReservationController implements Initializable {
 
     private final ReservationFacade reservationFacade = ReservationFacade.getInstance();
     private Offer offer;
+    private final List<LocalDate> allDatesBooked = new ArrayList<>();
+    private final DateFormat dtf = new SimpleDateFormat("yyyy-MM-dd");
 
     @FXML
     private JFXButton cancel, submit;
@@ -47,15 +49,22 @@ public class CreateUpdateReservationController implements Initializable {
         }
 
         List<Reservation> reservations = new ArrayList<>(this.reservationFacade.getReservationsByOffer(this.offer.getOffer_id()));
-        Callback<DatePicker, DateCell> dayCellFactory = this.getDayCellFactory(reservations);
+
+        for(Reservation reservation : reservations) {
+            LocalDate dateE = LocalDate.parse(dtf.format(reservation.getDateEndBooking()));
+            for(LocalDate date = LocalDate.parse(dtf.format(reservation.getDateStartBooking())); !date.isAfter(dateE); date = date.plusDays(1)) {
+                this.allDatesBooked.add(date);
+            }
+        }
+
+        Callback<DatePicker, DateCell> dayCellFactory = this.getDayCellFactory(this.allDatesBooked);
         dateStart.setDayCellFactory(dayCellFactory);
         dateEnd.setDayCellFactory(dayCellFactory);
     }
 
     // Factory to create Cell of DatePicker
-    private Callback<DatePicker, DateCell> getDayCellFactory(List<Reservation> reservations) {
+    private Callback<DatePicker, DateCell> getDayCellFactory(List<LocalDate> allDatesBooked) {
 
-        DateFormat dtf = new SimpleDateFormat("yyyy-MM-dd");
         LocalDate now = LocalDate.now();
 
         return new Callback<>() {
@@ -66,18 +75,9 @@ public class CreateUpdateReservationController implements Initializable {
                     @Override
                     public void updateItem(LocalDate date, boolean empty) {
                         super.updateItem(date, empty);
-                        if (date.compareTo(now) < 0) {
+                        if (date.compareTo(now) < 0 || allDatesBooked.contains(date)) {
                             this.setDisable(true);
                             this.setStyle("-fx-background-color: #ffc0cb;");
-                        } else {
-                            for (Reservation reservation : reservations) {
-                                LocalDate dateS = LocalDate.parse(dtf.format(reservation.getDateStartBooking()));
-                                LocalDate dateE = LocalDate.parse(dtf.format(reservation.getDateEndBooking()));
-                                if (!(date.isBefore(dateS) || date.isAfter(dateE))) {
-                                    this.setDisable(true);
-                                    this.setStyle("-fx-background-color: #ffc0cb;");
-                                }
-                            }
                         }
                     }
                 };
@@ -93,16 +93,21 @@ public class CreateUpdateReservationController implements Initializable {
         error_msg.setVisible(false);
         try {
             if(dateStart.getValue() == null || dateEnd.getValue() == null) throw new MissingParametersException("No date have been entered");
-            if(dateStart.getValue().compareTo(dateEnd.getValue()) > 0 || LocalDate.now(ZoneId.systemDefault()).compareTo(dateStart.getValue()) > 0) throw new MissingParametersException("Wrong date format");
+            if(dateStart.getValue().compareTo(dateEnd.getValue()) > 0 || LocalDate.now(ZoneId.systemDefault()).compareTo(dateStart.getValue()) > 0) throw new MissingParametersException("Invalid date selected");
+
+            for(LocalDate date = dateStart.getValue(); !date.isAfter(dateEnd.getValue()); date = date.plusDays(1)) {
+                if(this.allDatesBooked.contains(date)) throw new MissingParametersException("Date already allocated");
+            }
+
             Reservation reservation = this.reservationFacade.createReservation(
                     Date.from(Instant.from(this.dateStart.getValue().atStartOfDay(ZoneId.systemDefault()))),
                     Date.from(Instant.from(this.dateEnd.getValue().atStartOfDay(ZoneId.systemDefault()))),
                     this.offer.getOffer_id()
             );
+            LoadView.changeScreen(actionEvent, ViewPath.MYRESERVATIONS_VIEW);
         } catch (MissingParametersException e) {
             error_msg.setVisible(true);
         }
-        LoadView.changeScreen(actionEvent, ViewPath.MYRESERVATIONS_VIEW);
     }
 
 }
