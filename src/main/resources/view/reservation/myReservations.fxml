@@ -43,11 +43,12 @@
                                 <VBox prefHeight="2.0" prefWidth="1229.0" style="-fx-background-color: #212121;" />
                                 <TableView fx:id="table" prefHeight="650.0" prefWidth="1229.0">
                                     <columns>
-                                        <TableColumn fx:id="title" prefWidth="414.4000182747841" style="-fx-alignment: CENTER;" text="Title" />
-                                        <TableColumn fx:id="price" minWidth="0.0" prefWidth="140.79998779296875" style="-fx-alignment: CENTER;" text="Price" />
-                                        <TableColumn fx:id="dates" prefWidth="280.0" style="-fx-alignment: CENTER;" text="Dates" />
-                                        <TableColumn fx:id="returnButton" prefWidth="224.0" style="-fx-alignment: CENTER;" text="Return Offer" />
-                                        <TableColumn fx:id="offerButton" prefWidth="169.60009765625" style="-fx-alignment: CENTER;" text="See Offer" />
+                                        <TableColumn fx:id="title" prefWidth="344.8000426888466" style="-fx-alignment: CENTER;" text="Title" />
+                                        <TableColumn fx:id="days" prefWidth="145.5999755859375" style="-fx-alignment: CENTER;" text="Nb Days" />
+                                        <TableColumn fx:id="price" minWidth="0.0" prefWidth="140.79998779296875" style="-fx-alignment: CENTER;" text="Total Price" />
+                                        <TableColumn fx:id="dates" prefWidth="262.4000244140625" style="-fx-alignment: CENTER;" text="Dates" />
+                                        <TableColumn fx:id="returnButton" prefWidth="183.1998291015625" style="-fx-alignment: CENTER;" text="Return Offer" />
+                                        <TableColumn fx:id="offerButton" prefWidth="151.199951171875" style="-fx-alignment: CENTER;" text="See Offer" />
                                     </columns></TableView>
                             </children>
                         </VBox>

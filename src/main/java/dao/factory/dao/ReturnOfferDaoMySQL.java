@@ -52,7 +52,7 @@ public class ReturnOfferDaoMySQL extends ReturnOfferDAO {
                     "VALUES (?,?,?)";
             PreparedStatement prep = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             prep.setString(1, obj.getToolSate().getString());
-            prep.setDate(2, (Date) obj.getDateReturnBooking());
+            prep.setDate(2, new Date(obj.getDateReturnBooking().getTime()));
             prep.setInt(3,obj.getReservation().getReservationId());
 
             prep.executeUpdate();

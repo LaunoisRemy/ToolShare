@@ -14,23 +14,26 @@ public class Reservation {
     private Date dateEndBooking;
     private Offer offer;
     private User user;
+    private ReturnOffer returnOffer;
 
     /**
      * Constructor
      */
-    public Reservation(int reservationId, Date dateStartBooking, Date dateEndBooking, Offer offer, User user) {
+    public Reservation(int reservationId, Date dateStartBooking, Date dateEndBooking, Offer offer, User user, ReturnOffer returnOffer) {
         this.reservationId = reservationId;
         this.dateStartBooking = dateStartBooking;
         this.dateEndBooking = dateEndBooking;
         this.offer = offer;
         this.user = user;
+        this.returnOffer = returnOffer;
     }
 
-    public Reservation(Date dateStartBooking, Date dateEndBooking, Offer offer, User user) {
+    public Reservation(Date dateStartBooking, Date dateEndBooking, Offer offer, User user, ReturnOffer returnOffer) {
         this.dateStartBooking = dateStartBooking;
         this.dateEndBooking = dateEndBooking;
         this.offer = offer;
         this.user = user;
+        this.returnOffer = returnOffer;
     }
 
     /**
@@ -111,5 +114,13 @@ public class Reservation {
      */
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public ReturnOffer getReturnOffer() {
+        return returnOffer;
+    }
+
+    public void setReturnOffer(ReturnOffer returnOffer) {
+        this.returnOffer = returnOffer;
     }
 }
