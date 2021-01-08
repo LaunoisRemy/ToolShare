@@ -169,6 +169,6 @@ public class MyReservationsController implements Initializable {
         ReturnOffer ro = new ReturnOffer(ToolSate.valueOf(s),returnDate,reservation);
         reservation.setReturnOffer(ro);
         this.reservationFacade.updateReservationFromObj(reservation,ro);
-        LoadView.changeScreen(event, ViewPath.MYRESERVATIONS);
+        LoadView.changeScreen(event, ViewPath.MYRESERVATIONS_VIEW);
     }
 }
