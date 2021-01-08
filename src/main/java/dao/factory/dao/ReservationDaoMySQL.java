@@ -191,12 +191,32 @@ public class ReservationDaoMySQL extends ReservationDAO {
     }
 
     @Override
-    public int nbJoursForReservation(Reservation reservation) {
+    public int nbDaysToReturn(Reservation reservation) {
         int nbJours = 0;
 
         try {
-            String sql = "SELECT DATEDIFF("+END_DATE+", NOW()) FROM reservation";
+            String sql = "SELECT DATEDIFF("+END_DATE+", NOW()) FROM reservation WHERE "+RESERVATION_ID+"=?";
             PreparedStatement prep = this.connection.prepareStatement(sql);
+            prep.setInt(1,reservation.getReservationId());
+            ResultSet rs = prep.executeQuery();
+
+            if(rs.next()){
+                nbJours = rs.getInt(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return nbJours;
+    }
+
+    @Override
+    public int nbDaysOfReservation(Reservation reservation) {
+        int nbJours = 0;
+
+        try {
+            String sql = "SELECT DATEDIFF("+END_DATE+", "+START_DATE+") FROM reservation WHERE "+RESERVATION_ID+"=?";
+            PreparedStatement prep = this.connection.prepareStatement(sql);
+            prep.setInt(1,reservation.getReservationId());
             ResultSet rs = prep.executeQuery();
 
             if(rs.next()){
@@ -217,6 +237,7 @@ public class ReservationDaoMySQL extends ReservationDAO {
             returnOffer = ReturnOfferDaoMySQL.createReturnOfferFromRs(rs);
         }
         return  new Reservation(
+                rs.getInt(RESERVATION_ID),
                 rs.getDate(START_DATE),
                 rs.getDate(END_DATE),
                 offer,

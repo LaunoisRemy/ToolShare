@@ -5,7 +5,6 @@ import business.system.offer.Offer;
 import business.system.reservation.Reservation;
 import business.system.reservation.ReturnOffer;
 import business.system.user.User;
-import dao.factory.dao.ReturnOfferDaoMySQL;
 import dao.structure.OfferDAO;
 import dao.structure.ReservationDAO;
 import dao.structure.ReturnOfferDAO;
@@ -111,7 +110,16 @@ public class ReservationFacade {
         return this.ReservationDAO.update(reservation);
     }
 
-    public int nbJoursForReturn (Reservation reservation){
-        return this.ReservationDAO.nbJoursForReservation(reservation);
+    public Reservation updateReservationFromObj(Reservation reservation, ReturnOffer ro){
+        ReturnOfferDAO.getInstance().create(ro);
+        return this.ReservationDAO.update(reservation);
+    }
+
+    public int nbDaysToReturn(Reservation reservation){
+        return this.ReservationDAO.nbDaysToReturn(reservation);
+    }
+
+    public int nbDaysOfReservation(Reservation reservation){
+        return this.ReservationDAO.nbDaysOfReservation(reservation);
     }
 }
