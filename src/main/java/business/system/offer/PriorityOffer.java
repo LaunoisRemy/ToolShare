@@ -2,9 +2,11 @@ package business.system.offer;
 
 import business.system.Category;
 import business.system.user.User;
-
 import java.util.Date;
 
+/**
+ * Class used to instantiate PriorityOffer
+ */
 public class PriorityOffer extends Offer {
 
     /**
@@ -30,10 +32,6 @@ public class PriorityOffer extends Offer {
         super(title, pricePerDay, description, toolSate, isPriority, user, category);
         this.dateStartPriority = dateStartPriority;
         this.dateEndPriority = dateEndPriority;
-    }
-
-    public PriorityOffer() {
-
     }
 
     /**

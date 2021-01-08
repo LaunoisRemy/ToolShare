@@ -22,7 +22,7 @@ public class PropertiesResources {
         {
             if (in == null)
             {
-                throw new NullPointerException("You must specify a database.properties file");
+                throw new NullPointerException("You must specify a files.properties file");
             }
             p.load(new InputStreamReader(in));
         }

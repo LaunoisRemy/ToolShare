@@ -6,10 +6,16 @@ import dao.structure.HistoryDAO;
 
 import java.util.List;
 
+/**
+ * Facade of all action on History
+ */
 public class HistoryFacade {
     private static final HistoryFacade INSTANCE = new HistoryFacade();
     private final User user = SessionFacade.getInstance().getUser();
 
+    /**
+     * Constructor
+     */
     private HistoryFacade() {
     }
 
@@ -21,6 +27,10 @@ public class HistoryFacade {
         return INSTANCE;
     }
 
+    /**
+     * Get a list of all offer in History of the user
+     * @return a List of Offers
+     */
     public List<Offer> getAllOffers(){
         HistoryDAO historyDAO = HistoryDAO.getInstance();
         return historyDAO.getHistory(user);

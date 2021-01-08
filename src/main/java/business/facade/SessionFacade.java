@@ -11,17 +11,21 @@ import util.Mail;
 import java.security.SecureRandom;
 import java.util.List;
 
+/**
+ * Facade of all actions on Session or User
+ */
 public class SessionFacade {
 
     private User user;
     private final UserManagement userManagement = new UserManagement();
     private static final SessionFacade INSTANCE = new SessionFacade();
 
+    /**
+     * Constructor
+     */
     private SessionFacade() {
 
     }
-
-
 
     /**
      * getInstance will return the same correctly initialized INSTANCE
@@ -116,7 +120,15 @@ public class SessionFacade {
         }
     }
 
-
+    /**
+     * Method which update information of the user
+     * @param email the new email of the user
+     * @param firstName the new firstname of the user
+     * @param lastName the new lastname of the user
+     * @param city the new city of the user
+     * @param phoneNumber the new phone number of the user
+     * @param password the new password of the user
+     */
     public void updateProfile(String email, String firstName, String lastName, String city, String phoneNumber, String password){
         UserDAO userDAO = UserDAO.getInstance();
         user.setEmail(email);
@@ -130,6 +142,10 @@ public class SessionFacade {
 
     }
 
+    /**
+     * Method which update information of the user
+     * @param user the updated user
+     */
     public void updateUser(User user){
         UserDAO.getInstance().update(user);
     }
@@ -151,8 +167,8 @@ public class SessionFacade {
 
     /**
      * Method to send an email to the user
-     * @param mail
-     * @throws ObjectNotFoundException
+     * @param mail the mail of the user
+     * @throws ObjectNotFoundException Exception that is raised if the object is not found
      */
     public void sendMail(String mail) throws ObjectNotFoundException {
         User user = UserDAO.getInstance().getUserByEmail(mail);
@@ -168,12 +184,22 @@ public class SessionFacade {
         }
     }
 
-
+    /**
+     * Method which check if the recovery code of the user is ok
+     * @param code the recovery code of the user
+     * @param mail the mail of the user
+     * @return true if the code is validated, else false
+     */
     public boolean checkCode(String code,String mail) {
         User user =  UserDAO.getInstance().getUserByEmail(mail);
         return code.equals(user.getRecoveryCode());
     }
 
+    /**
+     * Method for the user to change his password
+     * @param password the new password of the user
+     * @param mail the mail of the user
+     */
     public void changePassword(String password,String mail){
         User user = UserDAO.getInstance().getUserByEmail(mail);
         String salt = userManagement.getRandomSalt();
@@ -183,10 +209,19 @@ public class SessionFacade {
         UserDAO.getInstance().update(user);
     }
 
+    /**
+     * Method which list all the users of the system
+     * @return a List of User
+     */
     public List<User> getAllUsers(){
         return UserDAO.getInstance().getAllUsers();
     }
 
+    /**
+     * Method which delete a user
+     * @param u the user to delete
+     * @return true if the user is correctly deleted, else false
+     */
     public boolean deleteUser(User u){
         return UserDAO.getInstance().delete(u);
     }

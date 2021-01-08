@@ -45,24 +45,43 @@ public class ScoreDaoMySQL extends ScoreDAO {
             if(rs.next()){
                 ScoreType type = ScoreType.getType(rs.getString(OBJECT_TYPE));
                 Scorable obj = switch (type) {
-                    case QUESTION -> QuestionDaoMySQL.createQuestionFromRs(Objects.requireNonNull(joinFAQ("question", QuestionDaoMySQL.QUESTION_ID, objectId)));
-                    case ANSWER -> AnswerDaoMySQL.createAnswerFromRs(Objects.requireNonNull(joinFAQ("answer", AnswerDaoMySQL.ANSWER_ID, objectId)));
+                    case QUESTION -> QuestionDaoMySQL.createQuestionFromRs(Objects.requireNonNull(joinQuestion(objectId)));
+                    case ANSWER -> AnswerDaoMySQL.createAnswerFromRs(Objects.requireNonNull(joinAnswer(objectId)));
                     case COMMENT -> CommentDaoMySQL.createCommentFromRs(Objects.requireNonNull(joinComment(objectId)));
                 };
                 score = createScoreFromRs(rs,obj);
             }
-        } catch (SQLException throwables) {
+        } catch (Exception throwables) {
             throwables.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return score;
     }
-    private ResultSet joinFAQ(String table, String nameClause, int idClause){
+    private ResultSet joinQuestion( int idClause){
         try {
-            String sql = "SELECT * FROM " +table+" " +
-                    "JOIN user u on u."+UserDaoMySQL.USER_ID+" = "+table+"."+USER_ID+" " +
-                    "WHERE "+nameClause +" = ?";
+            String sql = "SELECT * FROM question " +
+                    "JOIN user u on u."+UserDaoMySQL.USER_ID+" = "+"question."+USER_ID+" " +
+                    "LEFT JOIN answer a on question."+QuestionDaoMySQL.ANSWER_ID_COL+"  = a."+AnswerDaoMySQL.ANSWER_ID+" " +
+                    " WHERE "+QuestionDaoMySQL.QUESTION_ID+"  = ?";
+            PreparedStatement prep = this.connection.prepareStatement(sql);
+            prep.setInt(1,idClause);
+            ResultSet rs = prep.executeQuery();
+            if(rs.next()){
+                return rs;
+            }else{
+                throw new SQLException();
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+
+    }
+
+    private ResultSet joinAnswer(int idClause){
+        try {
+            String sql = "SELECT * FROM answer " +
+                    "JOIN user u on u."+UserDaoMySQL.USER_ID+" = answer."+USER_ID+" " +
+                    "WHERE "+AnswerDaoMySQL.ANSWER_ID +" = ?";
             PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setInt(1,idClause);
             ResultSet rs = prep.executeQuery();
