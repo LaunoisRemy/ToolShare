@@ -3,11 +3,17 @@ package business.system.scorable;
 import business.system.ScoreType;
 import business.system.scorable.Scorable;
 
+/**
+ * Class used to instantiate Comment object
+ */
 public class Comment implements Scorable {
     private int commentId;
     private String comment;
     private int commentScore;
 
+    /**
+     * Constructor
+     */
     public Comment(int commentId, String comment, int commentScore) {
         this.commentId = commentId;
         this.comment = comment;

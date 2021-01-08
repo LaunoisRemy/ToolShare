@@ -14,7 +14,7 @@ public enum ToolSate {
 
     /**
      * Transform enum in string
-     * @return
+     * @return the corresponding string of the ToolState value
      */
     public String getString(){
         return String.valueOf(this).toLowerCase(Locale.ROOT);
@@ -22,8 +22,8 @@ public enum ToolSate {
 
     /**
      * Get type by a string
-     * @param type
-     * @return
+     * @param type the state of the tool as a string
+     * @return the corresponding enumeration type
      */
     public static ToolSate getType(String type){
         return switch (type.toLowerCase(Locale.ROOT)) {

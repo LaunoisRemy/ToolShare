@@ -8,12 +8,15 @@ import dao.structure.FavoryDAO;
 import java.util.List;
 
 /**
- * Facade of all actions on favory
+ * Facade of all actions on Favory
  */
 public class FavoryFacade {
     private final User user = SessionFacade.getInstance().getUser();
     private static final FavoryFacade INSTANCE = new FavoryFacade();
 
+    /**
+     * Constructor
+     */
     private FavoryFacade() {
     }
 
@@ -47,7 +50,6 @@ public class FavoryFacade {
         return favoryDAO.create(fav);
 
     }
-
 
     /**
      * Find if the offer is a favory for the user

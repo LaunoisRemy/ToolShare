@@ -10,12 +10,18 @@ import dao.structure.ReservationDAO;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Facade of all actions on Reservation
+ */
 public class ReservationFacade {
 
     private static final ReservationFacade INSTANCE = new ReservationFacade();
     private final ReservationDAO ReservationDAO = dao.structure.ReservationDAO.getInstance();
     private final User user = SessionFacade.getInstance().getUser();
 
+    /**
+     * Constructor
+     */
     private ReservationFacade() {}
 
     /**
@@ -30,7 +36,7 @@ public class ReservationFacade {
      * getReservationById find a reservation with the specified id
      * @param reservationId id of the reservation
      * @return an instance of the found reservation
-     * @throws ObjectNotFoundException
+     * @throws ObjectNotFoundException Exception that is raised if the object is not found
      */
     public Reservation getReservationById(int reservationId) throws ObjectNotFoundException {
         Reservation reservation = this.ReservationDAO.find(reservationId);
@@ -63,7 +69,7 @@ public class ReservationFacade {
      * deleteResservationById delete a reservation with the specified id
      * @param reservationId id of the reservation
      * @return true if the reservation is deleted, else false
-     * @throws ObjectNotFoundException
+     * @throws ObjectNotFoundException Exception that is raised if the object is not found
      */
     public boolean deleteResservationById(int reservationId) throws ObjectNotFoundException {
         Reservation reservation = this.getReservationById(reservationId);
@@ -90,7 +96,7 @@ public class ReservationFacade {
      * @param dateStartBooking starting date of the reservation
      * @param dateEndBooking ending date of the reservation
      * @return the updated reservation
-     * @throws ObjectNotFoundException
+     * @throws ObjectNotFoundException Exception that is raised if the object is not found
      */
     public Reservation updateReservation(int reservationId, Date dateStartBooking, Date dateEndBooking) throws ObjectNotFoundException {
         Reservation reservation = this.getReservationById(reservationId);

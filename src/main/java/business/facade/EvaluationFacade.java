@@ -16,10 +16,21 @@ import dao.factory.dao.CommentDaoMySQL;
  * Evaluation is about : rate an offer, comment, faq and rate the last two
  */
 public class EvaluationFacade {
+
+    private static final EvaluationFacade INSTANCE = new EvaluationFacade();
+
+    /**
+     * getInstance will return the same correctly initialized INSTANCE
+     * @return instance of the class
+     */
     public static EvaluationFacade getInstance(){
         return INSTANCE;
     }
-    private static final EvaluationFacade INSTANCE = new EvaluationFacade();
+
+    /**
+     * Constructor
+     */
+    private EvaluationFacade(){}
 
     /**
      * Method which deal with create rate
@@ -36,14 +47,13 @@ public class EvaluationFacade {
     }
 
     /**
-     * Method which deal with create comme,t
+     * Method which deal with create comment
      * @param scoreOffer score offer that receives a comment
      * @param commentText comment of the score
      */
     public void comment(ScoreOffer scoreOffer, String commentText){
         ScoreOfferDAO scoreOfferDAO = ScoreOfferDAO.getInstance();
         CommentDAO commentDaoMySQL = CommentDaoMySQL.getInstance();
-        SessionFacade sessionFacade = SessionFacade.getInstance();
         Comment comment = new Comment(commentText);
         comment = commentDaoMySQL.create(comment);
         scoreOffer.setComment(comment);
@@ -97,7 +107,7 @@ public class EvaluationFacade {
     }
 
     /**
-     * get the Score in the database
+     * Get the Score in the database
      * @param scorable The scorable we want the score
      * @return Score
      */
@@ -106,10 +116,19 @@ public class EvaluationFacade {
         return ScoreDAO.getInstance().find(user.getUser_id(), scorable.getId(),scorable.getScoreType().getIntByType());
     }
 
+    /**
+     * Delete the Score in the database
+     * @param score The Score we want to delete
+     */
     public void delScore(Score score) {
         ScoreDAO.getInstance().delete(score);
     }
 
+    /**
+     * Reply to a question in offer FAQ section
+     * @param question The question we want to answer
+     * @param s The answer of the question
+     */
     public void reply(Scorable question, String s) {
         Question q = (Question)question;
         Answer a = new Answer(0,s,SessionFacade.getInstance().getUser());
@@ -118,6 +137,12 @@ public class EvaluationFacade {
         QuestionDAO.getInstance().update(q);
     }
 
+    /**
+     * Post a question in offer FAQ section
+     * @param offer The offer we have a question on
+     * @param content The question
+     * @return The question newly created
+     */
     public Question postQuestion(Offer offer, String content) {
         Question q = new Question(0,content,null,offer.getOffer_id(),SessionFacade.getInstance().getUser());
         q = QuestionDAO.getInstance().create(q);
