@@ -3,11 +3,13 @@ package gui.controller;
 import business.facade.EvaluationFacade;
 import business.facade.HistoryFacade;
 import business.facade.SessionFacade;
+import business.system.Category;
 import business.system.ScoreOffer;
 import business.system.offer.Offer;
 import gui.LoadView;
 import gui.ViewPath;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -53,8 +55,16 @@ public class HistoryController implements Initializable {
         title.setCellValueFactory(new PropertyValueFactory<>("title") );
         title.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        category.setCellValueFactory(cellData -> Bindings.select(cellData.getValue(),"category","categoryName"));
-        category.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+        category.setCellValueFactory(param -> {
+            Category category = param.getValue().getCategory();
+            String name = category.getCategoryName();
+
+            if(name==null || !category.getIsValidated()){
+                name="No Category";
+            }
+            return new SimpleObjectProperty<>(name);
+        });
+        category.setCellFactory(TextFieldTableCell.forTableColumn());
 
         city.setCellValueFactory(cellData -> Bindings.select(cellData.getValue(),"user","role","userCity"));
         city.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));

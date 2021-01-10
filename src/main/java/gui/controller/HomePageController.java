@@ -12,6 +12,7 @@ import com.jfoenix.controls.JFXTextField;
 import gui.LoadView;
 import gui.ViewPath;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
@@ -97,8 +98,16 @@ public class HomePageController implements Initializable {
         title.setCellValueFactory(new PropertyValueFactory<>("title"));
         title.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        category.setCellValueFactory(cellData -> Bindings.select(cellData.getValue(),"category","categoryName"));
-        category.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+        category.setCellValueFactory(param -> {
+            Category category = param.getValue().getCategory();
+            String name = category.getCategoryName();
+
+            if(name==null || !category.getIsValidated()){
+                name="No Category";
+            }
+            return new SimpleObjectProperty<>(name);
+        });
+        category.setCellFactory(TextFieldTableCell.forTableColumn());
 
         city.setCellValueFactory(cellData -> Bindings.select(cellData.getValue(),"user","role","userCity"));
         city.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));

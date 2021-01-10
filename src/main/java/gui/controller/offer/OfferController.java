@@ -109,8 +109,13 @@ public class OfferController implements Initializable {
             deleteButton.setDisable(false);
 
             if(isOwner){
-                setPriority.setDisable(false);
-                setPriority.setVisible(true);
+                if(this.offer.getIsPriority()){
+                    setPriority.setDisable(true);
+                    setPriority.setVisible(true);
+                } else {
+                    setPriority.setDisable(false);
+                    setPriority.setVisible(true);
+                }
 
                 bookButton.setDisable(true);
                 bookButton.setVisible(true);

@@ -2,6 +2,7 @@ package gui.controller.offer;
 
 import business.exceptions.ObjectNotFoundException;
 import business.facade.OfferFacade;
+import business.system.Category;
 import business.system.offer.Offer;
 import business.system.offer.PriorityOffer;
 import com.jfoenix.controls.JFXButton;
@@ -9,6 +10,7 @@ import gui.LoadView;
 import gui.ViewPath;
 import gui.controller.HomePageController;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -64,8 +66,16 @@ public class MyOffersController implements Initializable {
         title.setCellValueFactory(new PropertyValueFactory<>("title"));
         title.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        category.setCellValueFactory(cellData -> Bindings.select(cellData.getValue(),"category","categoryName"));
-        category.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+        category.setCellValueFactory(param -> {
+            Category category = param.getValue().getCategory();
+            String name = category.getCategoryName();
+
+            if(name==null || !category.getIsValidated()){
+                name="No Category";
+            }
+            return new SimpleObjectProperty<>(name);
+        });
+        category.setCellFactory(TextFieldTableCell.forTableColumn());
 
         price.setCellValueFactory(new PropertyValueFactory<>("pricePerDay") );
         price.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
