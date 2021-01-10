@@ -30,6 +30,11 @@ public class ReturnOffer {
         this.reservation = reservation;
     }
 
+    public ReturnOffer(ToolSate toolSate, Date dateReturnBooking) {
+        this.toolSate = toolSate;
+        this.dateReturnBooking = dateReturnBooking;
+    }
+
     /**
      * Get the id of the ReturnOffer
      * @return the id

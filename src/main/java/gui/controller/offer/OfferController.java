@@ -79,7 +79,13 @@ public class OfferController implements Initializable {
 
         if(((MapRessourceBundle)resources).size()!=0){
             this.offer=(Offer) resources.getObject("0");
+            try {
+                this.offer=offerFacade.getOffer(offer.getOffer_id());
+            } catch (ObjectNotFoundException e) {
+                e.printStackTrace();
+            }
         }
+
         boolean isOwner =  u.getUser_id() == offer.getUser().getUser_id();
 
         MyOffersController myc = new MyOffersController();

@@ -215,6 +215,7 @@ public class Offer {
                 ", description='" + description + '\'' +
                 ", toolSate=" + toolSate +
                 ", isPriority=" + isPriority +
+                ", userId="+ getUser().getUser_id()+
                 '}';
     }
 }
