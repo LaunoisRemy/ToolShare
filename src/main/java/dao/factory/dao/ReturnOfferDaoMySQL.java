@@ -108,11 +108,9 @@ public class ReturnOfferDaoMySQL extends ReturnOfferDAO {
 
     public static ReturnOffer createReturnOfferFromRs(ResultSet rs) throws SQLException {
         ToolSate toolSate = ToolSate.getType(rs.getString(TOOLSTATE_COL));
-        Reservation reservation = ReservationDaoMySQL.createReservationFromRs(rs);
         return  new ReturnOffer(
                toolSate,
-               rs.getDate(RETURN_DATE),
-               reservation
+               rs.getDate(RETURN_DATE)
         );
     }
 }

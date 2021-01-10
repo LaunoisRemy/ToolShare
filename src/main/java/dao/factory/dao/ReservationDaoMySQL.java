@@ -231,18 +231,24 @@ public class ReservationDaoMySQL extends ReservationDAO {
     public static Reservation createReservationFromRs(ResultSet rs) throws SQLException {
         Offer offer = OfferDaoMySQL.createOfferFromRs(rs);
         User user = UserDaoMySQL.createUserFromRs(rs);
-        ReturnOffer returnOffer = null;
-        rs.getInt(RETURN_ID);
-        if( !rs.wasNull() ){
-            returnOffer = ReturnOfferDaoMySQL.createReturnOfferFromRs(rs);
-        }
-        return  new Reservation(
+
+        Reservation reservation =  new Reservation(
                 rs.getInt(RESERVATION_ID),
                 rs.getDate(START_DATE),
                 rs.getDate(END_DATE),
                 offer,
                 user,
-                returnOffer
+                null
         );
+
+        rs.getInt(RETURN_ID);
+        if( !rs.wasNull() ){
+            ReturnOffer returnOffer = ReturnOfferDaoMySQL.createReturnOfferFromRs(rs);
+            returnOffer.setReservation(reservation);
+            reservation.setReturnOffer(returnOffer);
+        }
+
+
+        return reservation;
     }
 }

@@ -70,7 +70,10 @@ public class HistoryController implements Initializable {
 
             private final Button seeOfferButton = new Button("See Offer");
             {
-                seeOfferButton.setOnAction(event -> seeOfferPage(event, param.getTableView().getItems().get(getIndex())));
+
+                seeOfferButton.setOnAction(event -> {
+                    seeOfferPage(event, param.getTableView().getItems().get(getIndex()));
+                });
             }
             @Override
             protected void updateItem(Integer item, boolean empty) {
