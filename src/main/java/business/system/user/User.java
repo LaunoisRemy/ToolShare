@@ -44,6 +44,9 @@ public class User {
      */
     private final Role role;
 
+    /**
+     * The code used if the user forgot his/her password
+     */
     private String recoveryCode;
 
     /**
@@ -172,8 +175,6 @@ public class User {
         this.user_id = user_id;
     }
 
-
-
     /**
      * if the user is banned
      * @return true if banned, else false
@@ -206,18 +207,34 @@ public class User {
         return role;
     }
 
+    /**
+     * Getter of the recovery code
+     * @return the recovery code of the user
+     */
     public String getRecoveryCode() {
         return recoveryCode;
     }
 
+    /**
+     * Setter of the recovery code
+     * @param recoveryCode the new recovery code of the user
+     */
     public void setRecoveryCode(String recoveryCode) {
         this.recoveryCode = recoveryCode;
     }
 
+    /**
+     * Check if user is an admin
+     * @return true if user is an admin, else false
+     */
     public boolean isAdmin(){
         return getRole().getNameRole().equals(Admin.ADMIN);
     }
 
+    /**
+     * Convert the User object into a readable String
+     * @return a description of the User object as a String
+     */
     @Override
     public String toString() {
         return "User : " +
@@ -230,6 +247,11 @@ public class User {
                 this.role.toString();
     }
 
+    /**
+     * Check if users are equals
+     * @param user the user you want to compare
+     * @return true if there are equals, else false
+     */
     @Override
     public boolean equals(Object user) {
         if(!(user instanceof User)) {

@@ -11,6 +11,7 @@ public abstract class Role {
 
     /**
      * Return name/type of role
+     * @return the name of the role
      */
     public String getNameRole() {
         return nameRole;
@@ -18,15 +19,19 @@ public abstract class Role {
 
     /**
      * Setter of name role
-     * @param nameRole
+     * @param nameRole the new role name
      */
     public void setNameRole(String nameRole) {
         this.nameRole = nameRole;
     }
 
+    /**
+     * Convert the Role object into a readable String
+     * @return a description of the Role object as a String
+     */
     @Override
     public String toString(){
-        return  this.nameRole+" : ";
+        return  " Role : " + this.nameRole;
     }
 
 }

@@ -1,10 +1,16 @@
 package business.system;
 
+/**
+ * Represent the Category in the application
+ */
 public class Category {
     private int categoryId;
     private String categoryName;
     private boolean isValidated;
 
+    /**
+     * Constructor
+     */
     public Category(int categoryId,String categoryName,boolean isValidated){
         this.categoryId = categoryId;
         this.categoryName = categoryName;

@@ -4,6 +4,7 @@ package business.system.user;
  * Represent attributes and methods of an  ordinary user
  */
 public class OrdinaryUser extends Role{
+
     /**
      * Name of the ordinary_user
      */
@@ -19,6 +20,9 @@ public class OrdinaryUser extends Role{
      */
     private String phoneNumber;
 
+    /**
+     * Constructor
+     */
     public OrdinaryUser(String userCity, String phoneNumber) {
         this.userCity = userCity;
         this.phoneNumber = phoneNumber;
@@ -53,6 +57,10 @@ public class OrdinaryUser extends Role{
         this.phoneNumber = phoneNumber;
     }
 
+    /**
+     * Convert the OrdinaryUser object into a readable String
+     * @return a description of the OrdinaryUser object as a String
+     */
     @Override
     public String toString() {
         return  "ordinary user : "+
