@@ -16,6 +16,10 @@ public class Category {
         this.isValidated = isValidated;
     }
 
+    public Category() {
+
+    }
+
     /**
      * getter of the category id
      * @return the id of the category

@@ -18,17 +18,17 @@ import java.util.List;
 
 
 /**
- * Facade of all actions on offers
+ * Facade of all actions on Offers
  */
 public class OfferFacade {
-    /**
-     * User connected
-     */
-    private final User user = SessionFacade.getInstance().getUser();
+
     private static final OfferFacade INSTANCE = new OfferFacade();
+    private final User user = SessionFacade.getInstance().getUser();
     private final OfferDAO offerDAO = OfferDAO.getInstance();
 
-
+    /**
+     * Constructor
+     */
     private OfferFacade() {
     }
 
@@ -44,7 +44,7 @@ public class OfferFacade {
      * getOffer will find an offer with the specified id
      * @param offerId id of the Offer the system wants
      * @return an instance of the found offer
-     * @throws ObjectNotFoundException
+     * @throws ObjectNotFoundException Exception that is raised if the object is not found
      */
     public Offer getOffer(int offerId) throws ObjectNotFoundException {
         Offer offer = this.offerDAO.find(offerId);
@@ -59,7 +59,7 @@ public class OfferFacade {
      * Method that allows to delete an offer thanks to its id given in parameter
      * @param offerId, the offer id to delete
      * @return boolean : True if the object is well-deleted, false otherwise
-     * @throws ObjectNotFoundException throws if try to delete a not-existed object
+     * @throws ObjectNotFoundException Exception that is raised if the object that we want to delete is not found
      */
     public boolean deleteOffer(int offerId) throws ObjectNotFoundException {
         Offer offer = this.getOffer(offerId);
@@ -108,8 +108,8 @@ public class OfferFacade {
      * @param dateStartPriority, the new starting date to change
      * @param dateEndPriority, the new ending date to change
      * @return the new offer with the new values
-     * @throws ObjectNotFoundException
-     * @throws MissingParametersException
+     * @throws ObjectNotFoundException Exception that is raised if the object is not found
+     * @throws MissingParametersException Exception that is raised if the user didn't enter all the information needed
      */
     public Offer updateOffer(int offerId, String title, float price, String description, ToolSate state, boolean isPriority, String category, Date dateStartPriority, Date dateEndPriority) throws ObjectNotFoundException, MissingParametersException {
         CategoryDAO categoryDAO = CategoryDAO.getInstance();
@@ -134,6 +134,11 @@ public class OfferFacade {
         return this.offerDAO.update(offer);
     }
 
+    /**
+     * Method that allows to update an existing offer
+     * @param offer the updated offer
+     * @return the offer newly updated
+     */
     public Offer updateOfferFromObj(Offer offer){
         return this.offerDAO.update(offer);
     }

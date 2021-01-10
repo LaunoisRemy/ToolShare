@@ -70,10 +70,10 @@ public class HistoryDaoMySQL extends HistoryDAO {
         try {
             PreparedStatement prep = this.connection.prepareStatement(
                     "SELECT *  FROM reservation " +
-                            "JOIN user u ON reservation."+UserDaoMySQL.USER_ID+" = u."+UserDaoMySQL.USER_ID+
+                            "JOIN user u ON reservation."+ReservationDaoMySQL.USER_ID+" = u."+UserDaoMySQL.USER_ID+
                             " JOIN offer o on o.offer_id = reservation.offer_id"+
                             " LEFT JOIN category c ON o."+CategoryDaoMySQL.CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+
-                            " WHERE u."+ UserDaoMySQL.USER_ID+"=?"
+                            " WHERE u."+ ReservationDaoMySQL.USER_ID+"=?"
             );
             prep.setInt(1,user.getUser_id());
             ResultSet rs = prep.executeQuery();

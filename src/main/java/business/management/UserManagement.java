@@ -2,11 +2,16 @@ package business.management;
 
 import business.system.user.User;
 import util.Cryptor;
-
 import java.security.spec.InvalidKeySpecException;
 
+/**
+ * UserManagement is a set of user methods
+ */
 public class UserManagement {
 
+    /**
+     * Constructor
+     */
     public UserManagement() {
 
     }

@@ -3,6 +3,9 @@ package business.system.offer;
 import business.system.Category;
 import business.system.user.User;
 
+/**
+ * Class used to instantiate Offer object
+ */
 public class Offer {
 
     /**
@@ -199,6 +202,10 @@ public class Offer {
         this.category = category;
     }
 
+    /**
+     * Method to display an offer
+     * @return return a String which is a description of the Offer object
+     */
     @Override
     public String toString() {
         return "Offer{" +
@@ -208,6 +215,7 @@ public class Offer {
                 ", description='" + description + '\'' +
                 ", toolSate=" + toolSate +
                 ", isPriority=" + isPriority +
+                ", userId="+ getUser().getUser_id()+
                 '}';
     }
 }

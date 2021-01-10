@@ -52,7 +52,7 @@ public class ReturnOfferDaoMySQL extends ReturnOfferDAO {
                     "VALUES (?,?,?)";
             PreparedStatement prep = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             prep.setString(1, obj.getToolSate().getString());
-            prep.setDate(2, (Date) obj.getDateReturnBooking());
+            prep.setDate(2, new Date(obj.getDateReturnBooking().getTime()));
             prep.setInt(3,obj.getReservation().getReservationId());
 
             prep.executeUpdate();
@@ -108,11 +108,9 @@ public class ReturnOfferDaoMySQL extends ReturnOfferDAO {
 
     public static ReturnOffer createReturnOfferFromRs(ResultSet rs) throws SQLException {
         ToolSate toolSate = ToolSate.getType(rs.getString(TOOLSTATE_COL));
-        Reservation reservation = ReservationDaoMySQL.createReservationFromRs(rs);
         return  new ReturnOffer(
                toolSate,
-               rs.getDate(RETURN_DATE),
-               reservation
+               rs.getDate(RETURN_DATE)
         );
     }
 }

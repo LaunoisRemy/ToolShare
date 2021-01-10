@@ -5,6 +5,10 @@ import business.system.Category;
 import dao.structure.CategoryDAO;
 import java.util.List;
 
+/**
+ * Facade of all actions on Category
+ * Category is about the type of offer
+ */
 public class CategoryFacade {
 
     private static final CategoryFacade INSTANCE = new CategoryFacade();
@@ -18,13 +22,16 @@ public class CategoryFacade {
         return INSTANCE;
     }
 
-    public CategoryFacade(){ }
+    /**
+     * Constructor
+     */
+    private CategoryFacade(){ }
 
     /**
      * getCategory will find a category with the specified id
      * @param idCategory the id category
      * @return the category founded
-     * @throws ObjectNotFoundException
+     * @throws ObjectNotFoundException Exception that is raised if the object is not found
      */
     public Category getCategory(int idCategory) throws ObjectNotFoundException {
         Category category = this.categoryDAO.find(idCategory);
@@ -77,7 +84,7 @@ public class CategoryFacade {
      * @param categoryName the new value of the category name
      * @param validated the new value of the category validity
      * @return the updated category
-     * @throws ObjectNotFoundException
+     * @throws ObjectNotFoundException Exception that is raised if the object is not found
      */
     public Category updateCategory(int idCategory, String categoryName, boolean validated) throws ObjectNotFoundException {
         //check if the initial category exists

@@ -51,7 +51,7 @@ public class AnswerDaoMySQL extends AnswerDAO {
             PreparedStatement prep = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             prep.setInt(1,obj.getAnswerScore());
             prep.setString(2,obj.getAnswerContent());
-            prep.setInt(1,obj.getUser().getUser_id());
+            prep.setInt(3,obj.getUser().getUser_id());
 
 
             prep.executeUpdate();

@@ -346,7 +346,6 @@ public class OfferDaoMySQL extends OfferDAO {
         ToolSate toolState = ToolSate.valueOf(ts);
         User user = UserDaoMySQL.createUserFromRs(rs);
         Category category = CategoryDaoMySQL.createCategoryFromRs(rs);
-
         if (rs.getBoolean(ISPRIORITY)){
             return new PriorityOffer(rs.getInt(OFFER_ID_COL),rs.getString(TITLE_COL),rs.getFloat(PRICE_PER_DAY_COL),rs.getString(DESCRPTION_COL),toolState,rs.getBoolean(ISPRIORITY),user,category,rs.getDate(DATE_START_PRIORITY_COL),rs.getDate(DATE_END_PRIORITY_COL));
         } else {
