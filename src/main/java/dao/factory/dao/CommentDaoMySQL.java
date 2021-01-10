@@ -8,6 +8,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The data access object of Comment
+ */
 public class CommentDaoMySQL extends CommentDAO {
     private final Connection connection;
     public static final String COMMENT_ID = "comment_id";
@@ -21,6 +24,11 @@ public class CommentDaoMySQL extends CommentDAO {
         this.connection = AbstractFactoryDAO.connection;
     }
 
+    /**
+     * Method which communicate with DB for retrieve the data T with id
+     * @param id id of the object T the system wants
+     * @return a object T if he exist in the DB, else return null
+     */
     @Override
     public Comment find(int id,int... others) {
         Comment comment = null;
@@ -39,6 +47,8 @@ public class CommentDaoMySQL extends CommentDAO {
         }
         return comment;
     }
+
+
     @Override
     public List<Scorable> getAllCommentsByIdOffer(int idOffer) {
         return getComments(idOffer, ScoreOfferDaoMySQL.OFFER_ID_COL);
@@ -48,6 +58,7 @@ public class CommentDaoMySQL extends CommentDAO {
     public List<Scorable> getAllCommentsByIdUser(int idUser) {
         return getComments(idUser, ScoreOfferDaoMySQL.USER_ID_COL);
     }
+
     private List<Scorable> getComments(int id, String clause) {
         List<Scorable> res = new ArrayList<>();
 
@@ -68,6 +79,12 @@ public class CommentDaoMySQL extends CommentDAO {
         }
         return res;
     }
+
+    /**
+     * Method which communicate with DB for create an obj T
+     * @param obj object to save in database
+     * @return true if the object is save in database, else return null.
+     */
     @Override
     public Comment create(Comment obj) {
         try {
@@ -93,6 +110,11 @@ public class CommentDaoMySQL extends CommentDAO {
         }
     }
 
+    /**
+     * Method which communicate with DB for update an obj T
+     * @param obj object to update in database
+     * @return true if the object is update in database, else return null.
+     */
     @Override
     public Comment update(Comment obj) {
         try {
@@ -112,6 +134,11 @@ public class CommentDaoMySQL extends CommentDAO {
         }
     }
 
+    /**
+     * Method which communicate with DB for delete an obj T
+     * @param obj object to delete in database
+     * @return true if the object is delete in database, else return null.
+     */
     @Override
     public boolean delete(Comment obj) {
         try {
@@ -127,6 +154,12 @@ public class CommentDaoMySQL extends CommentDAO {
         }
     }
 
+    /**
+     * Create a Comment from resultset
+     * @param rs the resultset
+     * @return a Comment
+     * @throws SQLException Exception regarding the SQL query
+     */
     public static Comment createCommentFromRs(ResultSet rs) throws SQLException {
         return  new Comment(
                 rs.getInt(COMMENT_ID),

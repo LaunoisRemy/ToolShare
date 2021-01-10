@@ -6,6 +6,9 @@ import dao.structure.AnswerDAO;
 
 import java.sql.*;
 
+/**
+ * The data access object of Answer
+ */
 public class AnswerDaoMySQL extends AnswerDAO {
     private final Connection connection;
     public static final String ANSWER_ID = "answer_id";
@@ -20,6 +23,11 @@ public class AnswerDaoMySQL extends AnswerDAO {
         this.connection = AbstractFactoryDAO.connection;
     }
 
+    /**
+     * Method which communicate with DB for retrieve the Answer with id
+     * @param id id of the Answer the system wants
+     * @return an Answer if he exist in the DB, else return null
+     */
     @Override
     public Answer find(int id,int... others) {
         Answer answer = null;
@@ -40,6 +48,11 @@ public class AnswerDaoMySQL extends AnswerDAO {
         return answer;
     }
 
+    /**
+     * Method which communicate with DB for create an Answer
+     * @param obj Answer to save in database
+     * @return true if the Answer is save in database, else return null.
+     */
     @Override
     public Answer create(Answer obj) {
         try {
@@ -69,6 +82,11 @@ public class AnswerDaoMySQL extends AnswerDAO {
         }
     }
 
+    /**
+     * Method which communicate with DB for update an Answer
+     * @param obj Answer to update in database
+     * @return true if the Answer is update in database, else return null.
+     */
     @Override
     public Answer update(Answer obj) {
         try {
@@ -90,6 +108,11 @@ public class AnswerDaoMySQL extends AnswerDAO {
         }
     }
 
+    /**
+     * Method which communicate with DB for delete an Answer
+     * @param obj Answer to delete in database
+     * @return true if the Answer is delete in database, else return null.
+     */
     @Override
     public boolean delete(Answer obj) {
         try {
@@ -106,6 +129,12 @@ public class AnswerDaoMySQL extends AnswerDAO {
         }
     }
 
+    /**
+     * Create an Answer from resultset
+     * @param rs the resultset
+     * @return an Answer
+     * @throws SQLException Exception regarding the SQL query
+     */
     public static Answer createAnswerFromRs(ResultSet rs) throws SQLException {
         User user = UserDaoMySQL.createUserFromRs(rs);
         return new Answer(

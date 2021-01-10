@@ -7,6 +7,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The data access object of Category
+ */
 public class CategoryDaoMySQL extends CategoryDAO {
     static final String ISVALIDATED = "isValidated";
     static final String CATEGORY_NAME_COL = "categoryName";
