@@ -150,8 +150,8 @@ public class ReservationDaoMySQL extends ReservationDAO {
             String sql = "SELECT *  FROM reservation " +
                     "JOIN user u on u."+ UserDaoMySQL.USER_ID +" = reservation."+ USER_ID+" " +
                     " JOIN offer o on o."+OfferDaoMySQL.OFFER_ID_COL+" = reservation."+OFFER_ID+" " +
-                    " JOIN category c on o."+OfferDaoMySQL.CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+" " +
-                    " JOIN return_offer ro on ro."+ReturnOfferDaoMySQL.RETURN_ID+" = reservation."+RETURN_ID+" " +
+                    " LEFT JOIN category c on o."+OfferDaoMySQL.CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+" " +
+                    " LEFT JOIN return_offer ro on ro."+ReturnOfferDaoMySQL.RETURN_ID+" = reservation."+RETURN_ID+" " +
                     " WHERE reservation."+ clause +" = ?";
             PreparedStatement prep = this.connection.prepareStatement(sql);
             prep.setInt(1,id);
@@ -174,7 +174,7 @@ public class ReservationDaoMySQL extends ReservationDAO {
             String sql = "SELECT *  FROM reservation " +
                     "JOIN user u on u."+ UserDaoMySQL.USER_ID +" = reservation."+ USER_ID+" " +
                     " JOIN offer o on o."+OfferDaoMySQL.OFFER_ID_COL+" = reservation."+OFFER_ID+" " +
-                    " JOIN category c on o."+OfferDaoMySQL.CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+" " +
+                    " LEFT JOIN category c on o."+OfferDaoMySQL.CATEGORY_ID_COL+" = c."+CategoryDaoMySQL.CATEGORY_ID_COL+" " +
                     " LEFT JOIN return_offer ro on ro."+ReturnOfferDaoMySQL.RETURN_ID+" = reservation."+RETURN_ID+" " +
                     " WHERE reservation."+ USER_ID +" = ? AND reservation."+RETURN_ID+" IS NULL";
             PreparedStatement prep = this.connection.prepareStatement(sql);
