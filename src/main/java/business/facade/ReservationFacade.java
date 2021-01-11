@@ -19,8 +19,6 @@ public class ReservationFacade {
 
     private static final ReservationFacade INSTANCE = new ReservationFacade();
     private final ReservationDAO ReservationDAO = dao.structure.ReservationDAO.getInstance();
-    private final User user = SessionFacade.getInstance().getUser();
-
     /**
      * Constructor
      */
@@ -64,7 +62,7 @@ public class ReservationFacade {
      * @return a List of all reservations
      */
     public List<Reservation> getReservationsByUser() {
-        return this.ReservationDAO.getReservationsByUser(this.user.getUser_id());
+        return this.ReservationDAO.getReservationsByUser(SessionFacade.getInstance().getUser().getUser_id());
     }
 
     /**
@@ -72,7 +70,7 @@ public class ReservationFacade {
      * @return a List of all reservations
      */
     public List<Reservation> getReservationsByUserNotReturned() {
-        return this.ReservationDAO.getReservationsByUserNotReturned(this.user.getUser_id());
+        return this.ReservationDAO.getReservationsByUserNotReturned(SessionFacade.getInstance().getUser().getUser_id());
     }
 
     /**
@@ -97,7 +95,7 @@ public class ReservationFacade {
         OfferDAO offerDAO = OfferDAO.getInstance();
         Offer offer = offerDAO.find(offerId);
         ReturnOffer returnOffer = null;
-        Reservation reservation = new Reservation(dateStartBooking, dateEndBooking, offer, this.user, returnOffer);
+        Reservation reservation = new Reservation(dateStartBooking, dateEndBooking, offer, SessionFacade.getInstance().getUser(), returnOffer);
         return this.ReservationDAO.create(reservation);
     }
 

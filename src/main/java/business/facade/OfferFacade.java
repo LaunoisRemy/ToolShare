@@ -23,7 +23,6 @@ import java.util.List;
 public class OfferFacade {
 
     private static final OfferFacade INSTANCE = new OfferFacade();
-    private final User user = SessionFacade.getInstance().getUser();
     private final OfferDAO offerDAO = OfferDAO.getInstance();
 
     /**
@@ -85,9 +84,9 @@ public class OfferFacade {
 
         Offer offer;
         if(isPriority && dateStartPriority!=null && dateEndPriority!=null){
-            offer = new PriorityOffer(title,description,price,toolSate, true,this.user,new_category,dateStartPriority,dateEndPriority);
+            offer = new PriorityOffer(title,description,price,toolSate, true,SessionFacade.getInstance().getUser(),new_category,dateStartPriority,dateEndPriority);
         } else if (!isPriority){
-            offer = new Offer(title,price,description,toolSate, false,this.user,new_category);
+            offer = new Offer(title,price,description,toolSate, false,SessionFacade.getInstance().getUser(),new_category);
         } else {
             throw new MissingParametersException("Missing parameters dates for a priority offer (start and end of booking)");
         }
@@ -120,7 +119,7 @@ public class OfferFacade {
         Offer offer = this.getOffer(offerId);
 
         if(isPriority && dateStartPriority!=null && dateEndPriority!=null) {
-            offer = new PriorityOffer(offerId, title, price, description, state, true, this.user, new_category, dateStartPriority, dateEndPriority);
+            offer = new PriorityOffer(offerId, title, price, description, state, true, SessionFacade.getInstance().getUser(), new_category, dateStartPriority, dateEndPriority);
         } else {
             offer.setTitle(title);
             offer.setPricePerDay(price);
@@ -128,7 +127,7 @@ public class OfferFacade {
             offer.setIsPriority(false);
             offer.setToolSate(state);
             offer.setCategory(new_category);
-            offer.setUser(this.user);
+            offer.setUser(SessionFacade.getInstance().getUser());
         }
 
         return this.offerDAO.update(offer);
@@ -148,7 +147,7 @@ public class OfferFacade {
      * @return the list of the user offers
      */
     public List<Offer> getOffersFromUser(){
-        return this.offerDAO.getOffersFromUser(this.user.getUser_id());
+        return this.offerDAO.getOffersFromUser(SessionFacade.getInstance().getUser().getUser_id());
     }
 
     /**

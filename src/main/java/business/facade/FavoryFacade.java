@@ -11,7 +11,6 @@ import java.util.List;
  * Facade of all actions on Favory
  */
 public class FavoryFacade {
-    private final User user = SessionFacade.getInstance().getUser();
     private static final FavoryFacade INSTANCE = new FavoryFacade();
 
     /**
@@ -35,7 +34,7 @@ public class FavoryFacade {
      */
     public boolean deleteFavory(Offer offer){
         FavoryDAO favoryDAO = FavoryDAO.getInstance();
-        Favory fav = new Favory(user,offer);
+        Favory fav = new Favory(SessionFacade.getInstance().getUser(),offer);
         return favoryDAO.delete(fav);
     }
 
@@ -46,7 +45,7 @@ public class FavoryFacade {
      */
     public Favory addFavory(Offer offer){
         FavoryDAO favoryDAO = FavoryDAO.getInstance();
-        Favory fav = new Favory(user,offer);
+        Favory fav = new Favory(SessionFacade.getInstance().getUser(),offer);
         return favoryDAO.create(fav);
 
     }
@@ -58,7 +57,7 @@ public class FavoryFacade {
      */
     public Favory findFavory(Offer offer){
         FavoryDAO favoryDAO = FavoryDAO.getInstance();
-        return favoryDAO.find(user.getUser_id(),offer.getOffer_id());
+        return favoryDAO.find(SessionFacade.getInstance().getUser().getUser_id(),offer.getOffer_id());
     }
 
     /**
@@ -67,6 +66,6 @@ public class FavoryFacade {
      */
     public List<Offer> getAllFavories(){
         FavoryDAO favoryDAO = FavoryDAO.getInstance();
-        return favoryDAO.getAllFavories(user);
+        return favoryDAO.getAllFavories(SessionFacade.getInstance().getUser());
     }
 }
