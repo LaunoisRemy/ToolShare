@@ -46,7 +46,8 @@ public class RegisterUpdateUserController implements Initializable {
     @FXML
     private HBox hBoxPassword,hBoxPassword2;
     @FXML
-    private ImageView imgPassword;
+    private ImageView imgPassword,imgPhone,imgCity;
+
 
     /**
      *
@@ -75,8 +76,11 @@ public class RegisterUpdateUserController implements Initializable {
                 city.setText(((OrdinaryUser)user.getRole()).getUserCity());
                 phone.setText(((OrdinaryUser)user.getRole()).getPhoneNumber());
             }else{
+                imgCity.setVisible(false);
                 city.setVisible(false);
+                imgPhone.setVisible(false);
                 phone.setVisible(false);
+
             }
             submit.setOnAction(this::handleUpdate);
             cancel.setOnAction(this::homePage);
