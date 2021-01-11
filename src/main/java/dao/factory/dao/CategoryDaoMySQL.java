@@ -100,13 +100,8 @@ public class CategoryDaoMySQL extends CategoryDAO {
             prep.setBoolean(2,obj.getIsValidated());
             prep.setInt(3,obj.getCategoryId());
 
-            prep.executeUpdate();
-            ResultSet rs = prep.getGeneratedKeys();
-            int generatedKey = 0;
-            if (rs.next()) {
-                generatedKey = rs.getInt(1);
-            }
-            obj.setCategoryId(generatedKey);
+            int rs = prep.executeUpdate();
+
             return obj;
 
         } catch (SQLException throwables) {

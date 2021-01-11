@@ -152,13 +152,7 @@ public class OfferDaoMySQL extends OfferDAO {
             prep.setInt(9, obj.getCategory().getCategoryId());
             prep.setInt(10,obj.getOffer_id());
 
-            prep.executeUpdate();
-            ResultSet rs = prep.getGeneratedKeys();
-            int generatedKey = 0;
-            if (rs.next()) {
-                generatedKey = rs.getInt(1);
-            }
-            obj.setOffer_id(generatedKey);
+            int rs = prep.executeUpdate();
             return obj;
 
         } catch (SQLException throwables) {

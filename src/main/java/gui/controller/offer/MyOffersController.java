@@ -237,7 +237,9 @@ public class MyOffersController implements Initializable {
 
     public Offer handleSetPriority(Offer offer, Date start, Date end) {
         PriorityOffer priorityOffer = new PriorityOffer(offer.getOffer_id(),offer.getTitle(),offer.getPricePerDay(),offer.getDescription(),offer.getToolSate(),true,offer.getUser(),offer.getCategory(),start,end);
-        return this.offerFacade.updateOfferFromObj(priorityOffer);
+        Offer o = this.offerFacade.updateOfferFromObj(priorityOffer);
+        System.out.println(o);
+        return o ;
     }
 
     public boolean checkDates(LocalDate start, LocalDate end) {
