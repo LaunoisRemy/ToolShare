@@ -85,7 +85,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="68.0" prefWidth="417.0">
                      <children>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgCity" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../img/region_32.png" />
                            </image>
@@ -102,7 +102,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="68.0" prefWidth="417.0">
                      <children>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgPhone" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../img/icons8_phone_32.png" />
                            </image>
