@@ -71,13 +71,17 @@ public class RegisterUpdateUserController implements Initializable {
             email.setText(user.getEmail());
             firstname.setText(user.getFirstName());
             lastname.setText(user.getLastName());
-            city.setText(((OrdinaryUser)user.getRole()).getPhoneNumber());
-            phone.setText(((OrdinaryUser)user.getRole()).getPhoneNumber());
+            if(!user.isAdmin()){
+                city.setText(((OrdinaryUser)user.getRole()).getUserCity());
+                phone.setText(((OrdinaryUser)user.getRole()).getPhoneNumber());
+            }else{
+                city.setVisible(false);
+                phone.setVisible(false);
+            }
             submit.setOnAction(this::handleUpdate);
             cancel.setOnAction(this::homePage);
             hBoxPassword.setVisible(false);
             hBoxPassword2.setVisible(true);
-
         }
     }
 
