@@ -352,8 +352,12 @@ public class OfferController implements Initializable {
 
 
     private void replyQuestion(ActionEvent event, Scorable question) {
+        SessionFacade sessionFacade = SessionFacade.getInstance();
+        User u = sessionFacade.getUser();
+        boolean isOwner =  u.getUser_id() == offer.getUser().getUser_id();
         Optional<String> result = dialogFAQ("Reply dialog","Enter you reply below :");
         result.ifPresent(s -> EvaluationFacade.getInstance().reply(question, s));
+        populateFAQTable(OfferFacade.getInstance(),isOwner);
     }
 
 
