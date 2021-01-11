@@ -34,7 +34,7 @@
                                   <Image url="@../../img/logoblack.png" />
                               </image>
                           </ImageView>
-                     <JFXButton focusTraversable="false" layoutX="147.0" layoutY="9.0" onAction="#postOfferPage" text="Post an offer" underline="true">
+                     <JFXButton fx:id="addOffer" focusTraversable="false" layoutX="147.0" layoutY="9.0" onAction="#postOfferPage" text="Post an offer" underline="true">
                         <font>
                            <Font name="Tahoma" size="16.0" />
                         </font>

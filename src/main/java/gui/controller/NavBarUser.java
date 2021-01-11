@@ -3,6 +3,7 @@ package gui.controller;
 import business.facade.SessionFacade;
 import business.system.user.Admin;
 import business.system.user.User;
+import com.jfoenix.controls.JFXButton;
 import gui.LoadView;
 import gui.ViewPath;
 import javafx.event.ActionEvent;
@@ -19,7 +20,9 @@ public class NavBarUser implements Initializable {
     private User user = sessionFacade.getUser();
 
     @FXML
-    private VBox search,history,favory,categories,userList,myOffers;
+    private VBox search,history,favory,categories,userList,myOffers,myReservations;
+    @FXML
+    private JFXButton addOffer;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -30,11 +33,15 @@ public class NavBarUser implements Initializable {
             history.setManaged(false);
             myOffers.setVisible(false);
             myOffers.setManaged(false);
+            addOffer.setVisible(false);
+            addOffer.setManaged(false);
+            myReservations.setVisible(false);
+            myReservations.setManaged(false);
         } else { //Ordinary User
-            /*categories.setVisible(false);
+            categories.setVisible(false);
             categories.setManaged(false);
             userList.setVisible(false);
-            userList.setManaged(false);*/
+            userList.setManaged(false);
         }
 
     }
