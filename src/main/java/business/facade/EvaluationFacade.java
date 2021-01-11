@@ -86,14 +86,27 @@ public class EvaluationFacade {
             score = ScoreDAO.getInstance().create(score);
             scorable.setScore(scorable.getScore()+score.getScoreValue());
         }else {
+            int oldScore = score.getScoreValue();
             int value = score.getScoreValue();
-            score.setScoreValue(i);
-            ScoreDAO.getInstance().update(score);
-            if( i == 0 ){
-                scorable.setScore(scorable.getScore()-value);
-            }else{
-                scorable.setScore(scorable.getScore()+score.getScoreValue());
+            scorable.setScore(scorable.getScore() + i );
+            if( i == 2 ){
+                score.setScoreValue(1);
+            }else if( i == -1 ){
+                if(value == 1){
+                    score.setScoreValue(0);
+                }else if(value == 0){
+                    score.setScoreValue(-1);
+                }
+            }else if( i == 1 ){
+                if(value == -1){
+                    score.setScoreValue(0);
+                }else if(value == 0){
+                    score.setScoreValue(1);
+                }
+            }else if( i == -2){
+                score.setScoreValue(-1);
             }
+            ScoreDAO.getInstance().update(score);
 
         }
 

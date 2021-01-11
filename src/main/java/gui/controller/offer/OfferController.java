@@ -163,6 +163,7 @@ public class OfferController implements Initializable {
             {
                 if(isOwner){
                     replyButton.setOnAction(event -> replyQuestion(event, param.getTableView().getItems().get(getIndex())));
+
                 }
             }
             @Override
@@ -231,28 +232,34 @@ public class OfferController implements Initializable {
                 upVoteFAQButton.setOnAction(event -> {
                     Scorable s = param.getTableView().getItems().get(getIndex());
                     Score score = EvaluationFacade.getInstance().findScorable(param.getTableView().getItems().get(getIndex()));
-                    if(score != null){
-                        if(score.getScoreValue() != 1){
-                            voteScorable(event,s  ,1);
+                    if(score == null  ){
+                        voteScorable(event,s ,1);
+                        upVoteFAQButton.setStyle("-fx-background-color: green");
+                        downVoteFAQButton.setStyle("-fx-background-color: white");
+                        scoreLabel.setTextFill(Color.web("#008000"));
+
+                    }else{
+                        if(score.getScoreValue() ==  -1){
+                            voteScorable(event,s,2);
 
                             upVoteFAQButton.setStyle("-fx-background-color: green");
                             downVoteFAQButton.setStyle("-fx-background-color: white");
 
                             scoreLabel.setTextFill(Color.web("#008000"));
-                        }else{
-                            voteScorable(event,s,0);
+                        }else if(score.getScoreValue() ==  1){
+                            voteScorable(event,s,-1);
 
                             upVoteFAQButton.setStyle("-fx-background-color: white");
                             downVoteFAQButton.setStyle("-fx-background-color: white");
                             scoreLabel.setTextFill(Color.web("#000000"));
 
+                        }else{
+                            voteScorable(event,s ,1);
+                            upVoteFAQButton.setStyle("-fx-background-color: green");
+                            downVoteFAQButton.setStyle("-fx-background-color: white");
+                            scoreLabel.setTextFill(Color.web("#008000"));
                         }
 
-                    }else{
-                        voteScorable(event,s  ,1);
-                        upVoteFAQButton.setStyle("-fx-background-color: green");
-                        downVoteFAQButton.setStyle("-fx-background-color: white");
-                        scoreLabel.setTextFill(Color.web("#008000"));
                     }
                     scoreLabel.setText(String.valueOf(s.getScore()));
                 });
@@ -261,28 +268,36 @@ public class OfferController implements Initializable {
                     Score score = EvaluationFacade.getInstance().findScorable(param.getTableView().getItems().get(getIndex()));
                     scoreLabel.setText(String.valueOf(s.getScore()));
 
-                    if(score != null){
-                        if(score.getScoreValue() != -1){
-                            voteScorable(event, s,-1);
-                            downVoteFAQButton.setStyle("-fx-background-color: red");
-                            upVoteFAQButton.setStyle("-fx-background-color: white");
-
-                            scoreLabel.setTextFill(Color.web("#FF0000"));
-                        }else{
-                            voteScorable(event,s,0);
-
-                            upVoteFAQButton.setStyle("-fx-background-color: white");
-                            downVoteFAQButton.setStyle("-fx-background-color: white");
-
-                            scoreLabel.setTextFill(Color.web("#000000"));
-                        }
-
-                    }else{
+                    if(score == null){
                         voteScorable(event, s,-1);
                         downVoteFAQButton.setStyle("-fx-background-color: red");
                         upVoteFAQButton.setStyle("-fx-background-color: white");
 
                         scoreLabel.setTextFill(Color.web("#FF0000"));
+
+
+                    }else{
+                        if(score.getScoreValue() == 1){
+                            voteScorable(event, s,-2);
+                            upVoteFAQButton.setStyle("-fx-background-color: white");
+                            downVoteFAQButton.setStyle("-fx-background-color: red");
+
+                            scoreLabel.setTextFill(Color.web("#FF0000"));
+                        }else if (score.getScoreValue() == -1){
+                            voteScorable(event,s,1);
+
+                            upVoteFAQButton.setStyle("-fx-background-color: white");
+                            downVoteFAQButton.setStyle("-fx-background-color: white");
+
+                            scoreLabel.setTextFill(Color.web("#000000"));
+                        }else{
+                            voteScorable(event,s,-1);
+                            upVoteFAQButton.setStyle("-fx-background-color: white");
+                            downVoteFAQButton.setStyle("-fx-background-color: red");
+
+                            scoreLabel.setTextFill(Color.web("#000000"));
+                        }
+
                     }
                     scoreLabel.setText(String.valueOf(s.getScore()));
 
