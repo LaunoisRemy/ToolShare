@@ -119,6 +119,8 @@ public class OfferController implements Initializable {
 
                 bookButton.setDisable(true);
                 bookButton.setVisible(true);
+            }else{
+                setPriority.setDisable(true);
             }
         }else{
             editButton.setDisable(true);

@@ -11,7 +11,6 @@ import java.util.List;
  */
 public class HistoryFacade {
     private static final HistoryFacade INSTANCE = new HistoryFacade();
-    private final User user = SessionFacade.getInstance().getUser();
 
     /**
      * Constructor
@@ -33,7 +32,7 @@ public class HistoryFacade {
      */
     public List<Offer> getAllOffers(){
         HistoryDAO historyDAO = HistoryDAO.getInstance();
-        return historyDAO.getHistory(user);
+        return historyDAO.getHistory(SessionFacade.getInstance().getUser());
 
     }
 }
