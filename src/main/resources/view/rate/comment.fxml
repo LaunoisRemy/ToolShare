@@ -53,7 +53,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Hyperlink>
-                              <Label layoutX="544.0" layoutY="134.0" prefHeight="33.0" prefWidth="469.0" text="What is the score you want to put on this offer?" />
+                              <Label layoutX="544.0" layoutY="134.0" prefHeight="33.0" prefWidth="469.0" text="What is the comment you want to put on this offer?" />
                               <VBox layoutX="329.0" layoutY="136.0" prefHeight="362.0" prefWidth="185.0">
                                  <children>
                                     <JFXTextField fx:id="titleOffer" prefHeight="45.0" prefWidth="281.0" promptText="Firstname" text="title name">
@@ -70,12 +70,12 @@
                                  </font>
                               </JFXButton>
                               <JFXTextArea fx:id="commentArea" layoutX="547.0" layoutY="167.0" />
-                              <JFXRadioButton fx:id="yesButton" layoutX="811.0" layoutY="142.0" onAction="#handleChoiceComment" text="Yes">
+                              <JFXRadioButton fx:id="yesButton" layoutX="874.0" layoutY="142.0" onAction="#handleChoiceComment" text="Yes">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="choiceComment" />
                                  </toggleGroup>
                               </JFXRadioButton>
-                              <JFXRadioButton fx:id="noButton" layoutX="869.0" layoutY="142.0" onAction="#handleChoiceComment" text="No" toggleGroup="$choiceComment" />
+                              <JFXRadioButton fx:id="noButton" layoutX="941.0" layoutY="142.0" onAction="#handleChoiceComment" text="No" toggleGroup="$choiceComment" />
                            </children>
                         </Pane>
                             </children>
