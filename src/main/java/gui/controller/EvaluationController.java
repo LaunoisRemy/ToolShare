@@ -81,6 +81,7 @@ public class EvaluationController implements Initializable {
         }
 
         titleOffer.setText(offer.getTitle());
+        titleOffer.setEditable(false);
         desc.setEditable(false);
         desc.setText(offer.getDescription());
 
